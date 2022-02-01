@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      get 'ngos' => "ngos#index"
+      get 'non_profits' => "non_profits#index"
     end
   end
 end

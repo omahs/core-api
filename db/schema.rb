@@ -43,15 +43,6 @@ ActiveRecord::Schema.define(version: 2022_02_01_190505) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "ngos", force: :cascade do |t|
-    t.string "name"
-    t.string "wallet_address"
-    t.text "impact_description"
-    t.string "link"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "non_profits", force: :cascade do |t|
     t.string "name"
     t.string "wallet_address"

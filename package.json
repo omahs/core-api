@@ -1,0 +1,17 @@
+{
+  "name": "ribon-core-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:RibonDAO/core-api.git",
+  "author": "Nicholas Marques <nnmarques97@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.2"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
+}

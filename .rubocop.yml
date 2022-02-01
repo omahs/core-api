@@ -63,3 +63,6 @@ RSpec/MultipleMemoizedHelpers:
 Style/SymbolProc:
   Exclude:
     - app/blueprints/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

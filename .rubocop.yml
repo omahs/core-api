@@ -66,3 +66,6 @@ Style/SymbolProc:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :non_profit do
-    name { 'MyString' }
-    wallet_address { 'MyString' }
-    impact_description { 'MyText' }
-    link { 'MyString' }
+    name { 'Evidence Action' }
+    wallet_address { '0x000' }
+    impact_description { 'Days of water' }
+    link { 'https://evidenceaction.org' }
   end
 end

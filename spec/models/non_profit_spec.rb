@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe NonProfit, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '.validations' do
+    subject { build(:non_profit) }
+
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:wallet_address) }
+    it { is_expected.to validate_presence_of(:impact_description) }
+  end
 end

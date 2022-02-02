@@ -2,7 +2,19 @@ RailsAdmin.config do |config|
   config.asset_source = :sprockets
 
   ### Popular gems integration
+  config.authenticate_with do
+    # this is a rails controller helper
+    authenticate_or_request_with_http_basic('Login required') do |email, password|
 
+      # Here we're checking for username & password provided with basic auth
+      resource = Admin.find_by(email: email)
+
+      # we're using devise helpers to verify password and sign in the user
+      if resource&.valid_password?(password)
+        sign_in :admin, resource
+      end
+    end
+  end
   ## == Devise ==
   # config.authenticate_with do
   #   warden.authenticate! scope: :user

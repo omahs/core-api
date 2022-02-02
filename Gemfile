@@ -38,6 +38,8 @@ gem 'rails_admin', ['>= 3.0.0.beta2', '< 4']
 
 gem 'blueprinter'
 
+gem 'devise'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'

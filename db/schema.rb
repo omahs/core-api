@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_134054) do
+ActiveRecord::Schema.define(version: 2022_02_02_182012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,16 @@ ActiveRecord::Schema.define(version: 2022_02_02_134054) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "non_profit_impacts", force: :cascade do |t|
+    t.bigint "non_profit_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "usd_cents_to_one_impact_unit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["non_profit_id"], name: "index_non_profit_impacts_on_non_profit_id"
+  end
+
   create_table "non_profits", force: :cascade do |t|
     t.string "name"
     t.string "wallet_address"
@@ -66,4 +76,5 @@ ActiveRecord::Schema.define(version: 2022_02_02_134054) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "non_profit_impacts", "non_profits"
 end

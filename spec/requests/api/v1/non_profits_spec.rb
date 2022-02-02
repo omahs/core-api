@@ -12,7 +12,7 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[created_at id impact_description link name updated_at
-                                                 wallet_address])
+                                                 wallet_address cover_image background_image logo main_image])
     end
   end
 end

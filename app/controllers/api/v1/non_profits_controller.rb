@@ -4,7 +4,7 @@ module Api
       def index
         @non_profits = NonProfit.all
 
-        render json: @non_profits
+        render json: NonProfitBlueprint.render(@non_profits)
       end
     end
   end

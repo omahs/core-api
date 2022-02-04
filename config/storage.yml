@@ -32,3 +32,10 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+digital_ocean:
+  service: S3
+  access_key_id: <%= ENV["SPACE_ACCESS_KEY_ID"] %>
+  secret_access_key: <%= ENV["SPACE_SECRET_ACCESS_KEY"] %>
+  region: <%= ENV["SPACE_REGION"] %>
+  bucket: <%= ENV["SPACE_BUCKET"] %>
+  endpoint: <%= ENV["SPACE_ENDPOINT"] %>

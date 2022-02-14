@@ -313,6 +313,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   image_processing (~> 1.2)
+  io-wait (~> 0.2.1)
   nio4r
   pg (~> 1.1)
   puma (~> 5.0)

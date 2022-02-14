@@ -42,7 +42,7 @@ gem 'devise'
 
 gem 'nio4r'
 
-gem 'io-wait', '~> 0.2.1'
+gem 'io-wait', '0.2.0'
 
 # Storage
 gem 'aws-sdk-s3', require: false

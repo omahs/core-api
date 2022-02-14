@@ -40,6 +40,8 @@ gem 'blueprinter'
 
 gem 'devise'
 
+gem 'nio4r'
+
 # Storage
 gem 'aws-sdk-s3', require: false
 

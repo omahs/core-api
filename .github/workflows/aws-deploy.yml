@@ -68,6 +68,5 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: ribon-core-api
           environment_name: dev-api
-          version_label: 2
           region: us-east-1
           deployment_package: deploy.zip

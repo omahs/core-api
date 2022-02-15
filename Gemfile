@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.0'
+ruby '3.0.3'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.1'
@@ -10,7 +10,7 @@ gem 'rails', '~> 7.0.1'
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 5.0'
+gem 'puma', '5.6.1'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -39,6 +39,10 @@ gem 'rails_admin', ['>= 3.0.0.beta2', '< 4']
 gem 'blueprinter'
 
 gem 'devise'
+
+gem 'nio4r'
+
+gem 'io-wait', '0.2.0'
 
 # Storage
 gem 'aws-sdk-s3', require: false

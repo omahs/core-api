@@ -14,10 +14,10 @@ RSpec.describe NonProfit, type: :model do
 
     let(:date) { Date.parse('2022-02-02') }
     let(:non_profit_impact1) do
-      create(:non_profit_impact, non_profit:, start_date: '2022-02-01', end_date: '2022-03-01')
+      create(:non_profit_impact, non_profit: non_profit, start_date: '2022-02-01', end_date: '2022-03-01')
     end
     let(:non_profit_impact2) do
-      create(:non_profit_impact, non_profit:, start_date: '2021-06-01', end_date: '2021-09-01')
+      create(:non_profit_impact, non_profit: non_profit, start_date: '2021-06-01', end_date: '2021-09-01')
     end
 
     before do
@@ -26,7 +26,7 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'returns the non_profit_impact that includes the passed date' do
-      expect(non_profit.impact_for(date:)).to eq non_profit_impact1
+      expect(non_profit.impact_for(date: date)).to eq non_profit_impact1
     end
   end
 end

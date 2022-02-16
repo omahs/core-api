@@ -1,0 +1,8 @@
+Description:
+    This generator creates a Command (Service Object)
+
+Example:
+    rails generate command AuthUser
+
+    This will create:
+        app/commands/auth_user_command.rb

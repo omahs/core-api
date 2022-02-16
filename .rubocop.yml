@@ -17,6 +17,7 @@ AllCops:
     - 'lib/generators/**/*'
     - "spec/rails_helper.rb"
     - "spec/spec_helper.rb"
+    - "app/lib/**/*"
 
 Metrics/LineLength:
   Max: 110

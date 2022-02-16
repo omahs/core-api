@@ -47,7 +47,7 @@ gem 'io-wait', '0.2.0'
 # Storage
 gem 'aws-sdk-s3', require: false
 
-gem 'simple_command', :git => 'https://github.com/nebulab/simple_command.git'
+gem 'simple_command', git: 'https://github.com/nebulab/simple_command.git'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

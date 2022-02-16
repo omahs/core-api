@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+class <%= class_name %>Service
+  def initialize()
+  end
+
+  private
+end

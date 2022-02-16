@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/nebulab/simple_command.git
+  revision: 48ecd83e6f8de6ef354f729109ed4c6e69aaf87c
+  specs:
+    simple_command (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -327,6 +333,7 @@ DEPENDENCIES
   rubocop-rspec
   sassc-rails
   shoulda-matchers (~> 5.0)
+  simple_command!
   tzinfo-data
 
 RUBY VERSION

@@ -1,0 +1,8 @@
+Description:
+    This generator creates a service
+
+Example:
+    rails generate service AuthUser
+
+    This will create:
+        app/services/auth_user_service.rb

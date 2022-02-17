@@ -295,6 +295,7 @@ GEM
     unicode-display_width (2.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    web3-eth (0.1.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -328,6 +329,7 @@ DEPENDENCIES
   sassc-rails
   shoulda-matchers (~> 5.0)
   tzinfo-data
+  web3-eth
 
 RUBY VERSION
    ruby 3.0.3p157

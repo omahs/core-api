@@ -28,7 +28,12 @@ module Donations
     end
 
     def create_blockchain_donation
-      # call contract method
+      # TODO: update those static values
+      amount = 1
+      user = '0x6E060041D62fDd76cF27c582f62983b864878E8F'
+
+      Web3::RibonContract.donate_through_integration(non_profit: non_profit.wallet_address, amount: amount,
+                                                     user: user)
     end
 
     def update_donation_blockchain_link

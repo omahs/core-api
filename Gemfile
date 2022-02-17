@@ -47,6 +47,11 @@ gem 'io-wait', '0.2.0'
 # Storage
 gem 'aws-sdk-s3', require: false
 
+gem 'web3-eth'
+
+# HTTP requests
+gem 'httparty'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'

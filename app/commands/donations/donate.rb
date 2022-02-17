@@ -3,7 +3,9 @@
 module Donations
   class Donate
     prepend SimpleCommand
-    attr_reader :non_profit, :integration
+    attr_reader :non_profit, :integration, :donation
+
+    DEFAULT_DONATION_AMOUNT = 1_000_000_000_000_000
 
     def initialize(integration:, non_profit:)
       @integration = integration
@@ -12,8 +14,10 @@ module Donations
 
     def call
       create_donation
-      create_blockchain_donation
-      update_donation_blockchain_link
+      transaction_hash = create_blockchain_donation
+      update_donation_blockchain_link(transaction_hash)
+
+      transaction_hash
     rescue StandardError => e
       errors.add(:message, e.message)
     end
@@ -21,7 +25,7 @@ module Donations
     private
 
     def create_donation
-      Donation.create!(
+      @donation = Donation.create!(
         integration: integration,
         non_profit: non_profit
       )
@@ -29,15 +33,22 @@ module Donations
 
     def create_blockchain_donation
       # TODO: update those static values
-      amount = 1
+      amount = DEFAULT_DONATION_AMOUNT
       user = '0x6E060041D62fDd76cF27c582f62983b864878E8F'
 
-      Web3::RibonContract.donate_through_integration(non_profit: non_profit.wallet_address, amount: amount,
-                                                     user: user)
+      response = Web3::RibonContract
+                 .donate_through_integration(non_profit: non_profit.wallet_address,
+                                             amount: amount,
+                                             user: user)
+
+      body = JSON.parse(response['body'])
+      body['transactionHash']
     end
 
-    def update_donation_blockchain_link
-      # update donation blockchain link with the blokchain process url
+    def update_donation_blockchain_link(transaction_hash)
+      # TODO: update these static url
+      donation.blockchain_process_link = "https://mumbai.polygonscan.com/tx/#{transaction_hash}"
+      donation.save
     end
   end
 end

@@ -4,10 +4,10 @@ module RedisStore
   class RestoredEntry
     attr_reader :value
 
-    def initialize(value:, expires_in:, created_at:)
-      @value = value
-      @created_at = created_at
-      @expires_in = expires_in
+    def initialize(args)
+      @value = args[:value]
+      @created_at = args[:created_at]
+      @expires_in = args[:expires_in]
     end
 
     def expired?

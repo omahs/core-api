@@ -43,7 +43,7 @@ module RedisStore
     end
 
     def redis
-      FreePrizesApi.redis
+      RibonCoreApi.redis
     end
   end
 end

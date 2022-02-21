@@ -16,8 +16,9 @@ gem 'puma', '5.6.1'
 # gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", "~> 4.0"
-
+gem 'hiredis'
+gem 'redis', '~> 4.0'
+gem 'redis-namespace'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -51,6 +52,8 @@ gem 'web3-eth'
 
 # HTTP requests
 gem 'httparty'
+
+gem 'recursive-open-struct'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

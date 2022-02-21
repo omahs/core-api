@@ -19,21 +19,28 @@ require "action_cable/engine"
 Bundler.require(*Rails.groups)
 
 module RibonCoreApi
+  extend self
+
+  def redis
+    @redis ||= Redis::Namespace.new('api', redis: Redis.new(url: redis_url))
+  end
+
+  def redis_url
+    @redis_url ||= config[:redis][:url]
+  end
+
+  def load_yaml(config)
+    config_file = ERB.new(File.read("#{Rails.root}/config/#{config}.yml")).result
+    YAML.safe_load(config_file, [], [], true)
+  end
+
+  def config
+    @config ||= RecursiveOpenStruct.new(load_yaml('env')[Rails.env])
+  end
+
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
-
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride

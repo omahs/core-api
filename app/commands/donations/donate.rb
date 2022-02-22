@@ -36,12 +36,12 @@ module Donations
     def create_blockchain_donation
       # TODO: update those static values
       amount = DEFAULT_DONATION_AMOUNT
-      user = '0x6E060041D62fDd76cF27c582f62983b864878E8F'
+      user_address = '0x6E060041D62fDd76cF27c582f62983b864878E8F'
 
       response = Web3::RibonContract
                  .donate_through_integration(non_profit: non_profit.wallet_address,
                                              amount: amount,
-                                             user: user)
+                                             user: user_address)
 
       body = JSON.parse(response['body'])
       body['transactionHash']

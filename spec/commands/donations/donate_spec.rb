@@ -4,10 +4,11 @@ require 'rails_helper'
 
 describe Donations::Donate do
   describe '.call' do
-    subject(:command) { described_class.call(integration: integration, non_profit: non_profit) }
+    subject(:command) { described_class.call(integration: integration, non_profit: non_profit, user: user) }
 
     let(:integration) { build(:integration) }
     let(:non_profit) { build(:non_profit) }
+    let(:user) { build(:user) }
 
     before do
       allow(Donation).to receive(:create!)
@@ -17,7 +18,8 @@ describe Donations::Donate do
     it 'creates a donation in database' do
       command
 
-      expect(Donation).to have_received(:create!).with(integration: integration, non_profit: non_profit)
+      expect(Donation).to have_received(:create!).with(integration: integration, non_profit: non_profit,
+                                                       user: user)
     end
 
     it 'calls the donation in contract' do

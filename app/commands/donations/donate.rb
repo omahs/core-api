@@ -3,13 +3,14 @@
 module Donations
   class Donate
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation
+    attr_reader :non_profit, :integration, :donation, :user
 
     DEFAULT_DONATION_AMOUNT = 1_000_000_000_000_000
 
-    def initialize(integration:, non_profit:)
+    def initialize(integration:, non_profit:, user:)
       @integration = integration
       @non_profit = non_profit
+      @user = user
     end
 
     def call
@@ -27,7 +28,8 @@ module Donations
     def create_donation
       @donation = Donation.create!(
         integration: integration,
-        non_profit: non_profit
+        non_profit: non_profit,
+        user: user
       )
     end
 

@@ -36,20 +36,19 @@ module Donations
     def create_blockchain_donation
       # TODO: update those static values
       amount = DEFAULT_DONATION_AMOUNT
-      user_address = '0x6E060041D62fDd76cF27c582f62983b864878E8F'
 
-      response = Web3::RibonContract
-                 .donate_through_integration(non_profit: non_profit.wallet_address,
-                                             amount: amount,
-                                             user: user_address)
+      response = Web3::RibonContract.donate_through_integration(
+        non_profit_address: non_profit.wallet_address,
+        amount: amount,
+        user_email: user.email
+      )
 
       body = JSON.parse(response['body'])
       body['transactionHash']
     end
 
     def update_donation_blockchain_link(transaction_hash)
-      # TODO: update these static url
-      donation.blockchain_process_link = "https://mumbai.polygonscan.com/tx/#{transaction_hash}"
+      donation.blockchain_process_link = "#{RibonCoreApi.config[:blockchain][:scan_url]}#{transaction_hash}"
       donation.save
     end
   end

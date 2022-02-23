@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  # post "/graphql", to: "graphql#execute"
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
+  Rails.application.routes.draw do
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
+    post "/graphql", to: "graphql#execute"
+  end
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do

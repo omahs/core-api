@@ -28,8 +28,8 @@ describe Donations::Donate do
       expect(Web3::RibonContract)
         .to have_received(:donate_through_integration)
         .with(amount: Donations::Donate::DEFAULT_DONATION_AMOUNT,
-              non_profit: '0x000',
-              user: '0x6E060041D62fDd76cF27c582f62983b864878E8F')
+              non_profit_address: non_profit.wallet_address,
+              user_email: user.email)
     end
   end
 end

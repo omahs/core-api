@@ -5,7 +5,7 @@ module Api
         @user = User.new(user_params)
 
         if @user.save
-          head :created
+          render json: UserBlueprint.render(@user), status: :created
         else
           head :unprocessable_entity
         end

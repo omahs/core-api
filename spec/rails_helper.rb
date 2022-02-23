@@ -19,4 +19,5 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include ResponseHelper, type: :request
   config.include MatcherHelpers, type: :request
+  config.include StubHelpers, type: :request
 end

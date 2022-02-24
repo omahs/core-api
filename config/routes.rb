@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'integrations/:id' => "integrations#show"
       post 'donations' => "donations#create"
       post 'users' => "users#create"
+      post 'users/search' => "users#search"
     end
   end
 end

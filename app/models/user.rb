@@ -3,4 +3,8 @@ class User < ApplicationRecord
 
   before_validation { email.downcase! }
   has_many :donations
+
+  def impact
+    self.donations.count
+  end
 end

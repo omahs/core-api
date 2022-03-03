@@ -22,6 +22,7 @@ gem 'redis-namespace'
 
 gem 'graphql'
 gem 'graphiql-rails', group: :development
+gem 'graphql-client'
 
 # gem "bcrypt", "~> 3.1.7"
 

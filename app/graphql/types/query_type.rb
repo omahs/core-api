@@ -10,6 +10,8 @@ module Types
 
     field :fetch_users, resolver: Queries::FetchUsers
 
+    field :fetch_user_impact, resolver: Queries::FetchUserImpact
+
     def test_field
       "Hello World!"
     end

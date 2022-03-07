@@ -1,6 +1,8 @@
 RailsAdmin.config do |config|
   config.asset_source = :sprockets
 
+  config.main_app_name = ["Ribon", "Admin"]
+  config.parent_controller = RailsAdmin::RailsAdminAbstractController.to_s
   ### Popular gems integration
   config.authenticate_with do
     # this is a rails controller helper
@@ -51,4 +53,38 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.included_models = [User, NonProfit, NonProfitImpact, Integration, Donation]
+
+  MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }
+  MOBILITY_MODELS.each do |model|
+    config.model model do
+      edit do
+        formatted_mobility_attributes(model)
+      end
+      show do
+        formatted_mobility_attributes(model)
+      end
+
+      list do
+        fields do
+          formatted_value{ bindings[:object].send(method_name) }
+        end
+      end
+    end
+  end
+end
+
+def formatted_mobility_attributes(model)
+  model.mobility_attributes.each do |field_name|
+    field field_name.to_sym do
+      formatted_value{ bindings[:object].send(method_name) }
+      help 'translation field'
+      label do
+        "#{label} (t)"
+      end
+    end
+  end
+
+  include_all_fields
 end

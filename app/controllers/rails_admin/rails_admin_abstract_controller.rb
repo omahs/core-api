@@ -1,5 +1,5 @@
 module RailsAdmin
-  class RailsAdminAbstractController < ApplicationController
+  class RailsAdminAbstractController < ActionController::Base
     before_action :set_admin_locale
 
     private

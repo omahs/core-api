@@ -203,9 +203,11 @@ pt-BR:
       group_goal: Metas de Grupos <-> Grupos
       grouping: Grupos de Doação
       inspirational_phrase: Frases Inspiracionais
+      integration: Integrações
       label: Labels
       impact_report: Relatórios de Impacto
-      ngo: Ongs
+      non_profit: Ongs
+      non_profit_impact: Impacto das Ongs
       user: Usuários
       notification: Notificações
       offer: Ofertas

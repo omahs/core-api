@@ -1,4 +1,7 @@
 class NonProfit < ApplicationRecord
+  extend Mobility
+  translates :impact_description, type: :string
+
   has_one_attached :logo
   has_one_attached :main_image
   has_one_attached :background_image

@@ -3,7 +3,6 @@ require "graphql/client/http"
 
 module Graphql
   module RibonApi
-    # Configure GraphQL endpoint using the basic HTTP network adapter.
     HTTP = GraphQL::Client::HTTP.new("https://api.thegraph.com/subgraphs/name/ribondao/subgraphribon") do
       def headers(context)
         # Optionally set any HTTP headers

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # post "/graphql", to: "graphql#execute"
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  scope "(:locale)", locale: /en|pt-BR/ do
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  end
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
       get 'integrations/:id' => "integrations#show"
       post 'donations' => "donations#create"
       post 'users' => "users#create"
+      post 'users/search' => "users#search"
     end
   end
 end

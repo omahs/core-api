@@ -1,6 +1,16 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      def search
+        @user = User.find_by(email: params[:email])
+
+        if @user
+          render json: UserBlueprint.render(@user)
+        else
+          render json: { error: 'user not found' }, status: :not_found
+        end
+      end
+
       def create
         @user = User.new(user_params)
 

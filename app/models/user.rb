@@ -2,10 +2,10 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   before_validation { email.downcase! }
+  after_create :set_user_donation_stats
+
   has_many :donations
   has_one :user_donation_stats
-
-  after_create :set_user_donation_stats
 
   delegate :last_donation_at, to: :user_donation_stats
 

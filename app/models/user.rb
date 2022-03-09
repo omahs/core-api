@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_one :user_donation_stats
 
   delegate :last_donation_at, to: :user_donation_stats
+  delegate :can_donate?, to: :user_donation_stats
 
   private
 

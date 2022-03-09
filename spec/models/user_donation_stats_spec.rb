@@ -26,4 +26,34 @@ RSpec.describe UserDonationStats, type: :model do
       end
     end
   end
+
+  describe '#can_donate?' do
+    context 'when the next_donation_at is higher than now' do
+      let(:user_donation_stats) do
+        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-12 10:00:00'))
+      end
+
+      before do
+        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-13 8:00:00'))
+      end
+
+      it 'returns true' do
+        expect(user_donation_stats.can_donate?).to be_truthy
+      end
+    end
+
+    context 'when the next_donation_at is lower than now' do
+      let(:user_donation_stats) do
+        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-12 10:00:00'))
+      end
+
+      before do
+        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-12 14:00:00'))
+      end
+
+      it 'returns true' do
+        expect(user_donation_stats.can_donate?).to be_falsey
+      end
+    end
+  end
 end

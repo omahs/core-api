@@ -2,6 +2,8 @@ class UserDonationStats < ApplicationRecord
   belongs_to :user
 
   def can_donate?
+    return true if next_donation_at.nil?
+
     Time.zone.now >= next_donation_at
   end
 

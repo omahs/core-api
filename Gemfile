@@ -24,6 +24,8 @@ gem 'graphql'
 gem 'graphiql-rails', group: :development
 gem 'graphql-client'
 
+gem 'keccak', '~> 1.3'
+
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

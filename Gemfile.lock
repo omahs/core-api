@@ -149,6 +149,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    keccak (1.3.0)
     loofah (2.14.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -161,7 +162,6 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.15.0)
     mobility (1.2.6)
       i18n (>= 0.6.10, < 2)
@@ -185,8 +185,7 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.3)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.13.3-arm64-darwin)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.21.0)
@@ -341,6 +340,7 @@ DEPENDENCIES
   httparty
   image_processing (~> 1.2)
   io-wait (= 0.2.0)
+  keccak (~> 1.3)
   mobility (~> 1.2.6)
   nio4r
   pg (~> 1.1)

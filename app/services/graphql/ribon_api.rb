@@ -3,7 +3,7 @@ require 'graphql/client/http'
 
 module Graphql
   module RibonApi
-    HTTP = GraphQL::Client::HTTP.new('https://api.thegraph.com/subgraphs/name/ribondao/subgraphribon') do
+    HTTP = GraphQL::Client::HTTP.new(RibonCoreApi.config[:the_graph][:url]) do
       def headers(_context)
         {}
       end

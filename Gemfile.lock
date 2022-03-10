@@ -116,6 +116,13 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    graphiql-rails (1.8.0)
+      railties
+      sprockets-rails
+    graphql (1.13.10)
+    graphql-client (0.17.0)
+      activesupport (>= 3.0)
+      graphql (~> 1.10)
     hiredis (0.6.3)
     httparty (0.20.0)
       mime-types (~> 3.0)
@@ -142,6 +149,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    keccak (1.3.0)
     loofah (2.14.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -154,7 +162,6 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.15.0)
     mobility (1.2.6)
       i18n (>= 0.6.10, < 2)
@@ -178,10 +185,7 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.3)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
-    nokogiri (1.13.3-x86_64-linux)
+    nokogiri (1.13.3-arm64-darwin)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.21.0)
@@ -319,8 +323,7 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
-  ruby
-  x86_64-linux
+  arm64-darwin-21
 
 DEPENDENCIES
   aws-sdk-s3
@@ -330,10 +333,14 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  graphiql-rails
+  graphql
+  graphql-client
   hiredis
   httparty
   image_processing (~> 1.2)
   io-wait (= 0.2.0)
+  keccak (~> 1.3)
   mobility (~> 1.2.6)
   nio4r
   pg (~> 1.1)
@@ -358,4 +365,4 @@ RUBY VERSION
    ruby 3.0.3p157
 
 BUNDLED WITH
-   2.2.32
+   2.3.7

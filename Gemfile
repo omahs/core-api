@@ -19,8 +19,12 @@ gem 'puma', '5.6.1'
 gem 'hiredis'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace'
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
+
+gem 'graphiql-rails', group: :development
+gem 'graphql'
+gem 'graphql-client'
+
+gem 'keccak', '~> 1.3'
 
 # gem "bcrypt", "~> 3.1.7"
 

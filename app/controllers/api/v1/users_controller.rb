@@ -11,6 +11,17 @@ module Api
         end
       end
 
+      def impact
+        @user = User.first
+        @impacts = @user.impact
+
+        if @user
+          render json: UserBlueprint.render(@impacts)
+        else
+          render json: { error: 'User not found' }, status: :not_found
+        end
+      end
+
       def create
         @user = User.new(user_params)
 

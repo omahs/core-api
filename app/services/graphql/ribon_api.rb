@@ -1,12 +1,12 @@
-require "graphql/client"
-require "graphql/client/http"
+require 'graphql/client'
+require 'graphql/client/http'
 
 module Graphql
   module RibonApi
-    HTTP = GraphQL::Client::HTTP.new("https://api.thegraph.com/subgraphs/name/ribondao/subgraphribon") do
-      def headers(context)
+    HTTP = GraphQL::Client::HTTP.new('https://api.thegraph.com/subgraphs/name/ribondao/subgraphribon') do
+      def headers(_context)
         # Optionally set any HTTP headers
-        { "User-Agent": "My Client" }
+        { 'User-Agent': 'My Client' }
       end
     end
 

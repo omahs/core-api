@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"
+      get 'users/impact' => "users#impact"
     end
   end
 end

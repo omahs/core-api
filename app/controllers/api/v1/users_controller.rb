@@ -12,11 +12,11 @@ module Api
       end
 
       def impact
-        @user = User.first
-        @impacts = @user.impact
+        @user = User.find_by(email: params[:email])
+        @impacts = @user.user_impact
 
         if @user
-          render json: UserBlueprint.render(@impacts)
+          render json: UserImpactBlueprint.render(@impacts)
         else
           render json: { error: 'User not found' }, status: :not_found
         end

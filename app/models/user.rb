@@ -11,17 +11,20 @@ class User < ApplicationRecord
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
 
-  def impact
+  def user_impact
     donation_balances = Graphql::RibonApi::Client.query(Graphql::Queries::FetchDonationBalances::Query)
 
-    user_donations = donation_balances.original_hash['data']['donationBalances'].select do |x|
-      x['user'] == hashed_email
+    user_donations = donation_balances.original_hash['data']['donationBalances'].select do |donation|
+      donation['user'] == hashed_email
     end
 
-    result = {}
+    result = []
 
     user_donations.each do |donation|
-      result[donation['nonProfit']] = donation['totalDonated']
+      result << {
+        non_profit: donation['nonProfit'],
+        total_donated: donation['totalDonated']
+      }
     end
 
     result

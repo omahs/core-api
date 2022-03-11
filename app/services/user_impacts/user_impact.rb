@@ -1,4 +1,5 @@
 module UserImpacts
+  # TODO: change user model to use this service
   class UserImpact
     def impact
       donation_balances = Graphql::RibonApi::Client.query(Graphql::Queries::FetchDonationBalances::Query)
@@ -7,7 +8,7 @@ module UserImpacts
         donation['user'] == hashed_email
       end
 
-      result = { }
+      result = {}
 
       user_donations.each do |donation|
         result = {

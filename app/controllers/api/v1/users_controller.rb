@@ -12,7 +12,7 @@ module Api
       end
 
       def impact
-        @user = User.find_by(email: params[:email])
+        @user = User.first
         @impacts = @user.user_impact
 
         if @user

@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
+  Rails.application.routes.draw do
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
+    post "/graphql", to: "graphql#execute"
+  end
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -13,6 +16,7 @@ Rails.application.routes.draw do
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"
+      get 'users/impact' => "users#impact"
     end
   end
 end

@@ -2,6 +2,8 @@ module Api
   module V1
     class DonationsController < ApplicationController
       def create
+        authorize!(:create, Donation)
+
         command = Donations::Donate.call(integration: integration,
                                          non_profit: non_profit,
                                          user: user)

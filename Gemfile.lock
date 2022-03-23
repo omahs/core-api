@@ -92,6 +92,7 @@ GEM
     bootsnap (1.10.3)
       msgpack (~> 1.2)
     builder (3.2.4)
+    cancancan (3.3.0)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     debug (1.4.0)
@@ -186,6 +187,8 @@ GEM
       timeout
     nio4r (2.5.8)
     nokogiri (1.13.3-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.21.0)
@@ -324,11 +327,13 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   aws-sdk-s3
   blueprinter
   bootsnap
+  cancancan
   debug
   devise
   factory_bot_rails

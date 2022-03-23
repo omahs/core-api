@@ -9,10 +9,6 @@ module UserServices
 
     private
 
-    def non_profit_from_address(wallet_address)
-      NonProfit.find_by('lower(wallet_address) = ?', wallet_address.downcase)
-    end
-
     def select_from_donation_balances(donation_balances)
       donation_balances.original_hash['data']['donationBalances'].select do |donation|
         donation['user'] == hashed_email
@@ -26,6 +22,10 @@ module UserServices
           total_donated: donation['totalDonated']
         }
       end
+    end
+
+    def non_profit_from_address(wallet_address)
+      NonProfit.find_by('lower(wallet_address) = ?', wallet_address.downcase)
     end
 
     def hashed_email

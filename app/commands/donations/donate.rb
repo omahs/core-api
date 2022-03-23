@@ -16,6 +16,7 @@ module Donations
     def call
       create_donation
       transaction_hash = create_blockchain_donation
+      set_user_last_donation_at
       update_donation_blockchain_link(transaction_hash)
 
       transaction_hash
@@ -50,6 +51,10 @@ module Donations
     def update_donation_blockchain_link(transaction_hash)
       donation.blockchain_process_link = "#{RibonCoreApi.config[:blockchain][:scan_url]}#{transaction_hash}"
       donation.save
+    end
+
+    def set_user_last_donation_at
+      SetUserLastDonationAt.call(user: user, date_to_set: donation.created_at)
     end
   end
 end

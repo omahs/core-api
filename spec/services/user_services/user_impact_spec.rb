@@ -19,8 +19,8 @@ RSpec.describe UserServices::UserImpact, type: :service do
     end
 
     it 'returns the sum of impact' do
-      expect(user.impact.first[:impact]).to eq 180_000_000_000_000
-      expect(user.impact.last[:impact]).to eq 10_000_000_000_000
+      expect(user.impact.first[:impact]).to eq 18
+      expect(user.impact.last[:impact]).to eq 1
     end
 
     it 'returns the non profits' do

@@ -1,5 +1,7 @@
 module UserServices
   module UserImpact
+    GWEI_TO_USD_FACTOR = 10_000_000_000_000
+
     def impact
       donation_balances = Graphql::RibonApi::Client.query(Graphql::Queries::FetchDonationBalances::Query)
       user_donations = select_from_donation_balances(donation_balances)
@@ -32,7 +34,7 @@ module UserServices
           .casecmp(non_profit.wallet_address).zero?
       end
       total_usd_cents_donated = non_profit_donations
-                                .sum { |donation| donation['totalDonated'].to_i }
+                                .sum { |donation| donation['totalDonated'].to_i } / GWEI_TO_USD_FACTOR
 
       total_usd_cents_donated / non_profit.impact_for(date: Time.zone.now).usd_cents_to_one_impact_unit
     end

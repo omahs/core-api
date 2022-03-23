@@ -9,10 +9,18 @@ describe Donations::Donate do
     let(:integration) { build(:integration) }
     let(:non_profit) { build(:non_profit) }
     let(:user) { build(:user) }
+    let(:donation) { build(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
 
     before do
-      allow(Donation).to receive(:create!)
-      allow(Web3::RibonContract).to receive(:donate_through_integration)
+      allow(Donation).to receive(:create!).and_return(donation)
+      allow(Web3::RibonContract).to receive(:donate_through_integration).and_return(
+        { 'body' => {
+          transaction_hash: '0x00'
+        }.to_json }
+      )
+      allow(Donations::SetUserLastDonationAt)
+        .to receive(:call)
+        .and_return(command_double(klass: Donations::SetUserLastDonationAt))
     end
 
     it 'creates a donation in database' do
@@ -30,6 +38,13 @@ describe Donations::Donate do
         .with(amount: Donations::Donate::DEFAULT_DONATION_AMOUNT,
               non_profit_address: non_profit.wallet_address,
               user_email: user.email)
+    end
+
+    it 'calls the Donations::SetUserLastDonationAt' do
+      command
+
+      expect(Donations::SetUserLastDonationAt)
+        .to have_received(:call).with(user: user, date_to_set: donation.created_at)
     end
   end
 end

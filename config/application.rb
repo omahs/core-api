@@ -45,6 +45,8 @@ module RibonCoreApi
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Session::CookieStore, {:key=>"_ribon_core_api_session"}
+    config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
+
 
     config.api_only = true
   end

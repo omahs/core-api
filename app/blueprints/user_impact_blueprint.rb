@@ -1,3 +1,4 @@
 class UserImpactBlueprint < Blueprinter::Base
-  fields :non_profit, :total_donated
+  fields :impact
+  association :non_profit, blueprint: NonProfitBlueprint
 end

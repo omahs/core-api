@@ -17,6 +17,9 @@ Rails.application.routes.draw do
       post 'users' => "users#create"
       post 'users/search' => "users#search"
       get 'users/impact' => "users#impact"
+      resources :users, only: [] do
+        get 'impacts' => 'users/impacts#index'
+      end
     end
   end
 end

@@ -20,7 +20,6 @@ gem 'hiredis'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace'
 
-gem 'graphiql-rails', group: :development
 gem 'graphql'
 gem 'graphql-client'
 

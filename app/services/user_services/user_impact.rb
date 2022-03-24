@@ -17,10 +17,6 @@ module UserServices
       end
     end
 
-    def non_profit_from_address(wallet_address)
-      NonProfit.find_by('lower(wallet_address) = ?', wallet_address.downcase)
-    end
-
     def hashed_email
       "0x#{Digest::Keccak.new(256).hexdigest(email)}"
     end

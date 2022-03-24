@@ -220,3 +220,5 @@ pt-BR:
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
     pm: ''
+  donations:
+    blocked_message: "Não foi possível doar. Espere sua próxima doação."

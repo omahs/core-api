@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   Rails.application.routes.draw do
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
     post "/graphql", to: "graphql#execute"
   end
 
@@ -17,6 +16,9 @@ Rails.application.routes.draw do
       post 'users' => "users#create"
       post 'users/search' => "users#search"
       get 'users/impact' => "users#impact"
+      resources :users, only: [] do
+        get 'impacts' => 'users/impacts#index'
+      end
     end
   end
 end

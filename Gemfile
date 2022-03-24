@@ -20,7 +20,6 @@ gem 'hiredis'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace'
 
-gem 'graphiql-rails', group: :development
 gem 'graphql'
 gem 'graphql-client'
 
@@ -60,6 +59,8 @@ gem 'httparty'
 gem 'recursive-open-struct'
 
 gem 'mobility', '~> 1.2.6'
+
+gem 'cancancan'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

@@ -1,0 +1,6 @@
+paths:
+  - 'app/controllers/'
+  - 'app/models/'
+  - 'app/commands/'
+  - 'app/lib/'
+  - 'app/services/'

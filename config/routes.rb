@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get 'users/impact' => "users#impact"
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
+        get 'donations_count' => 'users/impacts#donations_count'
       end
     end
   end

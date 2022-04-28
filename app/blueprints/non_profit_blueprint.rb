@@ -1,7 +1,8 @@
 class NonProfitBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :updated_at, :created_at, :name, :wallet_address, :impact_description, :link
+  fields :updated_at, :created_at, :name, :wallet_address, :impact_description, :link,
+         :description
 
   field(:logo) do |object|
     ImagesHelper.image_url_for(object.logo)

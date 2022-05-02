@@ -32,6 +32,12 @@ RailsAdmin.config do |config|
 
   config.included_models = [User, NonProfit, NonProfitImpact, Integration, Donation, RibonConfig]
 
+  config.model RibonConfig do
+    field :default_ticket_value do
+      label{ "ticket value in usdc cents" }
+    end
+  end
+
   MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }
   MOBILITY_MODELS.each do |model|
     config.model model do

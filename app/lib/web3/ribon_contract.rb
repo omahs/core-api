@@ -5,7 +5,7 @@ module Web3
                     { body:
                       { nonProfit: non_profit_address,
                         user: user_email,
-                        amount: amount }.to_json })
+                        amount: amount.to_i.to_s }.to_json })
     end
   end
 end

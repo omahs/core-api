@@ -21,6 +21,7 @@ describe Donations::Donate do
       allow(Donations::SetUserLastDonationAt)
         .to receive(:call)
         .and_return(command_double(klass: Donations::SetUserLastDonationAt))
+      create(:ribon_config, default_ticket_value: 100)
     end
 
     it 'creates a donation in database' do
@@ -35,7 +36,7 @@ describe Donations::Donate do
 
       expect(Web3::RibonContract)
         .to have_received(:donate_through_integration)
-        .with(amount: Donations::Donate::DEFAULT_DONATION_AMOUNT,
+        .with(amount: 1_000_000_000_000_000_000,
               non_profit_address: non_profit.wallet_address,
               user_email: user.email)
     end

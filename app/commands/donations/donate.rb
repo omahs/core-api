@@ -5,7 +5,8 @@ module Donations
     prepend SimpleCommand
     attr_reader :non_profit, :integration, :donation, :user
 
-    DEFAULT_DONATION_AMOUNT = 1_000_000_000_000_000
+    GWEI_CONVERT_FACTOR = 1_000_000_000_000_000_000
+    CENTS_FACTOR = 0.01
 
     def initialize(integration:, non_profit:, user:)
       @integration = integration
@@ -35,8 +36,7 @@ module Donations
     end
 
     def create_blockchain_donation
-      # TODO: update those static values
-      amount = DEFAULT_DONATION_AMOUNT
+      amount = (RibonConfig.default_ticket_value * CENTS_FACTOR) * GWEI_CONVERT_FACTOR
 
       response = Web3::RibonContract.donate_through_integration(
         non_profit_address: non_profit.wallet_address,

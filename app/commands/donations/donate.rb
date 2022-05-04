@@ -15,12 +15,14 @@ module Donations
     end
 
     def call
-      create_donation
-      transaction_hash = create_blockchain_donation
-      set_user_last_donation_at
-      update_donation_blockchain_link(transaction_hash)
+      Donation.transaction do
+        create_donation
+        transaction_hash = create_blockchain_donation
+        set_user_last_donation_at
+        update_donation_blockchain_link(transaction_hash)
 
-      transaction_hash
+        return transaction_hash
+      end
     rescue StandardError => e
       errors.add(:message, e.message)
     end

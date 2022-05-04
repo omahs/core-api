@@ -16,12 +16,13 @@ describe Donations::Donate do
         allow(Donation).to receive(:create!).and_return(donation)
         allow(Web3::RibonContract).to receive(:donate_through_integration).and_return(
           { 'body' => {
-            transaction_hash: '0x00'
+            transactionHash: '0xFF20'
           }.to_json }
         )
         allow(Donations::SetUserLastDonationAt)
           .to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
+        allow(donation).to receive(:save)
         create(:ribon_config, default_ticket_value: 100)
       end
 
@@ -48,6 +49,10 @@ describe Donations::Donate do
         expect(Donations::SetUserLastDonationAt)
           .to have_received(:call).with(user: user, date_to_set: donation.created_at)
       end
+
+      it 'returns the donation hash in blockchain' do
+        expect(command.result).to eq '0xFF20'
+      end
     end
 
     context 'when an error occurs at the blockchain process' do
@@ -61,6 +66,10 @@ describe Donations::Donate do
 
       it 'does not create the donation on the database' do
         expect { command }.not_to change(Donation, :count)
+      end
+
+      it 'returns nil' do
+        expect(command.result).to be_nil
       end
     end
   end

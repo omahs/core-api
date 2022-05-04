@@ -3,7 +3,7 @@
 module Donations
   class Donate
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation, :user
+    attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
 
     GWEI_CONVERT_FACTOR = 1_000_000_000_000_000_000
     CENTS_FACTOR = 0.01
@@ -17,12 +17,12 @@ module Donations
     def call
       Donation.transaction do
         create_donation
-        transaction_hash = create_blockchain_donation
+        @transaction_hash = create_blockchain_donation
         set_user_last_donation_at
         update_donation_blockchain_link(transaction_hash)
-
-        return transaction_hash
       end
+
+      transaction_hash
     rescue StandardError => e
       errors.add(:message, e.message)
     end

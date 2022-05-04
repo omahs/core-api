@@ -19,4 +19,8 @@ class NonProfitBlueprint < Blueprinter::Base
   field(:cover_image) do |object|
     ImagesHelper.image_url_for(object.cover_image)
   end
+
+  field(:impact_by_ticket) do |object|
+    object.impact_by_ticket
+  end
 end

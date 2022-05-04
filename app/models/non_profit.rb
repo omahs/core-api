@@ -13,4 +13,10 @@ class NonProfit < ApplicationRecord
   def impact_for(date: Time.zone.now)
     non_profit_impacts.find_by('start_date <= ? AND end_date >= ?', date, date)
   end
+
+  def impact_by_ticket(date: Time.zone.now)
+    RibonConfig.default_ticket_value / impact_for(date: date).usd_cents_to_one_impact_unit
+  rescue StandardError
+    0
+  end
 end

@@ -29,4 +29,24 @@ RSpec.describe NonProfit, type: :model do
       expect(non_profit.impact_for(date: date)).to eq non_profit_impact1
     end
   end
+
+  describe '#impact_by_ticket' do
+    subject(:non_profit) { build(:non_profit) }
+
+    let(:date) { Date.parse('2022-02-02') }
+    let(:non_profit_impact) do
+      create(:non_profit_impact, non_profit: non_profit,
+                                 start_date: '2022-02-01', end_date: '2022-03-01',
+                                 usd_cents_to_one_impact_unit: 10)
+    end
+
+    before do
+      create(:ribon_config, default_ticket_value: 100)
+      non_profit_impact
+    end
+
+    it 'returns the impact by ticket' do
+      expect(non_profit.impact_by_ticket(date: date)).to eq 10
+    end
+  end
 end

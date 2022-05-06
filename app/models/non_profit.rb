@@ -15,8 +15,6 @@ class NonProfit < ApplicationRecord
   end
 
   def impact_by_ticket(date: Time.zone.now)
-    RibonConfig.default_ticket_value / impact_for(date: date).usd_cents_to_one_impact_unit
-  rescue StandardError
-    0
+    impact_for(date: date)&.impact_by_ticket
   end
 end

@@ -11,7 +11,7 @@ module Api
         if command.success?
           head :ok
         else
-          head :unprocessable_entity
+          render json: ErrorBlueprint.render(command.errors), status: :unprocessable_entity
         end
       end
 

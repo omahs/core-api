@@ -1,7 +1,5 @@
 module UserServices
   module UserImpact
-    GWEI_TO_USD_FACTOR = 10_000_000_000_000
-
     def impact
       donation_balances = Graphql::RibonApi::Client.query(Graphql::Queries::FetchDonationBalances::Query)
       user_donations = select_from_donation_balances(donation_balances)
@@ -37,7 +35,8 @@ module UserServices
     end
 
     def total_usd_cents_donated(donations)
-      donations.sum { |donation| donation['totalDonated'].to_i } / GWEI_TO_USD_FACTOR
+      total_donated = donations.sum { |donation| donation['totalDonated'].to_i }
+      Web3::Utils::Converter.parse_wei(total_donated)
     end
 
     def non_profits

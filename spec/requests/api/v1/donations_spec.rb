@@ -34,14 +34,21 @@ RSpec.describe 'Api::V1::Donations', type: :request do
 
     context 'when the command fails' do
       before do
-        allow(Donations::Donate).to receive(:call).and_return(command_double(klass: Donations::Donate,
-                                                                             success: false))
+        allow(Donations::Donate).to receive(:call)
+          .and_return(command_double(klass: Donations::Donate,
+                                     success: false, errors: { message: 'erro' }))
       end
 
       it 'returns http status unprocessable_entity' do
         request
 
         expect(response).to have_http_status :unprocessable_entity
+      end
+
+      it 'returns an error message' do
+        request
+
+        expect(response_body.message).to eq 'erro'
       end
     end
 

@@ -30,7 +30,7 @@ describe Donations::Donate do
         command
 
         expect(Donation).to have_received(:create!).with(integration: integration, non_profit: non_profit,
-                                                         user: user)
+                                                         user: user, value: 100)
       end
 
       it 'calls the donation in contract' do

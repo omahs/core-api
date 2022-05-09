@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class <%= class_name %>
+class <%= class_name %> < ApplicationCommand
   prepend SimpleCommand
 
   def initialize()

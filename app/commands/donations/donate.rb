@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module Donations
-  class Donate
+  class Donate < ApplicationCommand
     prepend SimpleCommand
     attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
 
-    GWEI_CONVERT_FACTOR = 1_000_000_000_000_000_000
     CENTS_FACTOR = 0.01
 
     def initialize(integration:, non_profit:, user:)
@@ -15,16 +14,16 @@ module Donations
     end
 
     def call
-      Donation.transaction do
-        create_donation
-        @transaction_hash = create_blockchain_donation
-        set_user_last_donation_at
-        update_donation_blockchain_link(transaction_hash)
-      end
+      with_exception_handle do
+        Donation.transaction do
+          create_donation
+          @transaction_hash = create_blockchain_donation
+          set_user_last_donation_at
+          update_donation_blockchain_link(transaction_hash)
+        end
 
-      transaction_hash
-    rescue StandardError => e
-      errors.add(:message, e.message)
+        transaction_hash
+      end
     end
 
     private
@@ -38,7 +37,7 @@ module Donations
     end
 
     def create_blockchain_donation
-      amount = (RibonConfig.default_ticket_value * CENTS_FACTOR) * GWEI_CONVERT_FACTOR
+      amount = Web3::Utils::Converter.to_wei(RibonConfig.default_ticket_value * CENTS_FACTOR)
 
       response = Web3::RibonContract.donate_through_integration(
         non_profit_address: non_profit.wallet_address,

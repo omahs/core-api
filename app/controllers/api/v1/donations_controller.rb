@@ -9,9 +9,9 @@ module Api
                                          user: user)
 
         if command.success?
-          head :ok
+          render json: { transaction_hash: command.result }, status: :ok
         else
-          head :unprocessable_entity
+          render_errors(command.errors)
         end
       end
 

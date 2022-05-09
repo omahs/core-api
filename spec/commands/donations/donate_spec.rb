@@ -61,7 +61,9 @@ describe Donations::Donate do
       let(:user) { create(:user) }
 
       before do
-        allow(Web3::RibonContract).to receive(:donate_through_integration).and_raise(StandardError)
+        create(:ribon_config, default_ticket_value: 100)
+        allow(Web3::RibonContract).to receive(:donate_through_integration)
+          .and_raise(StandardError.new('error message'))
       end
 
       it 'does not create the donation on the database' do
@@ -70,6 +72,10 @@ describe Donations::Donate do
 
       it 'returns nil' do
         expect(command.result).to be_nil
+      end
+
+      it 'returns error message' do
+        expect(command.errors[:message]).to eq ['error message']
       end
     end
   end

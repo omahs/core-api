@@ -34,8 +34,9 @@ RSpec.describe 'Api::V1::Donations', type: :request do
 
     context 'when the command fails' do
       before do
-        allow(Donations::Donate).to receive(:call).and_return(command_double(klass: Donations::Donate,
-                                                                             success: false))
+        allow(Donations::Donate).to receive(:call)
+          .and_return(command_double(klass: Donations::Donate,
+                                     success: false, errors: { message: 'error' }))
       end
 
       it 'returns http status unprocessable_entity' do
@@ -43,18 +44,31 @@ RSpec.describe 'Api::V1::Donations', type: :request do
 
         expect(response).to have_http_status :unprocessable_entity
       end
+
+      it 'returns an error message' do
+        request
+
+        expect(response_body.message).to eq 'error'
+      end
     end
 
     context 'when the command is succeeded' do
       before do
-        allow(Donations::Donate).to receive(:call).and_return(command_double(klass: Donations::Donate,
-                                                                             success: true))
+        allow(Donations::Donate).to receive(:call)
+          .and_return(command_double(klass: Donations::Donate,
+                                     success: true, result: '0x000'))
       end
 
       it 'returns http status ok' do
         request
 
         expect(response).to have_http_status :ok
+      end
+
+      it 'returns the transaction hash' do
+        request
+
+        expect(response_body.transaction_hash).to eq '0x000'
       end
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Donations
-  class Donate
+  class Donate < ApplicationCommand
     prepend SimpleCommand
     attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
 
@@ -15,16 +15,16 @@ module Donations
     end
 
     def call
-      Donation.transaction do
-        create_donation
-        @transaction_hash = create_blockchain_donation
-        set_user_last_donation_at
-        update_donation_blockchain_link(transaction_hash)
-      end
+      with_exception_handle do
+        Donation.transaction do
+          create_donation
+          @transaction_hash = create_blockchain_donation
+          set_user_last_donation_at
+          update_donation_blockchain_link(transaction_hash)
+        end
 
-      transaction_hash
-    rescue StandardError => e
-      errors.add(:message, e.message)
+        transaction_hash
+      end
     end
 
     private

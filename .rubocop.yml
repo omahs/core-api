@@ -72,3 +72,7 @@ Style/FrozenStringLiteralComment:
 
 Style/OpenStructUse:
   Enabled: false
+
+Lint/MissingSuper:
+  Exclude:
+  - app/commands/**/*

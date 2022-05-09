@@ -36,7 +36,7 @@ RSpec.describe 'Api::V1::Donations', type: :request do
       before do
         allow(Donations::Donate).to receive(:call)
           .and_return(command_double(klass: Donations::Donate,
-                                     success: false, errors: { message: 'erro' }))
+                                     success: false, errors: { message: 'error' }))
       end
 
       it 'returns http status unprocessable_entity' do
@@ -48,7 +48,7 @@ RSpec.describe 'Api::V1::Donations', type: :request do
       it 'returns an error message' do
         request
 
-        expect(response_body.message).to eq 'erro'
+        expect(response_body.message).to eq 'error'
       end
     end
 

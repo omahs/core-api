@@ -38,6 +38,22 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model NonProfit do
+    field :main_image do
+      label{ "Cause Card Image" }
+    end
+
+    field :background_image do
+      label{ "Support Image" }
+    end
+
+    field :logo do
+      label{ "Logo" }
+    end
+
+    include_all_fields
+  end
+
   MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }
   MOBILITY_MODELS.each do |model|
     config.model model do

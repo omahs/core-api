@@ -36,7 +36,9 @@ module UserServices
 
     def total_usd_cents_donated(donations)
       total_donated = donations.sum { |donation| donation['totalDonated'].to_i }
-      Web3::Utils::Converter.parse_wei(total_donated)
+      total_donated_in_cents = total_donated * 100
+
+      Web3::Utils::Converter.parse_wei(total_donated_in_cents)
     end
 
     def non_profits

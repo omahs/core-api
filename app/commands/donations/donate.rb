@@ -32,12 +32,13 @@ module Donations
       @donation = Donation.create!(
         integration: integration,
         non_profit: non_profit,
-        user: user
+        user: user,
+        value: ticket_value
       )
     end
 
     def create_blockchain_donation
-      amount = Web3::Utils::Converter.to_wei(RibonConfig.default_ticket_value * CENTS_FACTOR)
+      amount = Web3::Utils::Converter.to_wei(ticket_value * CENTS_FACTOR)
 
       response = Web3::RibonContract.donate_through_integration(
         non_profit_address: non_profit.wallet_address,
@@ -56,6 +57,10 @@ module Donations
 
     def set_user_last_donation_at
       SetUserLastDonationAt.call(user: user, date_to_set: donation.created_at)
+    end
+
+    def ticket_value
+      RibonConfig.default_ticket_value
     end
   end
 end

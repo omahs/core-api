@@ -8,20 +8,20 @@ RSpec.describe GivingValue, type: :model do
     it { is_expected.to validate_presence_of(:currency) }
   end
 
-  describe "#currency_symbol" do
-    context "when it is usd" do
+  describe '#currency_symbol' do
+    context 'when it is usd' do
       it 'returns $' do
         giving_value = build(:giving_value, currency: :usd)
 
-        expect(giving_value.currency_symbol).to eq "$"
+        expect(giving_value.currency_symbol).to eq '$'
       end
     end
 
-    context "when it is brl" do
+    context 'when it is brl' do
       it 'returns R$' do
         giving_value = build(:giving_value, currency: :brl)
 
-        expect(giving_value.currency_symbol).to eq "R$"
+        expect(giving_value.currency_symbol).to eq 'R$'
       end
     end
   end

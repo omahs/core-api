@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'
       end
+      get 'giving_values' => "giving_values#index"
     end
   end
 end

@@ -5,9 +5,9 @@ class GivingValue < ApplicationRecord
   }
 
   def currency_symbol
-    return "$" if usd?
-    return "R$" if brl?
+    return '$' if usd?
+    return 'R$' if brl?
 
-    ""
+    ''
   end
 end

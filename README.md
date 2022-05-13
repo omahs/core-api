@@ -19,9 +19,9 @@ You can check the http://localhost:3000/ and see if the Rails welcome page appea
 ## Environments
 Currently there is a continuous deploy that sends the new versions of the code to 3 environments.
 They are:
-- Development: [development link](http://dev-api.eba-fktmq9bg.us-east-1.elasticbeanstalk.com/)
-- Staging: [staging link](staging-dapp-api.ribon.io)
-- Production: [production link](staging-dapp-api.ribon.io)
+- Development: [development link](http://dev-api.eba-fktmq9bg.us-east-1.elasticbeanstalk.com/admin)
+- Staging: [staging link](https://staging-dapp-api.ribon.io/admin)
+- Production: [production link](https://staging-dapp-api.ribon.io/admin)
 
 The development environment is where we can do tests. It is used by the front end development environment
 as an api where the data is fetched. It is updated everytime the `develop` branch receives a new PR.

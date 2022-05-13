@@ -1,4 +1,6 @@
 class GivingValue < ApplicationRecord
+  validates :value, :currency, presence: true
+
   enum currency: {
     usd: 0,
     brl: 1

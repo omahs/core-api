@@ -1,6 +1,6 @@
 module GivingServices
   module Fees
-    class TaxCalculatorService
+    class FeeCalculatorService
       attr_reader :value, :kind
 
       def initialize(value:, kind:)
@@ -8,7 +8,7 @@ module GivingServices
         @kind = kind
       end
 
-      delegate :calculate_tax, to: :calculator_class_factory
+      delegate :calculate_fee, to: :calculator_class_factory
 
       private
 
@@ -18,7 +18,7 @@ module GivingServices
 
       def calculator_services
         {
-          stripe_card: Card::StripeCardTaxCalculatorService
+          stripe_card: Card::StripeCardFeeCalculatorService
         }
       end
     end

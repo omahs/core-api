@@ -13,7 +13,7 @@ module Currency
            .exchange_to(to).format
     end
 
-    def set_rate
+    def add_rate
       rate = Currency::Rates.new(from: from, to: to).rate
       Money.add_rate(from, to, rate)
     end

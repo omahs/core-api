@@ -101,7 +101,6 @@ GEM
     cancancan (3.3.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    concurrency (1.0.0)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     debug (1.4.0)
@@ -396,7 +395,6 @@ DEPENDENCIES
   blueprinter
   bootsnap
   cancancan
-  concurrency
   debug
   devise
   factory_bot_rails

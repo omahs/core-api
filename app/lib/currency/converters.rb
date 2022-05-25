@@ -10,7 +10,7 @@ module Currency
     
     def convert()
       Money.from_amount(value, from)
-      .exchange_to(to)
+      .exchange_to(to).format
     end
 
     def set_rate()

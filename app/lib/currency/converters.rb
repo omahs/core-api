@@ -11,7 +11,7 @@ module Currency
     def convert
       add_rate
       Money.from_amount(value, from)
-           .exchange_to(to).format
+           .exchange_to(to)
     end
 
     private

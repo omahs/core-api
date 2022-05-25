@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe GivingServices::Taxes::TaxCalculatorService, type: :service do
+RSpec.describe GivingServices::Fees::TaxCalculatorService, type: :service do
   subject(:service) { described_class.new(value: value, kind: kind) }
 
-  let(:stripe_card_service_class) { GivingServices::Taxes::Card::StripeCardTaxCalculatorService }
+  let(:stripe_card_service_class) { GivingServices::Fees::Card::StripeCardTaxCalculatorService }
 
   let!(:card_service_instance) do
     mock_instance(klass: stripe_card_service_class,

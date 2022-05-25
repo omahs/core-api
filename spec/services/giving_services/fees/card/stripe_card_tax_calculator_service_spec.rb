@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GivingServices::Taxes::Card::StripeCardTaxCalculatorService, type: :service do
+RSpec.describe GivingServices::Fees::Card::StripeCardTaxCalculatorService, type: :service do
   subject(:service) { described_class.new(value: value) }
 
   describe '#calculate_tax' do

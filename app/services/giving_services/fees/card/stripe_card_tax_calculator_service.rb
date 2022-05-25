@@ -1,5 +1,5 @@
 module GivingServices
-  module Taxes
+  module Fees
     module Card
       class StripeCardTaxCalculatorService
         attr_reader :value

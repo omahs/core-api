@@ -1,5 +1,5 @@
 module GivingServices
-  module Taxes
+  module Fees
     class TaxCalculatorService
       attr_reader :value, :kind
 

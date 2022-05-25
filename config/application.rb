@@ -46,6 +46,7 @@ module RibonCoreApi
     config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Session::CookieStore, {:key=>"_ribon_core_api_session"}
     config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
 
 
     config.api_only = true

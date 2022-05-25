@@ -1,5 +1,9 @@
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_group "Blueprints", "app/blueprints"
+  add_filter 'lib'
+  add_filter 'app/services/graphql/queries'
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

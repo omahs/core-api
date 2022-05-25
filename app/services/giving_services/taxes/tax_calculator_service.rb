@@ -18,8 +18,7 @@ module GivingServices
 
       def calculator_services
         {
-          card: CardTaxCalculatorService,
-          crypto: CryptoTaxCalculatorService
+          stripe_card: Card::StripeCardTaxCalculatorService
         }
       end
     end

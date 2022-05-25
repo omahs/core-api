@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Currency::Converters do
   subject(:service) { described_class.new(value: value, from: from, to: to) }
+
   let(:value) { 10 }
   let(:from) { 'USD' }
   let(:to) { 'BRL' }
@@ -16,5 +17,4 @@ RSpec.describe Currency::Converters do
       expect(service.convert.to_f).to eq 50
     end
   end
-  
 end

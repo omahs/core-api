@@ -9,7 +9,7 @@ RSpec.describe Currency::Converters do
   let(:rate) { 5 }
 
   before do
-    allow(Currency::Rates).to receive(:new).and_return(OpenStruct.new({ rate: 5 }))
+    mock_instance(klass: Currency::Rates, methods: { rate: 5 })
   end
 
   describe '#convert' do

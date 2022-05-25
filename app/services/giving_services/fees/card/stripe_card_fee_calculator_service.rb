@@ -13,32 +13,42 @@ module GivingServices
         end
 
         def calculate_fee
-          percentage_fee + fixed_fee
+          brl_value = percentage_fee_brl + fixed_fee_brl
+          return brl_value if paying_in_brl?
+
+          convert_from_brl(brl_value)
         end
 
         private
 
-        def percentage_fee
-          value * STRIPE_PERCENTAGE_FEE
+        def percentage_fee_brl
+          value_in_brl * STRIPE_PERCENTAGE_FEE
         end
 
-        def fixed_fee
-          return STRIPE_FIXED_FEE if paying_in_brl?
-
-          Currency::Converters.new(value: STRIPE_FIXED_FEE, from: currency, to: 'BRL')
-                              .convert
-                              .to_f
+        def fixed_fee_brl
+          STRIPE_FIXED_FEE
         end
 
-        def converted_value
+        def value_in_brl
           return value if paying_in_brl?
 
-          currency_service = Currency::Converters.new(value: value, from: currency, to: 'BRL')
-          currency_service.convert.to_f
+          convert_to_brl(value)
         end
 
         def paying_in_brl?
           currency.eql?('BRL')
+        end
+
+        def convert_to_brl(amount)
+          Currency::Converters.new(value: amount, from: currency, to: 'BRL')
+                              .convert
+                              .to_f
+        end
+
+        def convert_from_brl(amount)
+          Currency::Converters.new(value: amount, from: 'BRL', to: currency)
+                              .convert
+                              .to_f
         end
       end
     end

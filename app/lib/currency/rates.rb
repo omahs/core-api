@@ -7,7 +7,7 @@ module Currency
       @to = to
     end
 
-    def get_rate
+    def rate
       response = Request::ApiRequest.get("http://economia.awesomeapi.com.br/json/last/#{from}-#{to}")
       RecursiveOpenStruct.new(response["#{from}#{to}"]).ask
     end

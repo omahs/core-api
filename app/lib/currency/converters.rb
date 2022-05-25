@@ -14,7 +14,7 @@ module Currency
     end
 
     def set_rate
-      rate = Currency::Rates.new(from: from, to: to).get_rate
+      rate = Currency::Rates.new(from: from, to: to).rate
       Money.add_rate(from, to, rate)
     end
   end

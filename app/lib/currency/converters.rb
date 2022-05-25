@@ -7,14 +7,14 @@ module Currency
       @from = from
       @to = to
     end
-    
-    def convert()
+
+    def convert
       Money.from_amount(value, from)
-      .exchange_to(to).format
+           .exchange_to(to).format
     end
 
-    def set_rate()
-      rate = Currency::Rates.new(from:from, to:to).get_rate
+    def set_rate
+      rate = Currency::Rates.new(from: from, to: to).get_rate
       Money.add_rate(from, to, rate)
     end
   end

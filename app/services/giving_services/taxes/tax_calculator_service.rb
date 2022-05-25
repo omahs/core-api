@@ -13,12 +13,14 @@ module GivingServices
       private
 
       def calculator_class_factory
-        tax_methods = {
+        calculator_services[kind].new(value: value)
+      end
+
+      def calculator_services
+        {
           card: CardTaxCalculatorService,
           crypto: CryptoTaxCalculatorService
         }
-
-        tax_methods[kind].new(value: value)
       end
     end
   end

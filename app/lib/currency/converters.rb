@@ -1,17 +1,21 @@
 module Currency
   class Converters
-    attr_reader :value
+    attr_reader :value, :from, :to
 
-    def initialize(value:)
+    def initialize(value:, from:, to:)
       @value = value
+      @from = from
+      @to = to
     end
     
-    def convert(from:, to:)
+    def convert()
       Money.from_amount(value, from)
       .exchange_to(to)
     end
 
-    def get_rate()
+    def set_rate()
+      rate = Currency::Rates.new(from:from, to:to).get_rate
+      Money.add_rate(from, to, rate)
     end
   end
 end

@@ -66,6 +66,9 @@ gem 'rubycritic', require: false
 
 gem 'ffi', submodules: true
 
+# Currency Conversion
+gem 'money'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'

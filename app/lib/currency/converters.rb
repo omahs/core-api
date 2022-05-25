@@ -9,6 +9,7 @@ module Currency
     end
 
     def convert
+      add_rate
       Money.from_amount(value, from)
            .exchange_to(to).format
     end

@@ -39,16 +39,12 @@ module GivingServices
           currency.eql?('BRL')
         end
 
-        def convert_to_brl(amount)
-          Currency::Converters.new(value: amount, from: currency, to: 'BRL')
-                              .convert
-                              .to_f
+        def convert_from_brl(value)
+          Currency::Converters.send("convert_from_brl_to_#{currency.downcase}", value).to_f
         end
 
-        def convert_from_brl(amount)
-          Currency::Converters.new(value: amount, from: 'BRL', to: currency)
-                              .convert
-                              .to_f
+        def convert_to_brl(value)
+          Currency::Converters.send("convert_from_#{currency.downcase}_to_brl", value).to_f
         end
       end
     end

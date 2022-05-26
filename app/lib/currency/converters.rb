@@ -1,11 +1,16 @@
 module Currency
   class Converters
+    extend Helpers
     attr_reader :value, :from, :to
 
     def initialize(value:, from:, to:)
       @value = value
       @from = from
       @to = to
+    end
+
+    def self.convert(value:, from:, to:)
+      new(value: value, from: from, to: to).convert
     end
 
     def convert

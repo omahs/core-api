@@ -1,7 +1,9 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_group "Blueprints", "app/blueprints"
-  add_filter 'lib'
+  add_filter 'lib/generators'
+  add_filter 'lib/simple_command'
+  add_filter 'lib/redis_store'
   add_filter 'app/services/graphql/queries'
 end
 

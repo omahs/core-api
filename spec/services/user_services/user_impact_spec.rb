@@ -13,24 +13,21 @@ RSpec.describe UserServices::UserImpact, type: :service do
     end
 
     before do
-      VCR.insert_cassette 'graphql_cassette'
       non_profit1
       non_profit2
       allow(Graphql::RibonApi::Client).to receive(:query).and_return(build(:fetch_donation_balances_query))
     end
 
-    after do
-      VCR.eject_cassette
-    end
-
     it 'returns the sum of impact' do
-      expect(user.impact.first[:impact]).to eq 18
-      expect(user.impact.last[:impact]).to eq 1
+      user_impact = user.impact
+      expect(user_impact.first[:impact]).to eq 18
+      expect(user_impact.last[:impact]).to eq 1
     end
 
     it 'returns the non profits' do
-      expect(user.impact.first[:non_profit]).to eq non_profit1
-      expect(user.impact.last[:non_profit]).to eq non_profit2
+      user_impact = user.impact
+      expect(user_impact.first[:non_profit]).to eq non_profit1
+      expect(user_impact.last[:non_profit]).to eq non_profit2
     end
   end
 end

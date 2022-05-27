@@ -18,6 +18,9 @@ VCR.configure do |config|
   config.before_record do |i|
     i.response.body.force_encoding('UTF-8')
   end
+  config.ignore_request do |request|
+    request.uri.eql?(RibonCoreApi.config[:the_graph][:url])
+  end
 end
 
 RSpec.configure do |config|

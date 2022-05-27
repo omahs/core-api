@@ -5,46 +5,22 @@ module GivingServices
         attr_reader :value, :currency
 
         STRIPE_PERCENTAGE_FEE = 0.0399
-        STRIPE_FIXED_FEE = 0.39 # brl
 
         def initialize(value:, currency:)
-          @value = value
+          @value = Money.from_amount(value, currency)
           @currency = currency
         end
 
         def calculate_fee
-          brl_value = percentage_fee_brl + fixed_fee_brl
-          return brl_value if paying_in_brl?
+          Currency::Rates.new(from: :brl, to: currency).add_rate unless currency == :brl
 
-          convert_from_brl(brl_value)
+          (value * STRIPE_PERCENTAGE_FEE) + stripe_fixed_fee
         end
 
         private
 
-        def percentage_fee_brl
-          value_in_brl * STRIPE_PERCENTAGE_FEE
-        end
-
-        def fixed_fee_brl
-          STRIPE_FIXED_FEE
-        end
-
-        def value_in_brl
-          return value if paying_in_brl?
-
-          convert_to_brl(value)
-        end
-
-        def paying_in_brl?
-          currency.eql?('BRL')
-        end
-
-        def convert_from_brl(value)
-          Currency::Converters.send("convert_from_brl_to_#{currency.downcase}", value).to_f
-        end
-
-        def convert_to_brl(value)
-          Currency::Converters.send("convert_from_#{currency.downcase}_to_brl", value).to_f
+        def stripe_fixed_fee
+          Money.from_cents(39, :brl)
         end
       end
     end

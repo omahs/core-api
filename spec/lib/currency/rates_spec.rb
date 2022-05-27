@@ -21,13 +21,9 @@ RSpec.describe Currency::Rates do
          'create_date' => '2022-05-26 09:09:43' } }
   end
 
-  before do
-    allow(HTTParty).to receive(:get).and_return(response)
-  end
-
   describe '#rate' do
-    it 'gets the conversion rate' do
-      expect(service.rate).to eq '4.8404'
+    it 'gets the conversion rate', :vcr do
+      expect(service.rate).to eq '4.7637'
     end
   end
 end

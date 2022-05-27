@@ -1,10 +1,20 @@
 require 'simplecov'
+require "webmock/rspec"
+require 'vcr'
+
 SimpleCov.start 'rails' do
   add_group "Blueprints", "app/blueprints"
   add_filter 'lib/generators'
   add_filter 'lib/simple_command'
   add_filter 'lib/redis_store'
   add_filter 'app/services/graphql/queries'
+end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/support/vcr_cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.allow_http_connections_when_no_cassette = false
 end
 
 RSpec.configure do |config|

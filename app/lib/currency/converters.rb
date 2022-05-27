@@ -19,11 +19,8 @@ module Currency
            .exchange_to(to)
     end
 
-    private
-
     def add_rate
-      rate = Currency::Rates.new(from: from, to: to).rate
-      Money.add_rate(from, to, rate)
+      Currency::Rates.new(from: from, to: to).add_rate
     end
   end
 end

@@ -6,10 +6,10 @@ RSpec.describe GivingServices::Fees::Card::StripeCardFeeCalculatorService, type:
   describe '#calculate_fee' do
     context 'when the currency is BRL' do
       let(:value) { 100 }
-      let(:currency) { 'BRL' }
+      let(:currency) { :brl }
 
       it 'calculates the fee correctly' do
-        expect(service.calculate_fee).to eq 4.38
+        expect(service.calculate_fee.to_f).to eq 4.38
       end
     end
 
@@ -22,14 +22,17 @@ RSpec.describe GivingServices::Fees::Card::StripeCardFeeCalculatorService, type:
       let(:brl_to_usd) { 0.2 }
 
       before do
-        allow(mocked_instance).to receive(:rate).and_return(usd_to_brl, brl_to_usd)
+        allow(mocked_instance).to receive(:add_rate).and_return(
+          Money.add_rate(:usd, :brl, usd_to_brl),
+          Money.add_rate(:brl, :usd, brl_to_usd)
+        )
       end
 
       it 'calculates the fee correctly' do
         percentage_fee = (value * usd_to_brl * described_class::STRIPE_PERCENTAGE_FEE)
-        final_value = (percentage_fee + described_class::STRIPE_FIXED_FEE) * brl_to_usd
+        final_value = (percentage_fee + 0.39) * brl_to_usd
 
-        expect(service.calculate_fee).to eq final_value.round(2)
+        expect(service.calculate_fee.to_f).to eq final_value.round(2)
       end
     end
   end

@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://economia.awesomeapi.com.br/json/last/USD-BRL
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 308
+      message: Permanent Redirect
+    headers:
+      Date:
+      - Fri, 27 May 2022 13:10:28 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '164'
+      Connection:
+      - keep-alive
+      Location:
+      - https://economia.awesomeapi.com.br/json/last/USD-BRL
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>308 Permanent Redirect</title></head>\r\n<body>\r\n<center><h1>308
+        Permanent Redirect</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  recorded_at: Fri, 27 May 2022 13:10:28 GMT
+- request:
+    method: get
+    uri: https://economia.awesomeapi.com.br/json/last/USD-BRL
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 27 May 2022 13:10:29 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '243'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - HEAD,OPTIONS,GET,POST
+      Access-Control-Allow-Headers:
+      - Authorization,Content-Type,X-Worker-Token
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Cache-Control:
+      - max-age=30, public, stale-while-revalidate=259200, stale-if-error=259200
+      Pragma:
+      - cache
+      Etag:
+      - W/"f3-ip9i0+8UnvwA85EU4obiiTOuhbE"
+      X-Cache-Status:
+      - HIT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJVU0RCUkwiOnsiY29kZSI6IlVTRCIsImNvZGVpbiI6IkJSTCIsIm5hbWUiOiJEw7NsYXIgQW1lcmljYW5vL1JlYWwgQnJhc2lsZWlybyIsImhpZ2giOiI0Ljg0MzQiLCJsb3ciOiI0Ljc2MDMiLCJ2YXJCaWQiOiItMC4wNjQ0IiwicGN0Q2hhbmdlIjoiLTEuMzQiLCJiaWQiOiI0Ljc2MjQiLCJhc2siOiI0Ljc2MzciLCJ0aW1lc3RhbXAiOiIxNjUzNTg5NjgwIiwiY3JlYXRlX2RhdGUiOiIyMDIyLTA1LTI2IDE1OjI4OjAwIn19
+  recorded_at: Fri, 27 May 2022 13:10:29 GMT
+recorded_with: VCR 6.1.0

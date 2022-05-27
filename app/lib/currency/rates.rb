@@ -7,6 +7,10 @@ module Currency
       @to = to
     end
 
+    def add_rate
+      Money.add_rate(from, to, rate)
+    end
+
     def rate
       response = Request::ApiRequest.get(request_url)
       response["#{from.upcase}#{to.upcase}"].ask

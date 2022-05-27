@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 describe Donations::Donate do
+  before do
+    VCR.insert_cassette 'graphql_cassette'
+  end
+
+  after do
+    VCR.eject_cassette
+  end
+
   describe '.call' do
     subject(:command) { described_class.call(integration: integration, non_profit: non_profit, user: user) }
 

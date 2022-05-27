@@ -6,24 +6,26 @@ RSpec.describe Currency::Rates do
   let(:from) { 'USD' }
   let(:to) { 'BRL' }
 
-  let(:response) do
-    { 'USDBRL' =>
-       { 'code' => 'USD',
-         'codein' => 'BRL',
-         'name' => 'Dólar Americano/Real Brasileiro',
-         'high' => '4.8411',
-         'low' => '4.816',
-         'varBid' => '0.0114',
-         'pctChange' => '0.24',
-         'bid' => '4.8374',
-         'ask' => '4.8404',
-         'timestamp' => '1653566983',
-         'create_date' => '2022-05-26 09:09:43' } }
+  before do
+    VCR.insert_cassette 'conversion_rate_usd_brl'
+    allow(Money).to receive(:add_rate)
+  end
+
+  after do
+    VCR.eject_cassette
   end
 
   describe '#rate' do
-    it 'gets the conversion rate', :vcr do
+    it 'gets the conversion rate' do
       expect(service.rate).to eq '4.7637'
+    end
+  end
+
+  describe 'add_rate' do
+    it 'calls money gem with correct params' do
+      service.add_rate
+
+      expect(Money).to have_received(:add_rate).with(from, to, '4.7637')
     end
   end
 end

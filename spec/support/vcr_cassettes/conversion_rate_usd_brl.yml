@@ -19,7 +19,7 @@ http_interactions:
       message: Permanent Redirect
     headers:
       Date:
-      - Fri, 27 May 2022 13:10:28 GMT
+      - Fri, 27 May 2022 13:36:17 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -32,7 +32,7 @@ http_interactions:
       encoding: UTF-8
       string: "<html>\r\n<head><title>308 Permanent Redirect</title></head>\r\n<body>\r\n<center><h1>308
         Permanent Redirect</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
-  recorded_at: Fri, 27 May 2022 13:10:28 GMT
+  recorded_at: Fri, 27 May 2022 13:36:17 GMT
 - request:
     method: get
     uri: https://economia.awesomeapi.com.br/json/last/USD-BRL
@@ -52,7 +52,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 27 May 2022 13:10:29 GMT
+      - Fri, 27 May 2022 13:36:18 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -88,8 +88,9 @@ http_interactions:
       X-Cache-Status:
       - HIT
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eyJVU0RCUkwiOnsiY29kZSI6IlVTRCIsImNvZGVpbiI6IkJSTCIsIm5hbWUiOiJEw7NsYXIgQW1lcmljYW5vL1JlYWwgQnJhc2lsZWlybyIsImhpZ2giOiI0Ljg0MzQiLCJsb3ciOiI0Ljc2MDMiLCJ2YXJCaWQiOiItMC4wNjQ0IiwicGN0Q2hhbmdlIjoiLTEuMzQiLCJiaWQiOiI0Ljc2MjQiLCJhc2siOiI0Ljc2MzciLCJ0aW1lc3RhbXAiOiIxNjUzNTg5NjgwIiwiY3JlYXRlX2RhdGUiOiIyMDIyLTA1LTI2IDE1OjI4OjAwIn19
-  recorded_at: Fri, 27 May 2022 13:10:29 GMT
+      encoding: UTF-8
+      string: '{"USDBRL":{"code":"USD","codein":"BRL","name":"Dólar Americano/Real
+        Brasileiro","high":"4.8434","low":"4.7603","varBid":"-0.0644","pctChange":"-1.34","bid":"4.7624","ask":"4.7637","timestamp":"1653589680","create_date":"2022-05-26
+        15:28:00"}}'
+  recorded_at: Fri, 27 May 2022 13:36:18 GMT
 recorded_with: VCR 6.1.0

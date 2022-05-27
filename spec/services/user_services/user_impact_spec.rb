@@ -13,9 +13,14 @@ RSpec.describe UserServices::UserImpact, type: :service do
     end
 
     before do
+      VCR.insert_cassette 'graphql_cassette'
       non_profit1
       non_profit2
       allow(Graphql::RibonApi::Client).to receive(:query).and_return(build(:fetch_donation_balances_query))
+    end
+
+    after do
+      VCR.eject_cassette
     end
 
     it 'returns the sum of impact' do

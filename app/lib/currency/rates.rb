@@ -9,7 +9,7 @@ module Currency
 
     def rate
       response = Request::ApiRequest.get(request_url)
-      RecursiveOpenStruct.new(response["#{from.upcase}#{to.upcase}"]).ask
+      response["#{from.upcase}#{to.upcase}"].ask
     end
 
     private

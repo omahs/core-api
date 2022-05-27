@@ -22,7 +22,7 @@ RSpec.describe Currency::Rates do
   end
 
   before do
-    allow(Request::ApiRequest).to receive(:get).and_return(response)
+    allow(HTTParty).to receive(:get).and_return(response)
   end
 
   describe '#rate' do

@@ -6,8 +6,8 @@ module StubHelpers
                                 errors: errors, failure?: failure, success?: success)
   end
 
-  def mock_instance(klass:, mock_methods: [])
-    mocked_instance = instance_double(klass)
+  def mock_instance(klass:, methods: {}, mock_methods: [])
+    mocked_instance = instance_double(klass, methods)
     allow(klass).to receive(:new).and_return(mocked_instance)
 
     mock_methods.each { |method_name| allow(mocked_instance).to receive(method_name) }

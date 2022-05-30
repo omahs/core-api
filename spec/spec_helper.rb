@@ -1,8 +1,26 @@
 require 'simplecov'
+require "webmock/rspec"
+require 'vcr'
+
 SimpleCov.start 'rails' do
   add_group "Blueprints", "app/blueprints"
-  add_filter 'lib'
+  add_filter 'lib/generators'
+  add_filter 'lib/simple_command'
+  add_filter 'lib/redis_store'
   add_filter 'app/services/graphql/queries'
+end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/support/vcr_cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.allow_http_connections_when_no_cassette = false
+  config.before_record do |i|
+    i.response.body.force_encoding('UTF-8')
+  end
+  config.ignore_request do |request|
+    request.uri.eql?(RibonCoreApi.config[:the_graph][:url])
+  end
 end
 
 RSpec.configure do |config|

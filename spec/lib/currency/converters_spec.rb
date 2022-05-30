@@ -6,10 +6,10 @@ RSpec.describe Currency::Converters do
   let(:value) { 10 }
   let(:from) { 'USD' }
   let(:to) { 'BRL' }
-  let(:rate) { 5 }
+  let(:add_rate) { Money.add_rate(from, to, 5) }
 
   before do
-    allow(Currency::Rates).to receive(:new).and_return(OpenStruct.new({ rate: 5 }))
+    mock_instance(klass: Currency::Rates, methods: { add_rate: add_rate })
   end
 
   describe '#convert' do

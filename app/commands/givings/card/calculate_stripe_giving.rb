@@ -12,12 +12,17 @@ module Givings
       end
 
       def call
-        card_fee = stripe_fee_calculator.calculate_fee
-        crypto_fee = crypto_fee_calculator.calculate_fee
-        service_fees = card_fee + crypto_fee
-        net_giving = money_value - service_fees
-        crypto_giving = converted_giving(net_giving) - service_fees
+        with_exception_handle do
+          net_giving = money_value - service_fees
+          crypto_giving = converted_giving(net_giving) - service_fees
 
+          formatted_result(net_giving, crypto_giving)
+        end
+      end
+
+      private
+
+      def formatted_result(net_giving, crypto_giving)
         {
           giving_total: money_value.format, net_giving: net_giving.format,
           crypto_giving: crypto_giving.format, card_fee: card_fee.format,
@@ -25,7 +30,17 @@ module Givings
         }
       end
 
-      private
+      def card_fee
+        stripe_fee_calculator.calculate_fee
+      end
+
+      def crypto_fee
+        crypto_fee_calculator.calculate_fee
+      end
+
+      def service_fees
+        card_fee + crypto_fee
+      end
 
       def stripe_fee_calculator
         GivingServices::Fees::Card::StripeCardFeeCalculatorService.new(value: value, currency: currency)

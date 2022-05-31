@@ -7,14 +7,14 @@ describe Givings::Card::CalculateStripeGiving do
 
   let(:value) { 40 }
   let(:currency) { :brl }
-  let(:calculate_fee) { Money.from_amount(0.5, currency) }
+  let(:calculate_card_fee) { Money.from_amount(0.5, currency) }
   let(:calculate_crypto_fee) { Money.from_amount(0.05, currency) }
   let(:add_rate) { Money.add_rate(currency, :usd, 0.2) }
 
   describe '.call' do
     before do
       mock_instance(klass: GivingServices::Fees::Card::StripeCardFeeCalculatorService,
-                    methods: { calculate_fee: calculate_fee })
+                    methods: { calculate_fee: calculate_card_fee })
       mock_instance(klass: GivingServices::Fees::Crypto::PolygonFeeCalculatorService,
                     methods: { calculate_fee: calculate_crypto_fee })
       mock_instance(klass: Currency::Rates, methods: { add_rate: add_rate })

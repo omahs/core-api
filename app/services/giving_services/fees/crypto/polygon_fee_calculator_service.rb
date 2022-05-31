@@ -4,8 +4,9 @@ module GivingServices
       class PolygonFeeCalculatorService
         attr_reader :currency
 
-        def initialize(currency:)
+        def initialize(currency:, value: nil)
           @currency = currency
+          @value = value
         end
 
         def calculate_fee

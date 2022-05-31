@@ -8,6 +8,14 @@ RSpec.describe GivingServices::Fees::Crypto::PolygonFeeCalculatorService, type: 
 
     let(:currency) { :brl }
 
+    it 'calls the Api request with correct url' do
+      allow(Request::ApiRequest).to receive(:get).and_call_original
+      service.calculate_fee
+
+      expect(Request::ApiRequest).to have_received(:get)
+        .with(RibonCoreApi.config[:crypto_api][:polygon_gas_fee_url])
+    end
+
     it 'gets the gas fee from polygon and returns in the currency' do
       result = service.calculate_fee
       expect(result.currency.to_s).to eq 'BRL'

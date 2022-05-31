@@ -4,6 +4,9 @@ module Givings
   module Card
     class CalculateStripeGiving < ApplicationCommand
       prepend SimpleCommand
+      include GivingServices::Fees::Card
+      include GivingServices::Fees::Crypto
+
       attr_reader :currency, :value
 
       def initialize(value:, currency:)
@@ -43,11 +46,11 @@ module Givings
       end
 
       def stripe_fee_calculator
-        GivingServices::Fees::Card::StripeCardFeeCalculatorService.new(value: value, currency: currency)
+        StripeCardFeeCalculatorService.new(value: value, currency: currency)
       end
 
       def crypto_fee_calculator
-        GivingServices::Fees::Crypto::PolygonFeeCalculatorService.new(value: value, currency: currency)
+        PolygonFeeCalculatorService.new(value: value, currency: currency)
       end
 
       def money_value

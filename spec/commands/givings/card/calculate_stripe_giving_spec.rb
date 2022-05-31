@@ -13,19 +13,17 @@ describe Givings::Card::CalculateStripeGiving do
 
   describe '.call' do
     before do
-      mock_instance(klass: GivingServices::Fees::Card::StripeCardFeeCalculatorService, methods: {
-                      calculate_fee: calculate_fee
-                    })
-      mock_instance(klass: GivingServices::Fees::Crypto::PolygonFeeCalculatorService, methods: {
-                      calculate_fee: calculate_crypto_fee
-                    })
+      mock_instance(klass: GivingServices::Fees::Card::StripeCardFeeCalculatorService,
+                    methods: { calculate_fee: calculate_fee })
+      mock_instance(klass: GivingServices::Fees::Crypto::PolygonFeeCalculatorService,
+                    methods: { calculate_fee: calculate_crypto_fee })
       mock_instance(klass: Currency::Rates, methods: { add_rate: add_rate })
     end
 
     it 'returns a hash with correct params' do
-      expect(command.result.keys).to match_array %i[card_fee crypto_fee
-                                                    crypto_giving giving_total
-                                                    net_giving service_fees]
+      expect(command.result.keys)
+        .to match_array %i[card_fee crypto_fee
+                           crypto_giving giving_total net_giving service_fees]
     end
 
     it 'returns the correct net giving' do

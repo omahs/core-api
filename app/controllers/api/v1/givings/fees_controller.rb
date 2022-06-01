@@ -20,7 +20,7 @@ module Api
         end
 
         def currency
-          @currency ||= params[:currency].to_sym
+          @currency ||= params[:currency]&.downcase&.to_sym
         end
       end
     end

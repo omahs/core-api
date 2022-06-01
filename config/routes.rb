@@ -21,6 +21,9 @@ Rails.application.routes.draw do
         get 'donations_count' => 'users/impacts#donations_count'
       end
       get 'giving_values' => "giving_values#index"
+      namespace :givings do
+        post 'card_fees' => 'fees#card_fees'
+      end
     end
   end
 end

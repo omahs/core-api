@@ -2,7 +2,7 @@ module Api
   module V1
     module Givings
       class FeesController < ApplicationController
-        def calculate
+        def card_fees
           command = ::Givings::Card::CalculateStripeGiving.call(value: value,
                                                                 currency: currency)
 
@@ -16,7 +16,7 @@ module Api
         private
 
         def value
-          @value ||= params[:value]
+          @value ||= params[:value].to_f
         end
 
         def currency

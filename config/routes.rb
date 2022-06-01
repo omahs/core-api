@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       end
       get 'giving_values' => "giving_values#index"
       namespace :givings do
-        post 'fees' => 'fees#calculate'
+        post 'card_fees' => 'fees#card_fees'
       end
     end
   end

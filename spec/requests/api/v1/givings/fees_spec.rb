@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Givings::Fees', type: :request do
-  describe 'GET /index' do
-    subject(:request) { post '/api/v1/givings/fees', params: params }
+  describe 'GET /card_fees' do
+    subject(:request) { post '/api/v1/givings/card_fees', params: params }
 
     let(:params) do
       { value: 50, currency: 'brl' }
@@ -18,6 +18,12 @@ RSpec.describe 'Api::V1::Givings::Fees', type: :request do
     before do
       mock_command(klass: Givings::Card::CalculateStripeGiving, result: result)
       request
+    end
+
+    it 'calls the CalculateStripeGiving command with correct params' do
+      expect(Givings::Card::CalculateStripeGiving)
+        .to have_received(:call)
+        .with(value: params[:value].to_f, currency: params[:currency].downcase.to_sym)
     end
 
     it 'returns all the giving fees information' do

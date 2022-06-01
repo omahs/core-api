@@ -2,6 +2,31 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Givings::Fees', type: :request do
   describe 'GET /index' do
-    pending "add some examples (or delete) #{__FILE__}"
+    subject(:request) { post '/api/v1/givings/fees', params: params }
+
+    let(:params) do
+      { value: 50, currency: 'brl' }
+    end
+    let(:result) do
+      {
+        card_fee: 'R$2.39', crypto_fee: 'R$1.89',
+        crypto_giving: '$8.73', giving_total: 'R$50.00',
+        net_giving: 'R$45.72', service_fees: 'R$4.28'
+      }
+    end
+
+    before do
+      mock_command(klass: Givings::Card::CalculateStripeGiving, result: result)
+      request
+    end
+
+    it 'returns all the giving fees information' do
+      expect(response_json.keys).to match_array %w[card_fee crypto_fee crypto_giving giving_total
+                                                   net_giving service_fees]
+    end
+
+    it 'returns the command result' do
+      expect(response_json.to_json).to eq result.to_json
+    end
   end
 end

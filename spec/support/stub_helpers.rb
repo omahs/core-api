@@ -6,6 +6,12 @@ module StubHelpers
                                 errors: errors, failure?: failure, success?: success)
   end
 
+  def mock_command(klass:, result: nil, errors: {}, failure: false, success: true)
+    mocked_command = command_double(klass: klass, result: result,
+                                    errors: errors, failure: failure, success: success)
+    allow(klass).to receive(:call).and_return(mocked_command)
+  end
+
   def mock_instance(klass:, methods: {}, mock_methods: [])
     mocked_instance = instance_double(klass, methods)
     allow(klass).to receive(:new).and_return(mocked_instance)

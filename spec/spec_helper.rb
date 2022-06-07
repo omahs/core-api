@@ -9,6 +9,7 @@ SimpleCov.start 'rails' do
   add_filter 'lib/redis_store'
   add_filter 'app/services/graphql/queries'
 end
+SimpleCov.minimum_coverage ENV["MIN_COVERAGE"].to_i if ENV["COVERAGE"]
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/support/vcr_cassettes"

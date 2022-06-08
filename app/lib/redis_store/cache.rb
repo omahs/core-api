@@ -4,7 +4,7 @@ module RedisStore
   module Cache
     module_function
 
-    def cache(key:, expires_in:, &block)
+    def cache(key: nil, expires_in: nil, &block)
       return Rails.cache.fetch(key, expires_in: expires_in, &block) if expires_in
 
       yield

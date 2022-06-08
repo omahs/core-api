@@ -81,6 +81,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'vcr'
   gem 'webmock'
+  gem 'mock_redis'
 end
 
 group :development do

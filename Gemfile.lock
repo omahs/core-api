@@ -193,6 +193,8 @@ GEM
     mobility (1.2.6)
       i18n (>= 0.6.10, < 2)
       request_store (~> 1.0)
+    mock_redis (0.31.0)
+      ruby2_keywords
     money (6.16.0)
       i18n (>= 0.6.4, <= 2)
     msgpack (1.4.5)
@@ -326,6 +328,7 @@ GEM
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
+    ruby2_keywords (0.0.5)
     ruby_parser (3.18.1)
       sexp_processor (~> 4.16)
     rubycritic (4.6.1)
@@ -416,6 +419,7 @@ DEPENDENCIES
   io-wait (= 0.2.0)
   keccak (~> 1.3)
   mobility (~> 1.2.6)
+  mock_redis
   money
   nio4r
   pg (~> 1.1)

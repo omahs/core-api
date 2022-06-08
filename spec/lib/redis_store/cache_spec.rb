@@ -31,9 +31,9 @@ RSpec.describe RedisStore::Cache do
         it 'gets the fallback block and caches' do
           allow(Time).to receive(:now).and_return(2.days.from_now)
           expect(described_class.cache(key: :foo, expires_in: 1.day) { 'testing' }).to eq 'testing'
-          expect(described_class.cache(key: :foo, expires_in: 1.day) do
-                   'not reached fallback'
-                 end).to eq 'testing'
+          expect(described_class
+                   .cache(key: :foo, expires_in: 1.day) { 'not reached fallback' })
+            .to eq 'testing'
         end
       end
     end

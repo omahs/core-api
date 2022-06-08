@@ -1,7 +1,7 @@
 module Request
   class ApiRequest
     def self.get(url, expires_in: nil)
-      RedisStore::Cache.cache(key: sanitized_url(url), expires_in: expires_in) do
+      RedisStore::Cache.find_or_create(key: sanitized_url(url), expires_in: expires_in) do
         response = HTTParty.get(url)
 
         RecursiveOpenStruct.new(response)

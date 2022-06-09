@@ -38,7 +38,7 @@ gem 'image_processing', '~> 1.2'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-gem 'rails_admin', ['>= 3.0.0.beta2', '< 4']
+gem 'rails_admin', '~> 3.0.0'
 
 gem 'blueprinter'
 

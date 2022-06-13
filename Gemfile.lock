@@ -363,6 +363,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stripe (6.3.0)
     strscan (3.0.1)
     thor (1.2.1)
     thread_safe (0.3.6)
@@ -434,6 +435,7 @@ DEPENDENCIES
   rubycritic
   sassc-rails
   shoulda-matchers (~> 5.0)
+  stripe
   tzinfo-data
   vcr
   web3-eth

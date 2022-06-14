@@ -1,12 +1,14 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Payment::Stripe::Entities::Customer do
   describe '#create' do
-    subject(:customer_creation_call) { described_class.create(customer: customer,
-                                                      payment_method: payment_method) }
+    subject(:customer_creation_call) do
+      described_class.create(customer: customer,
+                             payment_method: payment_method)
+    end
 
     let(:customer) { create(:customer) }
-    let(:payment_method) { OpenStruct.new({id: 'pay_123'}) }
+    let(:payment_method) { OpenStruct.new({ id: 'pay_123' }) }
 
     before do
       allow(::Stripe::Customer).to receive(:create)

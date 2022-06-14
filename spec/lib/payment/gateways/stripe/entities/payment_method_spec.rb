@@ -1,10 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Payment::Stripe::Entities::PaymentMethod do
+RSpec.describe Payment::Gateways::Stripe::Entities::PaymentMethod do
   describe '#create' do
     subject(:payment_method_creation_call) do
       described_class.create(card: card)
     end
+
+    let(:gateway) { Payment::Gateways::Stripe::Base }
 
     let(:card) do
       Payment::Methods::Card.new(
@@ -18,7 +20,7 @@ RSpec.describe Payment::Stripe::Entities::PaymentMethod do
 
     let(:method_parameters) do
       {
-        type: Payment::Stripe::Base::ALLOWED_PAYMENT_METHODS[:card],
+        type: gateway::ALLOWED_PAYMENT_METHODS[:card],
         card: {
           number: card.number,
           exp_month: card.expiration_month,

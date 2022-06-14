@@ -9,6 +9,16 @@ RSpec.describe Payment::Stripe::Entities::Customer do
 
     let(:customer) { create(:customer) }
     let(:payment_method) { OpenStruct.new({ id: 'pay_123' }) }
+    let(:method_parameters) do
+      {
+        email: customer.email,
+        name: customer.name,
+        payment_method: payment_method.id,
+        invoice_settings: {
+          default_payment_method: payment_method.id
+        }
+      }
+    end
 
     before do
       allow(::Stripe::Customer).to receive(:create)
@@ -19,14 +29,7 @@ RSpec.describe Payment::Stripe::Entities::Customer do
 
       expect(::Stripe::Customer)
         .to have_received(:create)
-        .with(
-          email: customer.email,
-          name: customer.name,
-          payment_method: payment_method.id,
-          invoice_settings: {
-            default_payment_method: payment_method.id
-          }
-        )
+        .with(method_parameters)
     end
   end
 end

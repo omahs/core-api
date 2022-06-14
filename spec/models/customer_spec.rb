@@ -14,30 +14,30 @@ RSpec.describe Customer, type: :model do
   end
 
   describe '.valid?' do
-    let(:customer) { build(:customer, customer_keys: { stripe: "stripe_key", iugu: "iugu key" }) }
+    let(:customer) { build(:customer, customer_keys: { stripe: 'stripe_key', iugu: 'iugu key' }) }
 
     it { expect(customer).to be_valid }
   end
 
   describe '#save' do
-    context "when create customer" do
+    context 'when create customer' do
       let(:customer) { create(:customer, customer_keys: {}) }
 
       it { expect(customer.id).not_to be_nil }
-      it { expect(customer.name).to eq "a customer" }
-      it { expect(customer.email).to eq "customer@customer.com" }
+      it { expect(customer.name).to eq 'a customer' }
+      it { expect(customer.email).to eq 'customer@customer.com' }
       it { expect(customer.customer_keys).to be_empty }
     end
   end
 
   describe '#update' do
-    context "when update customer with customer keys" do
-      let(:customer) { create(:customer, customer_keys: { stripe: "stripe_key" }) }
+    context 'when update customer with customer keys' do
+      let(:customer) { create(:customer, customer_keys: { stripe: 'stripe_key' }) }
 
       it { expect(customer.id).not_to be_nil }
-      it { expect(customer.name).to eq "a customer" }
-      it { expect(customer.email).to eq "customer@customer.com" }
-      it { expect(customer.customer_keys["stripe"]).to eq("stripe_key") }
+      it { expect(customer.name).to eq 'a customer' }
+      it { expect(customer.email).to eq 'customer@customer.com' }
+      it { expect(customer.customer_keys['stripe']).to eq('stripe_key') }
     end
   end
 end

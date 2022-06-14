@@ -8,11 +8,11 @@ RSpec.describe Payment::Stripe::Entities::PaymentMethod do
 
     let(:card) do
       Payment::Methods::Card.new(
-        cvv: "117",
-        name: "User Test",
-        number: "5434338600663578",
-        expiration_month: "02",
-        expiration_year: "24"
+        cvv: '117',
+        name: 'User Test',
+        number: '5434338600663578',
+        expiration_month: '02',
+        expiration_year: '24'
       )
     end
 

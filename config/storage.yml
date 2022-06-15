@@ -38,4 +38,3 @@ s3:
   secret_access_key: <%= ENV["SPACE_SECRET_ACCESS_KEY"] %>
   region: <%= ENV["SPACE_REGION"] %>
   bucket: <%= ENV["SPACE_BUCKET"] %>
-  endpoint: <%= ENV["SPACE_ENDPOINT"] %>

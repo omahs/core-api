@@ -13,7 +13,6 @@ Rails.application.configure do
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
   config.log_formatter = ::Logger::Formatter.new
-  config.hosts << ENV["DEFAULT_HOST_URL"]
 
 if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)

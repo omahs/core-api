@@ -6,6 +6,13 @@ module Payment
           card: 'card'
         }.freeze
 
+        ALLOWED_TAXID_TYPES = {
+          brazil: {
+            cpf: 'br_cpf',
+            cnpj: 'br_cnpj'
+          }
+        }.freeze
+
         def initialize
           ::Stripe.api_key = RibonCoreApi.config[:stripe][:secret_key]
         end

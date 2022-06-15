@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Payment::Stripe::Entities::Customer do
+RSpec.describe Payment::Gateways::Stripe::Entities::Customer do
   describe '#create' do
     subject(:customer_creation_call) do
       described_class.create(customer: customer,

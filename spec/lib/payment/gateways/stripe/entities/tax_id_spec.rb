@@ -9,14 +9,14 @@ RSpec.describe Payment::Gateways::Stripe::Entities::TaxId do
     let(:gateway) { Payment::Gateways::Stripe::Base }
 
     let(:stripe_customer) { OpenStruct.new({ id: 'cus_123' }) }
-    let(:national_id) { '11122233345' }
+    let(:tax_id) { '11122233345' }
 
     let(:method_parameters) do
       [
         stripe_customer.id,
         {
           type: gateway::ALLOWED_TAXID_TYPES[:brazil][:cpf],
-          value: national_id
+          value: tax_id
         }
       ]
     end

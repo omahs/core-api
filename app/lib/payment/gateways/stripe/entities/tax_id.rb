@@ -3,12 +3,12 @@ module Payment
     module Stripe
       module Entities
         class TaxId
-          def self.add_to_customer(stripe_customer:, national_id:)
+          def self.add_to_customer(stripe_customer:, tax_id:)
             ::Stripe::Customer.create_tax_id(
               stripe_customer&.id,
               {
                 type: Base::ALLOWED_TAXID_TYPES[:brazil][:cpf],
-                value: national_id
+                value: tax_id
               }
             )
           end

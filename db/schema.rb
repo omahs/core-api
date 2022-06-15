@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_14_153943) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_14_153943) do
     t.string "name", null: false
     t.string "email", null: false
     t.jsonb "customer_keys", default: {}
-    t.string "national_id"
+    t.string "tax_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_customers_on_user_id", unique: true

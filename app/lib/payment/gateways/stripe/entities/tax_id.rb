@@ -7,7 +7,7 @@ module Payment
             ::Stripe::Customer.create_tax_id(
               stripe_customer&.id,
               {
-                type: Base::ALLOWED_TAXID_REGIONS[:brazil],
+                type: Base::ALLOWED_TAXID_TYPES[:brazil][:cpf],
                 value: national_id
               }
             )

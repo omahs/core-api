@@ -15,7 +15,7 @@ RSpec.describe Payment::Gateways::Stripe::Entities::TaxId do
       [
         stripe_customer.id,
         {
-          type: gateway::ALLOWED_TAXID_REGIONS[:brazil],
+          type: gateway::ALLOWED_TAXID_TYPES[:brazil][:cpf],
           value: national_id
         }
       ]

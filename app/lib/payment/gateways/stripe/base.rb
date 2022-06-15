@@ -6,8 +6,11 @@ module Payment
           card: 'card'
         }.freeze
 
-        ALLOWED_TAXID_REGIONS = {
-          brazil: 'br_cpf'
+        ALLOWED_TAXID_TYPES = {
+          brazil: {
+            cpf: 'br_cpf',
+            cnpj: 'br_cnpj'
+          }
         }.freeze
 
         def initialize

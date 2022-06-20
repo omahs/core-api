@@ -6,3 +6,7 @@ COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 COPY . /app
+
+EXPOSE 8080
+
+CMD ["puma","-C","config/docker_puma.rb","-p","8080"]

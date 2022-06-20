@@ -48,7 +48,6 @@ module RibonCoreApi
     config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
 
-
     config.api_only = true
   end
 end

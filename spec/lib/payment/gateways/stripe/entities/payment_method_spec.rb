@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Payment::Gateways::Stripe::Entities::PaymentMethod do
   describe '#create' do
     subject(:payment_method_creation_call) do
-      described_class.create(card: card)
+      described_class.create(card:)
     end
 
     let(:gateway) { Payment::Gateways::Stripe::Base }

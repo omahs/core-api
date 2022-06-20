@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_203835) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -140,6 +140,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
     t.text "description"
   end
 
+  create_table "offer_gateways", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.string "external_id"
+    t.integer "gateway"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_offer_gateways_on_offer_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.integer "currency"
+    t.integer "price_cents"
+    t.boolean "subscription"
+    t.boolean "active"
+    t.integer "position_order"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ribon_configs", force: :cascade do |t|
     t.integer "default_ticket_value"
     t.datetime "created_at", null: false
@@ -167,5 +187,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"
   add_foreign_key "non_profit_impacts", "non_profits"
+  add_foreign_key "offer_gateways", "offers"
   add_foreign_key "user_donation_stats", "users"
 end

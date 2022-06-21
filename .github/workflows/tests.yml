@@ -6,6 +6,9 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        redis-version: [ 6 ]
     services:
       postgres:
         image: postgres:11

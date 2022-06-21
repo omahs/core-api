@@ -13,7 +13,7 @@ RSpec.describe GivingServices::Fees::Crypto::PolygonFeeCalculatorService, type: 
       service.calculate_fee
 
       expect(Request::ApiRequest).to have_received(:get)
-        .with(RibonCoreApi.config[:crypto_api][:polygon_gas_fee_url])
+        .with(RibonCoreApi.config[:crypto_api][:polygon_gas_fee_url], { expires_in: 2.hours })
     end
 
     it 'gets the gas fee from polygon and returns in the currency' do

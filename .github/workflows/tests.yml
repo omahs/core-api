@@ -45,6 +45,10 @@ jobs:
           cp config/database.ci.yml config/database.yml
           bundle exec rails db:create
           bundle exec rails db:migrate
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.4.0
+        with:
+          redis-version: ${{ matrix.redis-version }}
       - name: Run Linter
         run: bundle exec rubocop
       - name: Run tests

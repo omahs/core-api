@@ -2,7 +2,19 @@ module Api
   module V1
     module Givings
       class SubscriptionsController < ApplicationController
-        def create; end
+        def credit_card_create
+          command = Givings::Payment::CreateSubscription
+                    .call(card: credit_card, email: payment_params[:email],
+                          national_id: payment_params[:national_id],
+                          offer_id: payment_params[:offer_id],
+                          payment_method: :credit_card, user: current_user)
+
+          if command.success?
+            head :ok
+          else
+            head :unprocessable_entity
+          end
+        end
 
         private
 

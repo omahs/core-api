@@ -6,9 +6,9 @@ class Order
     @payment        = params.payment
     @gateway        = params.gateway
     @card           = params.card
-    @customer       = params&.payment&.customer
-    @payment_method = params&.payment&.payment_method
-    @offer          = params&.payment&.offer
+    @customer       = params.payment&.customer
+    @payment_method = params.payment&.payment_method
+    @offer          = params.payment&.offer
   end
 
   def self.from(payment, card = nil)

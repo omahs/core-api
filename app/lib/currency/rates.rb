@@ -12,7 +12,7 @@ module Currency
     end
 
     def rate
-      response = Request::ApiRequest.get(request_url)
+      response = Request::ApiRequest.get(request_url, expires_in: 2.hours)
       response["#{from.upcase}#{to.upcase}"].ask
     end
 

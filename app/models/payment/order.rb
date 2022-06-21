@@ -2,13 +2,12 @@ class Order
   attr_accessor :id, :customer, :gateway, :payment, :payment_method, :offer, :card
 
   def initialize(params = {})
-    self.id              = params[:id]
-    self.payment         = params[:payment]
-    self.customer        = params[:customer] || payment&.customer
-    self.payment_method  = params[:payment_method] || payment&.payment_method
-    self.gateway         = params[:gateway]
-    self.offer           = params[:offer] || payment&.offer
-    self.card            = params[:card]
+    self.id      = params.id
+    self.payment = params.payment
+    self.gateway = params.gateway
+    self.card    = params.card
+
+    initialize_payment_attributes(params.payment)
   end
 
   def self.from(payment, card = nil)
@@ -23,5 +22,13 @@ class Order
     }
 
     new(params)
+  end
+
+  private
+
+  def initialize_payment_attributes(payment)
+    self.customer       = payment&.customer
+    self.payment_method = payment&.payment_method
+    self.offer          = payment&.offer
   end
 end

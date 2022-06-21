@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_20_194753) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_21_130603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,7 +63,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_194753) do
     t.uuid "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "offer_id"
     t.index ["customer_id"], name: "index_customer_payments_on_customer_id"
+    t.index ["offer_id"], name: "index_customer_payments_on_offer_id"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -193,6 +195,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_194753) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customer_payments", "offers"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Payment::Gateways::Stripe::Entities::TaxId do
   describe '#add_to_customer' do
     subject(:taxid_addition_call) do
-      described_class.add_to_customer(stripe_customer: stripe_customer, tax_id: tax_id)
+      described_class.add_to_customer(stripe_customer:, tax_id:)
     end
 
     let(:gateway) { Payment::Gateways::Stripe::Base }

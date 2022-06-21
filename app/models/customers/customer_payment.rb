@@ -1,4 +1,4 @@
-class CustomerPayments < ApplicationRecord
+class CustomerPayment < ApplicationRecord
   include UuidHelper
 
   PAYMENT_METHODS = %w[credit_card pix crypto].freeze

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root to: "rails_admin/main#dashboard"
+  get '/health', to: "main#health"
 
   scope "(:locale)", locale: /en|pt-BR/ do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

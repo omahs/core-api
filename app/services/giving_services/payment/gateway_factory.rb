@@ -1,20 +1,16 @@
 module GivingServices
   module Payment
     class GatewayFactory
-      include ::Payment::GatewayBuilder
+      attr_reader :gateway
 
-      def purchase(order)
-        service_for(order).purchase(order)
+      NAMESPACE = 'Payment::Gateways::'.freeze
+
+      def initialize(gateway)
+        @gateway = gateway.to_s.capitalize
       end
 
-      private
-
-      def service_for(order)
-        send(service_method(order&.gateway))
-      end
-
-      def service_method(gateway)
-        "#{gateway}_service".to_sym
+      def call
+        "#{NAMESPACE}#{gateway}".split('::').inject(Object) {|o,c| o.const_get c}
       end
     end
   end

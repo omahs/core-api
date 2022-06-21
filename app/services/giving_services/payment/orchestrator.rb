@@ -1,7 +1,7 @@
 module Service
   module Givings
     module Payment
-      class Orchestrator      
+      class Orchestrator
         attr_reader :order
 
         def initialize(order:)
@@ -12,17 +12,18 @@ module Service
           gateway_instance = GatewayFactory.new(order.gateway)
 
           return create_subscription(gateway_instance) if order.offer.subscription?
+
           create_giving(gateway_instance)
         end
 
         private
 
-        def create_subscription(gateway_instance)
-          puts("Creacte Subscription")
+        def create_subscription(_gateway_instance)
+          Rails.logger.debug('Creacte Subscription')
         end
 
-        def create_giving(gateway_instance)
-          puts("Creacte Giving")
+        def create_giving(_gateway_instance)
+          Rails.logger.debug('Creacte Giving')
         end
       end
     end

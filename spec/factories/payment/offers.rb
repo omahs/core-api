@@ -4,7 +4,7 @@ FactoryBot.define do
     subscription { 0 }
     price_cents { 1 }
     active { false }
-    title { "Super oferta de fim de ano" }
+    title { 'Super oferta de fim de ano' }
     position_order { 1 }
     offer_gateway { build(:offer_gateway) }
   end

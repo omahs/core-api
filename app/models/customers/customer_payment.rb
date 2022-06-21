@@ -8,7 +8,10 @@ class CustomerPayment < ApplicationRecord
   belongs_to :offer
 
   validates :paid_date, presence: true
-  validates :status, presence: true, inclusion: { in: STATUSES, message: '%{value} is not a valid status' }
+  validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
   validates :payment_method, presence: true,
-                             inclusion: { in: PAYMENT_METHODS, message: '%{value} is not a valid payment method' }
+                             inclusion: {
+                               in: PAYMENT_METHODS,
+                               message: '%<value>s is not a valid payment method'
+                             }
 end

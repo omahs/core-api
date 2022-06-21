@@ -4,7 +4,6 @@ RSpec.describe Payment::Gateways::Stripe::Billing::Subscription do
   describe '#create' do
     subject(:method_call) { described_class.create(stripe_customer: stripe_customer, offer: offer) }
 
-    let!(:currency) { 'brl' }
     let!(:price_cents) { 100 }
 
     let(:offer) { create(:offer, price_cents: price_cents, subscription: true) }

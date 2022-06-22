@@ -1,30 +1,24 @@
-module Service
-  module Givings
-    module Payment
-      class Orchestrator
-        attr_reader :order
+module GivingServices
+  module Payment
+    class Orchestrator
+      attr_reader :payload
 
-        def initialize(order:)
-          @order = order
-        end
+      def initialize(payload:)
+        @payload = payload
+      end
 
-        def process
-          gateway_instance = GatewayFactory.new(order.gateway)
+      def call
+        ::Payment::Entrypoint.new(gateway: gateway).process(operation: operation, payload: payload)
+      end
 
-          return create_subscription(gateway_instance) if order.offer.subscription?
+      private
 
-          create_giving(gateway_instance)
-        end
+      def gateway
+        GatewayFactory.new(payload.gateway).call
+      end
 
-        private
-
-        def create_subscription(_gateway_instance)
-          Rails.logger.debug('Creacte Subscription')
-        end
-
-        def create_giving(_gateway_instance)
-          Rails.logger.debug('Creacte Giving')
-        end
+      def operation
+        payload.operation
       end
     end
   end

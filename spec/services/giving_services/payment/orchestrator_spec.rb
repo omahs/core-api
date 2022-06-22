@@ -13,26 +13,13 @@ RSpec.describe GivingServices::Payment::Orchestrator, type: :service do
       mock_instance(klass: gateway::PaymentProcessor, mock_methods: %i[purchase subscribe unsubscribe])
     end
 
-    context 'when the Orchestrator is instanced' do
-      let(:operation) { :purchase }
-      let!(:factory_instance) do
-        mock_instance(klass: GivingServices::Payment::GatewayFactory, mock_methods: [:call])
-      end
-
-      it 'calls GatewayFactory and returns a gateway module' do
-        expect(factory_instance).to have_received(:call).and_return(gateway)
-
-        service_call
-      end
-    end
-
     context 'when is a purchase operation' do
       let(:operation) { :purchase }
 
       it 'calls PaymentProcessor#purchase method' do
-        expect(gateway_instance).to have_received(operation)
-
         service_call
+
+        expect(gateway_instance).to have_received(operation)
       end
     end
 
@@ -40,9 +27,9 @@ RSpec.describe GivingServices::Payment::Orchestrator, type: :service do
       let(:operation) { :subscribe }
 
       it 'calls PaymentProcessor#subscribe method' do
-        expect(gateway_instance).to have_received(operation)
-
         service_call
+
+        expect(gateway_instance).to have_received(operation)
       end
     end
 
@@ -50,9 +37,9 @@ RSpec.describe GivingServices::Payment::Orchestrator, type: :service do
       let(:operation) { :unsubscribe }
 
       it 'calls PaymentProcessor#unsubscribe method' do
-        expect(gateway_instance).to have_received(operation)
-
         service_call
+
+        expect(gateway_instance).to have_received(operation)
       end
     end
   end

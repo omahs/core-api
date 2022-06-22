@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Payment::Gateways::Stripe::Billing::Subscription do
   describe '#create' do
-    subject(:method_call) { described_class.create(stripe_customer: stripe_customer, offer: offer) }
+    subject(:method_call) { described_class.create(stripe_customer:, offer:) }
 
     let!(:price_cents) { 100 }
 
-    let(:offer) { create(:offer, price_cents: price_cents, subscription: true) }
+    let(:offer) { create(:offer, price_cents:, subscription: true) }
     let(:stripe_customer) { OpenStruct.new({ id: 'cus_123' }) }
 
     before do
@@ -26,7 +26,7 @@ RSpec.describe Payment::Gateways::Stripe::Billing::Subscription do
   end
 
   describe '#cancel' do
-    subject(:method_call) { described_class.cancel(subscription: subscription) }
+    subject(:method_call) { described_class.cancel(subscription:) }
 
     let(:subscription) { OpenStruct.new({ external_identifier: 'sub_1JgyE4JuOnwQq9QxTbs7qfzm' }) }
 

@@ -10,7 +10,7 @@ describe Givings::Payment::CreateOrder do
       { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id,
         payment_method: :credit_card, user:, operation: :subscribe }
     end
-    let(:card) { build(:card) }
+    let(:card) { build(:credit_card) }
     let(:user) { create(:user) }
     let(:offer) { create(:offer) }
 

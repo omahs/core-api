@@ -10,7 +10,7 @@ module GivingServices
       end
 
       def call
-        "#{NAMESPACE}#{gateway}".split('::').inject(Object) {|o,c| o.const_get c}
+        "#{NAMESPACE}#{gateway}".split('::').inject(Object) { |o, c| o.const_get c }
       end
     end
   end

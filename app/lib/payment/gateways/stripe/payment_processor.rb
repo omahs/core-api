@@ -28,7 +28,7 @@ module Payment
         end
 
         def unsubscribe(subscription)
-          Billing::Subscription.cancel(subscription)
+          Billing::Subscription.cancel(subscription:)
         end
 
         private

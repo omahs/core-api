@@ -3,7 +3,7 @@ module Api
     module Payments
       class CreditCardsController < ApplicationController
         def subscribe
-          command = Givings::Payment::CreateOrder.call(subscription_params)
+          command = ::Givings::Payment::CreateOrder.call(subscription_params)
 
           if command.success?
             head :ok
@@ -16,7 +16,11 @@ module Api
 
         def subscription_params
           { card: credit_card, email: payment_params[:email], national_id: payment_params[:national_id],
-            offer_id: payment_params[:offer_id], payment_method: :credit_card, user:, operation: :subscribe }
+            offer_id: payment_params[:offer_id].to_i, payment_method:, user:, operation: :subscribe }
+        end
+
+        def payment_method
+          :credit_card
         end
 
         def user

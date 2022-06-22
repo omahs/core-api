@@ -44,7 +44,7 @@ RSpec.describe Payment::Gateways::Stripe::PaymentProcessor do
       allow(::Stripe::Subscription)
         .to receive(:create)
         .and_return(OpenStruct.new({ id: 'sub_123',
-                                     latest_invoice: 'inv_123' }))
+                                     latest_invoice: 'in_123' }))
     end
 
     it 'calls Stripe::Subscription api' do

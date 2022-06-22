@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe Payment::Gateways::Stripe::Billing::UniquePayment do
   describe '#create' do
     subject(:method_call) do
-      described_class.create(stripe_payment_method: stripe_payment_method,
-                             stripe_customer: stripe_customer, offer: offer)
+      described_class.create(stripe_payment_method:,
+                             stripe_customer:, offer:)
     end
 
     let!(:currency) { 'brl' }
     let!(:price_cents) { 100 }
 
-    let(:offer) { create(:offer, price_cents: price_cents, subscription: false) }
+    let(:offer) { create(:offer, price_cents:, subscription: false) }
     let(:stripe_customer) { instance_double(::Stripe::Customer) }
     let(:stripe_payment_method) { instance_double(::Stripe::PaymentMethod) }
 
@@ -25,7 +25,7 @@ RSpec.describe Payment::Gateways::Stripe::Billing::UniquePayment do
         .to have_received(:create)
         .with(payment_method: stripe_payment_method,
               customer: stripe_customer, amount: price_cents,
-              currency: currency, confirm: true)
+              currency:, confirm: true)
     end
   end
 end

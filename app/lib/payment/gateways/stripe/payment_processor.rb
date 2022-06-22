@@ -6,8 +6,8 @@ module Payment
 
         def purchase(order)
           setup_customer(order)
-          Billing::UniquePayment.create(stripe_customer: stripe_customer,
-                                        stripe_payment_method: stripe_payment_method, offer: order&.offer)
+          Billing::UniquePayment.create(stripe_customer:,
+                                        stripe_payment_method:, offer: order&.offer)
 
           {
             external_customer_id: stripe_customer.id,
@@ -17,7 +17,7 @@ module Payment
 
         def subscribe(order)
           setup_customer(order)
-          subscription = Billing::Subscription.create(stripe_customer: stripe_customer, offer: order&.offer)
+          subscription = Billing::Subscription.create(stripe_customer:, offer: order&.offer)
 
           {
             external_customer_id: stripe_customer.id,

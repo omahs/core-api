@@ -8,7 +8,7 @@ module GivingServices
       end
 
       def call
-        ::Payment::Entrypoint.new(gateway: gateway).process(operation: operation, payload: payload)
+        ::Payment::Entrypoint.new(gateway:).process(operation:, payload:)
       end
 
       private

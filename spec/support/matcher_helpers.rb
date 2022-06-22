@@ -7,3 +7,9 @@ module MatcherHelpers
     expect(response_json.keys).to match_array keys
   end
 end
+
+RSpec::Matchers.define :an_object_containing do |args|
+  args.each do |key, value|
+    match { |actual| actual.send(key).eql? value }
+  end
+end

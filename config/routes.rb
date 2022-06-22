@@ -27,6 +27,9 @@ Rails.application.routes.draw do
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
       end
+      namespace :payments do
+        post 'credit_cards/subscribe' => 'credit_cards#subscribe'
+      end
     end
   end
 end

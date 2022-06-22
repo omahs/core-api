@@ -6,7 +6,7 @@ module Api
           command = ::Givings::Payment::CreateOrder.call(subscription_params)
 
           if command.success?
-            head :ok
+            head :created
           else
             head :unprocessable_entity
           end

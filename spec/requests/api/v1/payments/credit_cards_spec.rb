@@ -15,9 +15,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
       command_double(klass: ::Givings::Payment::CreateOrder)
     end
     let(:credit_card_double) do
-      CreditCard.new(cvv: params[:card][:cvv],
-                     number: params[:card][:number],
-                     name: params[:card][:name],
+      CreditCard.new(cvv: params[:card][:cvv], number: params[:card][:number], name: params[:card][:name],
                      expiration_month: params[:card][:expiration_month],
                      expiration_year: params[:card][:expiration_year])
     end
@@ -37,6 +35,30 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
                           user: user_double }
 
       expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
+    end
+
+    context 'when the command is successful' do
+      let(:create_order_command_double) do
+        command_double(klass: ::Givings::Payment::CreateOrder, success: true)
+      end
+
+      it 'returns http status created' do
+        request
+
+        expect(response).to have_http_status :created
+      end
+    end
+
+    context 'when the command is failure' do
+      let(:create_order_command_double) do
+        command_double(klass: ::Givings::Payment::CreateOrder, success: false, failure: true)
+      end
+
+      it 'returns http status created' do
+        request
+
+        expect(response).to have_http_status :unprocessable_entity
+      end
     end
   end
 end

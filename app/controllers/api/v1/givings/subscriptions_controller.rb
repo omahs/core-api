@@ -3,12 +3,7 @@ module Api
     module Givings
       class SubscriptionsController < ApplicationController
         def credit_card_create
-          command = Givings::Payment::CreateOrder
-                    .call(card: credit_card, email: payment_params[:email],
-                          national_id: payment_params[:national_id],
-                          offer_id: payment_params[:offer_id],
-                          payment_method: :credit_card, user: current_user,
-                          operation:)
+          command = Givings::Payment::CreateOrder.call(order_params)
 
           if command.success?
             head :ok
@@ -19,8 +14,17 @@ module Api
 
         private
 
+        def order_params
+          { card: credit_card, email: payment_params[:email], national_id: payment_params[:national_id],
+            offer_id: payment_params[:offer_id], payment_method: :credit_card, user:, operation: }
+        end
+
         def operation
           :subscribe
+        end
+
+        def user
+          @user ||= current_user || User.find_or_create_by(email: payment_params[:email])
         end
 
         def credit_card

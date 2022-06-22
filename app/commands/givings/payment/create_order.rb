@@ -22,7 +22,7 @@ module Givings
         payment = create_payment(customer)
         order = Order.from(payment, card, operation)
 
-        GivingServices::Payment::Orchestrator.new(payload: order).process
+        GivingServices::Payment::Orchestrator.new(payload: order).call
       rescue StandardError => e
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:payment, e.message)

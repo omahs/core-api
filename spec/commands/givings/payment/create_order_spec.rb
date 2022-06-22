@@ -38,5 +38,13 @@ describe Givings::Payment::CreateOrder do
           status: :paid, card:, offer:, customer:
         ))
     end
+
+    it 'calls GivingServices::Payment::Orchestrator process' do
+      orchestrator_double = instance_double(GivingServices::Payment::Orchestrator, { call: nil })
+      allow(GivingServices::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+      command
+
+      expect(orchestrator_double).to have_received(:call)
+    end
   end
 end

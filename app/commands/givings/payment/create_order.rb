@@ -20,9 +20,9 @@ module Givings
       def call
         customer = find_or_create_customer
         payment = create_payment(customer)
-        order = Order.from(payment, card)
+        order = Order.from(payment, card, operation)
 
-        Service::Giving::Payment::Orchestrator.new(order:).process
+        GivingServices::Payment::Orchestrator.new(payload: order).process
       rescue StandardError => e
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:payment, e.message)

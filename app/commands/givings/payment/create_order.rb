@@ -2,10 +2,10 @@
 
 module Givings
   module Payment
-    class CreateSubscription < ApplicationCommand
+    class CreateOrder < ApplicationCommand
       prepend SimpleCommand
 
-      attr_reader :card, :email, :national_id, :offer_id, :payment_method, :user
+      attr_reader :card, :email, :national_id, :offer_id, :payment_method, :user, :operation
 
       def initialize(args)
         @card = args[:card]
@@ -14,12 +14,13 @@ module Givings
         @offer_id = args[:offer_id]
         @payment_method = args[:payment_method]
         @user = args[:user]
+        @operation = args[:operation]
       end
 
       def call
         customer = find_or_create_customer
         payment = create_payment(customer)
-        order = Order.from(payment, card)
+        order = Order.from(payment, card, operation)
 
         Service::Giving::Payment::Orchestrator.new(order:).process
       rescue StandardError => e

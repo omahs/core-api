@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :card, class: 'Payment::Card' do
+  factory :card, class: 'CreditCard' do
     initialize_with do
       new(
         cvv: '411',

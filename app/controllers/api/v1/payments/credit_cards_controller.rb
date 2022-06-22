@@ -15,7 +15,7 @@ module Api
         private
 
         def subscription_params
-          { card: credit_card, email: payment_params[:email], national_id: payment_params[:national_id],
+          { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],
             offer_id: payment_params[:offer_id].to_i, payment_method:, user:, operation: :subscribe }
         end
 
@@ -36,7 +36,7 @@ module Api
         end
 
         def payment_params
-          params.permit(:email, :national_id, :offer_id, :country,
+          params.permit(:email, :tax_id, :offer_id, :country,
                         :city, :state, :payment_method,
                         card: %i[cvv number name expiration_month expiration_year])
         end

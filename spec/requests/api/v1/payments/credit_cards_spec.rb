@@ -5,7 +5,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
     subject(:request) { post '/api/v1/payments/credit_cards/subscribe', params: }
 
     let(:params) do
-      { email: 'user@test.com', national_id: '111.111.111-11', offer_id: offer.id,
+      { email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id,
         country: 'Brazil', city: 'Brasilia', state: 'DF',
         card: { cvv: 555, number: '4222 2222 2222 2222', name: 'User Test',
                 expiration_month: '05', expiration_year: '25' } }
@@ -30,7 +30,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
 
     it 'calls the CreateOrder command with right params' do
       request
-      expected_params = { card: credit_card_double, email: 'user@test.com', national_id: '111.111.111-11',
+      expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
                           offer_id: offer.id, operation: :subscribe, payment_method: :credit_card,
                           user: user_double }
 

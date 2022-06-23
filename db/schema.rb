@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_21_130603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -54,6 +54,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "customer_payments", force: :cascade do |t|
+    t.datetime "paid_date"
+    t.string "payment_method"
+    t.string "status"
+    t.uuid "customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "offer_id"
+    t.index ["customer_id"], name: "index_customer_payments_on_customer_id"
+    t.index ["offer_id"], name: "index_customer_payments_on_offer_id"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -140,6 +152,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
     t.text "description"
   end
 
+  create_table "offer_gateways", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.string "external_id"
+    t.integer "gateway"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_offer_gateways_on_offer_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.integer "currency"
+    t.integer "price_cents"
+    t.boolean "subscription"
+    t.boolean "active"
+    t.integer "position_order"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ribon_configs", force: :cascade do |t|
     t.integer "default_ticket_value"
     t.datetime "created_at", null: false
@@ -163,9 +195,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143343) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customer_payments", "offers"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"
   add_foreign_key "non_profit_impacts", "non_profits"
+  add_foreign_key "offer_gateways", "offers"
   add_foreign_key "user_donation_stats", "users"
 end

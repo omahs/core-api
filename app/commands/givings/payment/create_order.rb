@@ -21,14 +21,25 @@ module Givings
         customer = find_or_create_customer
         payment = create_payment(customer)
         order = Order.from(payment, card, operation)
+        result = GivingServices::Payment::Orchestrator.new(payload: order).call
+        update(order, result)
 
-        GivingServices::Payment::Orchestrator.new(payload: order).call
+        result
       rescue StandardError => e
+        update_fail(order, result)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:payment, e.message)
       end
 
       private
+
+      def update(order, _result)
+        order.payment.update(status: :paid)
+      end
+
+      def update_fail(order, _result)
+        order.payment.update(status: :failed)
+      end
 
       def find_or_create_customer
         Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name: card.name, user:)

@@ -5,13 +5,13 @@ module Givings
     class CreateOrder < ApplicationCommand
       prepend SimpleCommand
 
-      attr_reader :card, :email, :tax_id, :offer_id, :payment_method, :user, :operation
+      attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation
 
       def initialize(args)
         @card = args[:card]
         @email = args[:email]
         @tax_id = args[:tax_id]
-        @offer_id = args[:offer_id]
+        @offer = args[:offer]
         @payment_method = args[:payment_method]
         @user = args[:user]
         @operation = args[:operation]
@@ -21,12 +21,12 @@ module Givings
         customer = find_or_create_customer
         payment = create_payment(customer)
         order = Order.from(payment, card, operation)
-        result = GivingServices::Payment::Orchestrator.new(payload: order).call
-        update(order, result)
+        payment_process_result = GivingServices::Payment::Orchestrator.new(payload: order).call
+        update(order, payment_process_result)
 
-        result
+        payment_process_result
       rescue StandardError => e
-        update_fail(order, result)
+        update_fail(order, payment_process_result)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:payment, e.message)
       end
@@ -48,10 +48,6 @@ module Givings
       def create_payment(customer)
         CustomerPayment.create!({ customer:, offer:, paid_date:,
                                   payment_method:, status: :processing })
-      end
-
-      def offer
-        @offer ||= Offer.find offer_id
       end
 
       def paid_date

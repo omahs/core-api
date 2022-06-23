@@ -7,7 +7,7 @@ describe Givings::Payment::CreateOrder do
     subject(:command) { described_class.call(args) }
 
     let(:args) do
-      { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id,
+      { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
         payment_method: :credit_card, user:, operation: :subscribe }
     end
     let(:card) { build(:credit_card) }

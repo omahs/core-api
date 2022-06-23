@@ -16,7 +16,7 @@ module Api
 
         def subscription_params
           { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],
-            offer_id: payment_params[:offer_id].to_i, payment_method:, user:, operation: :subscribe }
+            offer:, payment_method:, user:, operation: :subscribe }
         end
 
         def payment_method
@@ -25,6 +25,10 @@ module Api
 
         def user
           @user ||= current_user || User.find_or_create_by(email: payment_params[:email])
+        end
+
+        def offer
+          @offer ||= Offer.find payment_params[:offer_id].to_i
         end
 
         def credit_card

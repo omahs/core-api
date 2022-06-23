@@ -31,7 +31,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
     it 'calls the CreateOrder command with right params' do
       request
       expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                          offer_id: offer.id, operation: :subscribe, payment_method: :credit_card,
+                          offer:, operation: :subscribe, payment_method: :credit_card,
                           user: user_double }
 
       expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)

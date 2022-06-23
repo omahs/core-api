@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       end
       namespace :payments do
         post 'credit_cards/subscribe' => 'credit_cards#subscribe'
+        post 'credit_cards/purchase' => 'credit_cards#purchase'
       end
     end
   end

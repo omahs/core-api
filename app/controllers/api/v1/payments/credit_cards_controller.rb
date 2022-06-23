@@ -12,7 +12,22 @@ module Api
           end
         end
 
+        def purchase
+          command = ::Givings::Payment::CreateOrder.call(purchase_params)
+
+          if command.success?
+            head :created
+          else
+            head :unprocessable_entity
+          end
+        end
+
         private
+
+        def purchase_params
+          { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],
+            offer:, payment_method:, user:, operation: :purchase }
+        end
 
         def subscription_params
           { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],

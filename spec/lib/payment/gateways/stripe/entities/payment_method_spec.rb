@@ -9,7 +9,7 @@ RSpec.describe Payment::Gateways::Stripe::Entities::PaymentMethod do
     let(:gateway) { Payment::Gateways::Stripe::Base }
 
     let(:card) do
-      Payment::Methods::Card.new(
+      CreditCard.new(
         cvv: '117',
         name: 'User Test',
         number: '5434338600663578',

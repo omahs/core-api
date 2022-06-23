@@ -8,7 +8,7 @@ module Api
           if command.success?
             head :created
           else
-            head :unprocessable_entity
+            render_errors(command.errors)
           end
         end
 
@@ -18,7 +18,7 @@ module Api
           if command.success?
             head :created
           else
-            head :unprocessable_entity
+            render_errors(command.errors)
           end
         end
 

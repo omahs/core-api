@@ -28,7 +28,7 @@ module Givings
       rescue StandardError => e
         failure_callback(order, payment_process_result)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
-        errors.add(:payment, e.message)
+        errors.add(:message, e.message)
       end
 
       private

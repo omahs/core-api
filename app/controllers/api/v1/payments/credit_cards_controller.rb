@@ -36,8 +36,7 @@ module Api
         end
 
         def payment_params
-          params.permit(:email, :tax_id, :offer_id, :country,
-                        :city, :state, :payment_method,
+          params.permit(:email, :tax_id, :offer_id, :country, :city, :state,
                         card: %i[cvv number name expiration_month expiration_year])
         end
       end

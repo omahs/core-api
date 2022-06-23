@@ -22,22 +22,22 @@ module Givings
         payment = create_payment(customer)
         order = Order.from(payment, card, operation)
         payment_process_result = GivingServices::Payment::Orchestrator.new(payload: order).call
-        update(order, payment_process_result)
+        success_callback(order, payment_process_result)
 
         payment_process_result
       rescue StandardError => e
-        update_fail(order, payment_process_result)
+        failure_callback(order, payment_process_result)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:payment, e.message)
       end
 
       private
 
-      def update(order, _result)
+      def success_callback(order, _result)
         order.payment.update(status: :paid)
       end
 
-      def update_fail(order, _result)
+      def failure_callback(order, _result)
         order.payment.update(status: :failed)
       end
 

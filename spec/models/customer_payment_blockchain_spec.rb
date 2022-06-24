@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CustomerPaymentBlockchain, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    it { is_expected.to belong_to(:customer_payment) }
+    it { is_expected.to define_enum_for(:treasure_entry_status).with(%i[processing success failed]) }
+  end
 end

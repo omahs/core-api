@@ -11,6 +11,6 @@ if [ "${PROCESS}" = "WEB" ]; then
   done < <($EB_SUPPORT_FILES/generate_env)
 
   echo "Running migrations..."
-  docker run --rm "${EB_CONFIG_DOCKER_ENV_ARGS[@]}" aws_beanstalk/staging-app bundle exec rake db:migrate || echo "The Migrations failed to run."
+  docker exec "docker ps -l -q -f 'status=running'" RAILS_ENV=production bundle exec rails db:migrate || echo "The Migrations failed to run."
 fi
 true

@@ -26,6 +26,10 @@ Rails.application.routes.draw do
       get 'giving_values' => "giving_values#index"
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
+        get 'offers' => 'offers#index'
+      end
+      namespace :payments do
+        post 'credit_cards' => 'credit_cards#create'
       end
     end
   end

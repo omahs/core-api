@@ -6,6 +6,7 @@ class CustomerPayment < ApplicationRecord
 
   belongs_to :customer
   belongs_to :offer
+  has_one :customer_payment_blockchain
 
   validates :paid_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }

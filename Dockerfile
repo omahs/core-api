@@ -9,5 +9,5 @@ COPY . /app
 
 EXPOSE 8080
 
-ENTRYPOINT ["bin/entry.sh"]
+RUN bundle exec rails db:migrate
 CMD ["puma","-C","config/docker_puma.rb","-p","8080"]

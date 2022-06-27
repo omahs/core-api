@@ -7,10 +7,10 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
       card: { cvv: 555, number: '4222 2222 2222 2222', name: 'User Test',
               expiration_month: '05', expiration_year: '25' } }
   end
-  let(:offer) { create(:offer) }
   let(:create_order_command_double) do
     command_double(klass: ::Givings::Payment::CreateOrder)
   end
+  let(:offer) { create(:offer) }
   let(:credit_card_double) do
     CreditCard.new(cvv: params[:card][:cvv], number: params[:card][:number], name: params[:card][:name],
                    expiration_month: params[:card][:expiration_month],
@@ -25,17 +25,8 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
     allow(User).to receive(:find_or_create_by).and_return(user_double)
   end
 
-  describe 'POST /subscribe' do
-    subject(:request) { post '/api/v1/payments/credit_cards/subscribe', params: }
-
-    it 'calls the CreateOrder command with right params' do
-      request
-      expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                          offer:, operation: :subscribe, payment_method: :credit_card,
-                          user: user_double }
-
-      expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
-    end
+  describe 'POST /credit_cards' do
+    subject(:request) { post '/api/v1/payments/credit_cards', params: }
 
     context 'when the command is successful' do
       let(:create_order_command_double) do
@@ -60,41 +51,30 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
         expect(response).to have_http_status :unprocessable_entity
       end
     end
-  end
 
-  describe 'POST /purchase' do
-    subject(:request) { post '/api/v1/payments/credit_cards/purchase', params: }
+    context 'when the offer is a subscription' do
+      let(:offer) { create(:offer, subscription: true) }
 
-    it 'calls the CreateOrder command with right params' do
-      request
-      expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                          offer:, operation: :purchase, payment_method: :credit_card,
-                          user: user_double }
-
-      expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
-    end
-
-    context 'when the command is successful' do
-      let(:create_order_command_double) do
-        command_double(klass: ::Givings::Payment::CreateOrder, success: true)
-      end
-
-      it 'returns http status created' do
+      it 'calls the CreateOrder command with right params' do
         request
+        expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
+                            offer:, operation: :subscribe, payment_method: :credit_card,
+                            user: user_double }
 
-        expect(response).to have_http_status :created
+        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
       end
     end
 
-    context 'when the command is failure' do
-      let(:create_order_command_double) do
-        command_double(klass: ::Givings::Payment::CreateOrder, success: false, failure: true)
-      end
+    context 'when the offer is a purchase' do
+      let(:offer) { create(:offer, subscription: false) }
 
-      it 'returns http status created' do
+      it 'calls the CreateOrder command with right params' do
         request
+        expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
+                            offer:, operation: :purchase, payment_method: :credit_card,
+                            user: user_double }
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
       end
     end
   end

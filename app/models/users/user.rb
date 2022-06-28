@@ -7,6 +7,7 @@ class User < ApplicationRecord
   after_create :set_user_donation_stats
 
   has_many :donations
+  has_many :customers
 
   has_one :user_donation_stats
 

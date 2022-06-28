@@ -1,13 +1,20 @@
 module Adapter
   module Controllers
     module Payment
-      module CreditCards
-        private
+      class CreditCards
+        attr_reader :payment_params, :current_user
+
+        def initialize(payment_params:, current_user:)
+          @payment_params = payment_params
+          @current_user = current_user
+        end
 
         def order_params
           { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],
             offer:, payment_method:, user:, operation: }
         end
+
+        private
 
         def payment_method
           :credit_card

@@ -16,7 +16,7 @@ module Api
 
         def order_params
           Adapter::Controllers::Payment::CreditCards
-            .new(payment_params:, current_user:).order_params
+            .new(payment_params:, user: current_user).order_params
         end
 
         def payment_params

@@ -2,16 +2,16 @@ module Adapter
   module Controllers
     module Payment
       class CreditCards
-        attr_reader :payment_params, :current_user
+        attr_reader :payment_params, :user
 
-        def initialize(payment_params:, current_user:)
+        def initialize(payment_params:, user:)
           @payment_params = payment_params
-          @current_user = current_user
+          @user = user
         end
 
         def order_params
           { card: credit_card, email: payment_params[:email], tax_id: payment_params[:tax_id],
-            offer:, payment_method:, user:, operation: }
+            offer:, payment_method:, user: find_or_create_user, operation: }
         end
 
         private
@@ -20,8 +20,8 @@ module Adapter
           :credit_card
         end
 
-        def user
-          @user ||= current_user || User.find_or_create_by(email: payment_params[:email])
+        def find_or_create_user
+          user || User.find_or_create_by(email: payment_params[:email])
         end
 
         def offer

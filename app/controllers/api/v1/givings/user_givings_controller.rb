@@ -4,7 +4,7 @@ module Api
       class UserGivingsController < ApplicationController
         def index
           @customer = Customer.find_by(email: params[:email])
-          render json: CustomerPaymentsBlueprint.render(givings)
+          render json: CustomerPaymentBlueprint.render(givings)
         end
 
         private

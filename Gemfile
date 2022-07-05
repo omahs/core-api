@@ -24,6 +24,7 @@ gem 'graphql'
 gem 'graphql-client'
 
 gem 'keccak', '~> 1.3'
+gem 'eth', '~> 0.5.6'
 
 # gem "bcrypt", "~> 3.1.7"
 

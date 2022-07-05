@@ -1,11 +1,15 @@
 module Web3
   module Contracts
     class RibonContract < BaseContract
-      private
+      def add_donation_pool_balance(amount:, user:)
+        keccak256_user = ::Eth::Util.keccak256(user)
+        parsed_amount = Utils::Converter.to_wei(amount)
 
-      def client
-        @client ||= Providers::Client.create(network:)
+        transact('addDonationPoolBalance',
+                 parsed_amount, keccak256_user, sender_key: Providers::Keys::RIBON_KEY)
       end
+
+      private
 
       def contract_name
         'RibonContract'.freeze
@@ -16,7 +20,7 @@ module Web3
       end
 
       def abi
-        File.read("#{Rails.root}/app/lib/web3/utils/ribon_abi.json")
+        File.read("#{Rails.root}/app/lib/web3/utils/abis/ribon_abi.json")
       end
     end
   end

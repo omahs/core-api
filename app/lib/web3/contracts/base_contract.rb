@@ -12,7 +12,7 @@ module Web3
       end
 
       def call(function_name, *args, **kwargs)
-        client.call(contract, function_name, *args, **kwargs)
+        client.call(contract, function_name, *args, **kwargs.merge(default_args))
       end
 
       def transact(function_name, *args, **kwargs)

@@ -3,10 +3,6 @@ module Web3
     class DonationTokenContract < BaseContract
       private
 
-      def client
-        @client ||= Providers::Client.create(network:)
-      end
-
       def contract_name
         'DonationTokenContract'.freeze
       end
@@ -16,7 +12,7 @@ module Web3
       end
 
       def abi
-        File.read("#{Rails.root}/app/lib/web3/utils/donation_token_abi.json")
+        File.read("#{Rails.root}/app/lib/web3/utils/abis/donation_token_abi.json")
       end
     end
   end

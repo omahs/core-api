@@ -9,7 +9,8 @@ RSpec.describe 'Api::V1::UserGivingsController', type: :request do
     let(:currency) { :usd }
     let(:url) { "/api/v1/givings/user_givings?email=#{email}&currency=#{currency}" }
     let!(:paid_payment) do
-      create_list(:customer_payment, 2, status: :paid, customer:, offer: create(:offer, currency: :usd))
+      create_list(:customer_payment, 2, status: :paid, customer:,
+                                        offer: create(:offer, currency: :usd, price_cents: 1000))
     end
 
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_usd_brl' } }
@@ -19,6 +20,12 @@ RSpec.describe 'Api::V1::UserGivingsController', type: :request do
 
       expect(response_body.length).to eq 2
       response_body.each { |payment| expect(paid_payment.pluck(:id)).to include(payment['id']) }
+    end
+
+    it 'returns correct amount of user giving' do
+      request
+
+      expect(response_body.first['crypto_amount']).to eq 10.00
     end
   end
 end

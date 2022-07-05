@@ -12,10 +12,6 @@ module Api
         def givings
           @givings ||= @customer.customer_payments.where(status: :paid)
         end
-
-        def currency
-          @currency ||= params[:currency]&.downcase&.to_sym
-        end
       end
     end
   end

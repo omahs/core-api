@@ -73,6 +73,10 @@ describe Givings::Payment::CreateOrder do
       it 'creates a CustomerPayment' do
         expect { command }.to change(CustomerPayment, :count).by(1)
       end
+
+      it 'creates a CustomerPaymentBlockChain' do
+        expect { command }.to change(CustomerPaymentBlockchain, :count).by(1)
+      end
     end
   end
 end

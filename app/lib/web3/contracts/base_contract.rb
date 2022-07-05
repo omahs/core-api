@@ -16,10 +16,16 @@ module Web3
       end
 
       def transact(function_name, *args, **kwargs)
-        client.transact(contract, function_name, *args, **kwargs)
+        client.transact(contract, function_name, *args, **kwargs.merge(default_args))
       end
 
       private
+
+      def default_args
+        {
+          gas_limit: client.gas_limit
+        }
+      end
 
       def client
         @client ||= Providers::Client.create(network:)

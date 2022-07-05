@@ -3,9 +3,10 @@ module Api
     module Payments
       class CreditCardsController < ApplicationController
         include Adapter::Controllers::Payment::CreditCards
+        include ::Givings::Payment::OrderTypes
 
         def create
-          command = ::Givings::Payment::CreateOrder.call(order_params)
+          command = ::Givings::Payment::CreateOrder.call(CreditCard, order_params)
 
           if command.success?
             head :created

@@ -9,6 +9,15 @@ module Web3
                  parsed_amount, keccak256_user, sender_key: Providers::Keys::RIBON_KEY)
       end
 
+      def donate_through_integration(non_profit_wallet_address:, user:, amount:)
+        keccak256_user = ::Eth::Util.keccak256(user)
+        parsed_amount = Utils::Converter.to_wei(amount)
+
+        transact('donateThroughIntegration',
+                 non_profit_wallet_address, keccak256_user, parsed_amount,
+                 sender_key: Providers::Keys::RIBON_KEY)
+      end
+
       private
 
       def contract_name

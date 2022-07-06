@@ -5,7 +5,7 @@ class CustomerPayment < ApplicationRecord
   STATUSES = %w[processing paid failed].freeze
 
   belongs_to :customer
-  belongs_to :offer
+  belongs_to :offer, optional: true
   has_one :customer_payment_blockchain
 
   validates :paid_date, presence: true

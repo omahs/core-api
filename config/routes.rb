@@ -30,7 +30,9 @@ Rails.application.routes.draw do
         get 'user_givings' => 'user_givings#index'
       end
       namespace :payments do
-        post 'credit_cards' => 'credit_cards#create'
+        post 'credit_cards'   => 'credit_cards#create'
+        post 'cryptocurrency' => 'cryptocurrency#create'
+        put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
       end
     end
   end

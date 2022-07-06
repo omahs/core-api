@@ -2,7 +2,6 @@ module Api
   module V1
     module Payments
       class CreditCardsController < ApplicationController
-        include Adapter::Controllers::Payment::CreditCards
         include ::Givings::Payment::OrderTypes
 
         def create
@@ -16,6 +15,11 @@ module Api
         end
 
         private
+
+        def order_params
+          Adapter::Controllers::Payment::CreditCards
+            .new(payment_params:, user: current_user).order_params
+        end
 
         def payment_params
           params.permit(:email, :tax_id, :offer_id, :country, :city, :state,

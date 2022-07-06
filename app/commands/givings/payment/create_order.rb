@@ -13,7 +13,6 @@ module Givings
 
       def call
         order = klass.generate_order
-
         payment_process_result = klass.process_payment(order)
 
         success_callback(order, payment_process_result)
@@ -28,7 +27,11 @@ module Givings
       private
 
       def success_callback(order, _result)
+        transaction_hash = Givings::CommunityTreasure::AddBalance
+                           .call(amount: order.payment.amount, user_identifier: order.customer.email).result
         order.payment.update(status: :paid)
+        order.payment
+             .create_customer_payment_blockchain(treasure_entry_status: :processing, transaction_hash:)
       end
 
       def failure_callback(order, _result)

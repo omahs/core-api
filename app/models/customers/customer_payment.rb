@@ -15,4 +15,10 @@ class CustomerPayment < ApplicationRecord
                                in: PAYMENT_METHODS,
                                message: '%<value>s is not a valid payment method'
                              }
+
+  def crypto_amount
+    return offer.price_value if offer.usd?
+
+    Currency::Converters.convert_to_usd(value: offer.price_value, from: offer.currency).to_f
+  end
 end

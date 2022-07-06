@@ -5,23 +5,17 @@ module Givings
     class CreateOrder < ApplicationCommand
       prepend SimpleCommand
 
-      attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation
+      attr_reader :klass
 
-      def initialize(args)
-        @card = args[:card]
-        @email = args[:email]
-        @tax_id = args[:tax_id]
-        @offer = args[:offer]
-        @payment_method = args[:payment_method]
-        @user = args[:user]
-        @operation = args[:operation]
+      def initialize(klass, args)
+        @klass = klass.new(args)
       end
 
       def call
-        customer = find_or_create_customer
-        payment = create_payment(customer)
-        order = Order.from(payment, card, operation)
-        payment_process_result = GivingServices::Payment::Orchestrator.new(payload: order).call
+        order = klass.generate_order
+
+        payment_process_result = klass.process_payment(order)
+
         success_callback(order, payment_process_result)
 
         payment_process_result
@@ -39,19 +33,6 @@ module Givings
 
       def failure_callback(order, _result)
         order.payment.update(status: :failed)
-      end
-
-      def find_or_create_customer
-        Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name: card.name, user:)
-      end
-
-      def create_payment(customer)
-        CustomerPayment.create!({ customer:, offer:, paid_date:,
-                                  payment_method:, status: :processing })
-      end
-
-      def paid_date
-        Time.zone.now
       end
     end
   end

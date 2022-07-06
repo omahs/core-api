@@ -18,6 +18,8 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
   end
   let(:user_double) { build(:user, email: 'user@test.com') }
 
+  let(:order_type) { ::Givings::Payment::OrderTypes::CreditCard }
+
   before do
     allow(::Givings::Payment::CreateOrder)
       .to receive(:call).and_return(create_order_command_double)
@@ -57,11 +59,11 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
 
       it 'calls the CreateOrder command with right params' do
         request
-        expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                            offer:, operation: :subscribe, payment_method: :credit_card,
-                            user: user_double }
+        expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
+                             offer:, operation: :subscribe, payment_method: :credit_card,
+                             user: user_double }
 
-        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
+        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end
     end
 
@@ -70,11 +72,11 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
 
       it 'calls the CreateOrder command with right params' do
         request
-        expected_params = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                            offer:, operation: :purchase, payment_method: :credit_card,
-                            user: user_double }
+        expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
+                             offer:, operation: :purchase, payment_method: :credit_card,
+                             user: user_double }
 
-        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(expected_params)
+        expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end
     end
   end

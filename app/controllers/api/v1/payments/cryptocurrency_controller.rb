@@ -2,7 +2,6 @@ module Api
   module V1
     module Payments
       class CryptocurrencyController < ApplicationController
-        include Adapter::Controllers::Payment::Cryptocurrencies
         include ::Givings::Payment::OrderTypes
 
         def create
@@ -26,6 +25,11 @@ module Api
         end
 
         private
+
+        def order_params
+          Adapter::Controllers::Payment::Cryptocurrencies
+            .new(payment_params:, user: current_user).order_params
+        end
 
         def payment_params
           params.permit(:email, :amount, :transaction_hash, :status)

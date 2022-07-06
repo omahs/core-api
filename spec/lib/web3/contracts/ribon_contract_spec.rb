@@ -20,7 +20,7 @@ RSpec.describe Web3::Contracts::RibonContract do
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_wei(amount)
-      keccak256_user = ::Eth::Util.keccak256(user)
+      keccak256_user = Web3::Utils::Converter.keccak(user)
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
@@ -47,7 +47,7 @@ RSpec.describe Web3::Contracts::RibonContract do
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_wei(amount)
-      keccak256_user = ::Eth::Util.keccak256(user)
+      keccak256_user = Web3::Utils::Converter.keccak(user)
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)

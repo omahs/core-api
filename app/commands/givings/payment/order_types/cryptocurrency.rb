@@ -11,7 +11,7 @@ module Givings
           @payment_method   = args[:payment_method]
           @user             = args[:user]
           @amount           = args[:amount]
-          @transaction_hash = args[:hash]
+          @transaction_hash = args[:transaction_hash]
         end
 
 

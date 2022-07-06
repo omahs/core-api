@@ -23,6 +23,7 @@ gem 'redis-namespace'
 gem 'graphql'
 gem 'graphql-client'
 
+gem 'eth', '~> 0.5.6'
 gem 'keccak', '~> 1.3'
 
 # gem "bcrypt", "~> 3.1.7"

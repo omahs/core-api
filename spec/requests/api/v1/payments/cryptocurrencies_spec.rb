@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
-
   let(:create_order_command_double) do
     command_double(klass: ::Givings::Payment::CreateOrder)
   end
@@ -48,7 +47,9 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
 
     let(:customer) { build(:customer) }
     let(:customer_payment) { build(:customer_payment, customer:) }
-    let!(:customer_payment_blockchain) { build(:customer_payment_blockchain, customer_payment:, transaction_hash: '0xFFFF') }
+    let!(:customer_payment_blockchain) do
+      build(:customer_payment_blockchain, customer_payment:, transaction_hash: '0xFFFF')
+    end
 
     before do
       allow(CustomerPaymentBlockchain).to receive(:find_by).and_return(customer_payment_blockchain)
@@ -62,7 +63,7 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
       it 'returns http status no content (updated)' do
         request
 
-        expect(response).to have_http_status 204
+        expect(response).to have_http_status :no_content
         expect(customer_payment_blockchain.treasure_entry_status).to eq('success')
       end
     end
@@ -85,7 +86,7 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
       end
     end
 
-    context 'when the request is failed due to invalid status' do
+    context 'when the request is failed due to invalid hash' do
       before do
         allow(CustomerPaymentBlockchain).to receive(:find_by).and_return(nil)
       end

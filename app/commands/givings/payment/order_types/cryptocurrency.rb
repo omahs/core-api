@@ -14,12 +14,11 @@ module Givings
           @transaction_hash = args[:transaction_hash]
         end
 
-
         def generate_order
           customer = find_or_create_customer
           payment  = create_payment(customer)
           create_customer_payment_blockchain(payment)
-          
+
           Order.from(payment)
         end
 
@@ -43,7 +42,8 @@ module Givings
         end
 
         def create_customer_payment_blockchain(payment)
-          CustomerPaymentBlockchain.create!(customer_payment: payment, treasure_entry_status: :processing, transaction_hash:)
+          CustomerPaymentBlockchain.create!(customer_payment: payment, treasure_entry_status: :processing,
+                                            transaction_hash:)
         end
 
         def amount_cents
@@ -51,7 +51,7 @@ module Givings
         end
 
         def name
-          email.split("@").first
+          email.split('@').first
         end
 
         def paid_date

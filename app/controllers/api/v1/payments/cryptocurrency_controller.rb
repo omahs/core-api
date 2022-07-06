@@ -16,9 +16,11 @@ module Api
         end
 
         def update_treasure_entry_status
-          blockchain_transaction = CustomerPaymentBlockchain.find_by(transaction_hash: payment_params[:transaction_hash])
+          blockchain_transaction = CustomerPaymentBlockchain.find_by(
+            transaction_hash: payment_params[:transaction_hash]
+          )
+
           blockchain_transaction.update!(treasure_entry_status: payment_params[:status].to_sym)
-    
         rescue StandardError => e
           render json: { error: e.message }, status: :unprocessable_entity
         end

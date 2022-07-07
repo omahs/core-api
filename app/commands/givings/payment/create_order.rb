@@ -27,8 +27,8 @@ module Givings
       private
 
       def success_callback(order, _result)
-        transaction_hash = call_add_balance_command
         order.payment.update(status: :paid)
+        transaction_hash = call_add_balance_command
         order.payment.create_customer_payment_blockchain(treasure_entry_status: :processing,
                                                          transaction_hash:)
       end

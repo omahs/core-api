@@ -64,4 +64,17 @@ jobs:
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
           COVERAGE: true
           MIN_COVERAGE: 93
+          RIBON_WALLET_PRIVATE_KEY: ${{ secrets.RIBON_WALLET_PRIVATE_KEY }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          BLOCKCHAIN_SCAN_URL: ${{ secrets.BLOCKCHAIN_SCAN_URL }}
+          THE_GRAPH_URL: ${{ secrets.THE_GRAPH_URL }}
+          CURRENCY_API_URL: ${{ secrets.CURRENCY_API_URL }}
+          POLYGON_GAS_FEE_URL: ${{ secrets.POLYGON_GAS_FEE_URL }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_ENDPOINT_SECRET: ${{ secrets.STRIPE_ENDPOINT_SECRET }}
+          SENTRY_DSN_URL: ${{ secrets.SENTRY_DSN_URL }}
+          MUMBAI_NODE_URL: ${{ secrets.MUMBAI_NODE_URL }}
+          MUMBAI_RPC_URL: ${{ secrets.MUMBAI_RPC_URL }}
+          MUMBAI_BLOCK_EXPLORER_URL: ${{ secrets.MUMBAI_BLOCK_EXPLORER_URL }}
         run: bundle exec rspec

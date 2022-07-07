@@ -1,5 +1,5 @@
 module Givings
-  module Payments
+  module Payment
     class AddGivingToBlockchainJob < ApplicationJob
       queue_as :default
       sidekiq_options retry: 3
@@ -12,7 +12,7 @@ module Givings
       private
 
       def call_add_balance_command(amount, user_identifier)
-        Givings::CommunityTreasure::AddBalance.call(amount:, user_identifier:).result
+        CommunityTreasure::AddBalance.call(amount:, user_identifier:).result
       end
     end
   end

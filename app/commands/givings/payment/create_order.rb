@@ -28,18 +28,17 @@ module Givings
 
       def success_callback(order, _result)
         order.payment.update(status: :paid)
-        transaction_hash = call_add_balance_command
-        order.payment.create_customer_payment_blockchain(treasure_entry_status: :processing,
-                                                         transaction_hash:)
+        call_add_giving_blockchain_job
       end
 
       def failure_callback(order, _result)
         order.payment.update(status: :failed)
       end
 
-      def call_add_balance_command
-        Givings::CommunityTreasure::AddBalance
-          .call(amount: order.payment.amount, user_identifier: order.customer.email).result
+      def call_add_giving_blockchain_job
+        AddGivingToBlockchainJob
+          .perform_later(amount: order.payment.amount, user_identifier: order.customer.email,
+                         payment: order.payment)
       end
     end
   end

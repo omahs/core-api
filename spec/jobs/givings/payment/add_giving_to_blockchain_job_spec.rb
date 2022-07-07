@@ -8,15 +8,16 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
     let(:amount) { 0.5 }
     let(:user_identifier) { build(:user).email }
     let(:payment) { create(:customer_payment) }
+    let(:klass) { Givings::CommunityTreasure::AddBalance }
 
     before do
-      allow(Givings::CommunityTreasure::AddBalance).to receive(:call).and_return(OpenStruct.new({ result: }))
+      allow(Givings::CommunityTreasure::AddBalance)
+        .to receive(:call).and_return(command_double(klass:, result:))
       perform_job
     end
 
     it 'calls the Givings::CommunityTreasure::AddBalance with right params' do
-      expect(Givings::CommunityTreasure::AddBalance)
-        .to have_received(:call).with(amount:, user_identifier:)
+      expect(klass).to have_received(:call).with(amount:, user_identifier:)
     end
 
     it 'creates a customer_payment_blockchain to the payment with correct params' do

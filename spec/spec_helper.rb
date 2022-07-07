@@ -4,9 +4,11 @@ require 'vcr'
 
 SimpleCov.start 'rails' do
   add_group "Blueprints", "app/blueprints"
+  add_filter 'app/lib/redis_store'
+  add_filter 'app/lib/simple_command'
   add_filter 'lib/generators'
-  add_filter 'lib/simple_command'
-  add_filter 'lib/redis_store'
+  add_filter 'lib/ext'
+  add_filter 'lib/tasks'
   add_filter 'app/services/graphql/queries'
 end
 SimpleCov.minimum_coverage ENV["MIN_COVERAGE"].to_i if ENV["COVERAGE"]

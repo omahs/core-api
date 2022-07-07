@@ -80,6 +80,8 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 
 group :development, :test do
+  gem 'aws-sdk-secretsmanager'
+  gem 'base64'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
   gem 'factory_bot_rails'

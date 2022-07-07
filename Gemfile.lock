@@ -87,12 +87,16 @@ GEM
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
+    aws-sdk-secretsmanager (1.64.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    base64 (0.1.1)
     bcrypt (3.1.16)
     blueprinter (0.25.3)
     bootsnap (1.10.3)
@@ -442,6 +446,8 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk-s3
+  aws-sdk-secretsmanager
+  base64
   blueprinter
   bootsnap
   cancancan

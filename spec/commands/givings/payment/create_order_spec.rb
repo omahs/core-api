@@ -52,7 +52,7 @@ describe Givings::Payment::CreateOrder do
       end
 
       context 'when the payment is sucessfull' do
-        it 'callses the success callback' do
+        it 'calls the success callback' do
           allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
           orchestrator_double = instance_double(GivingServices::Payment::Orchestrator, { call: nil })
           allow(GivingServices::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)

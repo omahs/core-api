@@ -10,7 +10,7 @@ gem 'rails', '~> 7.0.1'
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '5.6.1'
+gem 'puma', '5.6.4'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -80,6 +80,8 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 
 group :development, :test do
+  gem 'aws-sdk-secretsmanager'
+  gem 'base64'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
   gem 'factory_bot_rails'

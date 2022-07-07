@@ -28,14 +28,14 @@ module Givings
 
       def success_callback(order, _result)
         order.payment.update(status: :paid)
-        call_add_giving_blockchain_job
+        call_add_giving_blockchain_job(order)
       end
 
       def failure_callback(order, _result)
         order.payment.update(status: :failed)
       end
 
-      def call_add_giving_blockchain_job
+      def call_add_giving_blockchain_job(order)
         AddGivingToBlockchainJob
           .perform_later(amount: order.payment.amount, user_identifier: order.customer.email,
                          payment: order.payment)

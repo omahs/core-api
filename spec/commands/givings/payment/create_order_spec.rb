@@ -13,7 +13,7 @@ describe Givings::Payment::CreateOrder do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:customer_payment) { build(:customer_payment, offer:, customer:) }
+      let(:customer_payment) { build(:customer_payment, offer:, customer:, amount_cents: 1) }
 
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
@@ -49,6 +49,19 @@ describe Givings::Payment::CreateOrder do
         command
 
         expect(orchestrator_double).to have_received(:call)
+      end
+
+      context 'when the payment is sucessfull' do
+        it 'callses the success callback' do
+          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+          orchestrator_double = instance_double(GivingServices::Payment::Orchestrator, { call: nil })
+          allow(GivingServices::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+          command
+
+          expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
+            .with(amount: customer_payment.amount, user_identifier: 'user@test.com',
+                  payment: an_object_containing(customer_payment.attributes))
+        end
       end
     end
 

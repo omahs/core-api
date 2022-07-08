@@ -76,3 +76,6 @@ Style/OpenStructUse:
 Lint/MissingSuper:
   Exclude:
   - app/commands/**/*
+
+Rails/FilePath:
+  Enabled: false

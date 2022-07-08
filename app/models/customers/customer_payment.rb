@@ -5,7 +5,7 @@ class CustomerPayment < ApplicationRecord
   STATUSES = %w[processing paid failed].freeze
 
   belongs_to :customer
-  belongs_to :offer
+  belongs_to :offer, optional: true
   has_one :customer_payment_blockchain
 
   validates :paid_date, presence: true
@@ -15,4 +15,10 @@ class CustomerPayment < ApplicationRecord
                                in: PAYMENT_METHODS,
                                message: '%<value>s is not a valid payment method'
                              }
+
+  def crypto_amount
+    return offer.price_value if offer.usd?
+
+    Currency::Converters.convert_to_usd(value: offer.price_value, from: offer.currency).to_f
+  end
 end

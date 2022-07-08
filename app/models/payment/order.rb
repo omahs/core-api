@@ -11,7 +11,7 @@ class Order
     initialize_payment_related_attributes(params)
   end
 
-  def self.from(payment, card = nil, operation)
+  def self.from(payment, card = nil, operation = nil)
     params = {
       id: payment.id,
       gateway: payment&.offer&.gateway&.to_sym,

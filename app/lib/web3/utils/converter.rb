@@ -10,6 +10,10 @@ module Web3
       def self.to_wei(value)
         value * WEI_CONVERT_FACTOR
       end
+
+      def self.keccak(value, decimals = 256)
+        Digest::Keccak.hexdigest(value, decimals)
+      end
     end
   end
 end

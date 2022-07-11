@@ -21,4 +21,14 @@ class CustomerPayment < ApplicationRecord
 
     Currency::Converters.convert_to_usd(value: offer.price_value, from: offer.currency).to_f
   end
+
+  def amount
+    return amount_value if amount_cents
+
+    crypto_amount
+  end
+
+  def amount_value
+    amount_cents / 100.0
+  end
 end

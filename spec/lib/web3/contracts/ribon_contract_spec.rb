@@ -8,7 +8,7 @@ RSpec.describe Web3::Contracts::RibonContract do
   let(:user) { build(:user).email }
 
   describe '#add_donation_pool_balance' do
-    subject(:method_call) { described_class.new(network:).add_donation_pool_balance(amount:, user:) }
+    subject(:method_call) { described_class.new(network:).add_donation_pool_balance(amount:) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
@@ -20,12 +20,11 @@ RSpec.describe Web3::Contracts::RibonContract do
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_wei(amount)
-      keccak256_user = ::Eth::Util.keccak256(user)
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
         .to have_received(:transact).with(contract, 'addDonationPoolBalance',
-                                          wei_amount, keccak256_user, gas_limit: 0, sender_key:)
+                                          wei_amount, gas_limit: 0, sender_key:)
     end
   end
 
@@ -47,7 +46,7 @@ RSpec.describe Web3::Contracts::RibonContract do
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_wei(amount)
-      keccak256_user = ::Eth::Util.keccak256(user)
+      keccak256_user = Web3::Utils::Converter.keccak(user)
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)

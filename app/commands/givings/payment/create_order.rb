@@ -13,7 +13,6 @@ module Givings
 
       def call
         order = klass.generate_order
-
         payment_process_result = klass.process_payment(order)
 
         success_callback(order, payment_process_result)
@@ -29,10 +28,15 @@ module Givings
 
       def success_callback(order, _result)
         order.payment.update(status: :paid)
+        call_add_giving_blockchain_job(order)
       end
 
       def failure_callback(order, _result)
         order.payment.update(status: :failed)
+      end
+
+      def call_add_giving_blockchain_job(order)
+        AddGivingToBlockchainJob.perform_later(amount: order.payment.amount, payment: order.payment)
       end
     end
   end

@@ -48,6 +48,7 @@ module RibonCoreApi
     config.action_dispatch.rescue_responses.merge!('CanCan::AccessDenied' => :unauthorized)
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
     config.cache_store = :redis_cache_store, { url: RibonCoreApi.redis_url, namespace: "ribon_core_api:cache" }
+    config.active_job.queue_adapter = :sidekiq
 
     config.api_only = true
   end

@@ -10,4 +10,4 @@ COPY . /app
 EXPOSE 8080
 
 ENTRYPOINT ["bin/entry.sh"]
-CMD ["bundle","exec","sidekiq"]
+CMD ["puma","-C","config/docker_puma.rb","-p","8080"]

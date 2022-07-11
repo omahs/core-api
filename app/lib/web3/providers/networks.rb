@@ -5,7 +5,7 @@ module Web3
 
       MUMBAI = {
         chain_name: 'Mumbai Testnet',
-        ribon_contract_address: '0x38D30f5123e774E26D60C02d4B2927b90953E3d5',
+        ribon_contract_address: '0xD3850333819fBdd43784498F67010E5c87a2EAb3',
         donation_token_contract_address: '0x21A72dc641c8e5f13717a7e087d6D63B4f9A3574',
         chain_id: 0x13881,
         rpc_url: config[:mumbai][:rpc_url],

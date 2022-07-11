@@ -1,9 +1,9 @@
-name: Ribon Core Api
+name: Dev Worker Deploy
 
 on:
   push:
     branches:
-      - feature/sidekiq-config
+      - develop
 
 jobs:
   build:

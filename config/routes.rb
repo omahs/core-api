@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     post "/graphql", to: "graphql#execute"
   end
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'non_profits' => "non_profits#index"

@@ -59,8 +59,7 @@ describe Givings::Payment::CreateOrder do
           command
 
           expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
-            .with(amount: customer_payment.amount, user_identifier: 'user@test.com',
-                  payment: an_object_containing(customer_payment.attributes))
+            .with(amount: customer_payment.amount, payment: an_object_containing(customer_payment.attributes))
         end
       end
     end

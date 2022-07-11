@@ -4,10 +4,9 @@ require 'rails_helper'
 
 describe Givings::CommunityTreasure::AddBalance do
   describe '.call' do
-    subject(:command) { described_class.call(amount:, user_identifier:) }
+    subject(:command) { described_class.call(amount:) }
 
     let(:amount) { 0.5 }
-    let(:user_identifier) { build(:user).email }
     let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
 
     before do
@@ -18,7 +17,7 @@ describe Givings::CommunityTreasure::AddBalance do
     it 'calls ribon contract add_donation_pool_balance with correct args' do
       command
 
-      expect(ribon_contract).to have_received(:add_donation_pool_balance).with(amount:, user: user_identifier)
+      expect(ribon_contract).to have_received(:add_donation_pool_balance).with(amount:)
     end
   end
 end

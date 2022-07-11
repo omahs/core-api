@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
   describe '#perform' do
-    subject(:perform_job) { described_class.perform_now(amount:, user_identifier:, payment:) }
+    subject(:perform_job) { described_class.perform_now(amount:, payment:) }
 
     let(:result) { '0xFC02' }
     let(:amount) { 0.5 }
-    let(:user_identifier) { build(:user).email }
     let(:payment) { create(:customer_payment) }
     let(:klass) { Givings::CommunityTreasure::AddBalance }
 
@@ -17,7 +16,7 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
     end
 
     it 'calls the Givings::CommunityTreasure::AddBalance with right params' do
-      expect(klass).to have_received(:call).with(amount:, user_identifier:)
+      expect(klass).to have_received(:call).with(amount:)
     end
 
     it 'creates a customer_payment_blockchain to the payment with correct params' do

@@ -1,12 +1,12 @@
-class CustomerPayment < ApplicationRecord
+class PersonPayment < ApplicationRecord
   include UuidHelper
 
   PAYMENT_METHODS = %w[credit_card pix crypto].freeze
   STATUSES = %w[processing paid failed].freeze
 
-  belongs_to :customer
+  belongs_to :person
   belongs_to :offer, optional: true
-  has_one :customer_payment_blockchain
+  has_one :person_blockchain_transaction
 
   validates :paid_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }

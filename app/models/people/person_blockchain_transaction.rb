@@ -1,5 +1,5 @@
-class CustomerPaymentBlockchain < ApplicationRecord
-  belongs_to :customer_payment
+class PersonBlockchainTransaction < ApplicationRecord
+  belongs_to :person_payment
 
   enum treasure_entry_status: {
     processing: 0,

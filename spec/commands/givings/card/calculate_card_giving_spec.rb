@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Givings::Card::CalculateStripeGiving do
+describe Givings::Card::CalculateCardGiving do
   subject(:command) { described_class.call(value:, currency:) }
 
   let(:value) { 40 }
@@ -27,27 +27,27 @@ describe Givings::Card::CalculateStripeGiving do
     end
 
     it 'returns the correct net giving' do
-      expect(command.result[:net_giving]).to eq 'R$39.45'
+      expect(command.result[:net_giving].format).to eq 'R$39.45'
     end
 
     it 'returns the correct card fee' do
-      expect(command.result[:card_fee]).to eq 'R$0.50'
+      expect(command.result[:card_fee].format).to eq 'R$0.50'
     end
 
     it 'returns the correct crypto fee' do
-      expect(command.result[:crypto_fee]).to eq 'R$0.05'
+      expect(command.result[:crypto_fee].format).to eq 'R$0.05'
     end
 
     it 'returns the correct service_fees' do
-      expect(command.result[:service_fees]).to eq 'R$0.55'
+      expect(command.result[:service_fees].format).to eq 'R$0.55'
     end
 
     it 'returns the correct crypto giving' do
-      expect(command.result[:crypto_giving]).to eq '$7.78'
+      expect(command.result[:crypto_giving].format).to eq '$7.78'
     end
 
     it 'returns the correct giving_total' do
-      expect(command.result[:giving_total]).to eq 'R$40.00'
+      expect(command.result[:giving_total].format).to eq 'R$40.00'
     end
   end
 end

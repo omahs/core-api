@@ -2,16 +2,16 @@
 
 module Givings
   module Card
-    class CalculateStripeGiving < ApplicationCommand
+    class CalculateCardGiving < ApplicationCommand
       prepend SimpleCommand
-      include GivingServices::Fees::Card
-      include GivingServices::Fees::Crypto
+      include GivingServices::Fees
 
-      attr_reader :currency, :value
+      attr_reader :currency, :value, :gateway
 
-      def initialize(value:, currency:)
+      def initialize(value:, currency:, gateway: default_gateway)
         @value = value
         @currency = currency
+        @gateway = gateway
       end
 
       def call
@@ -27,14 +27,13 @@ module Givings
 
       def formatted_result(net_giving, crypto_giving)
         {
-          giving_total: money_value.format, net_giving: net_giving.format,
-          crypto_giving: crypto_giving.format, card_fee: card_fee.format,
-          crypto_fee: crypto_fee.format, service_fees: service_fees.format
+          giving_total: money_value, net_giving:, crypto_giving:,
+          card_fee:, crypto_fee:, service_fees:
         }
       end
 
       def card_fee
-        stripe_fee_calculator.calculate_fee
+        card_fee_calculator.calculate_fee
       end
 
       def crypto_fee
@@ -45,12 +44,12 @@ module Givings
         card_fee + crypto_fee
       end
 
-      def stripe_fee_calculator
-        StripeCardFeeCalculatorService.new(value:, currency:)
+      def card_fee_calculator
+        FeeCalculatorService.new(value:, currency:, kind: gateway)
       end
 
       def crypto_fee_calculator
-        PolygonFeeCalculatorService.new(value:, currency:)
+        FeeCalculatorService.new(value:, currency:, kind: :polygon)
       end
 
       def money_value
@@ -62,6 +61,10 @@ module Givings
 
         Currency::Converters
           .convert(value: net_giving.amount, from: net_giving.currency.to_sym.downcase, to: :usd)
+      end
+
+      def default_gateway
+        :stripe
       end
     end
   end

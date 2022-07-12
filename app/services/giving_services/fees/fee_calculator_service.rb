@@ -19,8 +19,8 @@ module GivingServices
 
       def calculator_services
         {
-          stripe_card: Card::StripeCardFeeCalculatorService,
-          polygon_gas_fee: Crypto::PolygonFeeCalculatorService
+          stripe: Card::StripeCardFeeCalculatorService,
+          polygon: Crypto::PolygonFeeCalculatorService
         }
       end
     end

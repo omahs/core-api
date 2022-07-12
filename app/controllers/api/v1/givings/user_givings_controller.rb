@@ -10,7 +10,7 @@ module Api
         private
 
         def givings
-          @givings ||= @customer.customer_payments.where(status: :paid)
+          @givings ||= PersonPayment.where(status: :paid, person: @customer.person)
         end
       end
     end

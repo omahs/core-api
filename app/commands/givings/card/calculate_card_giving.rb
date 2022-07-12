@@ -4,14 +4,14 @@ module Givings
   module Card
     class CalculateCardGiving < ApplicationCommand
       prepend SimpleCommand
-      include GivingServices::Fees::Card
       include GivingServices::Fees::Crypto
 
-      attr_reader :currency, :value
+      attr_reader :currency, :value, :gateway
 
-      def initialize(value:, currency:)
+      def initialize(value:, currency:, gateway: default_gateway)
         @value = value
         @currency = currency
+        @gateway = gateway
       end
 
       def call
@@ -46,7 +46,7 @@ module Givings
       end
 
       def card_fee_calculator
-        StripeCardFeeCalculatorService.new(value:, currency:)
+        fee_class.new(value:, currency:)
       end
 
       def crypto_fee_calculator
@@ -62,6 +62,14 @@ module Givings
 
         Currency::Converters
           .convert(value: net_giving.amount, from: net_giving.currency.to_sym.downcase, to: :usd)
+      end
+
+      def fee_class
+        "GivingServices::Fees::Card::#{gateway.to_s.capitalize}CardFeeCalculatorService".constantize
+      end
+
+      def default_gateway
+        :stripe
       end
     end
   end

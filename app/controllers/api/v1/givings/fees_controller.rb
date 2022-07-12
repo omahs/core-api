@@ -3,8 +3,7 @@ module Api
     module Givings
       class FeesController < ApplicationController
         def card_fees
-          command = ::Givings::Card::CalculateStripeGiving.call(value:,
-                                                                currency:)
+          command = ::Givings::Card::CalculateCardGiving.call(value:, currency:, gateway:)
 
           if command.success?
             render json: GivingFeeBlueprint.render(command.result), status: :ok
@@ -21,6 +20,10 @@ module Api
 
         def currency
           @currency ||= params[:currency]&.downcase&.to_sym
+        end
+
+        def gateway
+          @gateway ||= params[:gateway] || :stripe
         end
       end
     end

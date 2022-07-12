@@ -5,7 +5,7 @@ RSpec.describe 'Api::V1::Givings::Fees', type: :request do
     subject(:request) { post '/api/v1/givings/card_fees', params: }
 
     let(:params) do
-      { value: 50, currency: 'brl' }
+      { value: 50, currency: 'brl', gateway: 'stripe' }
     end
     let(:result) do
       {
@@ -16,14 +16,15 @@ RSpec.describe 'Api::V1::Givings::Fees', type: :request do
     end
 
     before do
-      mock_command(klass: Givings::Card::CalculateStripeGiving, result:)
+      mock_command(klass: Givings::Card::CalculateCardGiving, result:)
       request
     end
 
-    it 'calls the CalculateStripeGiving command with correct params' do
-      expect(Givings::Card::CalculateStripeGiving)
-        .to have_received(:call)
-        .with(value: params[:value].to_f, currency: params[:currency].downcase.to_sym)
+    it 'calls the CalculateCardGiving command with correct params' do
+      expect(Givings::Card::CalculateCardGiving)
+        .to have_received(:call).with(value: params[:value].to_f,
+                                      currency: params[:currency].downcase.to_sym,
+                                      gateway: params[:gateway])
     end
 
     it 'returns all the giving fees information' do

@@ -1,4 +1,4 @@
-class CustomerPaymentBlueprint < Blueprinter::Base
+class PersonPaymentBlueprint < Blueprinter::Base
   identifier :id
   fields :paid_date, :crypto_amount
   association :offer, blueprint: OfferBlueprint

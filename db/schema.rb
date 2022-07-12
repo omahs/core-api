@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_30_163818) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_170736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_163818) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_payment_id"], name: "index_customer_payment_blockchains_on_customer_payment_id"
+  end
+
+  create_table "customer_payment_fees", force: :cascade do |t|
+    t.integer "card_fee_cents"
+    t.integer "crypto_fee_cents"
+    t.bigint "customer_payment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_payment_id"], name: "index_customer_payment_fees_on_customer_payment_id"
   end
 
   create_table "customer_payments", force: :cascade do |t|
@@ -206,6 +215,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_163818) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_payment_blockchains", "customer_payments"
+  add_foreign_key "customer_payment_fees", "customer_payments"
   add_foreign_key "customer_payments", "offers"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"

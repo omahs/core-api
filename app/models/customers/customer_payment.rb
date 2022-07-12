@@ -4,9 +4,12 @@ class CustomerPayment < ApplicationRecord
   PAYMENT_METHODS = %w[credit_card pix crypto].freeze
   STATUSES = %w[processing paid failed].freeze
 
+  after_create :set_fees
+
   belongs_to :customer
   belongs_to :offer, optional: true
   has_one :customer_payment_blockchain
+  has_one :customer_payment_fee
 
   validates :paid_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
@@ -30,5 +33,19 @@ class CustomerPayment < ApplicationRecord
 
   def amount_value
     amount_cents / 100.0
+  end
+
+  def set_fees
+    fees = Givings::Card::CalculateCardGiving.call(value: amount_value, currency:).result
+    create_customer_payment_fee!(card_fee_cents: fees[:card_fee].cents,
+                                 crypto_fee_cents: fees[:crypto_fee].cents)
+  rescue StandardError => e
+    Reporter.log(error: e)
+  end
+
+  private
+
+  def currency
+    offer&.currency || :usd
   end
 end

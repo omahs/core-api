@@ -91,6 +91,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_130745) do
 
   create_table "guests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "wallet_address", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.uuid "person_id"
     t.index ["person_id"], name: "index_guests_on_person_id"
   end
@@ -169,6 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_130745) do
   end
 
   create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "person_blockchain_transactions", force: :cascade do |t|

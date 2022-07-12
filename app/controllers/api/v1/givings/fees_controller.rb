@@ -3,11 +3,10 @@ module Api
     module Givings
       class FeesController < ApplicationController
         def card_fees
-          command = ::Givings::Card::CalculateStripeGiving.call(value:,
-                                                                currency:)
+          command = ::Givings::Card::CalculateCardGiving.call(value:, currency:, gateway:)
 
           if command.success?
-            render json: GivingFeeBlueprint.render(command.result), status: :ok
+            render json: GivingFeeBlueprint.render(formatted_result(command.result)), status: :ok
           else
             render_errors(command.errors)
           end
@@ -15,12 +14,20 @@ module Api
 
         private
 
+        def formatted_result(result)
+          result.transform_values(&:format)
+        end
+
         def value
           @value ||= params[:value].to_f
         end
 
         def currency
           @currency ||= params[:currency]&.downcase&.to_sym
+        end
+
+        def gateway
+          @gateway ||= params[:gateway] || :stripe
         end
       end
     end

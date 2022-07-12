@@ -13,7 +13,7 @@ RSpec.describe GivingServices::Fees::FeeCalculatorService, type: :service do
   describe '#calculate_fee' do
     context 'when it is called with :stripe_card kind' do
       let(:value) { 100 }
-      let(:kind) { :stripe_card }
+      let(:kind) { :stripe }
       let(:currency) { 'BRL' }
 
       it 'calls the CardFeeCalculatorService with correct params' do

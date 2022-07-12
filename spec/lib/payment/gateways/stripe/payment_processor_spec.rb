@@ -14,7 +14,7 @@ RSpec.describe Payment::Gateways::Stripe::PaymentProcessor do
 
     let(:payload) { Order.from(payment, credit_card, operation) }
     let(:credit_card) { build(:credit_card) }
-    let(:payment) { build(:customer_payment, payment_method: :credit_card, offer:) }
+    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:) }
     let(:offer) { create(:offer, price_cents: 100, subscription: true) }
 
     before do
@@ -37,7 +37,7 @@ RSpec.describe Payment::Gateways::Stripe::PaymentProcessor do
 
     let(:payload) { Order.from(payment, credit_card, operation) }
     let(:credit_card) { build(:credit_card) }
-    let(:payment) { build(:customer_payment, payment_method: :credit_card, offer:) }
+    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:) }
     let(:offer) { create(:offer, price_cents: 100, subscription: true) }
 
     before do

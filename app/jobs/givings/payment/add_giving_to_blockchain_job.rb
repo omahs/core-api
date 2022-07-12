@@ -6,7 +6,7 @@ module Givings
 
       def perform(amount:, payment:)
         transaction_hash = call_add_balance_command(amount)
-        payment.create_customer_payment_blockchain(treasure_entry_status: :processing, transaction_hash:)
+        payment.create_person_blockchain_transaction(treasure_entry_status: :processing, transaction_hash:)
       end
 
       private

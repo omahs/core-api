@@ -3,5 +3,5 @@ class Person < ApplicationRecord
 
   has_one :guest, dependent: :destroy
   has_one :customer, dependent: :destroy
-  has_many :person_payments, dependent: :destroy
+  has_many :person_payments, dependent: :nullify
 end

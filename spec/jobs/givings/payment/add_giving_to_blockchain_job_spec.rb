@@ -6,7 +6,7 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
 
     let(:result) { '0xFC02' }
     let(:amount) { 0.5 }
-    let(:payment) { create(:customer_payment) }
+    let(:payment) { create(:person_payment) }
     let(:klass) { Givings::CommunityTreasure::AddBalance }
 
     before do
@@ -19,9 +19,9 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
       expect(klass).to have_received(:call).with(amount:)
     end
 
-    it 'creates a customer_payment_blockchain to the payment with correct params' do
-      expect(payment.customer_payment_blockchain.treasure_entry_status).to eq 'processing'
-      expect(payment.customer_payment_blockchain.transaction_hash).to eq result
+    it 'creates a person_blockchain_transaction to the payment with correct params' do
+      expect(payment.person_blockchain_transaction.treasure_entry_status).to eq 'processing'
+      expect(payment.person_blockchain_transaction.transaction_hash).to eq result
     end
   end
 end

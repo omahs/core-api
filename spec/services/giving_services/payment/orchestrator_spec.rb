@@ -5,8 +5,8 @@ RSpec.describe GivingServices::Payment::Orchestrator, type: :service do
 
   describe '#call' do
     let(:credit_card) { build(:credit_card) }
-    let(:customer_payment) { build(:customer_payment) }
-    let(:payload) { Order.from(customer_payment, credit_card, operation) }
+    let(:person_payment) { build(:person_payment) }
+    let(:payload) { Order.from(person_payment, credit_card, operation) }
 
     let(:gateway) { Payment::Gateways::Stripe }
     let!(:gateway_instance) do

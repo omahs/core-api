@@ -11,7 +11,7 @@ RSpec.describe 'Api::V1::UserGivingsController', type: :request do
     let(:url) { "/api/v1/givings/user_givings?email=#{email}&currency=#{currency}" }
     let!(:paid_payment) do
       create_list(:person_payment, 2, status: :paid, person:,
-                                        offer: create(:offer, currency: :usd, price_cents: 1000))
+                                      offer: create(:offer, currency: :usd, price_cents: 1000))
     end
 
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_usd_brl' } }

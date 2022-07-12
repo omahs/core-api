@@ -30,12 +30,13 @@ module Givings
         private
 
         def find_or_create_customer
-          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:, person: Person.create!)
+          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:,
+                                                                 person: Person.create!)
         end
 
         def create_payment(person)
           PersonPayment.create!({ person:, offer:, paid_date:,
-                                    payment_method:, amount_cents:, status: :processing })
+                                  payment_method:, amount_cents:, status: :processing })
         end
 
         def amount_cents

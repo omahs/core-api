@@ -38,12 +38,12 @@ module Givings
 
         def create_payment(person)
           PersonPayment.create!({ person:, paid_date:,
-                                    payment_method:, amount_cents:, status: :processing })
+                                  payment_method:, amount_cents:, status: :processing })
         end
 
         def create_blockchain_transaction(payment)
           PersonBlockchainTransaction.create!(person_payment: payment, treasure_entry_status: :processing,
-                                            transaction_hash:)
+                                              transaction_hash:)
         end
 
         def amount_cents

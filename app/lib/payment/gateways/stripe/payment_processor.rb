@@ -37,7 +37,8 @@ module Payment
           @stripe_payment_method = Entities::PaymentMethod.create(card: order&.card)
           @stripe_customer       = Entities::Customer.create(customer: order&.person&.customer,
                                                              payment_method: @stripe_payment_method)
-          Entities::TaxId.add_to_customer(stripe_customer: @stripe_customer, tax_id: order&.person&.customer&.tax_id)
+          Entities::TaxId.add_to_customer(stripe_customer: @stripe_customer,
+                                          tax_id: order&.person&.customer&.tax_id)
         end
       end
     end

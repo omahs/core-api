@@ -9,9 +9,12 @@ RSpec.describe 'Api::V1::Givings::Fees', type: :request do
     end
     let(:result) do
       {
-        card_fee: 'R$2.39', crypto_fee: 'R$1.89',
-        crypto_giving: '$8.73', giving_total: 'R$50.00',
-        net_giving: 'R$45.72', service_fees: 'R$4.28'
+        card_fee: Money.from_amount(2.39, :brl),
+        crypto_fee: Money.from_amount(1.89, :brl),
+        crypto_giving: Money.from_amount(8.73, :usd),
+        giving_total: Money.from_amount(50.0, :brl),
+        net_giving: Money.from_amount(45.72, :brl),
+        service_fees: Money.from_amount(4.28, :brl)
       }
     end
 
@@ -33,7 +36,7 @@ RSpec.describe 'Api::V1::Givings::Fees', type: :request do
     end
 
     it 'returns the command result' do
-      expect(response_json.to_json).to eq result.to_json
+      expect(response_json.to_json).to eq result.transform_values(&:format).to_json
     end
   end
 end

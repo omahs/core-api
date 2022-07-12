@@ -27,9 +27,8 @@ module Givings
 
       def formatted_result(net_giving, crypto_giving)
         {
-          giving_total: money_value.format, net_giving: net_giving.format,
-          crypto_giving: crypto_giving.format, card_fee: card_fee.format,
-          crypto_fee: crypto_fee.format, service_fees: service_fees.format
+          giving_total: money_value, net_giving:, crypto_giving:,
+          card_fee:, crypto_fee:, service_fees:
         }
       end
 

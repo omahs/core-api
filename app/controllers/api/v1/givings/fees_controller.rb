@@ -6,13 +6,17 @@ module Api
           command = ::Givings::Card::CalculateCardGiving.call(value:, currency:, gateway:)
 
           if command.success?
-            render json: GivingFeeBlueprint.render(command.result), status: :ok
+            render json: GivingFeeBlueprint.render(formatted_result(command.result)), status: :ok
           else
             render_errors(command.errors)
           end
         end
 
         private
+
+        def formatted_result(result)
+          result.transform_values(&:format)
+        end
 
         def value
           @value ||= params[:value].to_f

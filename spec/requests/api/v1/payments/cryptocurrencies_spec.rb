@@ -45,14 +45,15 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
   describe 'PUT /cryptocurrency' do
     subject(:request) { put '/api/v1/payments/cryptocurrency', params: }
 
-    let(:customer) { build(:customer) }
-    let(:customer_payment) { build(:customer_payment, customer:) }
-    let!(:customer_payment_blockchain) do
-      build(:customer_payment_blockchain, customer_payment:, transaction_hash: '0xFFFF')
+    let(:person) { build(:person) }
+    let(:customer) { build(:customer, person:) }
+    let(:person_payment) { build(:person_payment, person:) }
+    let!(:blockchain_transaction) do
+      build(:person_blockchain_transaction, person_payment:, transaction_hash: '0xFFFF')
     end
 
     before do
-      allow(CustomerPaymentBlockchain).to receive(:find_by).and_return(customer_payment_blockchain)
+      allow(PersonBlockchainTransaction).to receive(:find_by).and_return(blockchain_transaction)
     end
 
     context 'when the request is successful' do
@@ -64,7 +65,7 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
         request
 
         expect(response).to have_http_status :no_content
-        expect(customer_payment_blockchain.treasure_entry_status).to eq('success')
+        expect(blockchain_transaction.treasure_entry_status).to eq('success')
       end
     end
 
@@ -82,13 +83,13 @@ RSpec.describe 'Api::V1::Payments::Cryptocurrency', type: :request do
       it 'not change the status of the transaction' do
         request
 
-        expect(customer_payment_blockchain.treasure_entry_status).to eq('processing')
+        expect(blockchain_transaction.treasure_entry_status).to eq('processing')
       end
     end
 
     context 'when the request is failed due to invalid hash' do
       before do
-        allow(CustomerPaymentBlockchain).to receive(:find_by).and_return(nil)
+        allow(PersonBlockchainTransaction).to receive(:find_by).and_return(nil)
       end
 
       let(:params) do

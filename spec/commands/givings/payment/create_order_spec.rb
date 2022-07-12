@@ -7,13 +7,14 @@ describe Givings::Payment::CreateOrder do
     subject(:command) { described_class.call(order_type_class, args) }
 
     let(:user) { create(:user) }
-    let(:customer) { build(:customer) }
+    let(:person) { create(:person) }
 
     context 'when using a CreditCard payment' do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
+      let(:customer) { build(:customer, person:) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:customer_payment) { build(:customer_payment, offer:, customer:, amount_cents: 1) }
+      let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
 
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
@@ -26,20 +27,21 @@ describe Givings::Payment::CreateOrder do
         end
       end
 
-      it 'creates a CustomerPayment' do
-        expect { command }.to change(CustomerPayment, :count).by(1)
+      it 'creates a PersonPayment' do
+        expect { command }.to change(PersonPayment, :count).by(1)
       end
 
       it 'calls GivingServices::Payment::Orchestrator with correct payload' do
         allow(GivingServices::Payment::Orchestrator).to receive(:new)
+        allow(Person).to receive(:create!).and_return(person)
         allow(Customer).to receive(:create!).and_return(customer)
-        allow(CustomerPayment).to receive(:create!).and_return(customer_payment)
+        allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
 
         expect(GivingServices::Payment::Orchestrator)
           .to have_received(:new).with(payload: an_object_containing(
-            payment_method: 'credit_card', payment: customer_payment,
-            status: :paid, card:, offer:, customer:
+            payment_method: 'credit_card', payment: person_payment,
+            status: :paid, card:, offer:, person:
           ))
       end
 
@@ -59,7 +61,14 @@ describe Givings::Payment::CreateOrder do
           command
 
           expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
-            .with(amount: customer_payment.amount, payment: an_object_containing(customer_payment.attributes))
+            .with(amount: person_payment.amount, payment: an_object_containing(
+              id:             person_payment.id,
+              amount_cents:   person_payment.amount_cents,
+              offer_id:       person_payment.offer.id,
+              person_id:      person_payment.person.id,
+              status:         person_payment.status,
+              payment_method: person_payment.payment_method
+            ))
         end
       end
     end
@@ -67,25 +76,26 @@ describe Givings::Payment::CreateOrder do
     context 'when using a Crypto payment' do
       let(:order_type_class) { Givings::Payment::OrderTypes::Cryptocurrency }
       let(:transaction_hash) { '0xFFFF' }
-      let(:customer_payment) { build(:customer_payment, offer: nil, customer:) }
+      let(:person_payment) { build(:person_payment, offer: nil, person:) }
+      let(:guest) { build(:guest, person:) }
 
       let(:args) do
-        { email: 'user@test.com', payment_method: :crypto,
+        { wallet_address: guest.wallet_address, payment_method: :crypto,
           user:, amount: '7.00', transaction_hash: }
       end
 
-      context 'when there is no customer associated with the user' do
-        it 'creates a new customer to the user' do
-          expect { command }.to change(user.customers, :count).by(1)
-        end
+      before do
+        allow(Person).to receive(:create!).and_return(person)
+        allow(Guest).to receive(:create!).and_return(guest)
+        allow(PersonPayment).to receive(:create!).and_return(person_payment)
+      end
+  
+      it 'creates a PersonPayment' do
+        expect { command }.to change(PersonPayment, :count).by(1)
       end
 
-      it 'creates a CustomerPayment' do
-        expect { command }.to change(CustomerPayment, :count).by(1)
-      end
-
-      it 'creates a CustomerPaymentBlockChain' do
-        expect { command }.to change(CustomerPaymentBlockchain, :count).by(1)
+      it 'creates a PersonBlockchainTransaction' do
+        expect { command }.to change(PersonBlockchainTransaction, :count).by(1)
       end
     end
   end

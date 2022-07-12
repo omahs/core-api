@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Givings::Card::CalculateStripeGiving do
+describe Givings::Card::CalculateCardGiving do
   subject(:command) { described_class.call(value:, currency:) }
 
   let(:value) { 40 }

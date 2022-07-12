@@ -2,7 +2,7 @@
 
 module Givings
   module Card
-    class CalculateStripeGiving < ApplicationCommand
+    class CalculateCardGiving < ApplicationCommand
       prepend SimpleCommand
       include GivingServices::Fees::Card
       include GivingServices::Fees::Crypto
@@ -34,7 +34,7 @@ module Givings
       end
 
       def card_fee
-        stripe_fee_calculator.calculate_fee
+        card_fee_calculator.calculate_fee
       end
 
       def crypto_fee
@@ -45,7 +45,7 @@ module Givings
         card_fee + crypto_fee
       end
 
-      def stripe_fee_calculator
+      def card_fee_calculator
         StripeCardFeeCalculatorService.new(value:, currency:)
       end
 

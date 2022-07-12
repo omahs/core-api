@@ -18,7 +18,7 @@ module Givings
 
         def generate_order
           customer = find_or_create_customer
-          payment  = create_payment(customer)
+          payment  = create_payment(customer.person)
 
           Order.from(payment, card, operation)
         end
@@ -30,11 +30,11 @@ module Givings
         private
 
         def find_or_create_customer
-          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:)
+          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:, person: Person.create!)
         end
 
-        def create_payment(customer)
-          CustomerPayment.create!({ customer:, offer:, paid_date:,
+        def create_payment(person)
+          PersonPayment.create!({ person:, offer:, paid_date:,
                                     payment_method:, amount_cents:, status: :processing })
         end
 

@@ -57,7 +57,7 @@ module Givings
       end
 
       def converted_giving(net_giving)
-        return money_value if currency == :usd
+        return money_value if currency.to_sym.downcase == :usd
 
         Currency::Converters
           .convert(value: net_giving.amount, from: net_giving.currency.to_sym.downcase, to: :usd)

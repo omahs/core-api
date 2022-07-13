@@ -4,9 +4,12 @@ class PersonPayment < ApplicationRecord
   PAYMENT_METHODS = %w[credit_card pix crypto].freeze
   STATUSES = %w[processing paid failed].freeze
 
+  after_create :set_fees
+
   belongs_to :person
   belongs_to :offer, optional: true
   has_one :person_blockchain_transaction
+  has_one :person_payment_fee
 
   validates :paid_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
@@ -17,18 +20,37 @@ class PersonPayment < ApplicationRecord
                              }
 
   def crypto_amount
-    return offer.price_value if offer.usd?
+    amount_with_fees = amount - service_fees
+    return amount_with_fees if currency == :usd
 
-    Currency::Converters.convert_to_usd(value: offer.price_value, from: offer.currency).to_f
+    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).to_f
   end
 
   def amount
     return amount_value if amount_cents
 
-    crypto_amount
+    offer&.price_value
   end
 
   def amount_value
     amount_cents / 100.0
+  end
+
+  def set_fees
+    fees = Givings::Card::CalculateCardGiving.call(value: amount_value, currency:).result
+    create_person_payment_fee!(card_fee_cents: fees[:card_fee].cents,
+                               crypto_fee_cents: fees[:crypto_fee].cents)
+  rescue StandardError => e
+    Reporter.log(error: e)
+  end
+
+  private
+
+  def currency
+    offer&.currency || :usd
+  end
+
+  def service_fees
+    person_payment_fee&.service_fee || 0
   end
 end

@@ -20,7 +20,7 @@ class PersonPayment < ApplicationRecord
                              }
 
   def crypto_amount
-    amount_with_fees = amount - person_payment_fee&.service_fee&.to_f
+    amount_with_fees = amount - service_fees
     return amount_with_fees if currency == :usd
 
     Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).to_f
@@ -48,5 +48,9 @@ class PersonPayment < ApplicationRecord
 
   def currency
     offer&.currency || :usd
+  end
+
+  def service_fees
+    person_payment_fee&.service_fee || 0
   end
 end

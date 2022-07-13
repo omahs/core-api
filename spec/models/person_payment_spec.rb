@@ -5,7 +5,7 @@ RSpec.describe PersonPayment, type: :model do
 
   let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
   let(:amount_cents) { nil }
-  let(:offer) { build(:offer, price_cents: 1200) }
+  let(:offer) { build(:offer, price_cents: 1200, currency: :usd) }
 
   describe 'validations' do
     it { is_expected.to belong_to(:person) }
@@ -61,6 +61,35 @@ RSpec.describe PersonPayment, type: :model do
 
       expect(fee.card_fee_cents).to eq 67
       expect(fee.crypto_fee_cents).to eq 3
+    end
+  end
+
+  describe '#crypto_amount' do
+    context 'when the currency is usd' do
+      let(:amount_cents) { 1500 }
+      let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
+
+      it 'returns the amount minus the fees' do
+        amount = person_payment.amount
+        fees = person_payment_fee.crypto_fee + person_payment_fee.card_fee
+
+        expect(person_payment.crypto_amount).to eq amount - fees
+      end
+    end
+
+    context 'when the currency is brl' do
+      include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
+      let(:amount_cents) { 1500 }
+      let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
+      let(:offer) { build(:offer, price_cents: 1200, currency: :brl) }
+
+      it 'returns the amount minus the fees converted to brl' do
+        amount = person_payment.amount
+        fees = person_payment_fee.crypto_fee + person_payment_fee.card_fee
+        convert_factor_brl_usd = 0.1843 # comes from the conversion_rate_brl_usd request
+
+        expect(person_payment.crypto_amount).to eq ((amount - fees) * convert_factor_brl_usd).round(2)
+      end
     end
   end
 end

@@ -9,6 +9,7 @@ class PersonPayment < ApplicationRecord
   belongs_to :person
   belongs_to :offer, optional: true
   has_one :person_blockchain_transaction
+  has_one :person_payment_fee
 
   validates :paid_date, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }

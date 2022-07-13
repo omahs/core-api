@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_12_130745) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_13_114105) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -184,6 +184,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_130745) do
     t.index ["person_payment_id"], name: "index_person_blockchain_transactions_on_person_payment_id"
   end
 
+  create_table "person_payment_fees", force: :cascade do |t|
+    t.integer "card_fee_cents"
+    t.integer "crypto_fee_cents"
+    t.bigint "person_payment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_payment_id"], name: "index_person_payment_fees_on_person_payment_id"
+  end
+
   create_table "person_payments", force: :cascade do |t|
     t.datetime "paid_date"
     t.string "payment_method"
@@ -227,6 +236,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_130745) do
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "offer_gateways", "offers"
   add_foreign_key "person_blockchain_transactions", "person_payments"
+  add_foreign_key "person_payment_fees", "person_payments"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
   add_foreign_key "user_donation_stats", "users"

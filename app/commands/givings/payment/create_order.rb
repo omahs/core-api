@@ -36,7 +36,7 @@ module Givings
       end
 
       def call_add_giving_blockchain_job(order)
-        AddGivingToBlockchainJob.perform_later(amount: order.payment.amount, payment: order.payment)
+        AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount, payment: order.payment)
       end
     end
   end

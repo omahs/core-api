@@ -6,6 +6,8 @@ describe Givings::Payment::CreateOrder do
   describe '.call' do
     subject(:command) { described_class.call(order_type_class, args) }
 
+    include_context('when mocking a request') { let(:cassette_name) { 'stripe_payment_method' } }
+
     let(:person) { create(:person) }
 
     context 'when using a CreditCard payment' do
@@ -60,7 +62,7 @@ describe Givings::Payment::CreateOrder do
           command
 
           expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
-            .with(amount: person_payment.amount, payment: an_object_containing(
+            .with(amount: person_payment.crypto_amount, payment: an_object_containing(
               id: person_payment.id, amount_cents: person_payment.amount_cents,
               offer_id: person_payment.offer.id, person_id: person_payment.person.id,
               status: person_payment.status, payment_method: person_payment.payment_method

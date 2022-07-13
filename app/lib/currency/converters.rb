@@ -20,7 +20,7 @@ module Currency
     end
 
     def add_rate
-      return if from.to_sym.eql?(to)
+      return if from.to_sym.eql?(to.to_sym)
 
       Currency::Rates.new(from:, to:).add_rate
     end

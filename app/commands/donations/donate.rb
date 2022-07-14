@@ -40,7 +40,7 @@ module Donations
     end
 
     def update_donation_blockchain_link(transaction_hash)
-      donation.blockchain_process_link = "#{network[:block_explorer_url]}/tx/#{transaction_hash}"
+      donation.blockchain_process_link = "#{network[:block_explorer_url]}tx/#{transaction_hash}"
       donation.save
     end
 

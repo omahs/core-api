@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  include UserServices::UserImpact
-
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   before_validation { email.downcase! }
@@ -13,6 +11,10 @@ class User < ApplicationRecord
 
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
+
+  def impact
+    UserServices::UserImpact.new(user: self).impact
+  end
 
   private
 

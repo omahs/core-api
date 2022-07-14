@@ -15,4 +15,22 @@ RSpec.describe User, type: :model do
       expect(user.user_donation_stats).not_to be_nil
     end
   end
+
+  describe '#impact' do
+    subject(:user) { build(:user) }
+
+    let(:service) { instance_double(UserServices::UserImpact) }
+
+    before do
+      allow(UserServices::UserImpact).to receive(:new).and_return(service)
+      allow(service).to receive(:impact)
+    end
+
+    it 'calls the UserServices::UserImpact impact' do
+      user.impact
+
+      expect(UserServices::UserImpact).to have_received(:new).with(user:)
+      expect(service).to have_received(:impact)
+    end
+  end
 end

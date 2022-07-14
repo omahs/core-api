@@ -13,6 +13,8 @@ module PersonPaymentServices
       person_blockchain_transaction.update!(treasure_entry_status: treasure_entry_status_by(status))
     end
 
+    private
+
     def client
       @client ||= Web3::Providers::Client.create(network:)
     end

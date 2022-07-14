@@ -11,16 +11,13 @@ describe Donations::Donate do
       let(:non_profit) { build(:non_profit) }
       let(:user) { build(:user) }
       let(:donation) { build(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
+      let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)
-        allow(Web3::RibonContract).to receive(:donate_through_integration).and_return(
-          { 'body' => {
-            transactionHash: '0xFF20'
-          }.to_json }
-        )
-        allow(Donations::SetUserLastDonationAt)
-          .to receive(:call)
+        allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
+        allow(ribon_contract).to receive(:donate_through_integration).and_return('0xFF20')
+        allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(donation).to receive(:save)
         create(:ribon_config, default_ticket_value: 100)
@@ -29,18 +26,14 @@ describe Donations::Donate do
       it 'creates a donation in database' do
         command
 
-        expect(Donation).to have_received(:create!).with(integration:, non_profit:,
-                                                         user:, value: 100)
+        expect(Donation).to have_received(:create!).with(integration:, non_profit:, user:, value: 100)
       end
 
       it 'calls the donation in contract' do
         command
 
-        expect(Web3::RibonContract)
-          .to have_received(:donate_through_integration)
-          .with(amount: 1_000_000_000_000_000_000,
-                non_profit_address: non_profit.wallet_address,
-                user_email: user.email)
+        expect(ribon_contract).to have_received(:donate_through_integration)
+          .with(amount: 1.0, non_profit_wallet_address: non_profit.wallet_address, user: user.email)
       end
 
       it 'calls the Donations::SetUserLastDonationAt' do
@@ -59,10 +52,12 @@ describe Donations::Donate do
       let(:integration) { create(:integration) }
       let(:non_profit) { create(:non_profit) }
       let(:user) { create(:user) }
+      let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
 
       before do
         create(:ribon_config, default_ticket_value: 100)
-        allow(Web3::RibonContract).to receive(:donate_through_integration)
+        allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
+        allow(ribon_contract).to receive(:donate_through_integration)
           .and_raise(StandardError.new('error message'))
       end
 

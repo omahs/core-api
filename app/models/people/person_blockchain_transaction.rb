@@ -10,6 +10,7 @@ class PersonBlockchainTransaction < ApplicationRecord
   }
 
   def update_status_from_eth_network
+    # TODO: add listener to contract events to call this method
     PersonPayments::UpdateBlockchainTransactionStatusJob
       .set(wait_until: 5.minutes.from_now)
       .perform_later(self)

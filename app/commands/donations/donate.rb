@@ -29,29 +29,18 @@ module Donations
     private
 
     def create_donation
-      @donation = Donation.create!(
-        integration:,
-        non_profit:,
-        user:,
-        value: ticket_value
-      )
+      @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
     end
 
     def create_blockchain_donation
-      amount = Web3::Utils::Converter.to_wei(ticket_value * CENTS_FACTOR)
+      amount = ticket_value * CENTS_FACTOR
+      non_profit_wallet_address = non_profit.wallet_address
 
-      response = Web3::RibonContract.donate_through_integration(
-        non_profit_address: non_profit.wallet_address,
-        amount:,
-        user_email: user.email
-      )
-
-      body = JSON.parse(response['body'])
-      body['transactionHash']
+      ribon_contract.donate_through_integration(non_profit_wallet_address:, user: user.email, amount:)
     end
 
     def update_donation_blockchain_link(transaction_hash)
-      donation.blockchain_process_link = "#{RibonCoreApi.config[:blockchain][:scan_url]}#{transaction_hash}"
+      donation.blockchain_process_link = "#{network[:block_explorer_url]}tx/#{transaction_hash}"
       donation.save
     end
 
@@ -60,7 +49,15 @@ module Donations
     end
 
     def ticket_value
-      RibonConfig.default_ticket_value
+      @ticket_value ||= RibonConfig.default_ticket_value
+    end
+
+    def ribon_contract
+      @ribon_contract ||= Web3::Contracts::RibonContract.new(network:)
+    end
+
+    def network
+      @network ||= Web3::Providers::Networks::MUMBAI
     end
   end
 end

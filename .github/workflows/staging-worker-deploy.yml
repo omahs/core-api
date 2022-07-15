@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.1.2
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Tests (6)'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 15
       - name: Copy dockerfile
         run: cp .worker_config/Dockerfile Dockerfile
       - name: Generate deployment package

@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
       user.impact
 
       expect(UserServices::UserImpact).to have_received(:new).with(user:)
-      expect(service).to have_received(:impact)
+      expect(service).to have_received(:impacts)
     end
   end
 end

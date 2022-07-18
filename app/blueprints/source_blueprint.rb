@@ -1,5 +1,4 @@
 class SourceBlueprint < Blueprinter::Base
   identifier :id
-  association :user, blueprint: UserBlueprint
-  association :integration, blueprint: IntegrationBlueprint
+  fields :user_id, :integration_id
 end

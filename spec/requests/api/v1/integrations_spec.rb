@@ -11,7 +11,8 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
     it 'returns a list of integrations' do
       request
 
-      expect_response_collection_to_have_keys(%w[created_at id updated_at logo name url wallet_address])
+      expect_response_collection_to_have_keys(%w[created_at id updated_at logo name url wallet_address status
+                                                 integration_address])
     end
   end
 
@@ -23,7 +24,8 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
     it 'returns a single integration' do
       request
 
-      expect_response_to_have_keys(%w[created_at id updated_at logo name url wallet_address])
+      expect_response_to_have_keys(%w[created_at id updated_at logo name url wallet_address status
+                                      integration_address])
     end
   end
 end

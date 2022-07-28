@@ -9,25 +9,23 @@ module Web3
         cipher.key = sha256_key
 
         OpenStruct.new({
-          cypher_text: cipher.update(plain_text) + cipher.final,
-          iv:
-        })
+                         cypher_text: cipher.update(plain_text) + cipher.final,
+                         iv:
+                       })
       end
 
-      def self.decrypt(cypher_text, iv)
+      def self.decrypt(cypher_text, cypher_iv)
         decipher     = cypher_instance.decrypt
-        decipher.iv  = iv
+        decipher.iv  = cypher_iv
         decipher.key = sha256_key
 
         OpenStruct.new({
-          plain_text: decipher.update(cypher_text) + decipher.final
-        })
+                         plain_text: decipher.update(cypher_text) + decipher.final
+                       })
       end
 
-      private
-
       def self.cypher_instance
-        OpenSSL::Cipher::AES256.new :CBC
+        OpenSSL::Cipher.new('aes-256-cbc')
       end
 
       def self.sha256_key
@@ -36,4 +34,3 @@ module Web3
     end
   end
 end
-  

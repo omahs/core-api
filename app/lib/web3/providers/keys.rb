@@ -7,7 +7,7 @@ module Web3
 
       def self.generate_keypair
         key = ::Eth::Key.new
-    
+
         [
           key.address.address,
           key.private_hex

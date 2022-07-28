@@ -4,27 +4,27 @@ module Web3
       SECRET_KEY = RibonCoreApi.config[:openssl][:ribon_secret_openssl_key]
 
       def self.encrypt(plain_text)
-        cipher     = cypher_instance.encrypt
+        cipher     = cipher_instance.encrypt
         iv         = cipher.random_iv
         cipher.key = sha256_key
 
         OpenStruct.new({
-                         cypher_text: cipher.update(plain_text) + cipher.final,
+                         cipher_text: cipher.update(plain_text) + cipher.final,
                          iv:
                        })
       end
 
-      def self.decrypt(cypher_text, cypher_iv)
-        decipher     = cypher_instance.decrypt
-        decipher.iv  = cypher_iv
+      def self.decrypt(cipher_text, cipher_iv)
+        decipher     = cipher_instance.decrypt
+        decipher.iv  = cipher_iv
         decipher.key = sha256_key
 
         OpenStruct.new({
-                         plain_text: decipher.update(cypher_text) + decipher.final
+                         plain_text: decipher.update(cipher_text) + decipher.final
                        })
       end
 
-      def self.cypher_instance
+      def self.cipher_instance
         OpenSSL::Cipher.new('aes-256-cbc')
       end
 

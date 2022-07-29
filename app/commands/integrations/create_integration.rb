@@ -13,9 +13,7 @@ module Integrations
 
     def call
       with_exception_handle do
-        if integration.save
-          IntegrationWallet.create!(encrypted_wallet)
-        end
+        IntegrationWallet.create!(encrypted_wallet) if integration.save
       end
     end
 

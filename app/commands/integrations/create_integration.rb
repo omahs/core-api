@@ -5,15 +5,19 @@ module Integrations
     prepend SimpleCommand
     include Web3
 
-    attr_reader :integration
+    attr_reader :name, :status
 
     def initialize(name:, status:)
-      @integration = Integration.new(name:, status:, unique_address:)
+      @name   = name
+      @status = status
     end
 
     def call
       with_exception_handle do
-        IntegrationWallet.create!(encrypted_wallet) if integration.save
+        integration = Integration.create!(name:, status:, unique_address:)
+        IntegrationWallet.create!(encrypted_wallet.merge!(integration:))
+
+        integration
       end
     end
 
@@ -31,8 +35,7 @@ module Integrations
       {
         public_key:,
         encrypted_private_key: encode(encrypted_key.cipher_text),
-        private_key_iv: encode(encrypted_key.iv),
-        integration:
+        private_key_iv: encode(encrypted_key.iv)
       }
     end
 

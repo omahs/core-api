@@ -10,12 +10,7 @@ describe Integrations::CreateIntegration do
       let(:name) { 'Ribon' }
       let(:status) { :active }
 
-      let(:keypair) do
-        [
-          '0xAAAAAAAA',
-          'pr1v4t3k3y'
-        ]
-      end
+      let(:keypair) { %w[0xAAAAAAAA pr1v4t3k3y] }
 
       before do
         allow(Web3::Providers::Keys).to receive(:generate_keypair).and_return(keypair)

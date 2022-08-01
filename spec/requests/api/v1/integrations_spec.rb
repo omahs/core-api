@@ -17,12 +17,12 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
   end
 
   describe 'POST /create' do
-    subject(:request) { post "/api/v1/integrations", params: }
+    subject(:request) { post '/api/v1/integrations', params: }
 
     let(:params) do
       {
-        name: "Ribon",
-        status: "0"
+        name: 'Ribon',
+        status: '0'
       }
     end
 

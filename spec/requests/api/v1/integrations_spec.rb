@@ -28,4 +28,17 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
                                       integration_address])
     end
   end
+
+  describe 'PUT /update' do
+    subject(:request) { put "/api/v1/integrations/#{integration.id}", params: }
+
+    let(:integration) { create(:integration) }
+    let(:params) { { name: 'New Name' } }
+
+    it 'updates the integration' do
+      request
+
+      expect(integration.reload.name).to eq('New Name')
+    end
+  end
 end

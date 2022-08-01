@@ -10,6 +10,17 @@ describe Integrations::CreateIntegration do
       let(:name) { 'Ribon' }
       let(:status) { :active }
 
+      let(:keypair) do
+        [
+          '0xAAAAAAAA',
+          'pr1v4t3k3y'
+        ]
+      end
+
+      before do
+        allow(Web3::Providers::Keys).to receive(:generate_keypair).and_return(keypair)
+      end
+
       it 'creates a new integration' do
         expect { command }.to change(Integration, :count).by(1)
       end

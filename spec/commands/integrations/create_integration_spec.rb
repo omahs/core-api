@@ -10,10 +10,11 @@ describe Integrations::CreateIntegration do
       let(:name) { 'Ribon' }
       let(:status) { :active }
 
-      let(:keypair) { %w[0xAAAAAAAA pr1v4t3k3y] }
+      let(:private_hex) { '8a0be99dddd9d9deb64b4bf795338566652565270c19549488f252b095257dea' }
+      let(:address) { OpenStruct.new({ address: '0xc2da3e828d8bb76df7f47a9c20318eae0d1d6e58' }) }
 
       before do
-        allow(Web3::Providers::Keys).to receive(:generate_keypair).and_return(keypair)
+        mock_instance(klass: Eth::Key, methods: { address:,  private_hex:})
       end
 
       it 'creates a new integration' do

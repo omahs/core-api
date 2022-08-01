@@ -14,7 +14,7 @@ describe Integrations::CreateIntegration do
       let(:address) { OpenStruct.new({ address: '0xc2da3e828d8bb76df7f47a9c20318eae0d1d6e58' }) }
 
       before do
-        mock_instance(klass: Eth::Key, methods: { address:,  private_hex: })
+        mock_instance(klass: Eth::Key, methods: { address:, private_hex: })
       end
 
       it 'creates a new integration' do

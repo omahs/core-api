@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get 'non_profits' => "non_profits#index"
       get 'integrations' => "integrations#index"
       get 'integrations/:id' => "integrations#show"
+      put 'integrations/:id' => "integrations#update"
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"

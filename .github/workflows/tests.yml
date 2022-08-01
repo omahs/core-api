@@ -77,4 +77,5 @@ jobs:
           MUMBAI_NODE_URL: ${{ secrets.MUMBAI_NODE_URL }}
           MUMBAI_RPC_URL: ${{ secrets.MUMBAI_RPC_URL }}
           MUMBAI_BLOCK_EXPLORER_URL: ${{ secrets.MUMBAI_BLOCK_EXPLORER_URL }}
+          RIBON_SECRET_OPENSSL_KEY: ${{ secrets.RIBON_SECRET_OPENSSL_KEY }}
         run: bundle exec rspec

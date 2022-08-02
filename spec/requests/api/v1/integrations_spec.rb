@@ -11,8 +11,31 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
     it 'returns a list of integrations' do
       request
 
-      expect_response_collection_to_have_keys(%w[created_at id updated_at logo name url wallet_address status
-                                                 integration_address])
+      expect_response_collection_to_have_keys(%w[created_at id updated_at name status unique_address
+                                                 integration_address integration_wallet])
+    end
+  end
+
+  describe 'POST /create' do
+    subject(:request) { post '/api/v1/integrations', params: }
+
+    let(:params) do
+      {
+        name: 'Ribon',
+        status: '0'
+      }
+    end
+
+    let!(:result) { create(:integration) }
+
+    before do
+      mock_command(klass: Integrations::CreateIntegration, result:)
+      request
+    end
+
+    it 'returns a single integration' do
+      expect_response_to_have_keys(%w[created_at id updated_at name status unique_address integration_address
+                                      integration_wallet])
     end
   end
 
@@ -24,8 +47,8 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
     it 'returns a single integration' do
       request
 
-      expect_response_to_have_keys(%w[created_at id updated_at logo name url wallet_address status
-                                      integration_address])
+      expect_response_to_have_keys(%w[created_at id updated_at name status unique_address integration_address
+                                      integration_wallet])
     end
   end
 

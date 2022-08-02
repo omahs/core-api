@@ -1,10 +1,17 @@
 class Integration < ApplicationRecord
-  has_one_attached :logo
+  has_one :integration_wallet
+
   enum status: { active: 0, inactive: 1 }
 
-  validates :url, :wallet_address, :name, :logo, presence: true
+  validates :name, :status, :unique_address, presence: true
 
   def integration_address
-    "https://dapp.ribon.io/integration/#{id}"
+    "#{base_url}#{unique_address}"
+  end
+
+  private
+
+  def base_url
+    RibonCoreApi.config[:integration_address][:base_url]
   end
 end

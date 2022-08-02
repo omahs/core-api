@@ -7,6 +7,16 @@ module Api
         render json: IntegrationBlueprint.render(@integrations)
       end
 
+      def create
+        command = Integrations::CreateIntegration.call(name: params[:name], status: params[:status].to_i)
+
+        if command.success?
+          render json: IntegrationBlueprint.render(command.result), status: :created
+        else
+          render_errors(command.errors)
+        end
+      end
+
       def show
         @integration = Integration.find integration_params[:id]
 

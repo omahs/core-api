@@ -15,7 +15,7 @@ module Integrations
     def call
       with_exception_handle do
         integration = Integration.create!(name:, status:, unique_address:)
-        IntegrationWallet.create!(encrypted_wallet.merge!(integration:))
+        integration.create_integration_wallet!(encrypted_wallet)
 
         integration
       end

@@ -6,6 +6,12 @@ class Integration < ApplicationRecord
   validates :name, :status, :unique_address, presence: true
 
   def integration_address
-    "https://dapp.ribon.io/integration/#{unique_address}"
+    "#{base_url}#{unique_address}"
+  end
+
+  private
+
+  def base_url
+    RibonCoreApi.config[:integration_address][:base_url]
   end
 end

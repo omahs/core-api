@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'non_profits' => "non_profits#index"
       get 'integrations' => "integrations#index"
+      post 'integrations' => "integrations#create"
       get 'integrations/:id' => "integrations#show"
       put 'integrations/:id' => "integrations#update"
       post 'donations' => "donations#create"

@@ -5,7 +5,7 @@ module Api
         @user = User.find_by(email: params[:email])
 
         if @user
-          render json: UserBlueprint.render(@user)
+          render json: UserBlueprint.render(@user, view: :extended)
         else
           render json: { error: 'user not found' }, status: :not_found
         end

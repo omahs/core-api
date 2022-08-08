@@ -1,9 +1,10 @@
 class Integration < ApplicationRecord
   has_one :integration_wallet
 
-  enum status: { active: 0, inactive: 1 }
+  STATUSES = %w[active inactive].freeze
+  validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
 
-  validates :name, :status, :unique_address, presence: true
+  validates :name, :unique_address, presence: true
 
   def integration_address
     "#{base_url}#{unique_address}"

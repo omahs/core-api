@@ -22,7 +22,7 @@ AllCops:
     - "app/controllers/rails_admin/**/*"
 
 Metrics/LineLength:
-  Max: 110
+  Max: 115
 
 Metrics/BlockLength:
   Exclude:
@@ -61,7 +61,7 @@ Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 7
+  Max: 8
 
 Style/SymbolProc:
   Exclude:

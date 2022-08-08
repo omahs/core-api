@@ -61,7 +61,7 @@ Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 7
+  Max: 8
 
 Style/SymbolProc:
   Exclude:

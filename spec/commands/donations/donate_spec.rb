@@ -33,7 +33,8 @@ describe Donations::Donate do
         command
 
         expect(ribon_contract).to have_received(:donate_through_integration)
-          .with(amount: 1.0, non_profit_wallet_address: non_profit.wallet_address, user: user.email)
+          .with(amount: 1.0, non_profit_wallet_address: non_profit.wallet_address, user: user.email,
+                sender_key: integration.integration_wallet.private_key)
       end
 
       it 'calls the Donations::SetUserLastDonationAt' do

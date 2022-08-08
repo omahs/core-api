@@ -8,7 +8,7 @@ module Api
       end
 
       def create
-        command = Integrations::CreateIntegration.call(name: params[:name], status: params[:status].to_i)
+        command = Integrations::CreateIntegration.call(name: params[:name], status: params[:status])
 
         if command.success?
           render json: IntegrationBlueprint.render(command.result), status: :created

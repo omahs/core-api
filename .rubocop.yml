@@ -22,7 +22,7 @@ AllCops:
     - "app/controllers/rails_admin/**/*"
 
 Metrics/LineLength:
-  Max: 110
+  Max: 115
 
 Metrics/BlockLength:
   Exclude:

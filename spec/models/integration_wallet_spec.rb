@@ -20,9 +20,7 @@ RSpec.describe IntegrationWallet, type: :model do
     let(:encrypted_private_key_iv) { Base64.strict_encode64(private_key_iv) }
 
     let(:integration_wallet) do
-      build(:integration_wallet,
-            encrypted_private_key:,
-            private_key_iv: encrypted_private_key_iv)
+      build(:integration_wallet, encrypted_private_key:, private_key_iv: encrypted_private_key_iv)
     end
 
     it 'returns the integration private key decoded' do

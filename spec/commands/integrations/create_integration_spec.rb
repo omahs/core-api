@@ -21,10 +21,14 @@ describe Integrations::CreateIntegration do
 
     context 'when a data is invalid' do
       let(:name) { 'Ribon' }
-      let(:status) { :undefined }
+      let(:status) { 'undefined' }
 
       it 'raises an error' do
-        expect(command.errors).to eq({ message: ["'undefined' is not a valid status"] })
+        expect(command.errors).to eq(
+          {
+            message: ['Validation failed: Status undefined is not a valid status']
+          }
+        )
       end
 
       it 'does not create a new integration' do

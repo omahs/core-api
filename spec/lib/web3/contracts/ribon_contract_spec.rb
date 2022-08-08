@@ -31,28 +31,30 @@ RSpec.describe Web3::Contracts::RibonContract do
   describe '#donate_through_integration' do
     subject(:method_call) do
       described_class.new(network:)
-                     .donate_through_integration(amount:, user:, non_profit_wallet_address:)
+                     .donate_through_integration(amount:, user:, non_profit_wallet_address:, sender_key:)
     end
 
     let(:non_profit_wallet_address) { build(:non_profit).wallet_address }
+    let(:sender_key) { RibonCoreApi.config[:web3][:wallets][:ribon_wallet_private_key] }
+    let(:key_struct) { OpenStruct.new({ private_key: sender_key }) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
       allow(::Eth::Contract).to receive(:from_abi).and_return(contract)
       allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0, max_priority_fee_per_gas: 0,
                                         gas_limit: 0)
+      allow(::Eth::Key).to receive(:new).and_return(key_struct)
     end
 
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_wei(amount)
       keccak256_user = Web3::Utils::Converter.keccak(user)
-      sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
         .to have_received(:transact).with(contract, 'donateThroughIntegration',
                                           non_profit_wallet_address, keccak256_user,
-                                          wei_amount, gas_limit: 0, sender_key:)
+                                          wei_amount, gas_limit: 0, sender_key: key_struct)
     end
   end
 end

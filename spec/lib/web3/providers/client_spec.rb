@@ -4,7 +4,7 @@ RSpec.describe Web3::Providers::Client do
   describe '.create' do
     subject(:method_call) { described_class.create(chain:) }
 
-    let(:chain) { Web3::Providers::Networks::MUMBAI }
+    let(:chain) { build(:chain) }
 
     before do
       allow(Eth::Client).to receive(:create).and_return(

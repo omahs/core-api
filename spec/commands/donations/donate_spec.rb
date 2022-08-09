@@ -12,6 +12,7 @@ describe Donations::Donate do
       let(:user) { build(:user) }
       let(:donation) { build(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
+      let(:default_chain_id) { 0x13881 }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)
@@ -21,6 +22,7 @@ describe Donations::Donate do
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(donation).to receive(:save)
         create(:ribon_config, default_ticket_value: 100)
+        create(:chain, chain_id: default_chain_id)
       end
 
       it 'creates a donation in database' do

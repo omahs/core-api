@@ -61,7 +61,7 @@ module Donations
     end
 
     def chain
-      @chain ||= Web3::Providers::Networks::MUMBAI
+      @chain ||= Chain.default
     end
   end
 end

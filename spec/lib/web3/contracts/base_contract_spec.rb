@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Web3::Contracts::BaseContract do
-  let(:chain) { Web3::Providers::Networks::MUMBAI }
+  let(:chain) { build(:chain) }
   let(:arg) { 'arg' }
   let(:function_name) { 'function_name' }
   let(:test_arg) { 'test_arg' }

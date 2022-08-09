@@ -20,7 +20,7 @@ module PersonPaymentServices
     end
 
     def chain
-      @chain ||= Web3::Providers::Networks::MUMBAI
+      @chain ||= Chain.default
     end
 
     def treasure_entry_status_by(status)

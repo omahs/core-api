@@ -18,7 +18,7 @@ module Givings
       private
 
       def default_chain
-        Web3::Providers::Networks::MUMBAI
+        @default_chain ||= Chain.default
       end
 
       def ribon_contract

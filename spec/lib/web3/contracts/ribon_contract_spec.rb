@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Web3::Contracts::RibonContract do
-  let(:chain) { Web3::Providers::Networks::MUMBAI }
+  let(:chain) { build(:chain) }
   let(:client) { instance_double(::Eth::Client) }
   let(:contract) { OpenStruct.new({}) }
   let(:amount) { 0.5 }

@@ -7,26 +7,19 @@ module PersonPaymentServices
     end
 
     def update_status
-      transaction_receipt = client.eth_get_transaction_receipt(person_blockchain_transaction.transaction_hash)
-      status = transaction_receipt['result']['status']
+      status = transaction_utils.transaction_status(person_blockchain_transaction.transaction_hash)
 
-      person_blockchain_transaction.update!(treasure_entry_status: treasure_entry_status_by(status))
+      person_blockchain_transaction.update!(treasure_entry_status: status)
     end
 
     private
 
-    def client
-      @client ||= Web3::Providers::Client.create(chain:)
+    def transaction_utils
+      @transaction_utils ||= Web3::Utils::TransactionUtils.new(chain:)
     end
 
     def chain
       @chain ||= Chain.default
-    end
-
-    def treasure_entry_status_by(status)
-      status_codes_map = { '0x0': :processing, '0x1': :success, '0x2': :failed }
-
-      status_codes_map[status.to_sym]
     end
   end
 end

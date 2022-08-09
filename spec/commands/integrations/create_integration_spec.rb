@@ -4,11 +4,15 @@ require 'rails_helper'
 
 describe Integrations::CreateIntegration do
   describe '.call' do
-    subject(:command) { described_class.call(name:, status:) }
+    subject(:command) { described_class.call(params) }
 
     context 'when all the data is valid' do
-      let(:name) { 'Ribon' }
-      let(:status) { :active }
+      let(:params) do
+        {
+          name: 'Integration 1',
+          status: 'active'
+        }
+      end
 
       it 'creates a new integration' do
         expect { command }.to change(Integration, :count).by(1)
@@ -20,8 +24,12 @@ describe Integrations::CreateIntegration do
     end
 
     context 'when a data is invalid' do
-      let(:name) { 'Ribon' }
-      let(:status) { 'undefined' }
+      let(:params) do
+        {
+          name: 'Integration 1',
+          status: 'undefined'
+        }
+      end
 
       it 'raises an error' do
         expect(command.errors).to eq(

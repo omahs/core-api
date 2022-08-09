@@ -10,6 +10,18 @@ class Integration < ApplicationRecord
     "#{base_url}#{unique_address}"
   end
 
+  def ticket_availability
+    if ticket_availability_in_minutes.present?
+      "#{ticket_availability_in_minutes} minutes"
+    else
+      'Everyday at midnight'
+    end
+  end
+
+  def daily_availability?
+    ticket_availability_in_minutes.nil?
+  end
+
   private
 
   def base_url

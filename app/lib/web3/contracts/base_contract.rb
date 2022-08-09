@@ -1,10 +1,10 @@
 module Web3
   module Contracts
     class BaseContract
-      attr_reader :network
+      attr_reader :chain
 
-      def initialize(network:)
-        @network = network
+      def initialize(chain:)
+        @chain = chain
       end
 
       def contract
@@ -28,7 +28,7 @@ module Web3
       end
 
       def client
-        @client ||= Providers::Client.create(network:)
+        @client ||= Providers::Client.create(chain:)
       end
 
       def contract_name; end

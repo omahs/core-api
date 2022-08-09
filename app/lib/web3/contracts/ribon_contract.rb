@@ -24,7 +24,7 @@ module Web3
       end
 
       def address
-        (::Eth::Address.new network[:ribon_contract_address]).address
+        (::Eth::Address.new chain[:ribon_contract_address]).address
       end
 
       def abi

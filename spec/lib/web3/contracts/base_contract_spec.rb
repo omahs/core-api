@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Web3::Contracts::BaseContract do
-  let(:network) { Web3::Providers::Networks::MUMBAI }
+  let(:chain) { Web3::Providers::Networks::MUMBAI }
   let(:arg) { 'arg' }
   let(:function_name) { 'function_name' }
   let(:test_arg) { 'test_arg' }
@@ -9,7 +9,7 @@ RSpec.describe Web3::Contracts::BaseContract do
   let(:contract) { OpenStruct.new({}) }
 
   describe '#call' do
-    subject(:call) { described_class.new(network:).call(function_name, arg, test_arg:) }
+    subject(:call) { described_class.new(chain:).call(function_name, arg, test_arg:) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
@@ -26,7 +26,7 @@ RSpec.describe Web3::Contracts::BaseContract do
   end
 
   describe '#transact' do
-    subject(:transact) { described_class.new(network:).transact(function_name, arg, test_arg:) }
+    subject(:transact) { described_class.new(chain:).transact(function_name, arg, test_arg:) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)

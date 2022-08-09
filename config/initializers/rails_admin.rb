@@ -40,6 +40,17 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model DonationBlockchainTransaction do
+    include_all_fields
+
+    field :transaction_hash do
+      formatted_value do
+        path = bindings[:object].transaction_link
+        bindings[:view].link_to(bindings[:object].transaction_hash, path, target: "_blank")
+      end
+    end
+  end
+
   config.model NonProfit do
     field :main_image do
       label{ "Cause Card Image" }

@@ -19,7 +19,7 @@ module Donations
           create_donation
           @transaction_hash = create_blockchain_donation
           set_user_last_donation_at
-          update_donation_blockchain_link(transaction_hash)
+          create_donation_blockchain_transaction(transaction_hash)
         end
 
         transaction_hash
@@ -39,9 +39,8 @@ module Donations
       ribon_contract.donate_through_integration(non_profit_wallet_address:, user: user.email, amount:, sender_key:)
     end
 
-    def update_donation_blockchain_link(transaction_hash)
-      donation.blockchain_process_link = "#{chain[:block_explorer_url]}tx/#{transaction_hash}"
-      donation.save
+    def create_donation_blockchain_transaction(transaction_hash)
+      donation.create_donation_blockchain_transaction(transaction_hash:, chain:)
     end
 
     def set_user_last_donation_at

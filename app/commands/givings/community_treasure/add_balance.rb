@@ -4,11 +4,11 @@ module Givings
   module CommunityTreasure
     class AddBalance < ApplicationCommand
       prepend SimpleCommand
-      attr_reader :amount, :network
+      attr_reader :amount, :chain
 
-      def initialize(amount:, network: default_network)
+      def initialize(amount:, chain: default_chain)
         @amount = amount
-        @network = network
+        @chain = chain
       end
 
       def call
@@ -17,12 +17,12 @@ module Givings
 
       private
 
-      def default_network
-        Web3::Providers::Networks::MUMBAI
+      def default_chain
+        @default_chain ||= Chain.default
       end
 
       def ribon_contract
-        @ribon_contract ||= Web3::Contracts::RibonContract.new(network:)
+        @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
       end
     end
   end

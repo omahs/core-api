@@ -37,5 +37,8 @@ unless Rails.env.production?
     email: "user@test.com",
   )
   puts "Test user created."
+  puts "Creating mumbai chain..."
+  Chain.first_or_create!(Web3::Providers::Networks::MUMBAI)
+  puts "Mumbai chain created."
 
 end

@@ -16,11 +16,11 @@ module PersonPaymentServices
     private
 
     def client
-      @client ||= Web3::Providers::Client.create(network:)
+      @client ||= Web3::Providers::Client.create(chain:)
     end
 
-    def network
-      @network ||= Web3::Providers::Networks::MUMBAI
+    def chain
+      @chain ||= Chain.default
     end
 
     def treasure_entry_status_by(status)

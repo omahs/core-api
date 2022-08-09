@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Web3::Contracts::RibonContract do
-  let(:network) { Web3::Providers::Networks::MUMBAI }
+  let(:chain) { build(:chain) }
   let(:client) { instance_double(::Eth::Client) }
   let(:contract) { OpenStruct.new({}) }
   let(:amount) { 0.5 }
   let(:user) { build(:user).email }
 
   describe '#add_donation_pool_balance' do
-    subject(:method_call) { described_class.new(network:).add_donation_pool_balance(amount:) }
+    subject(:method_call) { described_class.new(chain:).add_donation_pool_balance(amount:) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
@@ -30,7 +30,7 @@ RSpec.describe Web3::Contracts::RibonContract do
 
   describe '#donate_through_integration' do
     subject(:method_call) do
-      described_class.new(network:)
+      described_class.new(chain:)
                      .donate_through_integration(amount:, user:, non_profit_wallet_address:, sender_key:)
     end
 

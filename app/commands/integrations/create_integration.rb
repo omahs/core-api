@@ -5,16 +5,15 @@ module Integrations
     prepend SimpleCommand
     include Web3
 
-    attr_reader :name, :status
+    attr_reader :integration_params
 
-    def initialize(name:, status:)
-      @name   = name
-      @status = status
+    def initialize(integration_params)
+      @integration_params = integration_params
     end
 
     def call
       with_exception_handle do
-        integration = Integration.create!(name:, status:, unique_address:)
+        integration = Integration.create!(enriched_integration_params)
         integration.create_integration_wallet!(encrypted_wallet)
 
         integration
@@ -22,6 +21,10 @@ module Integrations
     end
 
     private
+
+    def enriched_integration_params
+      integration_params.merge(unique_address:)
+    end
 
     def unique_address
       SecureRandom.uuid

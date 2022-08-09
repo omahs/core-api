@@ -44,6 +44,14 @@ RSpec.describe Integration, type: :model do
       end
     end
 
+    context 'when ticket_availability_in_minutes is zero' do
+      let(:integration) { create(:integration, ticket_availability_in_minutes: 0) }
+
+      it 'returns false' do
+        expect(integration.daily_availability?).to be_falsey
+      end
+    end
+
     context 'when ticket_availability_in_minutes is not present' do
       let(:integration) { create(:integration) }
 

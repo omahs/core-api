@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_09_120720) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_09_133508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -81,6 +81,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_09_120720) do
     t.uuid "person_id"
     t.index ["person_id"], name: "index_customers_on_person_id"
     t.index ["user_id"], name: "index_customers_on_user_id", unique: true
+  end
+
+  create_table "donation_blockchain_transactions", force: :cascade do |t|
+    t.bigint "donation_id", null: false
+    t.bigint "chain_id", null: false
+    t.string "transaction_hash"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chain_id"], name: "index_donation_blockchain_transactions_on_chain_id"
+    t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
   end
 
   create_table "donations", force: :cascade do |t|
@@ -261,6 +272,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_09_120720) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customers", "people"
+  add_foreign_key "donation_blockchain_transactions", "chains"
+  add_foreign_key "donation_blockchain_transactions", "donations"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"

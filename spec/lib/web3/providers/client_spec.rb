@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Web3::Providers::Client do
   describe '.create' do
-    subject(:method_call) { described_class.create(network:) }
+    subject(:method_call) { described_class.create(chain:) }
 
-    let(:network) { Web3::Providers::Networks::MUMBAI }
+    let(:chain) { build(:chain) }
 
     before do
       allow(Eth::Client).to receive(:create).and_return(
@@ -17,7 +17,7 @@ RSpec.describe Web3::Providers::Client do
     it 'calls Eth::Client create with correct param' do
       method_call
 
-      expect(Eth::Client).to have_received(:create).with(network[:node_url])
+      expect(Eth::Client).to have_received(:create).with(chain[:node_url])
     end
 
     it 'sets the correct fees' do

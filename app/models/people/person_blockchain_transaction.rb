@@ -1,7 +1,7 @@
 class PersonBlockchainTransaction < ApplicationRecord
   belongs_to :person_payment
 
-  after_create :update_status_from_eth_network
+  after_create :update_status_from_eth_chain
 
   enum treasure_entry_status: {
     processing: 0,
@@ -9,7 +9,7 @@ class PersonBlockchainTransaction < ApplicationRecord
     failed: 2
   }
 
-  def update_status_from_eth_network
+  def update_status_from_eth_chain
     # TODO: add listener to contract events to call this method
     PersonPayments::UpdateBlockchainTransactionStatusJob
       .set(wait_until: 5.minutes.from_now)

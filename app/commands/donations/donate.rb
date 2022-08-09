@@ -40,7 +40,7 @@ module Donations
     end
 
     def update_donation_blockchain_link(transaction_hash)
-      donation.blockchain_process_link = "#{network[:block_explorer_url]}tx/#{transaction_hash}"
+      donation.blockchain_process_link = "#{chain[:block_explorer_url]}tx/#{transaction_hash}"
       donation.save
     end
 
@@ -57,11 +57,11 @@ module Donations
     end
 
     def ribon_contract
-      @ribon_contract ||= Web3::Contracts::RibonContract.new(network:)
+      @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
     end
 
-    def network
-      @network ||= Web3::Providers::Networks::MUMBAI
+    def chain
+      @chain ||= Chain.default
     end
   end
 end

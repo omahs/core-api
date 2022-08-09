@@ -10,6 +10,9 @@ SimpleCov.start 'rails' do
   add_filter 'lib/ext'
   add_filter 'lib/tasks'
   add_filter 'app/services/graphql/queries'
+  add_filter 'app/lib/web3/providers/networks.rb'
+  add_filter 'app/mailers/application_mailer.rb'
+  add_filter 'app/channels/application_cable'
 end
 SimpleCov.minimum_coverage ENV["MIN_COVERAGE"].to_i if ENV["COVERAGE"]
 

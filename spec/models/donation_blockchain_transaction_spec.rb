@@ -1,5 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe DonationBlockchainTransaction, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '.validations' do
+    subject { build(:donation_blockchain_transaction) }
+
+    it { is_expected.to validate_presence_of(:transaction_hash) }
+    it { is_expected.to belong_to(:donation) }
+    it { is_expected.to belong_to(:chain) }
+  end
+
+  describe '#transaction_link' do
+    subject(:donation_blockchain_transaction) do
+      build(:donation_blockchain_transaction,
+            chain:, transaction_hash:)
+    end
+
+    let(:chain) { build(:chain) }
+    let(:transaction_hash) { '0xFF20' }
+
+    it 'the transaction link based on the network and transaction hash' do
+      expect(donation_blockchain_transaction.transaction_link)
+        .to eq "#{chain.block_explorer_url}tx/#{transaction_hash}"
+    end
+  end
 end

@@ -10,7 +10,7 @@ describe Donations::Donate do
       let(:integration) { build(:integration) }
       let(:non_profit) { build(:non_profit) }
       let(:user) { build(:user) }
-      let(:donation) { build(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
+      let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
 
@@ -44,6 +44,13 @@ describe Donations::Donate do
 
         expect(Donations::SetUserLastDonationAt)
           .to have_received(:call).with(user:, date_to_set: donation.created_at)
+      end
+
+      it 'creates donation_blockchain_transaction for the donation' do
+        command
+
+        expect(donation.donation_blockchain_transaction.transaction_hash).to eq '0xFF20'
+        expect(donation.donation_blockchain_transaction.chain.chain_id).to eq default_chain_id
       end
 
       it 'returns the donation hash in blockchain' do

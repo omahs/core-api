@@ -1,4 +1,8 @@
 unless Rails.env.production?
+  puts "Creating Ribon Config..."
+  RibonConfig.create!(default_ticket_value: 100)
+  puts "Ribon Config created."
+
   puts "Creating non profits..."
   non_profit = NonProfit.first_or_create!(
     name: "Non Profit",

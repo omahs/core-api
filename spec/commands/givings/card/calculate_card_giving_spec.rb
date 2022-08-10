@@ -43,7 +43,7 @@ describe Givings::Card::CalculateCardGiving do
     end
 
     it 'returns the correct crypto giving' do
-      expect(command.result[:crypto_giving].format).to eq '$7.78'
+      expect(command.result[:crypto_giving].format).to eq '$7.89'
     end
 
     it 'returns the correct giving_total' do

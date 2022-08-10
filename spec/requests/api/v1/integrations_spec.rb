@@ -12,7 +12,8 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[created_at id updated_at name status unique_address
-                                                 integration_address integration_wallet ticket_availability_in_minutes])
+                                                 integration_address integration_wallet
+                                                 ticket_availability_in_minutes])
     end
   end
 

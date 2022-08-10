@@ -47,7 +47,7 @@ class PersonPayment < ApplicationRecord
   private
 
   def currency
-    offer&.currency || :usd
+    offer&.currency&.to_sym&.downcase || :usd
   end
 
   def service_fees

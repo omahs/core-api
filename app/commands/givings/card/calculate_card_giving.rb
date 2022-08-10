@@ -17,7 +17,7 @@ module Givings
       def call
         with_exception_handle do
           net_giving = money_value - service_fees
-          crypto_giving = converted_giving(net_giving) - service_fees
+          crypto_giving = converted_giving(net_giving)
 
           formatted_result(net_giving, crypto_giving)
         end

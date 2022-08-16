@@ -24,7 +24,7 @@ module Givings
         end
 
         def process_payment(order)
-          GivingServices::Payment::Orchestrator.new(payload: order).call
+          Service::Givings::Payment::Orchestrator.new(payload: order).call
         end
 
         private

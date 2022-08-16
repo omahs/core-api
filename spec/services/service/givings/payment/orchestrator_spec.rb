@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GivingServices::Payment::Orchestrator, type: :service do
+RSpec.describe Service::Givings::Payment::Orchestrator, type: :service do
   subject(:service_call) { described_class.new(payload:).call }
 
   describe '#call' do

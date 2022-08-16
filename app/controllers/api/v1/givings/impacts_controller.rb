@@ -3,7 +3,7 @@ module Api
     module Givings
       class ImpactsController < ApplicationController
         def impact_by_non_profit
-          command = Givings::Impact::CalculateImpactToNonProfit.call(value:, non_profit:, currency:)
+          command = ::Givings::Impact::CalculateImpactToNonProfit.call(value:, non_profit:, currency:)
 
           if command.success?
             render json: command.result

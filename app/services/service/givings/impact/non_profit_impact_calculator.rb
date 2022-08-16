@@ -15,17 +15,13 @@ module Service
         end
 
         def impact
-          @impact ||= non_profit.impact_by_ticket * total_tickets
+          @impact ||= (amount / usd_cents_to_one_impact).round(2)
         end
 
         private
 
-        def total_tickets
-          @total_tickets ||= amount / ticket_cost
-        end
-
-        def ticket_cost
-          @ticket_cost ||= Money.from_cents(RibonConfig.default_ticket_value, :usd)
+        def usd_cents_to_one_impact
+          @usd_cents_to_one_impact ||= Money.from_cents(non_profit.impact_for.usd_cents_to_one_impact_unit, :usd)
         end
 
         def amount

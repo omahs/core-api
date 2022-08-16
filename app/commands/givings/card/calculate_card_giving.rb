@@ -4,7 +4,7 @@ module Givings
   module Card
     class CalculateCardGiving < ApplicationCommand
       prepend SimpleCommand
-      include GivingServices::Fees
+      include Service::Givings::Fees
 
       attr_reader :currency, :value, :gateway
 
@@ -45,11 +45,11 @@ module Givings
       end
 
       def card_fee_calculator
-        FeeCalculatorService.new(value:, currency:, kind: gateway)
+        FeeCalculator.new(value:, currency:, kind: gateway)
       end
 
       def crypto_fee_calculator
-        FeeCalculatorService.new(value:, currency:, kind: :polygon)
+        FeeCalculator.new(value:, currency:, kind: :polygon)
       end
 
       def money_value

@@ -32,23 +32,23 @@ describe Givings::Payment::CreateOrder do
         expect { command }.to change(PersonPayment, :count).by(1)
       end
 
-      it 'calls GivingServices::Payment::Orchestrator with correct payload' do
-        allow(GivingServices::Payment::Orchestrator).to receive(:new)
+      it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new)
         allow(Person).to receive(:create!).and_return(person)
         allow(Customer).to receive(:create!).and_return(customer)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
 
-        expect(GivingServices::Payment::Orchestrator)
+        expect(Service::Givings::Payment::Orchestrator)
           .to have_received(:new).with(payload: an_object_containing(
             payment_method: 'credit_card', payment: person_payment,
             status: :paid, card:, offer:, person:
           ))
       end
 
-      it 'calls GivingServices::Payment::Orchestrator process' do
-        orchestrator_double = instance_double(GivingServices::Payment::Orchestrator, { call: nil })
-        allow(GivingServices::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+      it 'calls Service::Givings::Payment::Orchestrator process' do
+        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         command
 
         expect(orchestrator_double).to have_received(:call)
@@ -57,8 +57,8 @@ describe Givings::Payment::CreateOrder do
       context 'when the payment is sucessfull' do
         it 'calls the success callback' do
           allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
-          orchestrator_double = instance_double(GivingServices::Payment::Orchestrator, { call: nil })
-          allow(GivingServices::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+          allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
           expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)

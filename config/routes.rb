@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
         get 'user_givings' => 'user_givings#index'
+        post 'impact_by_non_profit' => 'impacts#impact_by_non_profit'
       end
       namespace :payments do
         post 'credit_cards'   => 'credit_cards#create'

@@ -9,6 +9,7 @@ RSpec.describe UserDonationStats, type: :model do
 
   describe '#next_donation_at' do
     subject(:user_donation_stats) { build(:user_donation_stats, last_donation_at: last_donation_date) }
+
     let(:integration) { build(:integration, ticket_availability_in_minutes: nil) }
 
     context 'when the last donation is nil' do

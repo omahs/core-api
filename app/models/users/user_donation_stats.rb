@@ -11,7 +11,7 @@ class UserDonationStats < ApplicationRecord
     time_interval = integration.ticket_availability_in_minutes
 
     return last_donation_at + time_interval.minutes if time_interval.present?
-  
+
     last_donation_at&.next_day&.beginning_of_day
   end
 end

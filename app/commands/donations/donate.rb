@@ -15,7 +15,7 @@ module Donations
 
     def call
       with_exception_handle do
-        if donaton_is_allowed?
+        if allowed?
           transact_donation
         else
           errors.add(:message, 'The current user cannot donate')
@@ -36,7 +36,7 @@ module Donations
       transaction_hash
     end
 
-    def donaton_is_allowed?
+    def allowed?
       user.can_donate?(integration)
     end
 

@@ -14,7 +14,8 @@ module Integrations
     def call
       with_exception_handle do
         integration = Integration.create!(enriched_integration_params)
-        integration.create_integration_wallet!(encrypted_wallet)
+        wallet      = integration.create_integration_wallet!(encrypted_wallet)
+        wallet.add_balance(ribon_contract, amount)
 
         integration
       end
@@ -40,6 +41,18 @@ module Integrations
         encrypted_private_key: encode(encrypted_key.cipher_text),
         private_key_iv: encode(encrypted_key.iv)
       }
+    end
+
+    def ribon_contract
+      @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
+    end
+
+    def amount
+      @amount ||= RibonConfig.minimum_integration_amount
+    end
+
+    def chain
+      @chain ||= Chain.default
     end
 
     def encode(text)

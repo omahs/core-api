@@ -9,4 +9,8 @@ class IntegrationWallet < ApplicationRecord
 
     Web3::Utils::Cipher.decrypt(decrypted_pk, decrypted_pk_iv).plain_text
   end
+
+  def add_balance(contract, amount)
+    contract.add_integration_balance(integration_address: public_key, amount:)
+  end
 end

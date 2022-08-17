@@ -1,6 +1,6 @@
 unless Rails.env.production?
   puts "Creating Ribon Config..."
-  RibonConfig.create!(default_ticket_value: 100)
+  RibonConfig.create!(default_ticket_value: 100, minimum_integration_amount: 10)
   puts "Ribon Config created."
 
   puts "Creating non profits..."

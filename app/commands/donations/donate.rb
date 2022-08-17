@@ -15,18 +15,26 @@ module Donations
 
     def call
       with_exception_handle do
-        Donation.transaction do
-          create_donation
-          @transaction_hash = create_blockchain_donation
-          set_user_last_donation_at
-          create_donation_blockchain_transaction(transaction_hash)
-        end
+        if donaton_is_allowed?
+          Donation.transaction do
+            create_donation
+            @transaction_hash = create_blockchain_donation
+            set_user_last_donation_at
+            create_donation_blockchain_transaction(transaction_hash)
+          end
 
-        transaction_hash
+          transaction_hash
+        else
+          errors.add(:message, 'The current user cannot donate')
+        end
       end
     end
 
     private
+
+    def donaton_is_allowed?
+      user.can_donate?(integration)
+    end
 
     def create_donation
       @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)

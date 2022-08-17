@@ -26,9 +26,9 @@ unless Rails.env.production?
 
   puts "Creating integrations wallet..."
   IntegrationWallet.first_or_create!(
-    public_key: "0xffffffffffffffffffffffffffffffffffffffff",
-    encrypted_private_key: "dGhpcyBpcyBhbiBlbmNyeXB0ZWQgcHJpdmF0ZSBrZXkgdXNpbmcgb3BlbnNzbCBhbmQgdGhlbiBlbmNvZGVkIHdpdGggYmFzZTY0",
-    private_key_iv: "dGhpcyBpcyBhIHByaXZhdGUga2V5IGl2IGVuY29kZWQgd2l0aCBiYXNlNjQ=",
+    public_key: "0x710ea3bae0f8a09a7fe93920f1ace15a1ac1b5da",
+    encrypted_private_key: "IajDWfCG8z78BsXLLRWNt1BDM3OxyS7j1s9G/ksvMTQnFyfC1wzRClgCNoIyOr6+Uzf84WpYh8SMyQeVEOtpWIp8FEGVOHetJLfA6xGzgXA=",
+    private_key_iv: "X1BNgoKH1vB4djpI+wuOEg==",
     integration: integration,
   )
   puts "Integration wallet created."

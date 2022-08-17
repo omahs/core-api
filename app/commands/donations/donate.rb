@@ -18,7 +18,7 @@ module Donations
         if allowed?
           transact_donation
         else
-          errors.add(:message, 'The current user cannot donate')
+          errors.add(:message, I18n.t('donations.blocked_message'))
         end
       end
     end

@@ -92,7 +92,7 @@ describe Donations::Donate do
       end
 
       it 'returns an error message' do
-        expect(command.errors[:message]).to eq ['The current user cannot donate']
+        expect(command.errors[:message]).to eq ['Unable to donate now. Wait for your next donation.']
       end
     end
 

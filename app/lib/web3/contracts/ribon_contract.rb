@@ -7,6 +7,13 @@ module Web3
         transact('addDonationPoolBalance', parsed_amount, sender_key: Providers::Keys::RIBON_KEY)
       end
 
+      def add_integration_balance(integration_address:, amount:)
+        parsed_amount = Utils::Converter.to_wei(amount)
+
+        transact('addIntegrationBalance', integration_address, parsed_amount,
+                  sender_key: Providers::Keys::RIBON_KEY)
+      end
+
       def donate_through_integration(non_profit_wallet_address:, user:,
                                      amount:, sender_key:)
         keccak256_user = Utils::Converter.keccak(user)

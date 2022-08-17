@@ -38,6 +38,10 @@ RailsAdmin.config do |config|
     field :default_ticket_value do
       label{ "ticket value in usdc cents" }
     end
+
+    field :minimum_integration_amount do
+      label{ "minimum amount in usdc for new integrations" }
+    end
   end
 
   config.model DonationBlockchainTransaction do

@@ -1,4 +1,8 @@
 unless Rails.env.production?
+  puts "Creating Ribon Config..."
+  RibonConfig.create!(default_ticket_value: 100)
+  puts "Ribon Config created."
+
   puts "Creating non profits..."
   non_profit = NonProfit.first_or_create!(
     name: "Non Profit",
@@ -12,33 +16,32 @@ unless Rails.env.production?
   puts "Non profits created."
 
   puts "Creating integrations..."
-  image_path = Rails.root.join('vendor/assets/ribon_logo.png')
-
-  integration = Integration.first_or_initialize(
+  integration = Integration.first_or_create!(
     name: "Renner",
-    wallet_address: "0x6E060041D62fDd76cF27c582f62983b864878E8F",
-    url: "https://www.lojasrenner.com.br/",
+    status: 'active',
+    unique_address: 'b3fa97fe-0302-4b00-97ba-df32e3060b74',
+    ticket_availability_in_minutes: 30,
   )
-  integration.logo.attach(io: File.open(image_path),
-                          filename: 'ribon_logo.png',
-                          content_type: 'image/png')
-  integration.save!
   puts "Integrations created."
 
-  puts "Creating admin..."
-  Admin.first_or_create!(
-    email: "admin@ribon.io",
-    password: "admin123",
+  puts "Creating integrations wallet..."
+  IntegrationWallet.first_or_create!(
+    public_key: "0x710ea3bae0f8a09a7fe93920f1ace15a1ac1b5da",
+    encrypted_private_key: "IajDWfCG8z78BsXLLRWNt1BDM3OxyS7j1s9G/ksvMTQnFyfC1wzRClgCNoIyOr6+Uzf84WpYh8SMyQeVEOtpWIp8FEGVOHetJLfA6xGzgXA=",
+    private_key_iv: "X1BNgoKH1vB4djpI+wuOEg==",
+    integration: integration,
   )
+  puts "Integration wallet created."
+
+  puts "Creating admin..."
+  Admin.first_or_create!(email: "admin@ribon.io", password: "admin123")
   puts "Admin created."
 
   puts "Creating test user..."
-  User.first_or_create!(
-    email: "user@test.com",
-  )
+  User.first_or_create!(email: "user@test.com")
   puts "Test user created."
+
   puts "Creating mumbai chain..."
   Chain.first_or_create!(Web3::Providers::Networks::MUMBAI)
   puts "Mumbai chain created."
-
 end

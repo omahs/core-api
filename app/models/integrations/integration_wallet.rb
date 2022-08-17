@@ -11,6 +11,6 @@ class IntegrationWallet < ApplicationRecord
   end
 
   def add_balance(contract, amount)
-    contract.add_integration_balance(integration_address: public_key, amount: amount)
+    contract.add_integration_balance(integration_address: public_key, amount:)
   end
 end

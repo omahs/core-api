@@ -30,6 +30,7 @@ RSpec.describe Web3::Contracts::RibonContract do
 
   describe '#add_integration_balance' do
     subject(:method_call) { described_class.new(chain:).add_integration_balance(integration_address:, amount:) }
+
     let(:integration_address) { build(:integration_wallet).public_key }
 
     before do

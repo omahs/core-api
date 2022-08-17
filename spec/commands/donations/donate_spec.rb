@@ -21,6 +21,7 @@ describe Donations::Donate do
         allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(donation).to receive(:save)
+        allow(user).to receive(:can_donate?).and_return(true)
         create(:ribon_config, default_ticket_value: 100)
         create(:chain, chain_id: default_chain_id)
       end
@@ -55,6 +56,43 @@ describe Donations::Donate do
 
       it 'returns the donation hash in blockchain' do
         expect(command.result).to eq '0xFF20'
+      end
+    end
+
+    context 'when an error occurs at the validation process' do
+      let(:integration) { build(:integration) }
+      let(:non_profit) { build(:non_profit) }
+      let(:user) { build(:user) }
+      let(:donation) { build(:donation) }
+      let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
+      let(:default_chain_id) { 0x13881 }
+
+      before do
+        allow(Donation).to receive(:create!).and_return(donation)
+        allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
+        allow(ribon_contract).to receive(:donate_through_integration).and_return('0xFF20')
+        allow(Donations::SetUserLastDonationAt).to receive(:call)
+          .and_return(command_double(klass: Donations::SetUserLastDonationAt))
+        allow(donation).to receive(:save)
+        allow(user).to receive(:can_donate?).and_return(false)
+        create(:ribon_config, default_ticket_value: 100)
+        create(:chain, chain_id: default_chain_id)
+      end
+
+      it 'does not create the donation on the database' do
+        expect { command }.not_to change(Donation, :count)
+      end
+
+      it 'returns nil' do
+        expect(command.result).to be_nil
+      end
+
+      it 'returns an error' do
+        expect(command.errors).to be_present
+      end
+
+      it 'returns an error message' do
+        expect(command.errors[:message]).to eq ['Unable to donate now. Wait for your next donation.']
       end
     end
 

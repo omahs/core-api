@@ -11,7 +11,7 @@ module Web3
         parsed_amount = Utils::Converter.to_wei(amount)
 
         transact('addIntegrationBalance', integration_address, parsed_amount,
-                  sender_key: Providers::Keys::RIBON_KEY)
+                 sender_key: Providers::Keys::RIBON_KEY)
       end
 
       def donate_through_integration(non_profit_wallet_address:, user:,

@@ -22,7 +22,7 @@ module Integrations
     end
 
     private
-    
+
     def enriched_integration_params
       integration_params.merge(unique_address:)
     end

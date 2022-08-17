@@ -81,7 +81,7 @@ RSpec.describe UserDonationStats, type: :model do
         allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-12 14:00:00'))
       end
 
-      it 'returns true' do
+      it 'returns false' do
         expect(user_donation_stats.can_donate?(integration)).to be_falsey
       end
     end
@@ -97,7 +97,7 @@ RSpec.describe UserDonationStats, type: :model do
         allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-13 10:40:00'))
       end
 
-      it 'returns true' do
+      it 'returns false' do
         expect(user_donation_stats.can_donate?(integration)).to be_falsey
       end
     end

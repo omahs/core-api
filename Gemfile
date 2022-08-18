@@ -61,7 +61,7 @@ gem 'recursive-open-struct'
 
 gem 'mobility', '~> 1.2.6'
 
-gem 'cancancan'
+# gem 'cancancan'
 
 gem 'rubycritic', require: false
 

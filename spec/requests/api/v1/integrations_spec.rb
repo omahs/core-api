@@ -41,15 +41,30 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
   end
 
   describe 'GET /show' do
-    subject(:request) { get "/api/v1/integrations/#{integration.id}" }
+    context 'when id is numeric' do
+      subject(:request) { get "/api/v1/integrations/#{integration.id}" }
 
-    let(:integration) { create(:integration) }
+      let(:integration) { create(:integration) }
 
-    it 'returns a single integration' do
-      request
+      it 'returns a single integration' do
+        request
 
-      expect_response_to_have_keys(%w[created_at id updated_at name status unique_address integration_address
-                                      integration_wallet ticket_availability_in_minutes])
+        expect_response_to_have_keys(%w[created_at id updated_at name status unique_address integration_address
+                                        integration_wallet ticket_availability_in_minutes])
+      end
+
+      context 'when id is uuid' do
+        subject(:request) { get "/api/v1/integrations/#{integration.unique_address}" }
+
+        let(:integration) { create(:integration) }
+
+        it 'returns a single integration' do
+          request
+
+          expect_response_to_have_keys(%w[created_at id updated_at name status unique_address integration_address
+                                          integration_wallet ticket_availability_in_minutes])
+        end
+      end
     end
   end
 

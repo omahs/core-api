@@ -9,9 +9,16 @@ class UserDonationStats < ApplicationRecord
 
   def next_donation_at(integration)
     time_interval = integration.ticket_availability_in_minutes
+    last_donation_at_to_integration = user_last_donation_to(integration)&.created_at
 
-    return last_donation_at + time_interval.minutes if time_interval.present?
+    if time_interval.present? && last_donation_at_to_integration.present?
+      return last_donation_at_to_integration + time_interval.minutes
+    end
 
-    last_donation_at&.next_day&.beginning_of_day
+    last_donation_at_to_integration&.next_day&.beginning_of_day
+  end
+
+  def user_last_donation_to(integration)
+    user.donations.where(integration:).order(created_at: :desc).first
   end
 end

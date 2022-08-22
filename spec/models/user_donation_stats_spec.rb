@@ -8,8 +8,9 @@ RSpec.describe UserDonationStats, type: :model do
   end
 
   describe '#next_donation_at' do
-    subject(:user_donation_stats) { build(:user_donation_stats, last_donation_at: last_donation_date) }
+    subject(:user_donation_stats) { build(:user_donation_stats, last_donation_at: last_donation_date, user:) }
 
+    let(:user) { build(:user) }
     let(:integration) { build(:integration, ticket_availability_in_minutes: nil) }
 
     context 'when the last donation is nil' do
@@ -21,10 +22,14 @@ RSpec.describe UserDonationStats, type: :model do
     end
 
     context 'when there is a last donation' do
-      let(:last_donation_date) { DateTime.parse('2021-01-12 10:00:00') }
+      let(:last_donation_date) { parsed_date('12-01-2021 10:00:00') }
+
+      before do
+        create(:donation, created_at: last_donation_date, integration:, user:)
+      end
 
       it 'returns when the next donation is available based on cooldown and last donation' do
-        expect(user_donation_stats.next_donation_at(integration)).to eq DateTime.parse('2021-01-13 00:00:00')
+        expect(user_donation_stats.next_donation_at(integration)).to eq parsed_date('13-01-2021 00:00:00')
       end
     end
   end
@@ -44,11 +49,11 @@ RSpec.describe UserDonationStats, type: :model do
 
     context 'when the next_donation_at is higher than now' do
       let(:user_donation_stats) do
-        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-12 10:00:00'))
+        build(:user_donation_stats, last_donation_at: parsed_date('12-01-2021 10:00:00'))
       end
 
       before do
-        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-13 8:00:00'))
+        mock_now('13-01-2021 8:00:00')
       end
 
       it 'returns true' do
@@ -58,13 +63,15 @@ RSpec.describe UserDonationStats, type: :model do
 
     context 'when the next_donation_at is higher than now due to ticket availability' do
       let(:integration) { build(:integration, ticket_availability_in_minutes: 30) }
+      let(:user) { build(:user) }
 
       let(:user_donation_stats) do
-        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-13 10:00:00'))
+        build(:user_donation_stats, user:)
       end
 
       before do
-        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-13 10:40:00'))
+        mock_now('13-01-2021 10:40:00')
+        create(:donation, created_at: parsed_date('13-01-2021 10:00:00'), integration:, user:)
       end
 
       it 'returns true' do
@@ -73,12 +80,15 @@ RSpec.describe UserDonationStats, type: :model do
     end
 
     context 'when the next_donation_at is lower than now' do
+      let(:user) { build(:user) }
       let(:user_donation_stats) do
-        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-12 10:00:00'))
+        build(:user_donation_stats, user:)
       end
+      let(:integration) { build(:integration) }
 
       before do
-        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-12 14:00:00'))
+        mock_now('12-01-2021 14:00:00')
+        create(:donation, created_at: parsed_date('12-01-2021 10:00:00'), integration:, user:)
       end
 
       it 'returns false' do
@@ -88,13 +98,15 @@ RSpec.describe UserDonationStats, type: :model do
 
     context 'when the next_donation_at is lower than now due to ticket availability' do
       let(:integration) { build(:integration, ticket_availability_in_minutes: 50) }
+      let(:user) { build(:user) }
 
       let(:user_donation_stats) do
-        build(:user_donation_stats, last_donation_at: DateTime.parse('2021-01-13 10:00:00'))
+        build(:user_donation_stats, user:)
       end
 
       before do
-        allow(Time.zone).to receive(:now).and_return(DateTime.parse('2021-01-13 10:40:00'))
+        mock_now('13-01-2021 10:40:00')
+        create(:donation, created_at: parsed_date('13-01-2021 10:00:00'), integration:, user:)
       end
 
       it 'returns false' do

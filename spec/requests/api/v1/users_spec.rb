@@ -84,4 +84,19 @@ RSpec.describe 'Api::V1::Users', type: :request do
       end
     end
   end
+
+  describe 'POST /users/can_donate' do
+    subject(:request) do
+      post '/api/v1/users/can_donate', headers: { Email: user.email }, params: { integration_id: integration.id }
+    end
+
+    let(:integration) { create(:integration) }
+    let(:user) { create(:user) }
+
+    it 'returns the can_donate attribute' do
+      request
+
+      expect_response_to_have_keys %w[can_donate]
+    end
+  end
 end

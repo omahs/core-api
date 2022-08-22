@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"
+      post 'users/can_donate' => "users#can_donate"
       get 'users/impact' => "users#impact"
       post 'sources' => 'sources#create'
       resources :users, only: [] do

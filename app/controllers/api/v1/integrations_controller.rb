@@ -18,7 +18,7 @@ module Api
       end
 
       def show
-        @integration = Integration.find integration_params[:id]
+        @integration = Integration.find_by fetch_integration_query
 
         render json: IntegrationBlueprint.render(@integration)
       end
@@ -34,6 +34,14 @@ module Api
 
       def integration_params
         params.permit(:name, :status, :id, :ticket_availability_in_minutes)
+      end
+
+      def fetch_integration_query
+        uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+
+        return { unique_address: integration_params[:id] } if uuid_regex.match?(integration_params[:id])
+
+        { id: integration_params[:id] }
       end
     end
   end

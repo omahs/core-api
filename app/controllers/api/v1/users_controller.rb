@@ -24,7 +24,11 @@ module Api
       def can_donate
         @integration = Integration.find params[:integration_id]
 
-        render json: { can_donate: current_user.can_donate?(@integration) }
+        if current_user
+          render json: { can_donate: current_user.can_donate?(@integration) }
+        else
+          render json: { can_donate: true }
+        end
       end
 
       private

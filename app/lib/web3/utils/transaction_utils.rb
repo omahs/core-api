@@ -25,7 +25,7 @@ module Web3
       end
 
       def formatted_status(blockchain_status)
-        status_codes_map = { '0x0': :processing, '0x1': :success, '0x2': :failed }
+        status_codes_map = { '0x0': :failed, '0x1': :success, '0x2': :processing }
 
         status_codes_map[blockchain_status.to_sym]
       end

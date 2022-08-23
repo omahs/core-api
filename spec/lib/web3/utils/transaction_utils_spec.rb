@@ -25,8 +25,8 @@ RSpec.describe Web3::Utils::TransactionUtils do
       end
     end
 
-    context 'when the status is (0x2)' do
-      let(:status) { '0x2' }
+    context 'when the status is (0x0)' do
+      let(:status) { '0x0' }
 
       it 'returns failed' do
         expect(transaction_utils.transaction_status(hash)).to eq :failed

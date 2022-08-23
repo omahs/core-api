@@ -1,3 +1,5 @@
 en:
   donations:
     blocked_message: "Unable to donate now. Wait for your next donation."
+  sources:
+    has_source_message: "Source already created."

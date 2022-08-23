@@ -30,6 +30,28 @@ RSpec.describe 'Api::V1::Sources', type: :request do
 
         expect_response_to_have_keys %w[id user_id integration_id]
       end
+
+      context 'when the user has already a source' do
+        before do
+          create(:source, user_id: user.id, integration_id: integration.id)
+        end
+
+        it 'does not create a new source' do
+          expect { request }.not_to change(Source, :count)
+        end
+
+        it 'heads http status unprocessable entity' do
+          request
+
+          expect(response).to have_http_status :unprocessable_entity
+        end
+
+        it 'returns an error message' do
+          request
+
+          expect_response_to_have_keys %w[message]
+        end
+      end
     end
 
     context 'with wrong params' do

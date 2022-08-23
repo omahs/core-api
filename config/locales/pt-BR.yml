@@ -222,3 +222,5 @@ pt-BR:
     pm: ''
   donations:
     blocked_message: "Não foi possível doar. Espere sua próxima doação."
+  sources:
+    has_source_message: "Source já criada."

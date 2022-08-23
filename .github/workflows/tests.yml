@@ -44,6 +44,9 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: ci_db_test
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+          MUMBAI_NODE_URL: ${{ secrets.MUMBAI_NODE_URL }}
+          MUMBAI_RPC_URL: ${{ secrets.MUMBAI_RPC_URL }}
+          MUMBAI_BLOCK_EXPLORER_URL: ${{ secrets.MUMBAI_BLOCK_EXPLORER_URL }}
         run: |
           cp config/database.ci.yml config/database.yml
           bundle exec rails db:drop

@@ -28,8 +28,8 @@ RSpec.describe PersonPaymentServices::BlockchainTransaction, type: :service do
       end
     end
 
-    context 'when the status is fail (0x2)' do
-      let(:status) { '0x2' }
+    context 'when the status is fail (0x0)' do
+      let(:status) { '0x0' }
 
       it 'updates the person_blockchain_transaction treasure_entry_status to failed' do
         service.update_status

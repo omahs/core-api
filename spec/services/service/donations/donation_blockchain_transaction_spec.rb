@@ -30,8 +30,8 @@ RSpec.describe Service::Donations::DonationBlockchainTransaction, type: :service
       end
     end
 
-    context 'when the status is fail (0x2)' do
-      let(:status) { '0x2' }
+    context 'when the status is fail (0x0)' do
+      let(:status) { '0x0' }
 
       it 'updates the donation_blockchain_transaction status to failed' do
         service.update_status

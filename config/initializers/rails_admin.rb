@@ -42,6 +42,10 @@ RailsAdmin.config do |config|
     field :minimum_integration_amount do
       label{ "minimum amount in usdc for new integrations" }
     end
+
+    field :default_chain_id do
+      label{ "Default chain id, like polygon or mumbai" }
+    end
   end
 
   config.model DonationBlockchainTransaction do

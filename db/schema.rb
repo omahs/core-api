@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_17_182932) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_24_115402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -244,6 +244,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_182932) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "minimum_integration_amount"
+    t.integer "default_chain_id"
   end
 
   create_table "sources", force: :cascade do |t|

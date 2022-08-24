@@ -12,6 +12,7 @@ describe Givings::CommunityTreasure::AddBalance do
     before do
       allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
       allow(ribon_contract).to receive(:add_donation_pool_balance)
+      create(:ribon_config)
     end
 
     it 'calls ribon contract add_donation_pool_balance with correct args' do

@@ -16,6 +16,7 @@ RSpec.describe PersonPaymentServices::BlockchainTransaction, type: :service do
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client_mock)
       allow(client_mock).to receive(:eth_get_transaction_receipt).and_return(transaction_receipt)
+      create(:ribon_config)
     end
 
     context 'when the status is success (0x1)' do

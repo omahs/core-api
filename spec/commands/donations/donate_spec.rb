@@ -13,6 +13,7 @@ describe Donations::Donate do
       let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
+      let(:donation_pool_address) { '0x174C30d9D70d0f18b18736e4a1ddbba9EF9D0330' }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)
@@ -36,7 +37,8 @@ describe Donations::Donate do
         command
 
         expect(ribon_contract).to have_received(:donate_through_integration)
-          .with(amount: 1.0, non_profit_wallet_address: non_profit.wallet_address, user: user.email,
+          .with(donation_pool_address:, amount: 1.0,
+                non_profit_wallet_address: non_profit.wallet_address, user: user.email,
                 sender_key: integration.integration_wallet.private_key)
       end
 

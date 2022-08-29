@@ -1,7 +1,7 @@
 module Web3
   module Contracts
     class RibonContract < BaseContract
-      def add_donation_pool_balance(donation_pool_address:, amount:)
+      def add_pool_balance(donation_pool_address:, amount:)
         parsed_amount = Utils::Converter.to_wei(amount)
 
         transact('addDonationPoolBalance', donation_pool_address,

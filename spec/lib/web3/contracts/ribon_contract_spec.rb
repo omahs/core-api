@@ -7,9 +7,9 @@ RSpec.describe Web3::Contracts::RibonContract do
   let(:amount) { 0.5 }
   let(:user) { build(:user).email }
 
-  describe '#add_donation_pool_balance' do
+  describe '#add_pool_balance' do
     subject(:method_call) do
-      described_class.new(chain:).add_donation_pool_balance(donation_pool_address: '0xFFFF', amount:)
+      described_class.new(chain:).add_pool_balance(donation_pool_address: '0xFFFF', amount:)
     end
 
     before do

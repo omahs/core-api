@@ -12,7 +12,7 @@ module Givings
       end
 
       def call
-        ribon_contract.add_donation_pool_balance(donation_pool_address:, amount:)
+        ribon_contract.add_pool_balance(donation_pool_address:, amount:)
       end
 
       private

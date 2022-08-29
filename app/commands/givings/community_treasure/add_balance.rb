@@ -12,13 +12,17 @@ module Givings
       end
 
       def call
-        ribon_contract.add_donation_pool_balance(amount:)
+        ribon_contract.add_donation_pool_balance(donation_pool_address:, amount:)
       end
 
       private
 
       def default_chain
         @default_chain ||= Chain.default
+      end
+
+      def donation_pool_address
+        '0x174C30d9D70d0f18b18736e4a1ddbba9EF9D0330'
       end
 
       def ribon_contract

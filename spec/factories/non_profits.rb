@@ -3,7 +3,6 @@ FactoryBot.define do
     name { 'Evidence Action' }
     wallet_address { '0x000' }
     impact_description { 'Days of water' }
-    link { 'https://evidenceaction.org' }
 
     trait(:with_impact) do
       after(:create) do |non_profit|

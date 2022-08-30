@@ -39,7 +39,7 @@ module Payment
                                                              payment_method: @stripe_payment_method)
 
           customer = Customer.find_by(id: order&.person&.customer&.id)
-          customer.update(customer_keys: { stripe: @stripe_customer.id })
+          customer&.update(customer_keys: { stripe: @stripe_customer.id })
 
           Entities::TaxId.add_to_customer(stripe_customer: @stripe_customer,
                                           tax_id: order&.person&.customer&.tax_id)

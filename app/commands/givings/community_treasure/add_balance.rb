@@ -22,7 +22,7 @@ module Givings
       end
 
       def donation_pool_address
-        '0x174C30d9D70d0f18b18736e4a1ddbba9EF9D0330'
+        '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F'
       end
 
       def ribon_contract

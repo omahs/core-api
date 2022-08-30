@@ -36,13 +36,11 @@ module Payment
         def setup_customer(order)
           @stripe_payment_method = Entities::PaymentMethod.create(card: order&.card)
           @stripe_customer       = Entities::Customer.create(customer: order&.person&.customer,
-                                                             payment_method: @stripe_payment_method,
-                                                             )
+                                                             payment_method: @stripe_payment_method)
 
-          customer = order&.person&.customer   
-          customer&.customer_keys['stripe'] = @stripe_customer.id
-          customer.save
-                                          
+          customer = Customer.find_by(id: order&.person&.customer&.id)
+          customer.update(customer_keys: { stripe: @stripe_customer.id })
+
           Entities::TaxId.add_to_customer(stripe_customer: @stripe_customer,
                                           tax_id: order&.person&.customer&.tax_id)
         end

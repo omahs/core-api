@@ -13,7 +13,7 @@ describe Donations::Donate do
       let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
-      let(:donation_pool_address) { '0x174C30d9D70d0f18b18736e4a1ddbba9EF9D0330' }
+      let(:donation_pool_address) { '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F' }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)

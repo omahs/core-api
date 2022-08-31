@@ -21,12 +21,12 @@ RSpec.describe Web3::Contracts::RibonContract do
 
     it 'calls the transact with correct args' do
       method_call
-      wei_amount = Web3::Utils::Converter.to_wei(amount)
+      wei_amount = Web3::Utils::Converter.to_decimals(amount, 6)
       sender_key = Web3::Providers::Keys::RIBON_KEY
       donation_pool_address = '0xFFFF'
 
       expect(client)
-        .to have_received(:transact).with(contract, 'addDonationPoolBalance',
+        .to have_received(:transact).with(contract, 'addPoolBalance',
                                           donation_pool_address, wei_amount,
                                           gas_limit: 0, sender_key:)
     end
@@ -77,7 +77,7 @@ RSpec.describe Web3::Contracts::RibonContract do
 
     it 'calls the transact with correct args' do
       method_call
-      wei_amount = Web3::Utils::Converter.to_wei(amount)
+      wei_amount = Web3::Utils::Converter.to_decimals(amount, 6)
       keccak256_user = Web3::Utils::Converter.keccak(user)
       donation_pool_address = '0xFFFF'
 

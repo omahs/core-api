@@ -14,6 +14,10 @@ module Web3
       def self.keccak(value, decimals = 256)
         Digest::Keccak.hexdigest(value, decimals)
       end
+
+      def self.to_decimals(value, decimals)
+        (value.to_f * (10**decimals)).to_i
+      end
     end
   end
 end

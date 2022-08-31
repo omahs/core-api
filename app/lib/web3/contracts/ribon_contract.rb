@@ -2,9 +2,9 @@ module Web3
   module Contracts
     class RibonContract < BaseContract
       def add_pool_balance(donation_pool_address:, amount:)
-        parsed_amount = Utils::Converter.to_wei(amount)
+        parsed_amount = (amount.to_f * (10**6)).to_i # TODO: convert according to token decimals
 
-        transact('addDonationPoolBalance', donation_pool_address,
+        transact('addPoolBalance', donation_pool_address,
                  parsed_amount, sender_key: Providers::Keys::RIBON_KEY)
       end
 
@@ -18,7 +18,7 @@ module Web3
       def donate_through_integration(donation_pool_address:, non_profit_wallet_address:, user:,
                                      amount:, sender_key:)
         keccak256_user = Utils::Converter.keccak(user)
-        parsed_amount = Utils::Converter.to_wei(amount)
+        parsed_amount = (amount.to_f * (10**6)).to_i # TODO: convert according to token decimals
         key = ::Eth::Key.new(priv: sender_key)
 
         transact('donateThroughIntegration', donation_pool_address, non_profit_wallet_address,

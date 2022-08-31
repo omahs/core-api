@@ -45,3 +45,4 @@ docker-compose.yml
 .env
 
 .DS_Store
+.byebug_history

@@ -26,6 +26,8 @@ gem 'graphql-client'
 gem 'eth', '~> 0.5.6'
 gem 'keccak', '~> 1.3'
 
+gem 'byebug'
+
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

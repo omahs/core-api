@@ -2,7 +2,7 @@ module Web3
   module Providers
     class Networks
       config = RibonCoreApi.config[:web3][:networks]
-  
+
       POLYGON = {
         name: 'Polygon Mainnet',
         ribon_contract_address: '0x411DF13350D6aB065Fc2d1Fd026b6d7f4133e9Df',

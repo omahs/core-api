@@ -6,8 +6,13 @@ module Graphql
           donationBalances {
             id
             integration
+            { 
+              id
+            }
             totalDonated
-            nonProfit
+            nonProfit{
+              id
+            }
             user
           }
         }

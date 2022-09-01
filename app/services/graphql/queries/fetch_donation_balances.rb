@@ -5,9 +5,13 @@ module Graphql
         query {
           donationBalances {
             id
-            integration
+            integration{
+              id
+            }
             totalDonated
-            nonProfit
+            nonProfit{
+              id
+            }
             user
           }
         }

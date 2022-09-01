@@ -3,6 +3,18 @@ module Web3
     class Networks
       config = RibonCoreApi.config[:web3][:networks]
 
+      POLYGON = {
+        name: 'Polygon Mainnet',
+        ribon_contract_address: '0x411DF13350D6aB065Fc2d1Fd026b6d7f4133e9Df',
+        donation_token_contract_address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+        chain_id: 0x89,
+        rpc_url: config[:polygon][:rpc_url],
+        node_url: config[:polygon][:node_url],
+        symbol_name: 'MATIC',
+        currency_name: 'Matic',
+        block_explorer_url: config[:polygon][:block_explorer_url]
+      }.freeze
+
       MUMBAI = {
         name: 'Mumbai Testnet',
         ribon_contract_address: '0xD3850333819fBdd43784498F67010E5c87a2EAb3',

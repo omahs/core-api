@@ -10,91 +10,75 @@ namespace :ribon do
     setup_non_profit
     setup_test_user
   end
+end
 
-  def setup_admin
-    pf 'Do you want to create a new admin? (y/n) '
-    answer = gets.chomp
+def setup_admin
+  return unless can_create?('admin')
 
-    if answer.downcase == 'y'
-      pf 'Admin e-mail: '
-      email = gets.chomp
+  pf 'Admin e-mail: '
+  email = gets.chomp
 
-      pf 'Admin password: '
-      password = gets.chomp
+  pf 'Admin password: '
+  password = gets.chomp
 
-      Admin.create(email:, password:)
+  Admin.create(email:, password:)
 
-      puts "Admin with e-mail #{email} was created!"
-    end
-  end
+  puts "Admin with e-mail #{email} was created!"
+end
 
-  def setup_integration_and_wallet
-    pf 'Do you want to create a new integration? (y/n) '
-    answer = gets.chomp
+def setup_integration_and_wallet
+  return unless can_create?('integration')
 
-    if answer.downcase == 'y'
-      pf 'Integration name: '
-      name = gets.chomp
+  pf 'Integration name: '
+  name = gets.chomp
 
-      pf 'It is an active integration? (y/n) '
-      status = gets.chomp
+  pf 'It is an active integration? (y/n) '
+  status = gets.chomp
 
-      Integrations::CreateIntegration.call({name:, status: status == 'y' ? 'active' : 'inactive'})
+  Integrations::CreateIntegration.call({ name:, status: status == 'y' ? 'active' : 'inactive' })
 
-      puts "Integration #{name} was created!"
-      puts "The wallet #{Integration.last.integration_wallet.public_key} was associated to #{name}!"
-    end
-  end
+  puts "Integration #{name} was created!"
+  puts "The wallet #{Integration.last.integration_wallet.public_key} was associated to #{name}!"
+end
 
-  def setup_non_profit
-    pf 'Do you want to create a new Non-profit? (y/n) '
-    answer = gets.chomp
+def setup_non_profit
+  return unless can_create?('non-profit')
 
-    if answer.downcase == 'y'
-      pf 'Non-profit name: '
-      name = gets.chomp
+  pf 'Non-profit name: '
+  name = gets.chomp
 
-      pf 'Non-profit wallet address: (default: 0x000...)'
-      wallet_address = gets.chomp
+  pf 'Non-profit wallet address: (default: 0x000...)'
+  wallet_address = gets.chomp
 
-      pf 'Non-profit impact description: (default: 1 day of impact)'
-      impact_description = gets.chomp
+  non_profit = NonProfit.create!({
+                                   name:, wallet_address: wallet_address.presence ||
+                                   '0x0000000000000000000000000000000000000000'
+                                 })
 
-      payload = {
-        name:,
-        wallet_address: wallet_address.present? ? wallet_address : '0x0000000000000000000000000000000000000000',
-        impact_description: impact_description.present? ? impact_description : '1 day of impact'
-      }
+  non_profit.non_profit_impacts.first_or_create!(usd_cents_to_one_impact_unit: 100,
+                                                 start_date: '2022-01-01', end_date: '2022-09-30')
 
-      non_profit = NonProfit.create!(payload)
+  puts "Non-profit #{name} with impact unit of USD 1.00 was created!"
+end
 
-      usd_cents_to_one_impact_unit = 100
-    
-      non_profit.non_profit_impacts.first_or_create!(usd_cents_to_one_impact_unit:,
-        start_date: "2022-01-01",
-        end_date: "2022-09-30")
+def setup_test_user
+  return unless can_create?('test user')
 
-      puts "Non-profit #{name} was created!"
-      puts "A Non-profit impact with impact unit of USD #{usd_cents_to_one_impact_unit / 100} was created!"
-    end
-  end
+  pf 'User e-mail: '
+  email = gets.chomp
 
-  def setup_test_user
-    pf 'Do you want to create a test user? (y/n) '
-    answer = gets.chomp
+  User.create!(email:)
 
-    if answer.downcase == 'y'
-      pf 'User e-mail: '
-      email = gets.chomp
-      
-      User.create!(email:)
+  puts "User with email #{email} was created!"
+end
 
-      puts "User with email #{email} was created!"
-    end
-  end
+def can_create?(entity_name)
+  pf "Do you want to create a new #{entity_name}? (y/n) "
 
-  def pf(str)
-    print str
-    $stdout.flush
-  end
+  gets.chomp.casecmp('y').zero?
+end
+
+def pf(str)
+  print str
+  $stdout.flush
 end

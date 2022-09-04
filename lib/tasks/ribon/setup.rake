@@ -50,10 +50,9 @@ def setup_non_profit
   pf 'Non-profit wallet address: (default: 0x000...)'
   wallet_address = gets.chomp
 
-  non_profit = NonProfit.create!({
-                                   name:, wallet_address: wallet_address.presence ||
-                                   '0x0000000000000000000000000000000000000000'
-                                 })
+  non_profit = NonProfit.create!(name:, wallet_address: wallet_address.presence ||
+                                '0x0000000000000000000000000000000000000000',
+                                 impact_description: '1 day of impact')
 
   non_profit.non_profit_impacts.first_or_create!(usd_cents_to_one_impact_unit: 100,
                                                  start_date: '2022-01-01', end_date: '2022-09-30')

@@ -21,7 +21,7 @@ def setup_admin
   pf 'Admin password: '
   password = gets.chomp
 
-  Admin.create(email:, password:)
+  Admin.create!(email:, password:)
 
   puts "Admin with e-mail #{email} was created!"
 end

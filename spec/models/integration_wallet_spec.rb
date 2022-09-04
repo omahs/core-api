@@ -11,7 +11,7 @@ RSpec.describe IntegrationWallet, type: :model do
   end
 
   describe '#private_key' do
-    let(:private_key_string) { '3ecf3128ad6df6257e693368e8860cd59b5ceee5f6550796efe841d4ccaed1c2' }
+    let(:private_key_string) { '0000000000000000000000000000000000000000000000000000000000000000' }
     let(:integration_wallet) { build(:integration_wallet) }
 
     it 'returns the integration private key decoded' do

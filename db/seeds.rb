@@ -11,4 +11,4 @@ unless Rails.env.production?
   puts 'Creating polygon chain...'
   Chain.create!(Web3::Providers::Networks::POLYGON)
   puts "Polygon chain created."
-endP
+end

@@ -14,4 +14,21 @@ RSpec.describe Chain, type: :model do
     it { is_expected.to validate_presence_of(:currency_name) }
     it { is_expected.to validate_presence_of(:block_explorer_url) }
   end
+
+  describe '#gas_fee' do
+    subject(:chain) { build(:chain) }
+
+    let(:fee_instance) { instance_double(Web3::Utils::Fee) }
+
+    before do
+      allow(Web3::Utils::Fee).to receive(:new).and_return(fee_instance)
+      allow(fee_instance).to receive(:estimate_fee)
+    end
+
+    it 'calls the Fee lib #calculate_fee' do
+      chain.gas_fee
+
+      expect(fee_instance).to have_received(:estimate_fee)
+    end
+  end
 end

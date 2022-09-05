@@ -52,5 +52,17 @@ RSpec.describe Web3::Utils::Gas do
         expect(gas_lib.estimate_gas.max_priority_fee_per_gas).to eq described_class::DEFAULT_MAX_FEE_PER_GAS
       end
     end
+
+    context 'when an error occurs' do
+      before do
+        allow(Request::ApiRequest).to receive(:get).and_raise(StandardError)
+      end
+
+      it 'returns the default defined values' do
+        expect(gas_lib.estimate_gas.max_fee_per_gas).to eq described_class::DEFAULT_MAX_FEE_PER_GAS
+        expect(gas_lib.estimate_gas.max_priority_fee_per_gas).to eq described_class::DEFAULT_MAX_FEE_PER_GAS
+        expect(gas_lib.estimate_gas.default_gas_limit).to eq described_class::DEFAULT_GAS_LIMIT
+      end
+    end
   end
 end

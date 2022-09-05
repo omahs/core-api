@@ -85,6 +85,7 @@ jobs:
           MUMBAI_BLOCK_EXPLORER_URL: ${{ secrets.MUMBAI_BLOCK_EXPLORER_URL }}
           RIBON_SECRET_OPENSSL_KEY: ${{ secrets.RIBON_SECRET_OPENSSL_KEY }}
           INTEGRATION_ADDRESS_BASE_URL: ${{ secrets.INTEGRATION_ADDRESS_BASE_URL }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bundle exec rails db:drop
           bundle exec rails db:create

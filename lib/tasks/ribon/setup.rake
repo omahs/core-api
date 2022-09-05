@@ -3,7 +3,6 @@ namespace :ribon do
   task setup: :environment do
     puts 'Welcome to the Ribon Core API setup'
     puts 'Now we are going to create some customized entities.'
-    puts ''
 
     setup_admin
     setup_integration_and_wallet
@@ -32,13 +31,14 @@ def setup_integration_and_wallet
   pf 'Integration name: '
   name = gets.chomp
 
-  pf 'It is an active integration? (y/n) '
+  pf 'Integration is active? (y/n) '
   status = gets.chomp
 
   Integrations::CreateIntegration.call({ name:, status: status == 'y' ? 'active' : 'inactive' })
 
+  shortened_wallet = Integration.last.integration_wallet.public_key[0, 15].concat('...')
   puts "Integration #{name} was created!"
-  puts "The wallet #{Integration.last.integration_wallet.public_key} was associated to #{name}!"
+  puts "Integration wallet #{shortened_wallet} was associated to #{name}!"
 end
 
 def setup_non_profit
@@ -72,6 +72,7 @@ def setup_test_user
 end
 
 def can_create?(entity_name)
+  puts ''
   pf "Do you want to create a new #{entity_name}? (y/n) "
 
   gets.chomp.casecmp('y').zero?

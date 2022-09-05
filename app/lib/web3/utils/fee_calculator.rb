@@ -10,7 +10,7 @@ module Web3
 
       def calculate_fee
         request = Request::ApiRequest.get(chain.gas_fee_url, expires_in: 2.hours)
-        gas_fee_in_usd = request.speeds.first['estimatedFee']
+        gas_fee_in_usd = request.speeds.second['estimatedFee']
 
         formatted_gas_fee(gas_fee_in_usd)
       end

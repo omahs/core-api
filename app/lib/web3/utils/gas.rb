@@ -18,6 +18,9 @@ module Web3
         max_priority_fee_per_gas = [speeds['maxPriorityFeePerGas'], DEFAULT_MAX_FEE_PER_GAS].min
 
         OpenStruct.new({ max_fee_per_gas:, max_priority_fee_per_gas:, default_gas_limit: DEFAULT_GAS_LIMIT })
+      rescue StandardError
+        OpenStruct.new({ max_fee_per_gas: DEFAULT_MAX_FEE_PER_GAS,
+                         max_priority_fee_per_gas: DEFAULT_MAX_FEE_PER_GAS, default_gas_limit: DEFAULT_GAS_LIMIT })
       end
     end
   end

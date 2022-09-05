@@ -1,6 +1,6 @@
 module Web3
   module Utils
-    class FeeCalculator
+    class Fee
       attr_reader :currency, :chain
 
       def initialize(chain:, currency:)
@@ -8,7 +8,7 @@ module Web3
         @chain = chain
       end
 
-      def calculate_fee
+      def estimate_fee
         request = Request::ApiRequest.get(chain.gas_fee_url, expires_in: 2.hours)
         gas_fee_in_usd = request.speeds.second['estimatedFee']
 

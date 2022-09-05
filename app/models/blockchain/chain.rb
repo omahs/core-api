@@ -7,4 +7,8 @@ class Chain < ApplicationRecord
 
     find_by(chain_id: default_chain_id)
   end
+
+  def gas_fee(currency: :usd)
+    Web3::Utils::FeeCalculator.new(chain: self, currency:).calculate_fee
+  end
 end

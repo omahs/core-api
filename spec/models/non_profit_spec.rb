@@ -7,6 +7,7 @@ RSpec.describe NonProfit, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:wallet_address) }
     it { is_expected.to validate_presence_of(:impact_description) }
+    it { is_expected.to validate_presence_of(:status) }
   end
 
   describe '#impact_for' do

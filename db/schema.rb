@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_30_112145) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_05_183310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -179,6 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_30_112145) do
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "active"
   end
 
   create_table "offer_gateways", force: :cascade do |t|

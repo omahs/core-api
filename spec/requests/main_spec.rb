@@ -14,7 +14,7 @@ RSpec.describe 'Mains', type: :request do
 
     context 'when the database is off' do
       it 'returns http status :unprocessable_entity' do
-        allow(NonProfit).to receive(:first).and_throw
+        allow(NonProfit).to receive(:where).and_throw
         request
 
         expect(response).to have_http_status :unprocessable_entity

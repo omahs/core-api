@@ -27,7 +27,7 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
     subject(:request) { get '/api/v1/non_profits' }
 
     before do
-      create_list(:non_profit, 1)
+      create(:non_profit)
       create_list(:non_profit, 2, status: :inactive)
     end
 

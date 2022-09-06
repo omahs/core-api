@@ -2,7 +2,7 @@ class NonProfit < ApplicationRecord
   extend Mobility
 
   STATUSES = %w[active inactive].freeze
-  
+
   translates :impact_description, :description, type: :string
 
   has_one_attached :logo

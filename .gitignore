@@ -55,3 +55,5 @@ docker-compose.yml
 .DS_Store
 .byebug_history
 
+dump.rdb
+

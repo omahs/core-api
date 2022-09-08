@@ -180,7 +180,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 1
+    t.integer "status", default: 0
   end
 
   create_table "offer_gateways", force: :cascade do |t|

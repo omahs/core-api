@@ -1,14 +1,13 @@
 module Web3
   module Providers
     class Client
-      DEFAULT_MAX_FEE_PER_GAS = 58 * ::Eth::Unit::GWEI
-      DEFAULT_GAS_LIMIT = 78_659
-
       def self.create(chain:)
         client = ::Eth::Client.create chain[:node_url]
-        client.max_fee_per_gas = DEFAULT_MAX_FEE_PER_GAS
-        client.max_priority_fee_per_gas = DEFAULT_MAX_FEE_PER_GAS
-        client.gas_limit = DEFAULT_GAS_LIMIT
+        fees = Utils::Gas.new(chain:).estimate_gas
+
+        client.max_fee_per_gas = fees.max_fee_per_gas * ::Eth::Unit::GWEI
+        client.max_priority_fee_per_gas = fees.max_priority_fee_per_gas * ::Eth::Unit::GWEI
+        client.gas_limit = fees.default_gas_limit
 
         client
       end

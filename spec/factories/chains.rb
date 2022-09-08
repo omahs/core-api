@@ -9,5 +9,6 @@ FactoryBot.define do
     symbol_name { 'MATIC' }
     currency_name { 'Matic' }
     block_explorer_url { 'https://block_explorer_url.com' }
+    gas_fee_url { 'https://owlracle.info/poly/gas' }
   end
 end

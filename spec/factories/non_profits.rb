@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :non_profit do
     name { 'Evidence Action' }
-    wallet_address { '0x000' }
-    impact_description { 'Days of water' }
     status { :active }
+    wallet_address { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
+    impact_description { '1 day of water' }
 
     trait(:with_impact) do
       after(:create) do |non_profit|

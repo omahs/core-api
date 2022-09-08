@@ -8,4 +8,6 @@ unless Rails.env.production?
   user = FactoryBot.create(:user)
 
   chain = FactoryBot.create(:chain)
+
+  puts "Seed completed!"
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_05_103431) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_06_183656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -253,6 +253,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_05_103431) do
     t.datetime "updated_at", null: false
     t.index ["integration_id"], name: "index_sources_on_integration_id"
     t.index ["user_id"], name: "index_sources_on_user_id"
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.integer "decimals"
+    t.bigint "chain_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chain_id"], name: "index_tokens_on_chain_id"
   end
 
   create_table "user_donation_stats", force: :cascade do |t|

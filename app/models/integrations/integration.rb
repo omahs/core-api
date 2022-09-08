@@ -7,7 +7,7 @@ class Integration < ApplicationRecord
     inactive: 0,
     active: 1
   }
-  
+
   def integration_address
     "#{base_url}#{unique_address}"
   end

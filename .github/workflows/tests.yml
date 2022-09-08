@@ -68,6 +68,7 @@ jobs:
           RIBON_SECRET_OPENSSL_KEY: ${{ secrets.RIBON_SECRET_OPENSSL_KEY }}
           INTEGRATION_ADDRESS_BASE_URL: ${{ secrets.INTEGRATION_ADDRESS_BASE_URL }}
         run: |
+          cp config/database.ci.yml config/database.yml
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate

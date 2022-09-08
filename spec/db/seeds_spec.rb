@@ -20,10 +20,6 @@ RSpec.describe 'Seed' do
       expect { run_seed }.to change(Integration, :count).by(1)
     end
 
-    it 'creates an Admin' do
-      expect { run_seed }.to change(Admin, :count).by(1)
-    end
-
     it 'creates a User' do
       expect { run_seed }.to change(User, :count).by(1)
     end

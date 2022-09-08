@@ -5,8 +5,6 @@ unless Rails.env.production?
 
   integration = FactoryBot.create(:integration)
 
-  admin = FactoryBot.create(:admin)
-
   user = FactoryBot.create(:user)
 
   chain = FactoryBot.create(:chain)

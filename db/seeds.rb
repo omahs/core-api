@@ -21,7 +21,7 @@ unless Rails.env.production?
   integration = Integration.first_or_create!(
     id: 3,
     name: "Renner",
-    status: 'active',
+    status: "active",
     unique_address: 'b3fa97fe-0302-4b00-97ba-df32e3060b74',
     ticket_availability_in_minutes: 30,
   )

@@ -1,7 +1,6 @@
 class NonProfit < ApplicationRecord
   extend Mobility
 
-  STATUSES = %w[active inactive].freeze
 
   translates :impact_description, :description, type: :string
 
@@ -12,7 +11,11 @@ class NonProfit < ApplicationRecord
   has_many :non_profit_impacts
 
   validates :name, :impact_description, :wallet_address, :status, presence: true
-  validates :status, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
+
+  enum status: {
+    inactive: 0,
+    active: 1
+  }
 
   def impact_for(date: Time.zone.now)
     non_profit_impacts.find_by('start_date <= ? AND end_date >= ?', date, date)

@@ -1,6 +1,6 @@
 class MainController < ApplicationController
   def health
-    database_ping = NonProfit.where(status: :active).first.present?
+    database_ping = NonProfit.first&.id&.present?
     redis_ping    = RibonCoreApi.redis.ping == 'PONG'
 
     render json: { api: true, redis: redis_ping, database: database_ping }, status: :ok

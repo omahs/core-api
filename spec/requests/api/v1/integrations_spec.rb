@@ -23,7 +23,7 @@ RSpec.describe 'Api::V1::Integrations', type: :request do
     let(:params) do
       {
         name: 'Ribon',
-        status: '0'
+        status: :inactive
       }
     end
 

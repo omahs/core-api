@@ -234,7 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
     t.integer "amount_cents"
     t.uuid "person_id"
     t.integer "status", default: 0
-    t.integer "payment_method", default: 0
+    t.integer "payment_method"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

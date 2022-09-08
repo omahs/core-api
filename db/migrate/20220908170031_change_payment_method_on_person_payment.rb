@@ -6,8 +6,6 @@ class ChangePaymentMethodOnPersonPayment < ActiveRecord::Migration[7.0]
     execute "UPDATE person_payments SET new_payment_method = 1 WHERE payment_method = 'pix'"
     execute "UPDATE person_payments SET new_payment_method = 2 WHERE payment_method = 'crypto'"
 
-    change_column_default :person_payments, :new_payment_method, 0
-
     rename_column :person_payments, :payment_method, :old_payment_method
     rename_column :person_payments, :new_payment_method, :payment_method
 

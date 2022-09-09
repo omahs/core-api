@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: person_blockchain_transactions
+#
+#  id                    :bigint           not null, primary key
+#  transaction_hash      :string
+#  treasure_entry_status :integer          default("processing")
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  person_payment_id     :bigint
+#
+# Indexes
+#
+#  index_person_blockchain_transactions_on_person_payment_id  (person_payment_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (person_payment_id => person_payments.id)
+#
 FactoryBot.define do
   factory :person_blockchain_transaction do
     treasure_entry_status { 0 }

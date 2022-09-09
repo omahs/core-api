@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: offers
+#
+#  id             :bigint           not null, primary key
+#  active         :boolean
+#  currency       :integer
+#  position_order :integer
+#  price_cents    :integer
+#  subscription   :boolean
+#  title          :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 class Offer < ApplicationRecord
   has_one :offer_gateway, dependent: :nullify, inverse_of: :offer
   accepts_nested_attributes_for :offer_gateway, allow_destroy: true

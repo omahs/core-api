@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: integration_wallets
+#
+#  id                    :uuid             not null, primary key
+#  encrypted_private_key :string
+#  private_key_iv        :string
+#  public_key            :string
+#  integration_id        :bigint
+#
+# Indexes
+#
+#  index_integration_wallets_on_integration_id  (integration_id)
+#
 require 'rails_helper'
 
 RSpec.describe IntegrationWallet, type: :model do

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: non_profits
+#
+#  id                 :bigint           not null, primary key
+#  impact_description :text
+#  name               :string
+#  status             :integer          default(0)
+#  wallet_address     :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
 class NonProfit < ApplicationRecord
   extend Mobility
   translates :impact_description, :description, type: :string

@@ -10,10 +10,6 @@
 #  updated_at :datetime         not null
 #  chain_id   :bigint
 #
-# Indexes
-#
-#  index_tokens_on_chain_id  (chain_id)
-#
 require 'rails_helper'
 
 RSpec.describe Token, type: :model do

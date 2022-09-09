@@ -8,10 +8,6 @@
 #  updated_at     :datetime         not null
 #  person_id      :uuid
 #
-# Indexes
-#
-#  index_guests_on_person_id  (person_id)
-#
 class Guest < ApplicationRecord
   include UuidHelper
 

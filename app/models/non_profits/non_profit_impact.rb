@@ -10,14 +10,6 @@
 #  updated_at                   :datetime         not null
 #  non_profit_id                :bigint           not null
 #
-# Indexes
-#
-#  index_non_profit_impacts_on_non_profit_id  (non_profit_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (non_profit_id => non_profits.id)
-#
 class NonProfitImpact < ApplicationRecord
   belongs_to :non_profit
 

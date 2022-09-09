@@ -8,10 +8,6 @@
 #  public_key            :string
 #  integration_id        :bigint
 #
-# Indexes
-#
-#  index_integration_wallets_on_integration_id  (integration_id)
-#
 require 'rails_helper'
 
 RSpec.describe IntegrationWallet, type: :model do

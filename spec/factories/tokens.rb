@@ -10,10 +10,6 @@
 #  updated_at :datetime         not null
 #  chain_id   :bigint
 #
-# Indexes
-#
-#  index_tokens_on_chain_id  (chain_id)
-#
 FactoryBot.define do
   factory :token do
     name { 'USDC' }

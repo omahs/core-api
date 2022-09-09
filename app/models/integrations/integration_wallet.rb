@@ -8,10 +8,6 @@
 #  public_key            :string
 #  integration_id        :bigint
 #
-# Indexes
-#
-#  index_integration_wallets_on_integration_id  (integration_id)
-#
 class IntegrationWallet < ApplicationRecord
   belongs_to :integration
 

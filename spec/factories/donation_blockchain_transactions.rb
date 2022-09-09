@@ -10,16 +10,6 @@
 #  chain_id         :bigint           not null
 #  donation_id      :bigint           not null
 #
-# Indexes
-#
-#  index_donation_blockchain_transactions_on_chain_id     (chain_id)
-#  index_donation_blockchain_transactions_on_donation_id  (donation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (chain_id => chains.id)
-#  fk_rails_...  (donation_id => donations.id)
-#
 FactoryBot.define do
   factory :donation_blockchain_transaction do
     donation { nil }

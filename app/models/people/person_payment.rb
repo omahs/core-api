@@ -12,16 +12,6 @@
 #  offer_id       :bigint
 #  person_id      :uuid
 #
-# Indexes
-#
-#  index_person_payments_on_offer_id   (offer_id)
-#  index_person_payments_on_person_id  (person_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (offer_id => offers.id)
-#  fk_rails_...  (person_id => people.id)
-#
 class PersonPayment < ApplicationRecord
   include UuidHelper
 

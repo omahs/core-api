@@ -8,10 +8,6 @@
 #  public_key            :string
 #  integration_id        :bigint
 #
-# Indexes
-#
-#  index_integration_wallets_on_integration_id  (integration_id)
-#
 FactoryBot.define do
   factory :integration_wallet do
     public_key { '0xdbce37c4431e394d7892a053cbc39a411bbf25d2' }

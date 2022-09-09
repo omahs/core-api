@@ -9,14 +9,6 @@
 #  external_id :string
 #  offer_id    :bigint           not null
 #
-# Indexes
-#
-#  index_offer_gateways_on_offer_id  (offer_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (offer_id => offers.id)
-#
 class OfferGateway < ApplicationRecord
   belongs_to :offer, inverse_of: :offer_gateway
   validates :gateway, :external_id, presence: true

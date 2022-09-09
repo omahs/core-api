@@ -10,10 +10,6 @@
 #  updated_at :datetime         not null
 #  chain_id   :bigint
 #
-# Indexes
-#
-#  index_tokens_on_chain_id  (chain_id)
-#
 class Token < ApplicationRecord
   validates :name, :address, :decimals, presence: true
 

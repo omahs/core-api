@@ -12,15 +12,6 @@
 #  tax_id        :string
 #  user_id       :bigint
 #
-# Indexes
-#
-#  index_customers_on_person_id  (person_id)
-#  index_customers_on_user_id    (user_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (person_id => people.id)
-#
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do

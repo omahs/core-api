@@ -8,11 +8,6 @@
 #  integration_id :bigint
 #  user_id        :bigint
 #
-# Indexes
-#
-#  index_sources_on_integration_id  (integration_id)
-#  index_sources_on_user_id         (user_id)
-#
 class Source < ApplicationRecord
   has_one :user
   has_one :integration

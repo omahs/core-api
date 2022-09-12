@@ -4,7 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  name                           :string
-#  status                         :integer          default(0)
+#  status                         :integer          default("inactive")
 #  ticket_availability_in_minutes :integer
 #  unique_address                 :uuid             not null
 #  created_at                     :datetime         not null

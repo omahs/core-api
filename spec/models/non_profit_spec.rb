@@ -20,6 +20,8 @@ RSpec.describe NonProfit, type: :model do
     it { is_expected.to validate_presence_of(:wallet_address) }
     it { is_expected.to validate_presence_of(:impact_description) }
     it { is_expected.to validate_presence_of(:status) }
+    it { is_expected.to have_many(:non_profit_pools) }
+    it { is_expected.to have_many(:pools).through(:non_profit_pools) }
   end
 
   describe '#impact_for' do

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: tokens
+#
+#  id         :bigint           not null, primary key
+#  address    :string
+#  decimals   :integer
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  chain_id   :bigint
+#
 require 'rails_helper'
 
 RSpec.describe Token, type: :model do

@@ -79,3 +79,6 @@ Lint/MissingSuper:
 
 Rails/FilePath:
   Enabled: false
+
+Rails/DynamicFindBy:
+  Enabled: false

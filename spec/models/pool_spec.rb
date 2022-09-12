@@ -6,7 +6,6 @@ RSpec.describe Pool, type: :model do
 
     it { is_expected.to validate_presence_of(:address) }
     it { is_expected.to belong_to(:token) }
-    it { is_expected.to belong_to(:integration) }
   end
 
   describe '#chain' do

@@ -14,14 +14,14 @@ RSpec.describe Integration, type: :model do
 
     context 'when the argument is an uuid' do
       it 'finds the integration by its uuid' do
-        expect(described_class.find_by(id_or_unique_address: 'f7be8d80-2406-4cb0-82eb-849346d327c9'))
+        expect(described_class.find_by_id_or_unique_address 'f7be8d80-2406-4cb0-82eb-849346d327c9')
           .to match an_object_containing(integration.attributes)
       end
     end
 
     context 'when the argument is an id' do
       it 'finds the integration by its id' do
-        expect(described_class.find_by(id_or_unique_address: 1))
+        expect(described_class.find_by_id_or_unique_address 1)
           .to match an_object_containing(integration.attributes)
       end
     end

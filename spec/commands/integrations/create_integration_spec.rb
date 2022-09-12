@@ -10,7 +10,7 @@ describe Integrations::CreateIntegration do
       let(:params) do
         {
           name: 'Integration 1',
-          status: 'active'
+          status: :active
         }
       end
 
@@ -27,16 +27,8 @@ describe Integrations::CreateIntegration do
       let(:params) do
         {
           name: 'Integration 1',
-          status: 'undefined'
+          status: :processing
         }
-      end
-
-      it 'raises an error' do
-        expect(command.errors).to eq(
-          {
-            message: ['Validation failed: Status undefined is not a valid status']
-          }
-        )
       end
 
       it 'does not create a new integration' do

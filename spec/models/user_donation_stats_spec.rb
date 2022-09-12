@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: user_donation_stats
+#
+#  id               :bigint           not null, primary key
+#  last_donation_at :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  user_id          :bigint           not null
+#
 require 'rails_helper'
 
 RSpec.describe UserDonationStats, type: :model do

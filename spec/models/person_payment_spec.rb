@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: person_payments
+#
+#  id             :bigint           not null, primary key
+#  amount_cents   :integer
+#  paid_date      :datetime
+#  payment_method :integer
+#  status         :integer          default(0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  offer_id       :bigint
+#  person_id      :uuid
+#
 require 'rails_helper'
 
 RSpec.describe PersonPayment, type: :model do

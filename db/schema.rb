@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_06_183656) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -134,9 +134,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_06_183656) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "active"
     t.uuid "unique_address", default: -> { "gen_random_uuid()" }, null: false
     t.integer "ticket_availability_in_minutes"
+    t.integer "status", default: 0
   end
 
   create_table "mobility_string_translations", force: :cascade do |t|
@@ -180,6 +180,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_06_183656) do
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
   end
 
   create_table "offer_gateways", force: :cascade do |t|
@@ -227,13 +228,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_06_183656) do
 
   create_table "person_payments", force: :cascade do |t|
     t.datetime "paid_date"
-    t.string "payment_method"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "offer_id"
     t.integer "amount_cents"
     t.uuid "person_id"
+    t.integer "status", default: 0
+    t.integer "payment_method"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

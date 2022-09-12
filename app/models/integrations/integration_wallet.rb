@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: integration_wallets
+#
+#  id                    :uuid             not null, primary key
+#  encrypted_private_key :string
+#  private_key_iv        :string
+#  public_key            :string
+#  integration_id        :bigint
+#
 class IntegrationWallet < ApplicationRecord
   belongs_to :integration
 

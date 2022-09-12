@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: chains
+#
+#  id                              :bigint           not null, primary key
+#  block_explorer_url              :string
+#  currency_name                   :string
+#  donation_token_contract_address :string
+#  gas_fee_url                     :string
+#  name                            :string
+#  node_url                        :string
+#  ribon_contract_address          :string
+#  rpc_url                         :string
+#  symbol_name                     :string
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
+#  chain_id                        :integer
+#
 require 'rails_helper'
 
 RSpec.describe Chain, type: :model do

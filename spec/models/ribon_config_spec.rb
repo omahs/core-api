@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: ribon_configs
+#
+#  id                         :bigint           not null, primary key
+#  default_ticket_value       :integer
+#  minimum_integration_amount :decimal(, )
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  default_chain_id           :integer
+#
 require 'rails_helper'
 
 RSpec.describe RibonConfig, type: :model do

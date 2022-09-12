@@ -1,5 +1,6 @@
 class NonProfit < ApplicationRecord
   extend Mobility
+
   translates :impact_description, :description, type: :string
 
   has_one_attached :logo
@@ -8,7 +9,12 @@ class NonProfit < ApplicationRecord
   has_one_attached :cover_image
   has_many :non_profit_impacts
 
-  validates :name, :impact_description, :wallet_address, presence: true
+  validates :name, :impact_description, :wallet_address, :status, presence: true
+
+  enum status: {
+    inactive: 0,
+    active: 1
+  }
 
   def impact_for(date: Time.zone.now)
     non_profit_impacts.find_by('start_date <= ? AND end_date >= ?', date, date)

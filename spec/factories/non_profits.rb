@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :non_profit do
     name { 'Evidence Action' }
+    status { :active }
     wallet_address { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
     impact_description { '1 day of water' }
 

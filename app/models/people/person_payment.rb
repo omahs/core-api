@@ -1,9 +1,6 @@
 class PersonPayment < ApplicationRecord
   include UuidHelper
 
-  PAYMENT_METHODS = %w[credit_card pix crypto].freeze
-  STATUSES = %w[processing paid failed].freeze
-
   after_create :set_fees
 
   belongs_to :person
@@ -11,13 +8,19 @@ class PersonPayment < ApplicationRecord
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 
-  validates :paid_date, presence: true
-  validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
-  validates :payment_method, presence: true,
-                             inclusion: {
-                               in: PAYMENT_METHODS,
-                               message: '%<value>s is not a valid payment method'
-                             }
+  validates :paid_date, :status, :payment_method, presence: true
+
+  enum status: {
+    processing: 0,
+    paid: 1,
+    failed: 2
+  }
+
+  enum payment_method: {
+    credit_card: 0,
+    pix: 1,
+    crypto: 2
+  }
 
   def crypto_amount
     amount_with_fees = amount - service_fees

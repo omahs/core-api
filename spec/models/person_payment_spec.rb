@@ -6,7 +6,7 @@
 #  amount_cents   :integer
 #  paid_date      :datetime
 #  payment_method :integer
-#  status         :integer          default(0)
+#  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  offer_id       :bigint

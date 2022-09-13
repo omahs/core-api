@@ -17,5 +17,8 @@ class Pool < ApplicationRecord
   has_many :non_profit_pools
   has_many :non_profits, through: :non_profit_pools
 
+  has_many :integration_pools
+  has_many :integrations, through: :integration_pools
+
   delegate :chain, to: :token
 end

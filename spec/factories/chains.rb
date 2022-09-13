@@ -19,8 +19,8 @@
 FactoryBot.define do
   factory :chain do
     name { 'Mumbai Testnet' }
-    ribon_contract_address { '0xD3850333819fBdd43784498F67010E5c87a2EAb3' }
-    donation_token_contract_address { '0x21A72dc641c8e5f13717a7e087d6D63B4f9A3574' }
+    ribon_contract_address { '0xC000000000000000000000000000000000000000' }
+    donation_token_contract_address { '0xD000000000000000000000000000000000000000' }
     chain_id { 0x13881 }
     rpc_url { 'https://rpc_url.com' }
     node_url { 'https://node_url.com' }

@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: integration_wallets
+#
+#  id                    :uuid             not null, primary key
+#  encrypted_private_key :string
+#  private_key_iv        :string
+#  public_key            :string
+#  integration_id        :bigint
+#
 FactoryBot.define do
   factory :integration_wallet do
     public_key { '0xB000000000000000000000000000000000000000' }

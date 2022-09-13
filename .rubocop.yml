@@ -28,6 +28,7 @@ Metrics/BlockLength:
   Exclude:
     - config/**/*
     - spec/**/*
+    - lib/tasks/auto_annotate_models.rake
 
 Metrics/MethodLength:
   Max: 12
@@ -78,4 +79,7 @@ Lint/MissingSuper:
   - app/commands/**/*
 
 Rails/FilePath:
+  Enabled: false
+
+Rails/DynamicFindBy:
   Enabled: false

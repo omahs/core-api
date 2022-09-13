@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: person_blockchain_transactions
+#
+#  id                    :bigint           not null, primary key
+#  transaction_hash      :string
+#  treasure_entry_status :integer          default("processing")
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  person_payment_id     :bigint
+#
 class PersonBlockchainTransaction < ApplicationRecord
   belongs_to :person_payment
 

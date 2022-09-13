@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: integrations
+#
+#  id                             :bigint           not null, primary key
+#  name                           :string
+#  status                         :integer          default("inactive")
+#  ticket_availability_in_minutes :integer
+#  unique_address                 :uuid             not null
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#
 FactoryBot.define do
   factory :integration do
     name { 'Renner' }

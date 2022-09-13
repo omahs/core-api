@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: person_payment_fees
+#
+#  id                :bigint           not null, primary key
+#  card_fee_cents    :integer
+#  crypto_fee_cents  :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  person_payment_id :bigint           not null
+#
 require 'rails_helper'
 
 RSpec.describe PersonPaymentFee, type: :model do

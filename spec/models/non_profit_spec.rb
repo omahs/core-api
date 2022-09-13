@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: non_profits
+#
+#  id                 :bigint           not null, primary key
+#  impact_description :text
+#  name               :string
+#  status             :integer          default("inactive")
+#  wallet_address     :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe NonProfit, type: :model do
@@ -7,6 +19,9 @@ RSpec.describe NonProfit, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:wallet_address) }
     it { is_expected.to validate_presence_of(:impact_description) }
+    it { is_expected.to validate_presence_of(:status) }
+    it { is_expected.to have_many(:non_profit_pools) }
+    it { is_expected.to have_many(:pools).through(:non_profit_pools) }
   end
 
   describe '#impact_for' do

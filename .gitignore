@@ -28,6 +28,14 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+/config/credentials/development.key
+
+/config/credentials/test.key
+
+/config/credentials/production.key
+
+# Ignore node modules folder.
+
 node_modules
 
 # ides

@@ -22,7 +22,7 @@ module Api
       end
 
       def can_donate
-        @integration = Integration.find params[:integration_id]
+        @integration = Integration.find_by_id_or_unique_address params[:integration_id]
 
         if current_user
           render json: { can_donate: current_user.can_donate?(@integration) }

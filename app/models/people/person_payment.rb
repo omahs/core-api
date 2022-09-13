@@ -1,8 +1,19 @@
+# == Schema Information
+#
+# Table name: person_payments
+#
+#  id             :bigint           not null, primary key
+#  amount_cents   :integer
+#  paid_date      :datetime
+#  payment_method :integer
+#  status         :integer          default("processing")
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  offer_id       :bigint
+#  person_id      :uuid
+#
 class PersonPayment < ApplicationRecord
   include UuidHelper
-
-  PAYMENT_METHODS = %w[credit_card pix crypto].freeze
-  STATUSES = %w[processing paid failed].freeze
 
   after_create :set_fees
 
@@ -11,13 +22,19 @@ class PersonPayment < ApplicationRecord
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 
-  validates :paid_date, presence: true
-  validates :status, presence: true, inclusion: { in: STATUSES, message: '%<value>s is not a valid status' }
-  validates :payment_method, presence: true,
-                             inclusion: {
-                               in: PAYMENT_METHODS,
-                               message: '%<value>s is not a valid payment method'
-                             }
+  validates :paid_date, :status, :payment_method, presence: true
+
+  enum status: {
+    processing: 0,
+    paid: 1,
+    failed: 2
+  }
+
+  enum payment_method: {
+    credit_card: 0,
+    pix: 1,
+    crypto: 2
+  }
 
   def crypto_amount
     amount_with_fees = amount - service_fees

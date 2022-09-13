@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: donation_blockchain_transactions
+#
+#  id               :bigint           not null, primary key
+#  status           :integer          default("processing")
+#  transaction_hash :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  chain_id         :bigint           not null
+#  donation_id      :bigint           not null
+#
 require 'rails_helper'
 
 RSpec.describe DonationBlockchainTransaction, type: :model do

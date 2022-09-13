@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: integrations
+#
+#  id                             :bigint           not null, primary key
+#  name                           :string
+#  status                         :integer          default("inactive")
+#  ticket_availability_in_minutes :integer
+#  unique_address                 :uuid             not null
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Integration, type: :model do
@@ -7,6 +19,24 @@ RSpec.describe Integration, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:unique_address) }
     it { is_expected.to validate_presence_of(:status) }
+  end
+
+  describe '.find_by_id_or_unique_address' do
+    let!(:integration) { create(:integration, id: 1, unique_address: 'f7be8d80-2406-4cb0-82eb-849346d327c9') }
+
+    context 'when the argument is an uuid' do
+      it 'finds the integration by its uuid' do
+        expect(described_class.find_by_id_or_unique_address('f7be8d80-2406-4cb0-82eb-849346d327c9'))
+          .to match an_object_containing(integration.attributes)
+      end
+    end
+
+    context 'when the argument is an id' do
+      it 'finds the integration by its id' do
+        expect(described_class.find_by_id_or_unique_address(1))
+          .to match an_object_containing(integration.attributes)
+      end
+    end
   end
 
   describe '#integration_address' do

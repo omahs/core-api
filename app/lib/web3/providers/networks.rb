@@ -26,6 +26,7 @@ module Web3
         currency_name: 'Matic',
         block_explorer_url: config[:mumbai][:block_explorer_url]
       }.freeze
+
       LOCAL = {
         name: 'Localhost 8545',
         ribon_contract_address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',

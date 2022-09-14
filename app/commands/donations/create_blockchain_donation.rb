@@ -52,6 +52,10 @@ module Donations
       @non_profit ||= donation.non_profit
     end
 
+    def integration
+      @integration ||= donation.integration
+    end
+
     def user
       @user ||= donation.user
     end

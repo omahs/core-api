@@ -2,12 +2,11 @@
 #
 # Table name: pools
 #
-#  id             :bigint           not null, primary key
-#  address        :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  integration_id :bigint           not null
-#  token_id       :bigint           not null
+#  id         :bigint           not null, primary key
+#  address    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  token_id   :bigint           not null
 #
 require 'rails_helper'
 
@@ -21,6 +20,7 @@ RSpec.describe Pool, type: :model do
     it { is_expected.to have_many(:non_profits).through(:non_profit_pools) }
     it { is_expected.to have_many(:integration_pools) }
     it { is_expected.to have_many(:integrations).through(:integration_pools) }
+    it { is_expected.to have_one(:cause) }
   end
 
   describe '#chain' do

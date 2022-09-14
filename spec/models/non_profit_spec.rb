@@ -5,7 +5,7 @@
 #  id                 :bigint           not null, primary key
 #  impact_description :text
 #  name               :string
-#  status             :integer          default(0)
+#  status             :integer          default("inactive")
 #  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -20,6 +20,8 @@ RSpec.describe NonProfit, type: :model do
     it { is_expected.to validate_presence_of(:wallet_address) }
     it { is_expected.to validate_presence_of(:impact_description) }
     it { is_expected.to validate_presence_of(:status) }
+    it { is_expected.to have_many(:non_profit_pools) }
+    it { is_expected.to have_many(:pools).through(:non_profit_pools) }
   end
 
   describe '#impact_for' do

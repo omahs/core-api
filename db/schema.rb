@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_13_133040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -122,6 +122,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
     t.index ["person_id"], name: "index_guests_on_person_id"
   end
 
+  create_table "integration_pools", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.bigint "pool_id", null: false
+    t.index ["integration_id"], name: "index_integration_pools_on_integration_id"
+    t.index ["pool_id"], name: "index_integration_pools_on_pool_id"
+  end
+
   create_table "integration_wallets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "public_key"
     t.string "encrypted_private_key"
@@ -172,6 +179,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["non_profit_id"], name: "index_non_profit_impacts_on_non_profit_id"
+  end
+
+  create_table "non_profit_pools", force: :cascade do |t|
+    t.bigint "non_profit_id", null: false
+    t.bigint "pool_id", null: false
+    t.index ["non_profit_id"], name: "index_non_profit_pools_on_non_profit_id"
+    t.index ["pool_id"], name: "index_non_profit_pools_on_pool_id"
   end
 
   create_table "non_profits", force: :cascade do |t|
@@ -239,6 +253,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end
 
+  create_table "pools", force: :cascade do |t|
+    t.string "address"
+    t.bigint "token_id", null: false
+    t.bigint "integration_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id"], name: "index_pools_on_integration_id"
+    t.index ["token_id"], name: "index_pools_on_token_id"
+  end
+
   create_table "ribon_configs", force: :cascade do |t|
     t.integer "default_ticket_value"
     t.datetime "created_at", null: false
@@ -289,11 +313,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_170031) do
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"
+  add_foreign_key "integration_pools", "integrations"
+  add_foreign_key "integration_pools", "pools"
   add_foreign_key "non_profit_impacts", "non_profits"
+  add_foreign_key "non_profit_pools", "non_profits"
+  add_foreign_key "non_profit_pools", "pools"
   add_foreign_key "offer_gateways", "offers"
   add_foreign_key "person_blockchain_transactions", "person_payments"
   add_foreign_key "person_payment_fees", "person_payments"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
+  add_foreign_key "pools", "integrations"
+  add_foreign_key "pools", "tokens"
   add_foreign_key "user_donation_stats", "users"
 end

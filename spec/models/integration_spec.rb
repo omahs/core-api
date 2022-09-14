@@ -43,7 +43,7 @@ RSpec.describe Integration, type: :model do
     let(:integration) { create(:integration) }
 
     it 'returns the integration address' do
-      expect(integration.integration_address).to eq("https://dapp.ribon.io/integration/#{integration.unique_address}")
+      expect(integration.integration_address).to eq("https://dapp.ribon.io/?integration_id=#{integration.unique_address}")
     end
   end
 

@@ -9,6 +9,6 @@
 FactoryBot.define do
   factory :cause do
     name { 'Cause' }
-    pool { build(:pool) }
+    pool_id { 1 }
   end
 end

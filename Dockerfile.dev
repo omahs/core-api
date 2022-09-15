@@ -6,9 +6,7 @@ COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 COPY . /app
-COPY ./config/database.docker.yml /app/config/database.yml
 
 EXPOSE 8080
 
 ENTRYPOINT ["bin/docker-dev-entrypoint.sh"]
-CMD ["puma","-C","config/docker_puma.rb","-p","8080"]

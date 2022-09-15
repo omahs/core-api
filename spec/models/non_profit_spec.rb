@@ -9,6 +9,7 @@
 #  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  cause_id           :bigint
 #
 require 'rails_helper'
 
@@ -22,6 +23,7 @@ RSpec.describe NonProfit, type: :model do
     it { is_expected.to validate_presence_of(:status) }
     it { is_expected.to have_many(:non_profit_pools) }
     it { is_expected.to have_many(:pools).through(:non_profit_pools) }
+    it { is_expected.to belong_to(:cause) }
   end
 
   describe '#impact_for' do

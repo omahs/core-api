@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_14_182513) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_15_180514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -286,6 +286,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_14_182513) do
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
+  create_table "stories", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "non_profit_id", null: false
+    t.integer "position"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["non_profit_id"], name: "index_stories_on_non_profit_id"
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -332,5 +343,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_14_182513) do
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
   add_foreign_key "pools", "tokens"
+  add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"
 end

@@ -2,15 +2,19 @@ version: '3'
 
 services:
   web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/app
+      - ./config/database_docker.yml:/app/config/database.yml
     ports:
-      - "3000:3000"
+      - "8080:8080"
     depends_on:
       - db
       - redis
+    environment:
+      RAILS_ENV: development
     stdin_open: true
     tty: true
 
@@ -21,21 +25,23 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-
   redis:
     image: redis
     ports:
       - "6379:6379"
-
+      
   sidekiq:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
     command: bundle exec sidekiq
     volumes:
       - .:/app
     depends_on:
       - db
       - redis
+      - web
     environment:
       RAILS_ENV: "development"
       REDIS_URL: "redis://redis:6379/12"
-
+    entrypoint: ./bin/docker-dev-sidekiq-entrypoint.sh

@@ -9,6 +9,7 @@
 #  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  cause_id           :bigint
 #
 FactoryBot.define do
   factory :non_profit do
@@ -16,6 +17,7 @@ FactoryBot.define do
     status { :active }
     wallet_address { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
     impact_description { '1 day of water' }
+    cause { build(:cause) }
 
     trait(:with_impact) do
       after(:create) do |non_profit|

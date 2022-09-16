@@ -15,6 +15,8 @@ module Donations
     def call
       transaction_hash = create_blockchain_donation
       create_donation_blockchain_transaction(transaction_hash)
+      # rescue StandardError => e
+      #   byebug
     end
 
     private

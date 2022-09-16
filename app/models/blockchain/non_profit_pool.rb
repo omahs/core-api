@@ -3,6 +3,8 @@
 # Table name: non_profit_pools
 #
 #  id            :bigint           not null, primary key
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #  non_profit_id :bigint           not null
 #  pool_id       :bigint           not null
 #

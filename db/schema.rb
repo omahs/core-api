@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_15_180514) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_15_180714) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -59,6 +59,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180514) do
   create_table "causes", force: :cascade do |t|
     t.string "name"
     t.bigint "pool_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["pool_id"], name: "index_causes_on_pool_id"
   end
 
@@ -131,6 +133,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180514) do
   create_table "integration_pools", force: :cascade do |t|
     t.bigint "integration_id", null: false
     t.bigint "pool_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["integration_id"], name: "index_integration_pools_on_integration_id"
     t.index ["pool_id"], name: "index_integration_pools_on_pool_id"
   end
@@ -190,6 +194,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180514) do
   create_table "non_profit_pools", force: :cascade do |t|
     t.bigint "non_profit_id", null: false
     t.bigint "pool_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["non_profit_id"], name: "index_non_profit_pools_on_non_profit_id"
     t.index ["pool_id"], name: "index_non_profit_pools_on_pool_id"
   end

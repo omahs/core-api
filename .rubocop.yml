@@ -84,3 +84,6 @@ Rails/FilePath:
 Metrics/AbcSize:
   Exclude:
     - app/controllers/api/v1/manager/**/*
+
+Rails/DynamicFindBy:
+  Enabled: false

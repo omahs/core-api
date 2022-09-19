@@ -5,10 +5,11 @@
 #  id                 :bigint           not null, primary key
 #  impact_description :text
 #  name               :string
-#  status             :integer          default(0)
+#  status             :integer          default("inactive")
 #  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  cause_id           :bigint
 #
 class NonProfit < ApplicationRecord
   extend Mobility
@@ -21,7 +22,12 @@ class NonProfit < ApplicationRecord
   has_one_attached :cover_image
   has_many :non_profit_impacts
 
+  has_many :non_profit_pools
+  has_many :pools, through: :non_profit_pools
+
   validates :name, :impact_description, :wallet_address, :status, presence: true
+
+  belongs_to :cause
 
   enum status: {
     inactive: 0,

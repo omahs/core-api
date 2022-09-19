@@ -1,8 +1,6 @@
 module Web3
   module Utils
     class Cipher
-      SECRET_KEY = RibonCoreApi.config[:openssl][:ribon_secret_openssl_key]
-
       def self.encrypt(plain_text)
         cipher     = cipher_instance.encrypt
         iv         = cipher.random_iv
@@ -29,7 +27,13 @@ module Web3
       end
 
       def self.sha256_key
-        ::Digest::SHA256.digest SECRET_KEY
+        ::Digest::SHA256.digest secret_key
+      end
+
+      def self.secret_key
+        return '' if Rails.env.development?
+
+        RibonCoreApi.config[:openssl][:ribon_secret_openssl_key]
       end
     end
   end

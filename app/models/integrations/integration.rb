@@ -4,7 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  name                           :string
-#  status                         :integer          default(0)
+#  status                         :integer          default("inactive")
 #  ticket_availability_in_minutes :integer
 #  unique_address                 :uuid             not null
 #  created_at                     :datetime         not null
@@ -15,10 +15,19 @@ class Integration < ApplicationRecord
 
   validates :name, :unique_address, :status, presence: true
 
+  has_many :integration_pools
+  has_many :pools, through: :integration_pools
+
   enum status: {
     inactive: 0,
     active: 1
   }
+
+  def self.find_by_id_or_unique_address(id_or_address)
+    return find_by(unique_address: id_or_address) if id_or_address.to_s.valid_uuid?
+
+    find id_or_address
+  end
 
   def integration_address
     "#{base_url}#{unique_address}"

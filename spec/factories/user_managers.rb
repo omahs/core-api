@@ -22,22 +22,10 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-class UserManager < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
-
-  before_validation { email.downcase! }
-
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
-  def self.create_user_for_google(data)
-    where(email: data['email']).first_or_initialize.tap do |user|
-      user.provider = 'google_oauth2'
-      user.uid = data['email']
-      user.email = data['email']
-      user.password = Devise.friendly_token[0, 20]
-      user.password_confirmation = user.password
-      user.save!
-    end
+FactoryBot.define do
+  factory :user_manager do
+    email { 'user@ribon.io' }
+    uid { 'user@ribon.io' }
+    provider { 'google_oauth2' }
   end
 end

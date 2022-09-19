@@ -22,22 +22,12 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-class UserManager < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
+require 'rails_helper'
 
-  before_validation { email.downcase! }
+RSpec.describe UserManager, type: :model do
+  describe '.validations' do
+    subject { build(:user_manager) }
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
-  def self.create_user_for_google(data)
-    where(email: data['email']).first_or_initialize.tap do |user|
-      user.provider = 'google_oauth2'
-      user.uid = data['email']
-      user.email = data['email']
-      user.password = Devise.friendly_token[0, 20]
-      user.password_confirmation = user.password
-      user.save!
-    end
+    it { is_expected.not_to validate_uniqueness_of(:email).ignoring_case_sensitivity.scoped_to(:provider) }
   end
 end

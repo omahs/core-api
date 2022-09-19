@@ -221,6 +221,13 @@ Devise.setup do |config|
   # Defines which key will be used when recovering the password for an account
   # config.reset_password_keys = [:email]
 
+  OmniAuth.config.logger = Rails.logger
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :google_oauth2, '333733292312-9q828nskvs3puhkqj735rgokpipgnrrb.apps.googleusercontent.com',
+    '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', {client_options: {ssl: {ca_file: Rails.root.join("cacert.pem").to_s}}}
+  end
+
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.

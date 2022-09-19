@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       end
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
-        post 'auth/request', to:'authorization#get_authorization'
+        post 'auth/request', to:'authorization#google_authorization'
       end
     end
   end

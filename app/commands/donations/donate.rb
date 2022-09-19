@@ -5,8 +5,6 @@ module Donations
     prepend SimpleCommand
     attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
 
-    CENTS_FACTOR = 0.01
-
     def initialize(integration:, non_profit:, user:)
       @integration = integration
       @non_profit = non_profit
@@ -26,11 +24,9 @@ module Donations
     private
 
     def transact_donation
-      Donation.transaction do
-        create_donation
-        @transaction_hash = create_blockchain_donation
-        set_user_last_donation_at
-      end
+      create_donation
+      @transaction_hash = create_blockchain_donation
+      set_user_last_donation_at
 
       transaction_hash
     end

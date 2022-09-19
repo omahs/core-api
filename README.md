@@ -15,7 +15,7 @@ You can check the http://localhost:3000/ and see if the Rails welcome page appea
 
 ## With Dockerfile
   - clone this repository: `git clone git@github.com:RibonDAO/core-api.git`
-  - copy the .docker-compose.yml.example to a .docker-compose.yml file `cp .docker-compose.yml.example .docker-compose.yml`
+  - copy the .docker-compose.yml.sample to a .docker-compose.yml file `cp .docker-compose.yml.example .docker-compose.yml`
   - run docker-compose up
 
 Your project will be running on http://localhost:8080/

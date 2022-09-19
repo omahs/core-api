@@ -19,7 +19,5 @@ class Pool < ApplicationRecord
   has_many :integration_pools
   has_many :integrations, through: :integration_pools
 
-  has_one :cause
-
   delegate :chain, to: :token
 end

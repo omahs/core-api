@@ -3,29 +3,18 @@
 # Table name: user_managers
 #
 #  id                     :bigint           not null, primary key
-#  allow_password_change  :boolean          default(FALSE)
-#  confirmation_sent_at   :datetime
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  email                  :string
+#  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  image                  :string
-#  name                   :string
-#  nickname               :string
-#  provider               :string           default("email"), not null
+#  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  tokens                 :json
-#  uid                    :string           default(""), not null
-#  unconfirmed_email      :string
+#  uid                    :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
 class UserManager < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
-
-  before_validation { email.downcase! }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

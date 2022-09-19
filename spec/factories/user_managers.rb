@@ -25,7 +25,7 @@
 FactoryBot.define do
   factory :user_manager do
     email { 'user@ribon.io' }
-    uid { 'user@ribon.io' }
+    uid { 'user1@ribon.io' }
     provider { 'google_oauth2' }
   end
 end

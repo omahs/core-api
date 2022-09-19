@@ -16,8 +16,12 @@
 class UserManager < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
+  validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  before_validation { email.downcase! }
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable
 
   def self.create_user_for_google(data)
     where(email: data['email']).first_or_initialize.tap do |user|

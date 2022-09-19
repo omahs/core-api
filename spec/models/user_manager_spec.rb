@@ -25,9 +25,13 @@
 require 'rails_helper'
 
 RSpec.describe UserManager, type: :model do
-  describe '.validations' do
-    subject { build(:user_manager) }
+  describe '#create_user_for_google' do
+    let(:data) do
+      OpenStruct.new(email: 'user1@ribon.io', provider: 'google_oauth2')
+    end
 
-    it { is_expected.not_to validate_uniqueness_of(:email).ignoring_case_sensitivity.scoped_to(:provider) }
+    it 'creates the UserManager in google with the correct params' do
+      expect { described_class.create_user_for_google(data) }.to change(described_class, :count).by(1)
+    end
   end
 end

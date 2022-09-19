@@ -21,6 +21,7 @@ class NonProfit < ApplicationRecord
   has_one_attached :background_image
   has_one_attached :cover_image
   has_many :non_profit_impacts
+  has_many :wallets, as: :owner
 
   has_many :non_profit_pools
   has_many :pools, through: :non_profit_pools
@@ -28,6 +29,8 @@ class NonProfit < ApplicationRecord
   validates :name, :impact_description, :wallet_address, :status, presence: true
 
   belongs_to :cause
+
+  after_update :create_wallet, if: :wallet_address_changed?
 
   enum status: {
     inactive: 0,
@@ -40,5 +43,11 @@ class NonProfit < ApplicationRecord
 
   def impact_by_ticket(date: Time.zone.now)
     impact_for(date:)&.impact_by_ticket
+  end
+  
+  def create_wallet
+    byebug
+    self.wallets.new(status: :active, address: self.wallet_address)
+    self.wallets.save
   end
 end

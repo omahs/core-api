@@ -3,7 +3,7 @@
 module Donations
   class Donate < ApplicationCommand
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
+    attr_reader :non_profit, :integration, :donation, :user
 
     def initialize(integration:, non_profit:, user:)
       @integration = integration
@@ -25,10 +25,10 @@ module Donations
 
     def transact_donation
       create_donation
-      @transaction_hash = create_blockchain_donation
+      create_blockchain_donation
       set_user_last_donation_at
 
-      transaction_hash
+      donation
     end
 
     def allowed?
@@ -40,7 +40,7 @@ module Donations
     end
 
     def create_blockchain_donation
-      CreateBlockchainDonation.call(donation:).result.transaction_hash
+      CreateBlockchainDonationJob.perform_later(donation)
     end
 
     def set_user_last_donation_at

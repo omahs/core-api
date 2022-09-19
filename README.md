@@ -13,6 +13,12 @@ install it [here](https://www.howtoforge.com/tutorial/ubuntu-ruby-on-rails/).
 
 You can check the http://localhost:3000/ and see if the Rails welcome page appears.
 
+## With Dockerfile
+  - clone this repository: `git clone git@github.com:RibonDAO/core-api.git`
+  - copy the .docker-compose.yml.example to a .docker-compose.yml file `cp .docker-compose.yml.example .docker-compose.yml`
+  - run docker-compose up
+
+Your project will be running on http://localhost:8080/
 ## How to run the tests
 
 - run the command: `rspec`

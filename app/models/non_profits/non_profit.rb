@@ -9,6 +9,7 @@
 #  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  cause_id           :bigint
 #
 class NonProfit < ApplicationRecord
   extend Mobility
@@ -25,6 +26,8 @@ class NonProfit < ApplicationRecord
   has_many :pools, through: :non_profit_pools
 
   validates :name, :impact_description, :wallet_address, :status, presence: true
+
+  belongs_to :cause
 
   enum status: {
     inactive: 0,

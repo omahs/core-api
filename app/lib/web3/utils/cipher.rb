@@ -31,7 +31,7 @@ module Web3
       end
 
       def self.secret_key
-        return String.new if Rails.env.development?
+        return '' if Rails.env.development?
 
         RibonCoreApi.config[:openssl][:ribon_secret_openssl_key]
       end

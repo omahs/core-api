@@ -2,9 +2,10 @@
 #
 # Table name: causes
 #
-#  id      :bigint           not null, primary key
-#  name    :string
-#  pool_id :bigint           not null
+#  id         :bigint           not null, primary key
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 require 'rails_helper'
 
@@ -18,7 +19,6 @@ RSpec.describe Cause, type: :model do
   describe '.associations' do
     subject { build(:cause) }
 
-    it { is_expected.to belong_to(:pool) }
     it { is_expected.to have_many(:non_profits) }
   end
 end

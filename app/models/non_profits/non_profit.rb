@@ -6,13 +6,14 @@
 #  impact_description :text
 #  name               :string
 #  status             :integer          default("inactive")
-#  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  cause_id           :bigint
 #
 class NonProfit < ApplicationRecord
   extend Mobility
+  attr_accessor :wallet_address
+
 
   translates :impact_description, :description, type: :string
 
@@ -26,11 +27,9 @@ class NonProfit < ApplicationRecord
   has_many :non_profit_pools
   has_many :pools, through: :non_profit_pools
 
-  validates :name, :impact_description, :wallet_address, :status, presence: true
+  validates :name, :impact_description, :status, :wallet_address, presence: true
 
   belongs_to :cause
-
-  after_update :create_wallet, if: :wallet_address_changed?
 
   enum status: {
     inactive: 0,
@@ -44,10 +43,14 @@ class NonProfit < ApplicationRecord
   def impact_by_ticket(date: Time.zone.now)
     impact_for(date:)&.impact_by_ticket
   end
-  
-  def create_wallet
+
+  def wallet_address
+    self.wallets.where(status: :active).last ? self.wallets.where(status: :active).last.address : self.wallets.last&.active? ? self.wallets.last.address : nil
+  end
+
+  def wallet_address=(value)
     byebug
-    self.wallets.new(status: :active, address: self.wallet_address)
-    self.wallets.save
+    self.wallets.where(address: value).first_or_initialize(status: :active)
+    
   end
 end

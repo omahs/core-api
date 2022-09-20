@@ -46,4 +46,10 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :integrations, defaults: { format: :json } do
+    namespace :v1 do
+      resources :donations, only: [:index]
+    end
+  end
 end

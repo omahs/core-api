@@ -24,7 +24,7 @@ module Api
             operation:,
             payment_method: :credit_card,
             tax_id: payment_params[:tax_id],
-            user: find_or_create_user,
+            user: find_or_create_user
           }
         end
 

@@ -65,4 +65,15 @@ RSpec.describe NonProfit, type: :model do
       expect(non_profit.impact_by_ticket(date:)).to eq 10
     end
   end
+
+  describe 'if an non profit is created' do
+    @non_profit = FactoryBot.create(:non_profit)
+    it 'should create a new wallet' do
+      expect(Wallet.count).to eq 1
+    end
+
+    it 'should create a new wallet' do
+      expect(@non_profit.wallets.count).to eq 1
+    end
+  end
 end

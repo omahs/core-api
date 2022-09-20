@@ -31,6 +31,8 @@ class NonProfit < ApplicationRecord
 
   belongs_to :cause
 
+  after_save :save_wallet
+
   enum status: {
     inactive: 0,
     active: 1
@@ -49,8 +51,13 @@ class NonProfit < ApplicationRecord
   end
 
   def wallet_address=(value)
-    byebug
-    self.wallets.where(address: value).first_or_initialize(status: :active)
-    
+    if value
+      @wallet = self.wallets.where(address: value).first_or_initialize
+      @wallet.status = "active"
+    end
+  end
+
+  def save_wallet
+    @wallet.save
   end
 end

@@ -18,6 +18,7 @@ class Wallet < ApplicationRecord
     active: 1
   }
 
+  validates :address, :status, :owner, presence: :true
   after_save :inactivate_previous
 
   def inactivate_previous

@@ -12,8 +12,8 @@
 #
 FactoryBot.define do
   factory :wallet do
-    address { "MyString" }
-    status { 1 }
-    owner { nil }
+    status { :active }
+    address { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
+    owner { build(:non_profit) }
   end
 end

@@ -67,13 +67,66 @@ RSpec.describe NonProfit, type: :model do
   end
 
   describe 'if an non profit is created' do
-    @non_profit = FactoryBot.create(:non_profit)
-    it 'should create a new wallet' do
-      expect(Wallet.count).to eq 1
+    let(:non_profit) do 
+      create(:non_profit)
+    end
+
+    before do
+      non_profit
     end
 
     it 'should create a new wallet' do
-      expect(@non_profit.wallets.count).to eq 1
+      expect(Wallet.count).to eq 1
+      expect(non_profit.wallets.count).to eq 1
+    end
+  end
+
+  describe 'if the wallet address is updated' do
+    let(:non_profit) do 
+      create(:non_profit)
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: "newWalletAddress")
+    end
+
+    it 'should create a new wallet' do
+      expect(Wallet.count).to eq 2
+      expect(non_profit.wallets.count).to eq 2
+    end
+    
+    it 'should return the right address' do
+      expect(non_profit.wallet_address).to eq "newWalletAddress"
+    end
+
+    it 'should have only one wallet active' do
+      expect(non_profit.wallets.where(status: :active).count).to eq 1
+    end
+  end
+
+  describe 'if the wallet address is updated with an old address' do
+    let(:non_profit) do 
+      create(:non_profit, wallet_address: "newWalletAddress")
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: "newWalletAddressActive")
+      non_profit.update(wallet_address: "newWalletAddress")
+    end
+
+    it 'should not create a new wallet' do
+      expect(Wallet.count).to eq 2
+    end
+    
+    it 'should return the right address' do
+      expect(non_profit.wallet_address).to eq "newWalletAddress"
+    end
+
+
+    it 'should update the status from the old wallet' do
+      expect(non_profit.wallets.reload.where(address: "newWalletAddress").last.status).to eq "active"
     end
   end
 end

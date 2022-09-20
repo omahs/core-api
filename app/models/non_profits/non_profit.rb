@@ -12,7 +12,6 @@
 #
 class NonProfit < ApplicationRecord
   extend Mobility
-  attr_accessor :wallet_address
 
   translates :impact_description, :description, type: :string
 

@@ -22,6 +22,6 @@ class Wallet < ApplicationRecord
   after_save :inactivate_previous
 
   def inactivate_previous
-    Wallet.where(owner_id:).where.not(id:).update_all(status: :inactive) if active?
+    Wallet.where(owner_id:).where.not(id:).update(status: :inactive) if active?
   end
 end

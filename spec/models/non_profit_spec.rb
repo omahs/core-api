@@ -128,4 +128,20 @@ RSpec.describe NonProfit, type: :model do
       expect(non_profit.wallets.reload.where(address: 'newWalletAddress').last.status).to eq 'active'
     end
   end
+
+  describe 'if the wallet address was going to be updated with an old address, but the non profit was not saved' do
+    let(:non_profit) do
+      create(:non_profit, wallet_address: 'newWalletAddress')
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: 'newWalletAddressActive')
+      non_profit.wallet_address = 'newWalletAddress'
+    end
+
+    it 'returns the right address' do
+      expect(non_profit.wallet_address).to eq 'newWalletAddressActive'
+    end
+  end
 end

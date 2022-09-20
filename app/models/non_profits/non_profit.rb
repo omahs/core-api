@@ -29,6 +29,8 @@ class NonProfit < ApplicationRecord
 
   belongs_to :cause
 
+  before_save :save_wallet
+
   enum status: {
     inactive: 0,
     active: 1
@@ -52,11 +54,15 @@ class NonProfit < ApplicationRecord
 
   def wallet_address=(value)
     if wallets.where(address: value).first
-      wallets.where(address: value).first.update(status: :active)
+      @old_wallet = wallets.where(address: value).first
     else
       wallets.new(
         address: value, status: :active
       )
     end
+  end
+
+  def save_wallet
+    @old_wallet&.update(status: :active)
   end
 end

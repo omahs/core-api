@@ -14,7 +14,6 @@ class NonProfit < ApplicationRecord
   extend Mobility
   attr_accessor :wallet_address
 
-
   translates :impact_description, :description, type: :string
 
   has_one_attached :logo
@@ -45,11 +44,20 @@ class NonProfit < ApplicationRecord
   end
 
   def wallet_address
-    self.wallets.where(status: :active).last ? self.wallets.where(status: :active).last.address : self.wallets.last&.active? ? self.wallets.last.address : nil
+    if wallets.where(status: :active).last
+      wallets.where(status: :active).last.address
+    else
+      wallets.last&.active? ? wallets.last.address : nil
+    end
   end
 
   def wallet_address=(value)
-    self.wallets.where(address: value).first ? self.wallets.where(address: value).first.update(status: :active) : self.wallets.new(address: value, status: :active)
+    if wallets.where(address: value).first
+      wallets.where(address: value).first.update(status: :active)
+    else
+      wallets.new(
+        address: value, status: :active
+      )
+    end
   end
-
 end

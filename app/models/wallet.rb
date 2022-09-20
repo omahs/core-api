@@ -18,12 +18,10 @@ class Wallet < ApplicationRecord
     active: 1
   }
 
-  validates :address, :status, :owner, presence: :true
+  validates :address, :status, presence: true
   after_save :inactivate_previous
 
   def inactivate_previous
-    if self.active?
-      Wallet.where(owner_id: self.owner_id).where.not(id: self.id).update_all(status: :inactive)
-    end
+    Wallet.where(owner_id:).where.not(id:).update_all(status: :inactive) if active?
   end
 end

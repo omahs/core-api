@@ -6,15 +6,15 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'db/**/*'
-    - 'script/**/*'
-    - 'bin/**/*'
-    - 'config/**/*'
-    - 'Rakefile'
-    - 'vendor/**/*'
-    - 'node_modules/**/*'
-    - 'config.ru'
-    - 'lib/generators/**/*'
+    - "db/**/*"
+    - "script/**/*"
+    - "bin/**/*"
+    - "config/**/*"
+    - "Rakefile"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "config.ru"
+    - "lib/generators/**/*"
     - "spec/rails_helper.rb"
     - "spec/spec_helper.rb"
     - "app/lib/simple_command.rb"
@@ -76,10 +76,14 @@ Style/OpenStructUse:
 
 Lint/MissingSuper:
   Exclude:
-  - app/commands/**/*
+    - app/commands/**/*
 
 Rails/FilePath:
   Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+    - app/controllers/api/v1/manager/**/*
 
 Rails/DynamicFindBy:
   Enabled: false

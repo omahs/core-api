@@ -44,6 +44,10 @@ Rails.application.routes.draw do
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
       end
+      mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
+      namespace :manager do
+        post 'auth/request', to:'authorization#google_authorization'
+      end
     end
   end
 end

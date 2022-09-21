@@ -31,7 +31,7 @@ RailsAdmin.config do |config|
   end
 
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
-                            Donation, RibonConfig, GivingValue, Offer, OfferGateway,
+                            Donation, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, DonationBlockchainTransaction, Chain,
                             Cause, Story, IntegrationPool, NonProfitPool]
 

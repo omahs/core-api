@@ -1,12 +1,16 @@
 # == Schema Information
 #
-# Table name: new_integration_wallets
+# Table name: wallets
 #
-#  id                    :uuid             not null, primary key
+#  id                    :bigint           not null, primary key
 #  encrypted_private_key :string
+#  owner_type            :string           not null
 #  private_key_iv        :string
 #  public_key            :string
-#  integration_id        :bigint
+#  status                :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  owner_id              :bigint           not null
 #
 FactoryBot.define do
   factory :new_integration_wallet do

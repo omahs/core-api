@@ -6,6 +6,7 @@ class CreateWallets < ActiveRecord::Migration[7.0]
       t.string :private_key_iv, unique: true
       t.integer :status
       t.references :owner, polymorphic: true, null: false, index: true
+      t.string :type, null: false
 
       t.timestamps
     end

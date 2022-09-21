@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: integration_wallets
+# Table name: new_integration_wallets
 #
 #  id                    :uuid             not null, primary key
 #  encrypted_private_key :string

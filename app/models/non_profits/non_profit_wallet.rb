@@ -17,6 +17,10 @@ class NonProfitWallet < Wallet
 
   after_save :inactivate_previous
 
+  def non_profit
+    owner
+  end
+
   def inactivate_previous
     Wallet.where(owner_id:).where.not(id:).update(status: :inactive) if active?
   end

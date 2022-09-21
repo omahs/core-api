@@ -15,6 +15,10 @@
 class NewIntegrationWallet < Wallet
   validates :public_key, :encrypted_private_key, :private_key_iv, presence: true
 
+  def integration
+    owner
+  end
+
   def private_key
     decrypted_pk = Base64.strict_decode64(encrypted_private_key)
     decrypted_pk_iv = Base64.strict_decode64(private_key_iv)

@@ -3,9 +3,7 @@
 module Donations
   class Donate < ApplicationCommand
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation, :user, :transaction_hash
-
-    CENTS_FACTOR = 0.01
+    attr_reader :non_profit, :integration, :donation, :user
 
     def initialize(integration:, non_profit:, user:)
       @integration = integration
@@ -26,14 +24,11 @@ module Donations
     private
 
     def transact_donation
-      Donation.transaction do
-        create_donation
-        @transaction_hash = create_blockchain_donation
-        set_user_last_donation_at
-        create_donation_blockchain_transaction(transaction_hash)
-      end
+      create_donation
+      create_blockchain_donation
+      set_user_last_donation_at
 
-      transaction_hash
+      donation
     end
 
     def allowed?
@@ -45,40 +40,15 @@ module Donations
     end
 
     def create_blockchain_donation
-      amount = ticket_value * CENTS_FACTOR
-      non_profit_wallet_address = non_profit.wallet_address
-
-      ribon_contract.donate_through_integration(donation_pool_address:,
-                                                non_profit_wallet_address:,
-                                                user: user.email, amount:, sender_key:)
-    end
-
-    def create_donation_blockchain_transaction(transaction_hash)
-      donation.create_donation_blockchain_transaction(transaction_hash:, chain:)
+      CreateBlockchainDonationJob.perform_later(donation)
     end
 
     def set_user_last_donation_at
       SetUserLastDonationAt.call(user:, date_to_set: donation.created_at)
     end
 
-    def sender_key
-      @sender_key ||= integration.new_integration_wallet&.private_key
-    end
-
     def ticket_value
       @ticket_value ||= RibonConfig.default_ticket_value
-    end
-
-    def ribon_contract
-      @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
-    end
-
-    def chain
-      @chain ||= Chain.default
-    end
-
-    def donation_pool_address
-      '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F'
     end
   end
 end

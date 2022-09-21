@@ -4,7 +4,7 @@ module Integrations
       def index
         donations = current_integration.donations
 
-        render json: DonationBlueprint.render(donations, view: :integrations), status: :ok
+        render json: DonationBlueprint.render(donations, view: :minimal), status: :ok
       end
 
       def show

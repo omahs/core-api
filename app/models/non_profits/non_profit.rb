@@ -20,7 +20,7 @@ class NonProfit < ApplicationRecord
   has_one_attached :background_image
   has_one_attached :cover_image
   has_many :non_profit_impacts
-  has_many :wallets, as: :owner
+  has_many :non_profit_wallets, as: :owner
 
   has_many :non_profit_pools
   has_many :pools, through: :non_profit_pools

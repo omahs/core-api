@@ -11,6 +11,7 @@
 #  owner_id   :bigint           not null
 #
 class Wallet < ApplicationRecord
+
   belongs_to :owner, polymorphic: true
 
   enum status: {
@@ -18,10 +19,4 @@ class Wallet < ApplicationRecord
     active: 1
   }
 
-  validates :address, :status, presence: true
-  after_save :inactivate_previous
-
-  def inactivate_previous
-    Wallet.where(owner_id:).where.not(id:).update(status: :inactive) if active?
-  end
 end

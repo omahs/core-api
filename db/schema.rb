@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_20_140829) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_21_123614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -326,7 +326,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_140829) do
   end
 
   create_table "wallets", force: :cascade do |t|
-    t.string "address"
+    t.string "public_key"
+    t.string "encrypted_private_key"
+    t.string "private_key_iv"
     t.integer "status"
     t.string "owner_type", null: false
     t.bigint "owner_id", null: false

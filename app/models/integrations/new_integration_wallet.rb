@@ -12,12 +12,17 @@
 #  updated_at            :datetime         not null
 #  owner_id              :bigint           not null
 #
-class NonProfitWallet < Wallet
-  validates :public_key, :status, presence: true
+class NewIntegrationWallet < Wallet
+  validates :public_key, :encrypted_private_key, :private_key_iv, presence: true
 
-  after_save :inactivate_previous
+  def private_key
+    decrypted_pk = Base64.strict_decode64(encrypted_private_key)
+    decrypted_pk_iv = Base64.strict_decode64(private_key_iv)
 
-  def inactivate_previous
-    Wallet.where(owner_id:).where.not(id:).update(status: :inactive) if active?
+    Web3::Utils::Cipher.decrypt(decrypted_pk, decrypted_pk_iv).plain_text
+  end
+
+  def add_balance(contract, amount)
+    contract.add_integration_balance(integration_address: public_key, amount:)
   end
 end

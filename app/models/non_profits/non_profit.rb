@@ -45,24 +45,24 @@ class NonProfit < ApplicationRecord
   end
 
   def wallet_address
-    if wallets.where(status: :active).last
-      wallets.where(status: :active).last.address
+    if non_profit_wallets.where(status: :active).last
+      non_profit_wallets.where(status: :active).last.public_key
     else
-      wallets.last&.active? ? wallets.last.address : nil
+      non_profit_wallets.last&.active? ? non_profit_wallets.last.public_key : nil
     end
   end
 
   def wallet_address=(value)
-    if wallets.where(address: value).first
-      @old_wallet = wallets.where(address: value).first
+    if non_profit_wallets.where(public_key: value).first
+      @old_non_profit_wallet = non_profit_wallets.where(public_key: value).first
     else
-      wallets.new(
-        address: value, status: :active
+      non_profit_wallets.new(
+        public_key: value, status: :active
       )
     end
   end
 
   def save_wallet
-    @old_wallet&.update(status: :active)
+    @old_non_profit_wallet&.update(status: :active)
   end
 end

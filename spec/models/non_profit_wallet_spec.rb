@@ -14,10 +14,11 @@
 #
 require 'rails_helper'
 
-RSpec.describe Wallet, type: :model do
-  describe 'if trying to create a wallet without owner' do
-    it 'raises error' do
-      expect { create(:wallet, owner: nil) }.to raise_error 'Validation failed: Owner must exist'
-    end
+RSpec.describe NonProfitWallet, type: :model do
+  describe '.validations' do
+    subject { build(:non_profit_wallet) }
+
+    it { is_expected.to validate_presence_of(:public_key) }
+    it { is_expected.to validate_presence_of(:status) }
   end
 end

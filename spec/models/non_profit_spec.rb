@@ -76,8 +76,8 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'creates a new wallet' do
-      expect(Wallet.count).to eq 1
-      expect(non_profit.wallets.reload.count).to eq 1
+      expect(NonProfitWallet.count).to eq 1
+      expect(non_profit.non_profit_wallets.reload.count).to eq 1
     end
   end
 
@@ -92,8 +92,8 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'creates a new wallet' do
-      expect(Wallet.count).to eq 2
-      expect(non_profit.wallets.count).to eq 2
+      expect(NonProfitWallet.count).to eq 2
+      expect(non_profit.non_profit_wallets.count).to eq 2
     end
 
     it 'returns the right address' do
@@ -101,7 +101,7 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'has only one wallet active' do
-      expect(non_profit.wallets.reload.where(status: :active).count).to eq 1
+      expect(non_profit.non_profit_wallets.reload.where(status: :active).count).to eq 1
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'does not create a new wallet' do
-      expect(Wallet.count).to eq 2
+      expect(NonProfitWallet.count).to eq 2
     end
 
     it 'returns the right address' do
@@ -125,7 +125,7 @@ RSpec.describe NonProfit, type: :model do
     end
 
     it 'updates the status from the old wallet' do
-      expect(non_profit.wallets.reload.where(address: 'newWalletAddress').last.status).to eq 'active'
+      expect(non_profit.non_profit_wallets.reload.where(public_key: 'newWalletAddress').last.status).to eq 'active'
     end
   end
 

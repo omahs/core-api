@@ -12,12 +12,10 @@
 #  updated_at            :datetime         not null
 #  owner_id              :bigint           not null
 #
-require 'rails_helper'
-
-RSpec.describe Wallet, type: :model do
-  describe 'if trying to create a wallet without owner' do
-    it 'raises error' do
-      expect { create(:wallet, owner: nil) }.to raise_error 'Validation failed: Owner must exist'
-    end
+FactoryBot.define do
+  factory :non_profit_wallet do
+    status { :active }
+    public_key { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
+    owner { build(:non_profit) }
   end
 end

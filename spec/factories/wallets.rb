@@ -15,7 +15,7 @@
 FactoryBot.define do
   factory :wallet do
     status { :active }
-    address { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
+    public_key { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
     owner { build(:non_profit) }
   end
 end

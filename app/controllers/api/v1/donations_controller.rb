@@ -4,7 +4,8 @@ module Api
       def create
         command = Donations::Donate.call(integration:,
                                          non_profit:,
-                                         user:)
+                                         user:,
+                                         external_id:,)
 
         if command.success?
           render json: { transaction_hash: command.result }, status: :ok
@@ -29,7 +30,7 @@ module Api
 
       def donation_params
         params.permit(:integration_id,
-                      :non_profit_id, :email)
+                      :non_profit_id, :email, external_id)
       end
     end
   end

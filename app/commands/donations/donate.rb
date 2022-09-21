@@ -7,10 +7,11 @@ module Donations
 
     CENTS_FACTOR = 0.01
 
-    def initialize(integration:, non_profit:, user:)
+    def initialize(integration:, non_profit:, user:, external_id:)
       @integration = integration
       @non_profit = non_profit
       @user = user
+      @external_id = external_id
     end
 
     def call

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_15_180714) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_21_122704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -77,6 +77,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180714) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "gas_fee_url"
+  end
+
+  create_table "customer_payment_blockchains", force: :cascade do |t|
+    t.integer "treasure_entry_status", default: 0
+    t.bigint "customer_payment_id", null: false
+    t.string "transaction_hash"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_payment_id"], name: "index_customer_payment_blockchains_on_customer_payment_id"
+  end
+
+  create_table "customer_payments", force: :cascade do |t|
+    t.datetime "paid_date"
+    t.string "payment_method"
+    t.string "status"
+    t.uuid "customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "offer_id"
+    t.index ["customer_id"], name: "index_customer_payments_on_customer_id"
+    t.index ["offer_id"], name: "index_customer_payments_on_offer_id"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -328,9 +349,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180714) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "vouchers", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "integration_id", null: false
+    t.bigint "donation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["donation_id"], name: "index_vouchers_on_donation_id"
+    t.index ["integration_id"], name: "index_vouchers_on_integration_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "causes", "pools"
+  add_foreign_key "customer_payment_blockchains", "customer_payments"
   add_foreign_key "customers", "people"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
@@ -351,4 +383,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_180714) do
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"
+  add_foreign_key "vouchers", "donations"
+  add_foreign_key "vouchers", "integrations"
 end

@@ -10,14 +10,7 @@ class CreditCard
   end
 
   def self.from(card)
-    params = {
-      cvv: card[:cvv],
-      number: card[:number],
-      name: card[:name],
-      expiration_month: card[:expiration_month],
-      expiration_year: card[:expiration_year]
-    }
-
-    new(params)
+    new(cvv: card[:cvv], number: card[:number], name: card[:name],
+        expiration_month: card[:expiration_month], expiration_year: card[:expiration_year])
   end
 end

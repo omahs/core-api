@@ -8,6 +8,7 @@
 #  private_key_iv        :string
 #  public_key            :string
 #  status                :integer
+#  type                  :string           not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  owner_id              :bigint           not null

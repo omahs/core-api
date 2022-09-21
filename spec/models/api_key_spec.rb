@@ -12,5 +12,13 @@
 require 'rails_helper'
 
 RSpec.describe ApiKey, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '.authenticate_by_token!' do
+    let!(:api_key) { described_class.create!(bearer: integration, token:) }
+    let(:integration) { create(:integration) }
+    let(:token) { 'valid_token' }
+
+    it 'finds the api key based on the token' do
+      expect(described_class.authenticate_by_token!(token)).to eq api_key
+    end
+  end
 end

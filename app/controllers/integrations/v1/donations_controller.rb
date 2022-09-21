@@ -10,7 +10,7 @@ module Integrations
       def show
         donation = current_integration.donations.find params[:id]
 
-        render json: DonationBlueprint.render(donation), status: :ok
+        render json: DonationBlueprint.render(donation, view: :minimal), status: :ok
       end
     end
   end

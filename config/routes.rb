@@ -48,8 +48,10 @@ Rails.application.routes.draw do
   end
 
   namespace :integrations, defaults: { format: :json } do
+    get 'check' => 'integrations#index'
+
     namespace :v1 do
-      resources :donations, only: [:index]
+      resources :donations, only: [:index, :show]
     end
   end
 end

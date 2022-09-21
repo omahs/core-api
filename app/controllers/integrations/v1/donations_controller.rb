@@ -2,15 +2,15 @@ module Integrations
   module V1
     class DonationsController < Integrations::IntegrationsController
       def index
-        donations = Donation.where(integration: current_integration)
+        donations = current_integration.donations
 
         render json: DonationBlueprint.render(donations, view: :integrations), status: :ok
       end
 
       def show
-        donation = Donation.find params[:id]
+        donation = current_integration.donations.find params[:id]
 
-        render json: donation, status: :ok
+        render json: DonationBlueprint.render(donation), status: :ok
       end
     end
   end

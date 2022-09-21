@@ -9,5 +9,5 @@ unless Rails.env.production?
 
   chain = FactoryBot.create(:chain) if Chain.count == 0
 
-  puts "Seed completed!"
+  puts "Seed completed!" unless Rails.env.test?
 end

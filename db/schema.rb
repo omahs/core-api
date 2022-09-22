@@ -58,10 +58,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_122704) do
 
   create_table "causes", force: :cascade do |t|
     t.string "name"
-    t.bigint "pool_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["pool_id"], name: "index_causes_on_pool_id"
   end
 
   create_table "chains", force: :cascade do |t|
@@ -361,8 +359,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_122704) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+<<<<<<< HEAD
   add_foreign_key "causes", "pools"
   add_foreign_key "customer_payment_blockchains", "customer_payments"
+=======
+>>>>>>> b0776bbbacd6a093f157f0bd45ce847a23091636
   add_foreign_key "customers", "people"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"

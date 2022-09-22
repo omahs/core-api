@@ -11,14 +11,12 @@ describe Donations::Donate do
       let(:non_profit) { build(:non_profit) }
       let(:user) { build(:user) }
       let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
-      let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
       let(:donation_pool_address) { '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F' }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)
-        allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
-        allow(ribon_contract).to receive(:donate_through_integration).and_return('0xFF20')
+        allow(Donations::CreateBlockchainDonationJob).to receive(:perform_later)
         allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(donation).to receive(:save)
@@ -36,10 +34,7 @@ describe Donations::Donate do
       it 'calls the donation in contract' do
         command
 
-        expect(ribon_contract).to have_received(:donate_through_integration)
-          .with(donation_pool_address:, amount: 1.0,
-                non_profit_wallet_address: non_profit.wallet_address, user: user.email,
-                sender_key: integration.integration_wallet.private_key)
+        expect(Donations::CreateBlockchainDonationJob).to have_received(:perform_later).with(donation)
       end
 
       it 'calls the Donations::SetUserLastDonationAt' do
@@ -49,15 +44,8 @@ describe Donations::Donate do
           .to have_received(:call).with(user:, date_to_set: donation.created_at)
       end
 
-      it 'creates donation_blockchain_transaction for the donation' do
-        command
-
-        expect(donation.donation_blockchain_transaction.transaction_hash).to eq '0xFF20'
-        expect(donation.donation_blockchain_transaction.chain.chain_id).to eq default_chain_id
-      end
-
-      it 'returns the donation hash in blockchain' do
-        expect(command.result).to eq '0xFF20'
+      it 'returns the donation created' do
+        expect(command.result).to eq donation
       end
     end
 
@@ -102,25 +90,17 @@ describe Donations::Donate do
       let(:integration) { create(:integration) }
       let(:non_profit) { create(:non_profit) }
       let(:user) { create(:user) }
-      let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
 
       before do
         create(:ribon_config, default_ticket_value: 100)
-        allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
-        allow(ribon_contract).to receive(:donate_through_integration)
-          .and_raise(StandardError.new('error message'))
       end
 
-      it 'does not create the donation on the database' do
-        expect { command }.not_to change(Donation, :count)
+      it 'still creates the donation on the database' do
+        expect { command }.to change(Donation, :count).by(1)
       end
 
-      it 'returns nil' do
-        expect(command.result).to be_nil
-      end
-
-      it 'returns error message' do
-        expect(command.errors[:message]).to eq ['error message']
+      it 'returns the new donation' do
+        expect(command.result).to be_an_instance_of(Donation)
       end
     end
   end

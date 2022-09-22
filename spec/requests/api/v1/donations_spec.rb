@@ -53,10 +53,12 @@ RSpec.describe 'Api::V1::Donations', type: :request do
     end
 
     context 'when the command is succeeded' do
+      let(:donation) { build(:donation) }
+
       before do
         allow(Donations::Donate).to receive(:call)
           .and_return(command_double(klass: Donations::Donate,
-                                     success: true, result: '0x000'))
+                                     success: true, result: donation))
       end
 
       it 'returns http status ok' do
@@ -65,10 +67,11 @@ RSpec.describe 'Api::V1::Donations', type: :request do
         expect(response).to have_http_status :ok
       end
 
-      it 'returns the transaction hash' do
+      it 'returns the donation' do
         request
 
-        expect(response_body.transaction_hash).to eq '0x000'
+        expect(response_json['donation'].keys)
+          .to match_array %w[id created_at integration_id non_profit_id updated_at user_id value]
       end
     end
   end

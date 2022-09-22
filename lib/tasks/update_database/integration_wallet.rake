@@ -7,7 +7,7 @@ namespace :new_integration_wallet do
         public_key: integration_wallet.public_key,
         encrypted_private_key: integration_wallet.encrypted_private_key,
         private_key_iv: integration_wallet.private_key_iv
-      )
+      ) if integration
     end
   end
 end

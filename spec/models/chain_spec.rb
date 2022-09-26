@@ -5,6 +5,7 @@
 #  id                              :bigint           not null, primary key
 #  block_explorer_url              :string
 #  currency_name                   :string
+#  default_donation_pool_address   :string
 #  donation_token_contract_address :string
 #  gas_fee_url                     :string
 #  name                            :string
@@ -31,6 +32,7 @@ RSpec.describe Chain, type: :model do
     it { is_expected.to validate_presence_of(:symbol_name) }
     it { is_expected.to validate_presence_of(:currency_name) }
     it { is_expected.to validate_presence_of(:block_explorer_url) }
+    it { is_expected.to validate_presence_of(:default_donation_pool_address) }
   end
 
   describe '#gas_fee' do

@@ -3,13 +3,22 @@
 # Table name: user_managers
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           default(""), not null
+#  allow_password_change  :boolean          default(FALSE)
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  email                  :string
 #  encrypted_password     :string           default(""), not null
-#  provider               :string
+#  image                  :string
+#  name                   :string
+#  nickname               :string
+#  provider               :string           default("email"), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  uid                    :string
+#  tokens                 :json
+#  uid                    :string           default(""), not null
+#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

@@ -85,6 +85,8 @@ gem 'stripe'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 
+gem 'merit'
+
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
   gem 'base64'

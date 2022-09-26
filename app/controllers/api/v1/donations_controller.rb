@@ -4,8 +4,10 @@ module Api
       def create
         command = Donations::Donate.call(integration:, non_profit:, user:)
 
+        @donation = command.result
+
         if command.success?
-          render json: { donation: command.result }, status: :ok
+          render json: { donation: @donation }, status: :ok
         else
           render_errors(command.errors)
         end

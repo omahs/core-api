@@ -29,5 +29,6 @@ FactoryBot.define do
     currency_name { 'Matic' }
     block_explorer_url { 'https://block_explorer_url.com' }
     gas_fee_url { 'https://owlracle.info/poly/gas' }
+    default_donation_pool_address { '0xP000000000000000000000000000000000000000' }
   end
 end

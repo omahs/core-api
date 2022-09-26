@@ -5,6 +5,7 @@
 #  id                              :bigint           not null, primary key
 #  block_explorer_url              :string
 #  currency_name                   :string
+#  default_donation_pool_address   :string
 #  donation_token_contract_address :string
 #  gas_fee_url                     :string
 #  name                            :string
@@ -28,5 +29,6 @@ FactoryBot.define do
     currency_name { 'Matic' }
     block_explorer_url { 'https://block_explorer_url.com' }
     gas_fee_url { 'https://owlracle.info/poly/gas' }
+    default_donation_pool_address { '0xP000000000000000000000000000000000000000' }
   end
 end

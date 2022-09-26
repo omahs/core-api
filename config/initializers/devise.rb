@@ -1,13 +1,3 @@
-# frozen_string_literal: true
-
-# Assuming you have not yet modified this file, each configuration option below
-# is set to its default value. Note that some are commented out while others
-# are not: uncommented lines are intended to protect your configuration from
-# breaking changes in upgrades (i.e., in the event that future versions of
-# Devise change the default values for those options).
-#
-# Use this hook to configure devise mailer, warden hooks and so forth.
-# Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -220,6 +210,13 @@ Devise.setup do |config|
   #
   # Defines which key will be used when recovering the password for an account
   # config.reset_password_keys = [:email]
+
+  OmniAuth.config.logger = Rails.logger
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :google_oauth2, RibonCoreApi.config[:google][:google_client_id],
+    RibonCoreApi.config[:google][:google_client_secret], {client_options: {ssl: {ca_file: Rails.root.join("cacert.pem").to_s}}}
+  end
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to

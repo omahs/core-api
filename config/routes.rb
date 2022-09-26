@@ -32,7 +32,6 @@ Rails.application.routes.draw do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'
       end
-      get 'giving_values' => "giving_values#index"
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
@@ -43,6 +42,10 @@ Rails.application.routes.draw do
         post 'credit_cards'   => 'credit_cards#create'
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
+      end
+      mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
+      namespace :manager do
+        post 'auth/request', to:'authorization#google_authorization'
       end
     end
   end

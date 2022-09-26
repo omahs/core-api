@@ -113,13 +113,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_22_145600) do
     t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
-  create_table "giving_values", force: :cascade do |t|
-    t.decimal "value"
-    t.integer "currency", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "guests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "wallet_address", null: false
     t.datetime "created_at", null: false

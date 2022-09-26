@@ -19,7 +19,7 @@ describe Integrations::CreateIntegration do
       end
 
       it 'creates a new integration wallet' do
-        expect { command }.to change(IntegrationWallet, :count).by(1)
+        expect { command }.to change(NewIntegrationWallet, :count).by(1)
       end
     end
 
@@ -36,7 +36,7 @@ describe Integrations::CreateIntegration do
       end
 
       it 'does not create a new integration wallet' do
-        expect { command }.not_to change(IntegrationWallet, :count)
+        expect { command }.not_to change(NewIntegrationWallet, :count)
       end
     end
   end

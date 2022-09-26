@@ -5,8 +5,8 @@
 #  id                 :bigint           not null, primary key
 #  impact_description :text
 #  name               :string
+#  old_wallet_address :string
 #  status             :integer          default("inactive")
-#  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  cause_id           :bigint
@@ -64,6 +64,85 @@ RSpec.describe NonProfit, type: :model do
 
     it 'returns the impact by ticket' do
       expect(non_profit.impact_by_ticket(date:)).to eq 10
+    end
+  end
+
+  describe 'if an non profit is created' do
+    let(:non_profit) do
+      create(:non_profit)
+    end
+
+    before do
+      non_profit
+    end
+
+    it 'creates a new wallet' do
+      expect(NonProfitWallet.count).to eq 1
+      expect(non_profit.non_profit_wallets.reload.count).to eq 1
+    end
+  end
+
+  describe 'if the wallet address is updated' do
+    let(:non_profit) do
+      create(:non_profit)
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: 'newWalletAddress')
+    end
+
+    it 'creates a new wallet' do
+      expect(NonProfitWallet.count).to eq 2
+      expect(non_profit.non_profit_wallets.count).to eq 2
+    end
+
+    it 'returns the right address' do
+      expect(non_profit.wallet_address).to eq 'newWalletAddress'
+    end
+
+    it 'has only one wallet active' do
+      expect(non_profit.non_profit_wallets.reload.where(status: :active).count).to eq 1
+    end
+  end
+
+  describe 'if the wallet address is updated with an old address' do
+    let(:non_profit) do
+      create(:non_profit, wallet_address: 'newWalletAddress')
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: 'newWalletAddressActive')
+      non_profit.update(wallet_address: 'newWalletAddress')
+    end
+
+    it 'does not create a new wallet' do
+      expect(NonProfitWallet.count).to eq 2
+    end
+
+    it 'returns the right address' do
+      expect(non_profit.wallet_address).to eq 'newWalletAddress'
+    end
+
+    it 'updates the status from the old wallet' do
+      expect(non_profit.non_profit_wallets.reload.where(public_key: 'newWalletAddress').last.status).to eq 'active'
+    end
+  end
+
+  describe 'if the wallet address was going to be updated with an old address, but the non profit was not saved' do
+    let(:non_profit) do
+      create(:non_profit, wallet_address: 'newWalletAddress')
+    end
+
+    before do
+      non_profit
+      non_profit.update(wallet_address: 'newWalletAddressActive')
+      non_profit.wallet_address = 'newWalletAddress'
+    end
+
+    it 'returns the right address' do
+      expect(non_profit.wallet_address).to eq 'newWalletAddressActive'
     end
   end
 end

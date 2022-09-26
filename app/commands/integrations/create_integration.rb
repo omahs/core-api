@@ -14,7 +14,7 @@ module Integrations
     def call
       with_exception_handle do
         integration = Integration.create!(enriched_integration_params)
-        wallet      = integration.create_integration_wallet!(encrypted_wallet)
+        wallet      = integration.create_new_integration_wallet!(encrypted_wallet)
         wallet.add_balance(ribon_contract, amount)
 
         integration

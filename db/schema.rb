@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_26_120653) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_120670) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -54,15 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_120653) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
-  end
-
-  create_table "api_keys", force: :cascade do |t|
-    t.string "bearer_type", null: false
-    t.bigint "bearer_id", null: false
-    t.string "token_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
   end
 
   create_table "causes", force: :cascade do |t|
@@ -203,7 +194,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_120653) do
 
   create_table "non_profits", force: :cascade do |t|
     t.string "name"
-    t.string "wallet_address"
+    t.string "old_wallet_address"
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -352,6 +343,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_120653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.string "public_key"
+    t.string "encrypted_private_key"
+    t.string "private_key_iv"
+    t.integer "status"
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.string "type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_wallets_on_owner"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

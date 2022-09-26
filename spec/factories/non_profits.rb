@@ -5,8 +5,8 @@
 #  id                 :bigint           not null, primary key
 #  impact_description :text
 #  name               :string
+#  old_wallet_address :string
 #  status             :integer          default("inactive")
-#  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  cause_id           :bigint

@@ -5,6 +5,7 @@
 #  id                              :bigint           not null, primary key
 #  block_explorer_url              :string
 #  currency_name                   :string
+#  default_donation_pool_address   :string
 #  donation_token_contract_address :string
 #  gas_fee_url                     :string
 #  name                            :string

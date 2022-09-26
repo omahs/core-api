@@ -21,7 +21,7 @@ AllCops:
     - "app/lib/simple_command/**/*"
     - "app/controllers/rails_admin/**/*"
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 115
 
 Metrics/BlockLength:
@@ -40,16 +40,16 @@ Lint/AmbiguousBlockAssociation:
 Style/Documentation:
   Enabled: false
 
-Rspec/MultipleExpectations:
+RSpec/MultipleExpectations:
   Enabled: false
 
 RSpec/ExampleLength:
   Max: 10
 
-Rspec/PredicateMatcher:
+RSpec/PredicateMatcher:
   Enabled: false
 
-Rspec/NestedGroups:
+RSpec/NestedGroups:
   Max: 4
 
 Rails/HasManyOrHasOneDependent:

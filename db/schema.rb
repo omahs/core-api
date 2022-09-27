@@ -249,7 +249,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
 
   create_table "non_profits", force: :cascade do |t|
     t.string "name"
-    t.string "wallet_address"
+    t.string "old_wallet_address"
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -405,6 +405,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
     t.integer "sash_id"
     t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.string "public_key"
+    t.string "encrypted_private_key"
+    t.string "private_key_iv"
+    t.integer "status"
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.string "type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_wallets_on_owner"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

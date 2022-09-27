@@ -5,11 +5,10 @@ module Donations
     prepend SimpleCommand
     attr_reader :non_profit, :integration, :donation, :user
 
-    def initialize(integration:, non_profit:, user:, external_id:)
+    def initialize(integration:, non_profit:, user:)
       @integration = integration
       @non_profit = non_profit
       @user = user
-      @external_id = external_id
     end
 
     def call

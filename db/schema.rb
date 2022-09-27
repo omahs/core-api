@@ -359,11 +359,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_122704) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-<<<<<<< HEAD
   add_foreign_key "causes", "pools"
   add_foreign_key "customer_payment_blockchains", "customer_payments"
-=======
->>>>>>> b0776bbbacd6a093f157f0bd45ce847a23091636
   add_foreign_key "customers", "people"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"

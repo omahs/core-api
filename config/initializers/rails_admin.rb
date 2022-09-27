@@ -37,7 +37,7 @@ RailsAdmin.config do |config|
 
   config.model RibonConfig do
     field :default_ticket_value do
-      label{ "ticket value in usdc cents" }
+      label{ "ticket value in usdc cents (100 = one dollar)" }
     end
 
     field :minimum_integration_amount do

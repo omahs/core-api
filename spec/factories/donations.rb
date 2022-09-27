@@ -3,7 +3,7 @@
 # Table name: donations
 #
 #  id             :bigint           not null, primary key
-#  value          :integer
+#  value          :decimal(, )
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  integration_id :bigint           not null

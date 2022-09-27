@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_111912) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -127,7 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_111912) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.integer "value"
+    t.decimal "value"
     t.index ["integration_id"], name: "index_donations_on_integration_id"
     t.index ["non_profit_id"], name: "index_donations_on_non_profit_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
@@ -323,7 +323,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_111912) do
   end
 
   create_table "ribon_configs", force: :cascade do |t|
-    t.integer "default_ticket_value"
+    t.decimal "default_ticket_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "minimum_integration_amount"

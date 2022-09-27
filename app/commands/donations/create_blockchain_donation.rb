@@ -33,7 +33,7 @@ module Donations
     end
 
     def sender_key
-      @sender_key ||= integration.new_integration_wallet&.private_key
+      @sender_key ||= integration.integration_wallet&.private_key
     end
 
     def ticket_value

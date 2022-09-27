@@ -76,6 +76,14 @@ RailsAdmin.config do |config|
     include_all_fields
   end
 
+  config.model NonProfitImpact do
+    field :usd_cents_to_one_impact_unit do
+      label{ "USD cents to one impact unit (100 = one dollar)" }
+    end
+
+    include_all_fields
+  end
+
   MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }
   MOBILITY_MODELS.each do |model|
     config.model model do

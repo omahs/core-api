@@ -40,7 +40,7 @@ class PersonPayment < ApplicationRecord
     amount_with_fees = amount - service_fees
     return amount_with_fees if currency == :usd
 
-    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).to_f
+    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).round.to_f
   end
 
   def amount

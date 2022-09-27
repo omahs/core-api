@@ -34,16 +34,16 @@ RSpec.describe Web3::Utils::Fee do
     context 'when the amount is less than 1 usd cent' do
       let(:estimated_fee) { 0.008015313398343337 }
 
-      it 'returns the estimated fee as 1 cent' do
-        expect(fee_lib.estimate_fee).to eq Money.from_cents(1, :usd)
+      it 'returns the estimated fee' do
+        expect(fee_lib.estimate_fee).to eq Money.from_amount(estimated_fee, :usd)
       end
     end
 
     context 'when the amount is more than 1 usd cent' do
       let(:estimated_fee) { 0.028015313398343337 }
 
-      it 'returns the estimated fee rounded up' do
-        expect(fee_lib.estimate_fee).to eq Money.from_cents(3, :usd)
+      it 'returns the estimated fee' do
+        expect(fee_lib.estimate_fee).to eq Money.from_amount(estimated_fee, :usd)
       end
     end
   end

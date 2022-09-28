@@ -2,12 +2,10 @@ module Api
   module V1
     class DonationsController < ApplicationController
       def create
-        command = Donations::Donate.call(integration:,
-                                         non_profit:,
-                                         user:)
+        command = Donations::Donate.call(integration:, non_profit:, user:)
 
         if command.success?
-          render json: { transaction_hash: command.result }, status: :ok
+          render json: { donation: command.result }, status: :ok
         else
           render_errors(command.errors)
         end

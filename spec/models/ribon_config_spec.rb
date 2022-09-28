@@ -4,7 +4,6 @@
 #
 #  id                         :bigint           not null, primary key
 #  default_ticket_value       :decimal(, )
-#  minimum_integration_amount :decimal(, )
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  default_chain_id           :integer

@@ -222,6 +222,7 @@ pt-BR:
     pm: ""
   donations:
     blocked_message: "Não foi possível doar. Espere sua próxima doação."
+    invalid_voucher: "Voucher inválido."
   sources:
     has_source_message: "Source já criada."
   manager:

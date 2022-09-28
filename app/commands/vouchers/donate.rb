@@ -18,7 +18,7 @@ module Vouchers
           command = call_donation_command
           create_voucher(command.result) if command.success?
         else
-          errors.add(:message, I18n.t('donations.blocked_message'))
+          errors.add(:message, I18n.t('donations.invalid_voucher'))
         end
       end
     end

@@ -67,7 +67,7 @@ describe Vouchers::Donate do
       end
 
       it 'returns an error message' do
-        expect(command.errors).to eq({ message: [I18n.t('donations.blocked_message')] })
+        expect(command.errors).to eq({ message: [I18n.t('donations.invalid_voucher')] })
       end
     end
   end

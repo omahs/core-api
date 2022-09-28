@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -317,7 +317,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
     t.decimal "default_ticket_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "minimum_integration_amount"
     t.integer "default_chain_id"
   end
 

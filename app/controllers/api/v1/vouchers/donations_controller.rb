@@ -3,7 +3,7 @@ module Api
     module Vouchers
       class DonationsController < ApplicationController
         def create
-          command = Vouchers::Donate.call(donation_command:, integration:, external_id:)
+          command = ::Vouchers::Donate.call(donation_command:, integration:, external_id:)
 
           if command.success?
             render json: { donation: command.result }, status: :ok
@@ -31,7 +31,7 @@ module Api
         end
 
         def donation_command
-          Donations::Donate.new(integration:, non_profit:, user:)
+          ::Donations::Donate.new(integration:, non_profit:, user:)
         end
 
         def donation_params

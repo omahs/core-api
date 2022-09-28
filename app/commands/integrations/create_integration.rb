@@ -47,10 +47,6 @@ module Integrations
       @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
     end
 
-    def amount
-      @amount ||= RibonConfig.minimum_integration_amount
-    end
-
     def chain
       @chain ||= Chain.default
     end

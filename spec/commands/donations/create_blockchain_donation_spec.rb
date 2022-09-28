@@ -15,7 +15,7 @@ describe Donations::CreateBlockchainDonation do
       end
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
-      let(:donation_pool_address) { '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F' }
+      let(:donation_pool_address) { '0xP000000000000000000000000000000000000000' }
 
       before do
         allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)

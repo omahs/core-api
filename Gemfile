@@ -47,6 +47,10 @@ gem 'blueprinter'
 
 gem 'devise'
 
+gem 'devise_token_auth'
+
+gem 'omniauth-google-oauth2'
+
 gem 'nio4r'
 
 gem 'io-wait', '0.2.1'

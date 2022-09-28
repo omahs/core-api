@@ -6,7 +6,6 @@
 #  impact_description :text
 #  name               :string
 #  status             :integer          default("inactive")
-#  wallet_address     :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  cause_id           :bigint

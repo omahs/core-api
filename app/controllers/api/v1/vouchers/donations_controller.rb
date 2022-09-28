@@ -6,7 +6,7 @@ module Api
           command = ::Vouchers::Donate.call(donation_command:, integration:, external_id:)
 
           if command.success?
-            render json: { donation: command.result }, status: :ok
+            render json: { voucher: command.result }, status: :ok
           else
             render_errors(command.errors)
           end

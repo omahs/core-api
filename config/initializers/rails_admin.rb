@@ -40,10 +40,6 @@ RailsAdmin.config do |config|
       label{ "ticket value in usdc cents" }
     end
 
-    field :minimum_integration_amount do
-      label{ "minimum amount in usdc for new integrations" }
-    end
-
     field :default_chain_id do
       label{ "Default chain id, like polygon or mumbai" }
     end

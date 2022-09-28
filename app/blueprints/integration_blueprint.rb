@@ -5,4 +5,6 @@ class IntegrationBlueprint < Blueprinter::Base
          :ticket_availability_in_minutes
 
   association :integration_wallet, blueprint: IntegrationWalletBlueprint
+
+  association :integration_tasks, blueprint: IntegrationTaskBlueprint
 end

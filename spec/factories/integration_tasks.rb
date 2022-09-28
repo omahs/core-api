@@ -15,6 +15,6 @@ FactoryBot.define do
     description { 'Realize outra compra' }
     link { 'Ganhe mais 1 vale' }
     link_address { 'https://renner.com' }
-    integration_id { 1 }
+    integration { build(:integration) }
   end
 end

@@ -11,7 +11,7 @@
 #
 FactoryBot.define do
   factory :voucher do
-    external_id { 'MyString' }
+    external_id { 'external_id' }
     integration { build(:integration) }
     donation { build(:donation) }
   end

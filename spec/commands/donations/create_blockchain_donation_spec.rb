@@ -9,9 +9,10 @@ describe Donations::CreateBlockchainDonation do
     context 'when no error occurs' do
       let(:integration) { create(:integration) }
       let(:non_profit) { create(:non_profit) }
-      let(:user) { create(:user) }
       let(:donation) do
-        create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00', user:, non_profit:, integration:))
+        create(:donation,
+               created_at: DateTime.parse('2021-01-12 10:00:00', user: create(:user),
+                                                                 non_profit:, integration:))
       end
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:default_chain_id) { 0x13881 }
@@ -29,7 +30,7 @@ describe Donations::CreateBlockchainDonation do
 
         expect(ribon_contract).to have_received(:donate_through_integration)
           .with(donation_pool_address:, amount: 1.0,
-                non_profit_wallet_address: non_profit.wallet_address, user: user.email,
+                non_profit_wallet_address: non_profit.wallet_address, user: donation.user.email,
                 sender_key: integration.integration_wallet.private_key)
       end
 

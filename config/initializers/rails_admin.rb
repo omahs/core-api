@@ -73,6 +73,10 @@ RailsAdmin.config do |config|
       label{ "Logo" }
     end
 
+    field :wallet_address do
+      label{ "Wallet address" }
+    end
+
     include_all_fields
   end
 

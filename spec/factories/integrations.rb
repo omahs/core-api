@@ -17,5 +17,11 @@ FactoryBot.define do
     unique_address { 'f7be8d80-2406-4cb0-82eb-849346d327c9' }
     ticket_availability_in_minutes { nil }
     integration_wallet { build(:integration_wallet) }
+
+    trait(:with_integration_tasks) do
+      after(:create) do
+        build(:integration_task)
+      end
+    end
   end
 end

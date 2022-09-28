@@ -33,7 +33,8 @@ RailsAdmin.config do |config|
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
                             Donation, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, DonationBlockchainTransaction, Chain,
-                            Cause, Story, IntegrationPool, NonProfitPool, Voucher]
+                            Cause, Story, IntegrationPool, NonProfitPool, IntegrationTask,
+                            Voucher]
 
   config.model RibonConfig do
     field :default_ticket_value do
@@ -67,6 +68,10 @@ RailsAdmin.config do |config|
 
     field :logo do
       label{ "Logo" }
+    end
+
+    field :wallet_address do
+      label{ "Wallet address" }
     end
 
     include_all_fields

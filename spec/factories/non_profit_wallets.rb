@@ -13,14 +13,10 @@
 #  updated_at            :datetime         not null
 #  owner_id              :bigint           not null
 #
-class IntegrationWallet < Wallet
-  validates :public_key, :encrypted_private_key, :private_key_iv, presence: true
-
-  def integration
-    owner
-  end
-
-  def add_balance(contract, amount)
-    contract.add_integration_balance(integration_address: public_key, amount:)
+FactoryBot.define do
+  factory :non_profit_wallet do
+    status { :active }
+    public_key { '0x6E060041D62fDd76cF27c582f62983b864878E8F' }
+    owner { build(:non_profit) }
   end
 end

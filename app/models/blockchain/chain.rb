@@ -5,6 +5,7 @@
 #  id                              :bigint           not null, primary key
 #  block_explorer_url              :string
 #  currency_name                   :string
+#  default_donation_pool_address   :string
 #  donation_token_contract_address :string
 #  gas_fee_url                     :string
 #  name                            :string
@@ -18,7 +19,8 @@
 #
 class Chain < ApplicationRecord
   validates :name, :ribon_contract_address, :donation_token_contract_address, :chain_id,
-            :rpc_url, :node_url, :symbol_name, :currency_name, :block_explorer_url, presence: true
+            :rpc_url, :node_url, :symbol_name, :currency_name, :block_explorer_url,
+            :default_donation_pool_address, presence: true
 
   has_many :tokens, dependent: :destroy
 

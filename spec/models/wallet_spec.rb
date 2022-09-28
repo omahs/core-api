@@ -13,14 +13,12 @@
 #  updated_at            :datetime         not null
 #  owner_id              :bigint           not null
 #
-class IntegrationWallet < Wallet
-  validates :public_key, :encrypted_private_key, :private_key_iv, presence: true
+require 'rails_helper'
 
-  def integration
-    owner
-  end
-
-  def add_balance(contract, amount)
-    contract.add_integration_balance(integration_address: public_key, amount:)
+RSpec.describe Wallet, type: :model do
+  describe 'if trying to create a wallet without owner' do
+    it 'raises error' do
+      expect { create(:wallet, owner: nil) }.to raise_error 'Validation failed: Owner must exist'
+    end
   end
 end

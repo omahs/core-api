@@ -15,21 +15,11 @@
 #
 require 'rails_helper'
 
-RSpec.describe IntegrationWallet, type: :model do
+RSpec.describe NonProfitWallet, type: :model do
   describe '.validations' do
-    subject { build(:integration_wallet) }
+    subject { build(:non_profit_wallet) }
 
     it { is_expected.to validate_presence_of(:public_key) }
-    it { is_expected.to validate_presence_of(:encrypted_private_key) }
-    it { is_expected.to validate_presence_of(:private_key_iv) }
-  end
-
-  describe '#private_key' do
-    let(:private_key_string) { '0000000000000000000000000000000000000000000000000000000000000000' }
-    let(:integration_wallet) { build(:integration_wallet) }
-
-    it 'returns the integration private key decoded' do
-      expect(integration_wallet.private_key).to eq(private_key_string)
-    end
+    it { is_expected.to validate_presence_of(:status) }
   end
 end

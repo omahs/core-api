@@ -31,17 +31,13 @@ RailsAdmin.config do |config|
   end
 
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
-                            Donation, RibonConfig, GivingValue, Offer, OfferGateway,
+                            Donation, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, DonationBlockchainTransaction, Chain,
                             Cause, Story, IntegrationPool, NonProfitPool]
 
   config.model RibonConfig do
     field :default_ticket_value do
       label{ "ticket value in usdc cents" }
-    end
-
-    field :minimum_integration_amount do
-      label{ "minimum amount in usdc for new integrations" }
     end
 
     field :default_chain_id do
@@ -71,6 +67,10 @@ RailsAdmin.config do |config|
 
     field :logo do
       label{ "Logo" }
+    end
+
+    field :wallet_address do
+      label{ "Wallet address" }
     end
 
     include_all_fields

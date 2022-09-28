@@ -16,6 +16,6 @@ FactoryBot.define do
     status { :active }
     unique_address { 'f7be8d80-2406-4cb0-82eb-849346d327c9' }
     ticket_availability_in_minutes { nil }
-    new_integration_wallet { build(:new_integration_wallet) }
+    integration_wallet { build(:integration_wallet) }
   end
 end

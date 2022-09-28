@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -318,7 +317,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
     t.decimal "default_ticket_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "minimum_integration_amount"
     t.integer "default_chain_id"
   end
 
@@ -399,6 +397,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "vouchers", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "integration_id", null: false
+    t.bigint "donation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["donation_id"], name: "index_vouchers_on_donation_id"
+    t.index ["integration_id"], name: "index_vouchers_on_integration_id"
+  end
+
   create_table "wallets", force: :cascade do |t|
     t.string "public_key"
     t.string "encrypted_private_key"
@@ -434,4 +442,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_130824) do
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"
+  add_foreign_key "vouchers", "donations"
+  add_foreign_key "vouchers", "integrations"
 end

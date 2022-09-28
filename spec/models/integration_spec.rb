@@ -21,6 +21,15 @@ RSpec.describe Integration, type: :model do
     it { is_expected.to validate_presence_of(:status) }
   end
 
+  describe '.associations' do
+    subject { build(:integration) }
+
+    it { is_expected.to have_many(:pools) }
+    it { is_expected.to have_many(:integration_pools) }
+    it { is_expected.to have_many(:integration_tasks) }
+    it { is_expected.to have_one(:integration_wallet) }
+  end
+
   describe '.find_by_id_or_unique_address' do
     let!(:integration) { create(:integration, id: 1, unique_address: 'f7be8d80-2406-4cb0-82eb-849346d327c9') }
 

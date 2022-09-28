@@ -17,11 +17,15 @@ RSpec.describe 'Api::V1::Vouchers::Donations', type: :request do
       }
     end
 
+    before do
+      create(:ribon_config)
+    end
+
     context 'when the donate command succeeds' do
-      it 'calls the donate command with right params' do
+      it 'returns the voucher' do
         request
 
-        expect(response_body.voucher).to be_nil
+        expect(response_body.voucher.external_id).to eq external_id
       end
     end
   end

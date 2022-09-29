@@ -56,6 +56,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "api_keys", force: :cascade do |t|
+    t.string "bearer_type", null: false
+    t.bigint "bearer_id", null: false
+    t.string "token_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "badges_sashes", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "sash_id"
+    t.boolean "notified_user", default: false
+    t.datetime "created_at"
+    t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
+    t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
+    t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
+  end
+
   create_table "causes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -108,7 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.integer "value"
+    t.decimal "value"
     t.index ["integration_id"], name: "index_donations_on_integration_id"
     t.index ["non_profit_id"], name: "index_donations_on_non_profit_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
@@ -150,6 +169,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.integer "status", default: 0
   end
 
+  create_table "merit_actions", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_method"
+    t.integer "action_value"
+    t.boolean "had_errors", default: false
+    t.string "target_model"
+    t.integer "target_id"
+    t.text "target_data"
+    t.boolean "processed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["processed"], name: "index_merit_actions_on_processed"
+  end
+
+  create_table "merit_activity_logs", force: :cascade do |t|
+    t.integer "action_id"
+    t.string "related_change_type"
+    t.integer "related_change_id"
+    t.string "description"
+    t.datetime "created_at"
+  end
+
+  create_table "merit_score_points", force: :cascade do |t|
+    t.bigint "score_id"
+    t.bigint "num_points", default: 0
+    t.string "log"
+    t.datetime "created_at"
+    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
+  end
+
+  create_table "merit_scores", force: :cascade do |t|
+    t.bigint "sash_id"
+    t.string "category", default: "default"
+    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
+  end
+
   create_table "mobility_string_translations", force: :cascade do |t|
     t.string "locale", null: false
     t.string "key", null: false
@@ -179,7 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.bigint "non_profit_id", null: false
     t.date "start_date"
     t.date "end_date"
-    t.integer "usd_cents_to_one_impact_unit"
+    t.decimal "usd_cents_to_one_impact_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["non_profit_id"], name: "index_non_profit_impacts_on_non_profit_id"
@@ -269,10 +324,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   end
 
   create_table "ribon_configs", force: :cascade do |t|
-    t.integer "default_ticket_value"
+    t.decimal "default_ticket_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "default_chain_id"
+  end
+
+  create_table "sashes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sources", force: :cascade do |t|
@@ -342,7 +402,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sash_id"
+    t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "integration_id", null: false
+    t.bigint "donation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["donation_id"], name: "index_vouchers_on_donation_id"
+    t.index ["integration_id"], name: "index_vouchers_on_integration_id"
   end
 
   create_table "wallets", force: :cascade do |t|
@@ -381,4 +453,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"
+  add_foreign_key "vouchers", "donations"
+  add_foreign_key "vouchers", "integrations"
 end

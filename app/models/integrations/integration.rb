@@ -20,6 +20,8 @@ class Integration < ApplicationRecord
   has_many :integration_pools
   has_many :pools, through: :integration_pools
 
+  has_one_attached :logo
+
   enum status: {
     inactive: 0,
     active: 1

@@ -38,7 +38,7 @@ RailsAdmin.config do |config|
 
   config.model RibonConfig do
     field :default_ticket_value do
-      label{ "ticket value in usdc cents" }
+      label{ "ticket value in usdc cents (100 = one dollar)" }
     end
 
     field :default_chain_id do
@@ -72,6 +72,14 @@ RailsAdmin.config do |config|
 
     field :wallet_address do
       label{ "Wallet address" }
+    end
+
+    include_all_fields
+  end
+
+  config.model NonProfitImpact do
+    field :usd_cents_to_one_impact_unit do
+      label{ "USD cents to one impact unit (100 = one dollar)" }
     end
 
     include_all_fields

@@ -16,7 +16,7 @@ class NonProfitImpact < ApplicationRecord
   validates :usd_cents_to_one_impact_unit, :start_date, :end_date, presence: true
 
   def impact_by_ticket
-    RibonConfig.default_ticket_value / usd_cents_to_one_impact_unit
+    (RibonConfig.default_ticket_value / usd_cents_to_one_impact_unit).to_i
   rescue StandardError
     0
   end

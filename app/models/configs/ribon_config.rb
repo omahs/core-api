@@ -2,11 +2,11 @@
 #
 # Table name: ribon_configs
 #
-#  id                         :bigint           not null, primary key
-#  default_ticket_value       :decimal(, )
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#  default_chain_id           :integer
+#  id                   :bigint           not null, primary key
+#  default_ticket_value :decimal(, )
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  default_chain_id     :integer
 #
 class RibonConfig < ApplicationRecord
   validate :singularity, on: :create

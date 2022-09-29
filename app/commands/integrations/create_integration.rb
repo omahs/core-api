@@ -42,6 +42,10 @@ module Integrations
       }
     end
 
+    def ribon_contract
+      @ribon_contract ||= Web3::Contracts::RibonContract.new(chain:)
+    end
+
     def chain
       @chain ||= Chain.default
     end

@@ -11,7 +11,9 @@
 #  updated_at                     :datetime         not null
 #
 class Integration < ApplicationRecord
-  has_one :integration_wallet
+  has_many :integration_tasks
+
+  has_one :integration_wallet, as: :owner
 
   validates :name, :unique_address, :status, presence: true
 
@@ -19,6 +21,8 @@ class Integration < ApplicationRecord
   has_many :pools, through: :integration_pools
   has_many :api_keys, as: :bearer
   has_many :donations
+
+  has_one_attached :logo
 
   enum status: {
     inactive: 0,

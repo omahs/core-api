@@ -8,12 +8,13 @@ describe Givings::CommunityTreasure::AddBalance do
 
     let(:amount) { 0.5 }
     let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
-    let(:donation_pool_address) { '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F' }
+    let(:donation_pool_address) { '0xP000000000000000000000000000000000000000' }
 
     before do
       allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
       allow(ribon_contract).to receive(:add_pool_balance)
       create(:ribon_config)
+      create(:chain)
     end
 
     it 'calls ribon contract add_pool_balance with correct args' do

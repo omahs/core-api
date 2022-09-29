@@ -1,12 +1,17 @@
 # == Schema Information
 #
-# Table name: integration_wallets
+# Table name: wallets
 #
-#  id                    :uuid             not null, primary key
+#  id                    :bigint           not null, primary key
 #  encrypted_private_key :string
+#  owner_type            :string           not null
 #  private_key_iv        :string
 #  public_key            :string
-#  integration_id        :bigint
+#  status                :integer
+#  type                  :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  owner_id              :bigint           not null
 #
 require 'rails_helper'
 
@@ -17,7 +22,6 @@ RSpec.describe IntegrationWallet, type: :model do
     it { is_expected.to validate_presence_of(:public_key) }
     it { is_expected.to validate_presence_of(:encrypted_private_key) }
     it { is_expected.to validate_presence_of(:private_key_iv) }
-    it { is_expected.to belong_to(:integration) }
   end
 
   describe '#private_key' do

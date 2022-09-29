@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "gas_fee_url"
+    t.string "default_donation_pool_address"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -116,17 +117,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.integer "value"
+    t.decimal "value"
     t.index ["integration_id"], name: "index_donations_on_integration_id"
     t.index ["non_profit_id"], name: "index_donations_on_non_profit_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
-  end
-
-  create_table "giving_values", force: :cascade do |t|
-    t.decimal "value"
-    t.integer "currency", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "guests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -146,12 +140,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.index ["pool_id"], name: "index_integration_pools_on_pool_id"
   end
 
-  create_table "integration_wallets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "public_key"
-    t.string "encrypted_private_key"
-    t.string "private_key_iv"
-    t.bigint "integration_id"
-    t.index ["integration_id"], name: "index_integration_wallets_on_integration_id"
+  create_table "integration_tasks", force: :cascade do |t|
+    t.string "description"
+    t.string "link"
+    t.string "link_address"
+    t.bigint "integration_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id"], name: "index_integration_tasks_on_integration_id"
   end
 
   create_table "integrations", force: :cascade do |t|
@@ -161,6 +157,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.uuid "unique_address", default: -> { "gen_random_uuid()" }, null: false
     t.integer "ticket_availability_in_minutes"
     t.integer "status", default: 0
+  end
+
+  create_table "merit_actions", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_method"
+    t.integer "action_value"
+    t.boolean "had_errors", default: false
+    t.string "target_model"
+    t.integer "target_id"
+    t.text "target_data"
+    t.boolean "processed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["processed"], name: "index_merit_actions_on_processed"
+  end
+
+  create_table "merit_activity_logs", force: :cascade do |t|
+    t.integer "action_id"
+    t.string "related_change_type"
+    t.integer "related_change_id"
+    t.string "description"
+    t.datetime "created_at"
+  end
+
+  create_table "merit_score_points", force: :cascade do |t|
+    t.bigint "score_id"
+    t.bigint "num_points", default: 0
+    t.string "log"
+    t.datetime "created_at"
+    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
+  end
+
+  create_table "merit_scores", force: :cascade do |t|
+    t.bigint "sash_id"
+    t.string "category", default: "default"
+    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
   end
 
   create_table "mobility_string_translations", force: :cascade do |t|
@@ -192,7 +224,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.bigint "non_profit_id", null: false
     t.date "start_date"
     t.date "end_date"
-    t.integer "usd_cents_to_one_impact_unit"
+    t.decimal "usd_cents_to_one_impact_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["non_profit_id"], name: "index_non_profit_impacts_on_non_profit_id"
@@ -209,7 +241,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
 
   create_table "non_profits", force: :cascade do |t|
     t.string "name"
-    t.string "wallet_address"
     t.text "impact_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -283,11 +314,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
   end
 
   create_table "ribon_configs", force: :cascade do |t|
-    t.integer "default_ticket_value"
+    t.decimal "default_ticket_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "minimum_integration_amount"
     t.integer "default_chain_id"
+  end
+
+  create_table "sashes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sources", force: :cascade do |t|
@@ -328,11 +363,61 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
+  create_table "user_managers", force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean "allow_password_change", default: false
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.string "name"
+    t.string "nickname"
+    t.string "image"
+    t.string "email"
+    t.json "tokens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_user_managers_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_user_managers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_user_managers_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_user_managers_on_uid_and_provider", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sash_id"
+    t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "integration_id", null: false
+    t.bigint "donation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["donation_id"], name: "index_vouchers_on_donation_id"
+    t.index ["integration_id"], name: "index_vouchers_on_integration_id"
+  end
+
+  create_table "wallets", force: :cascade do |t|
+    t.string "public_key"
+    t.string "encrypted_private_key"
+    t.string "private_key_iv"
+    t.integer "status"
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.string "type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_wallets_on_owner"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -345,6 +430,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
   add_foreign_key "donations", "users"
   add_foreign_key "integration_pools", "integrations"
   add_foreign_key "integration_pools", "pools"
+  add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"
   add_foreign_key "non_profit_pools", "pools"
@@ -357,4 +443,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_20_201706) do
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"
+  add_foreign_key "vouchers", "donations"
+  add_foreign_key "vouchers", "integrations"
 end

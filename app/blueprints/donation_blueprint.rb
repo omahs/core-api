@@ -5,6 +5,7 @@ class DonationBlueprint < Blueprinter::Base
 
   association :non_profit, blueprint: NonProfitBlueprint
   association :integration, blueprint: IntegrationBlueprint
+  association :user, blueprint: UserBlueprint
 
   view :minimal do
     excludes :integration, :updated_at

@@ -30,18 +30,15 @@ RailsAdmin.config do |config|
     show_in_app
   end
 
-  config.included_models = [User, NonProfit, NonProfitImpact, Integration,
-                            Donation, RibonConfig, GivingValue, Offer, OfferGateway,
+  config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
+                            Donation, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, DonationBlockchainTransaction, Chain,
-                            Cause, Story, IntegrationPool, NonProfitPool]
+                            Cause, Story, IntegrationPool, NonProfitPool, IntegrationTask,
+                            Voucher]
 
   config.model RibonConfig do
     field :default_ticket_value do
-      label{ "ticket value in usdc cents" }
-    end
-
-    field :minimum_integration_amount do
-      label{ "minimum amount in usdc for new integrations" }
+      label{ "ticket value in usdc cents (100 = one dollar)" }
     end
 
     field :default_chain_id do
@@ -71,6 +68,18 @@ RailsAdmin.config do |config|
 
     field :logo do
       label{ "Logo" }
+    end
+
+    field :wallet_address do
+      label{ "Wallet address" }
+    end
+
+    include_all_fields
+  end
+
+  config.model NonProfitImpact do
+    field :usd_cents_to_one_impact_unit do
+      label{ "USD cents to one impact unit (100 = one dollar)" }
     end
 
     include_all_fields

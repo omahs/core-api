@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       post 'users/can_donate' => "users#can_donate"
       get 'users/impact' => "users#impact"
       post 'sources' => 'sources#create'
+      post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'

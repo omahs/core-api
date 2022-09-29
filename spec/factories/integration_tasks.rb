@@ -1,19 +1,20 @@
 # == Schema Information
 #
-# Table name: donations
+# Table name: integration_tasks
 #
 #  id             :bigint           not null, primary key
-#  value          :decimal(, )
+#  description    :string
+#  link           :string
+#  link_address   :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  integration_id :bigint           not null
-#  non_profit_id  :bigint           not null
-#  user_id        :bigint
 #
 FactoryBot.define do
-  factory :donation do
-    non_profit { build(:non_profit) }
+  factory :integration_task do
+    description { 'Realize outra compra' }
+    link { 'Ganhe mais 1 vale' }
+    link_address { 'https://renner.com' }
     integration { build(:integration) }
-    user { build(:user) }
   end
 end

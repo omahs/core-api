@@ -33,7 +33,7 @@ module Donations
     end
 
     def sender_key
-      @sender_key ||= integration.new_integration_wallet&.private_key
+      @sender_key ||= integration.integration_wallet&.private_key
     end
 
     def ticket_value
@@ -61,7 +61,7 @@ module Donations
     end
 
     def donation_pool_address
-      '0x841cad54aaeAdFc9191fb14EB09232af8E20be0F'
+      chain.default_donation_pool_address
     end
   end
 end

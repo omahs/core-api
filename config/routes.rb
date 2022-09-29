@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
     namespace :v1 do
       resources :donations, only: [:index, :show]
+      resources :vouchers, only: [:show]
     end
   end
 end

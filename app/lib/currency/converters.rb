@@ -15,8 +15,7 @@ module Currency
 
     def convert
       add_rate
-      Money.from_amount(value, from)
-           .exchange_to(to)
+      Money.from_amount(value, from).exchange_to(to)
     end
 
     def add_rate

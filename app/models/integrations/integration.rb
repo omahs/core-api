@@ -11,6 +11,8 @@
 #  updated_at                     :datetime         not null
 #
 class Integration < ApplicationRecord
+  has_many :integration_tasks
+
   has_one :integration_wallet, as: :owner
 
   validates :name, :unique_address, :status, presence: true

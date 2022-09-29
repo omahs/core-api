@@ -9,4 +9,6 @@ class IntegrationBlueprint < Blueprinter::Base
   end
 
   association :integration_wallet, blueprint: IntegrationWalletBlueprint
+
+  association :integration_tasks, blueprint: IntegrationTaskBlueprint
 end

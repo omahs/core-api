@@ -18,5 +18,11 @@ FactoryBot.define do
     logo { nil }
     ticket_availability_in_minutes { nil }
     integration_wallet { build(:integration_wallet) }
+
+    trait(:with_integration_tasks) do
+      after(:create) do
+        build(:integration_task)
+      end
+    end
   end
 end

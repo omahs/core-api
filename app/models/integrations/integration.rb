@@ -17,7 +17,7 @@ class Integration < ApplicationRecord
 
   has_one :integration_wallet, as: :owner
 
-  validates :name, :unique_address, :status, presence: true
+  # validates :name, :unique_address, :status, presence: true
 
   has_many :integration_pools
   has_many :pools, through: :integration_pools

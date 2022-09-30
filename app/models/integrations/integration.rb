@@ -13,6 +13,8 @@
 class Integration < ApplicationRecord
   has_many :integration_tasks
 
+  accepts_nested_attributes_for :integration_tasks
+
   has_one :integration_wallet, as: :owner
 
   validates :name, :unique_address, :status, presence: true

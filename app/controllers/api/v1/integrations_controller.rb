@@ -31,7 +31,8 @@ module Api
       private
 
       def integration_params
-        params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo)
+        params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo,
+                      integration_tasks_attributes: %i[id description link link_address])
       end
 
       def fetch_integration_query

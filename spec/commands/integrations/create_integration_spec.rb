@@ -7,10 +7,21 @@ describe Integrations::CreateIntegration do
     subject(:command) { described_class.call(params) }
 
     context 'when all the data is valid' do
+      let(:logo) do
+        path = Rails.root.join('spec', 'factories', 'images', 'pitagoras.jpg')
+
+        upload = ActiveStorage::Blob.create_and_upload!(io: File.open(path),
+                                                        filename: 'pitagoras.jpg',
+                                                        content_type: 'image/jpg')
+
+        upload.as_json(root: false, methods: :signed_id)
+      end
+
       let(:params) do
         {
           name: 'Integration 1',
-          status: :active
+          status: :active,
+          logo: logo['signed_id']
         }
       end
 

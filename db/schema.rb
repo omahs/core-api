@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_03_133803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "badges_sashes", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "sash_id"
+    t.boolean "notified_user", default: false
+    t.datetime "created_at"
+    t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
+    t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
+    t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
   end
 
   create_table "causes", force: :cascade do |t|
@@ -150,6 +160,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.index ["integration_id"], name: "index_integration_tasks_on_integration_id"
   end
 
+  create_table "integration_webhooks", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id"], name: "index_integration_webhooks_on_integration_id"
+  end
+
   create_table "integrations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -157,6 +175,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.uuid "unique_address", default: -> { "gen_random_uuid()" }, null: false
     t.integer "ticket_availability_in_minutes"
     t.integer "status", default: 0
+  end
+
+  create_table "merit_actions", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_method"
+    t.integer "action_value"
+    t.boolean "had_errors", default: false
+    t.string "target_model"
+    t.integer "target_id"
+    t.text "target_data"
+    t.boolean "processed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["processed"], name: "index_merit_actions_on_processed"
+  end
+
+  create_table "merit_activity_logs", force: :cascade do |t|
+    t.integer "action_id"
+    t.string "related_change_type"
+    t.integer "related_change_id"
+    t.string "description"
+    t.datetime "created_at"
+  end
+
+  create_table "merit_score_points", force: :cascade do |t|
+    t.bigint "score_id"
+    t.bigint "num_points", default: 0
+    t.string "log"
+    t.datetime "created_at"
+    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
+  end
+
+  create_table "merit_scores", force: :cascade do |t|
+    t.bigint "sash_id"
+    t.string "category", default: "default"
+    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
   end
 
   create_table "mobility_string_translations", force: :cascade do |t|
@@ -284,6 +338,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.integer "default_chain_id"
   end
 
+  create_table "sashes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sources", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "integration_id"
@@ -351,6 +410,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sash_id"
+    t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -388,6 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   add_foreign_key "integration_pools", "integrations"
   add_foreign_key "integration_pools", "pools"
   add_foreign_key "integration_tasks", "integrations"
+  add_foreign_key "integration_webhooks", "integrations"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"
   add_foreign_key "non_profit_pools", "pools"

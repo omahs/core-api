@@ -23,6 +23,9 @@ class Integration < ApplicationRecord
 
   has_many :integration_pools
   has_many :pools, through: :integration_pools
+  has_many :api_keys, as: :bearer
+  has_many :donations
+  has_many :vouchers
 
   enum status: {
     inactive: 0,

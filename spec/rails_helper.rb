@@ -21,6 +21,7 @@ RSpec.configure do |config|
   config.include MatcherHelpers, type: :request
   config.include StubHelpers
   config.include TimeHelpers
+  config.include IntegrationRequestsHelpers, type: :request
 
   config.before(:each) do
     Rails.cache.clear

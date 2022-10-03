@@ -25,7 +25,7 @@ RSpec.describe Voucher, type: :model do
     it 'returns the callback url' do
       host = Rails.application.routes.default_url_options[:host]
 
-      expect(voucher.callback_url).to eq "#{host}/vouchers/external_id"
+      expect(voucher.callback_url).to eq "#{host}/integrations/v1/vouchers/external_id"
     end
   end
 end

@@ -11,9 +11,15 @@
 #  updated_at                     :datetime         not null
 #
 class Integration < ApplicationRecord
-  has_one :integration_wallet
+  has_many :integration_tasks
 
-  validates :name, :unique_address, :status, presence: true
+  accepts_nested_attributes_for :integration_tasks
+
+  has_one :integration_wallet, as: :owner
+
+  has_one_attached :logo
+
+  validates :name, :unique_address, :status, :logo, presence: true
 
   has_many :integration_pools
   has_many :pools, through: :integration_pools

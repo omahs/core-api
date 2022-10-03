@@ -64,6 +64,9 @@ Rails/UniqueValidationWithoutIndex:
 RSpec/MultipleMemoizedHelpers:
   Max: 8
 
+RSpec/NoExpectationExample:
+  Enabled: false
+
 Style/SymbolProc:
   Exclude:
     - app/blueprints/**/*

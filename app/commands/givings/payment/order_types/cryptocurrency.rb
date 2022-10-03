@@ -4,7 +4,7 @@ module Givings
   module Payment
     module OrderTypes
       class Cryptocurrency
-        attr_reader :wallet_address, :payment_method, :user, :amount, :transaction_hash
+        attr_reader :wallet_address, :payment_method, :user, :amount, :transaction_hash, :integration_id
 
         def initialize(args)
           @wallet_address   = args[:wallet_address]
@@ -12,6 +12,7 @@ module Givings
           @user             = args[:user]
           @amount           = args[:amount]
           @transaction_hash = args[:transaction_hash]
+          @integration_id   = args[:integration_id]
         end
 
         def generate_order
@@ -37,7 +38,7 @@ module Givings
         end
 
         def create_payment(person)
-          PersonPayment.create!({ person:, paid_date:,
+          PersonPayment.create!({ person:, paid_date:, integration_id:,
                                   payment_method:, amount_cents:, status: :processing })
         end
 

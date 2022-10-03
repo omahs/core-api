@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :integration_webhook do
-    integration { nil }
-    url { 'MyString' }
+    integration { build(:integration) }
+    url { 'http://localhost:3000/' }
   end
 end

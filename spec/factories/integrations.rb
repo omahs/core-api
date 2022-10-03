@@ -15,9 +15,24 @@ FactoryBot.define do
     name { 'Renner' }
     status { :active }
     unique_address { 'f7be8d80-2406-4cb0-82eb-849346d327c9' }
-    logo { nil }
     ticket_availability_in_minutes { nil }
     integration_wallet { build(:integration_wallet) }
+
+    before(:create) do |integration|
+      image_path = Rails.root.join('spec', 'factories', 'images', 'pitagoras.jpg')
+
+      integration.logo.attach(io: File.open(image_path),
+                              filename: 'pitagoras.jpg',
+                              content_type: 'image/jpg')
+    end
+
+    after(:build) do |integration|
+      image_path = Rails.root.join('spec', 'factories', 'images', 'pitagoras.jpg')
+
+      integration.logo.attach(io: File.open(image_path),
+                              filename: 'pitagoras.jpg',
+                              content_type: 'image/jpg')
+    end
 
     trait(:with_integration_tasks) do
       after(:create) do

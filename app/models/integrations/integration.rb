@@ -48,7 +48,7 @@ class Integration < ApplicationRecord
   end
 
   def webhook_url
-    integration_webhook.url
+    integration_webhook&.url
   end
 
   private

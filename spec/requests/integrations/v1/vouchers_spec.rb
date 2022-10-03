@@ -17,7 +17,8 @@ RSpec.describe 'Integrations::V1::Vouchers', type: :request do
     it 'returns the correct fields' do
       request
 
-      expect(response_json.keys).to match_array(%w[id created_at donation external_id updated_at])
+      expect(response_json.keys).to match_array(%w[id created_at donation external_id
+                                                   updated_at callback_url])
     end
   end
 end

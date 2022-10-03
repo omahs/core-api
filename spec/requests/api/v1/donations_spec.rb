@@ -14,9 +14,11 @@ RSpec.describe 'Api::V1::Donations', type: :request do
         user_id: user.id
       }
     end
+    let(:donation) { create(:donation) }
 
     before do
-      allow(Donations::Donate).to receive(:call).and_return(command_double(klass: Donations::Donate))
+      allow(Donations::Donate).to receive(:call).and_return(command_double(klass: Donations::Donate,
+                                                                           result: donation))
       allow(Integration).to receive(:find).and_return(integration)
       allow(NonProfit).to receive(:find).and_return(non_profit)
       allow(User).to receive(:find_by).and_return(user)
@@ -53,7 +55,7 @@ RSpec.describe 'Api::V1::Donations', type: :request do
     end
 
     context 'when the command is succeeded' do
-      let(:donation) { build(:donation) }
+      let(:donation) { create(:donation) }
 
       before do
         allow(Donations::Donate).to receive(:call)

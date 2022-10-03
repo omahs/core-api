@@ -3,7 +3,6 @@ module Api
     class DonationsController < ApplicationController
       def create
         command = Donations::Donate.call(integration:, non_profit:, user:)
-
         @donation = command.result
 
         if command.success?

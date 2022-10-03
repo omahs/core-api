@@ -14,4 +14,8 @@ class Voucher < ApplicationRecord
   belongs_to :donation, optional: true
 
   validates :external_id, presence: true, uniqueness: { scope: :integration_id }
+
+  def callback_url
+    URI.join(Rails.application.routes.default_url_options[:host], "/vouchers/#{external_id}").to_s
+  end
 end

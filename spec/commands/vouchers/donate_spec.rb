@@ -9,7 +9,7 @@ describe Vouchers::Donate do
     context 'when the voucher is valid' do
       let(:donation_command) { Donations::Donate.new(integration:, non_profit:, user:) }
       let(:external_id) { 'external_id' }
-      let(:integration) { build(:integration) }
+      let(:integration) { build(:integration, integration_webhook: build(:integration_webhook)) }
       let(:non_profit) { build(:non_profit) }
       let(:user) { build(:user) }
       let(:donation) { build(:donation) }

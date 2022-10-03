@@ -7,6 +7,10 @@ module Api
         render json: IntegrationBlueprint.render(@integrations)
       end
 
+      def mobility_attributes
+        render json: IntegrationTask.mobility_attributes
+      end
+
       def create
         command = Integrations::CreateIntegration.call(integration_params)
         if command.success?

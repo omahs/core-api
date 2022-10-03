@@ -49,7 +49,7 @@ RSpec.describe Request::ApiRequest do
       allow(HTTParty).to receive(:post).and_return(response_json)
     end
 
-    it 'calls httparty with get method and correct params' do
+    it 'calls httparty with post method and correct params' do
       request
 
       expect(HTTParty).to have_received(:post).with(url, body:, headers: default_headers.merge(headers))

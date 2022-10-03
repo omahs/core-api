@@ -63,8 +63,8 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
       it 'calls the CreateOrder command with right params' do
         request
         expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                             offer:, operation: :subscribe, payment_method: :credit_card, integration_id: integration.id.to_s,
-                             user: user_double }
+                             offer:, operation: :subscribe, payment_method: :credit_card,
+                             integration_id: integration.id.to_s, user: user_double }
 
         expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end
@@ -77,8 +77,8 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
       it 'calls the CreateOrder command with right params' do
         request
         expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                             offer:, operation: :purchase, payment_method: :credit_card, integration_id: integration.id.to_s,
-                             user: user_double }
+                             offer:, operation: :purchase, payment_method: :credit_card,
+                             integration_id: integration.id.to_s, user: user_double }
 
         expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end

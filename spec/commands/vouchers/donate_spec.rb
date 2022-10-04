@@ -9,7 +9,7 @@ describe Vouchers::Donate do
     context 'when the voucher is valid' do
       let(:donation_command) { Donations::Donate.new(integration:, non_profit:, user:) }
       let(:external_id) { 'external_id' }
-      let(:integration) { build(:integration) }
+      let(:integration) { build(:integration, integration_webhook: build(:integration_webhook)) }
       let(:non_profit) { build(:non_profit) }
       let(:user) { build(:user) }
       let(:donation) { build(:donation) }
@@ -17,6 +17,7 @@ describe Vouchers::Donate do
 
       before do
         allow(donation_command).to receive(:call).and_return(donation_command_double)
+        allow(Vouchers::WebhookJob).to receive(:perform_later)
       end
 
       it 'returns success' do
@@ -36,6 +37,12 @@ describe Vouchers::Donate do
         expect(voucher.external_id).to eq external_id
         expect(voucher.integration).to eq integration
         expect(voucher.donation).to eq donation
+      end
+
+      it 'calls the voucher webhook with the voucher generated' do
+        voucher = command.result
+
+        expect(Vouchers::WebhookJob).to have_received(:perform_later).with(voucher)
       end
     end
 

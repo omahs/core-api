@@ -16,7 +16,12 @@ module Vouchers
       with_exception_handle do
         if voucher.valid?
           command = call_donation_command
-          create_voucher(command.result) if command.success?
+          if command.success?
+            @voucher = create_voucher(command.result)
+            call_webhook
+          end
+
+          voucher
         else
           errors.add(:message, I18n.t('donations.invalid_voucher'))
         end
@@ -31,6 +36,10 @@ module Vouchers
 
     def create_voucher(donation)
       Voucher.create(external_id:, integration:, donation:)
+    end
+
+    def call_webhook
+      WebhookJob.perform_later(voucher) if integration.webhook_url
     end
   end
 end

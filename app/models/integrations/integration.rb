@@ -16,6 +16,7 @@ class Integration < ApplicationRecord
   accepts_nested_attributes_for :integration_tasks
 
   has_one :integration_wallet, as: :owner
+  has_one :integration_webhook
 
   has_one_attached :logo
 
@@ -44,6 +45,10 @@ class Integration < ApplicationRecord
 
   def available_everyday_at_midnight?
     ticket_availability_in_minutes.nil?
+  end
+
+  def webhook_url
+    integration_webhook&.url
   end
 
   private

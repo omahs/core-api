@@ -2,7 +2,6 @@
 Merit.setup do |config|
   config.checks_on_each_request = true
 end
-
 # Create application badges (uses https://github.com/norman/ambry)
 Rails.application.reloader.to_prepare do
   badge_id = 0
@@ -30,7 +29,16 @@ Rails.application.reloader.to_prepare do
     }
   ]
 
+  Merit::Badge.include(Merit::BadgesHelper)
   badges.each do |attrs|
     Merit::Badge.create! attrs
+    badge = Badge.find_by(id: attrs[:id])
+    unless badge
+      Badge.create(id: attrs[:id], merit_badge_id: attrs[:id],
+                    name: attrs[:name], description: attrs[:description],
+                    category: attrs[:custom_fields][:category])
+    end
+  rescue StandardError
+    nil
   end
 end

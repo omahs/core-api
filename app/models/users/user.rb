@@ -25,6 +25,10 @@ class User < ApplicationRecord
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
 
+  def badges
+    ::Badge.where(id: badge_ids)
+  end
+
   def impact
     UserServices::UserImpact.new(user: self).impact
   end

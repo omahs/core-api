@@ -11,6 +11,8 @@
 #  merit_badge_id :integer
 #
 class Badge < ApplicationRecord
+  has_one_attached :image
+
   enum category: { onboarding: 0, donation: 1 }
 
   delegate :users, to: :merit_badge

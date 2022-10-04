@@ -16,8 +16,10 @@ module Vouchers
       with_exception_handle do
         if voucher.valid?
           command = call_donation_command
-          @voucher = create_voucher(command.result) if command.success?
-          call_webhook
+          if command.success?
+            @voucher = create_voucher(command.result)
+            call_webhook
+          end
 
           voucher
         else

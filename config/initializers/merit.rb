@@ -5,6 +5,15 @@ end
 # Create application badges (uses https://github.com/norman/ambry)
 Rails.application.reloader.to_prepare do
   badge_id = 0
+  donation_badges = ::Badge::DONATION_BADGES_ENTRYPOINTS.map do |entrypoint|
+    badge_id += 1
+    {
+      id: badge_id,
+      name: "#{entrypoint}-donation",
+      description: "You donated #{entrypoint} times",
+      custom_fields: { category: 'donation' }
+    }
+  end
   badges = [
     {
       id: (badge_id += 1),
@@ -13,21 +22,11 @@ Rails.application.reloader.to_prepare do
       custom_fields: { category: 'onboarding' }
     }, {
       id: (badge_id += 1),
-      name: 'first-donation',
-      description: 'You just made your first donation!',
-      custom_fields: { category: 'donation' }
-    }, {
-      id: (badge_id += 1),
-      name: 'twenty-donations',
-      description: 'You just made your twentieth donation!',
-      custom_fields: { category: 'donation' }
-    }, {
-      id: (badge_id += 1),
       name: '10-days-streak',
       description: 'You donated 10 days in a row!',
       custom_fields: { category: 'donation' }
     }
-  ]
+  ].concat(donation_badges)
 
   Merit::Badge.include(Merit::BadgesHelper)
   badges.each do |attrs|

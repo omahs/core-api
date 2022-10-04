@@ -1,6 +1,6 @@
 module Integrations
   module V1
-    class DonationsController < Integrations::IntegrationsController
+    class DonationsController < IntegrationsController
       def index
         donations = current_integration.donations
 

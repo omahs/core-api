@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'non_profits' => "non_profits#index"
       get 'integrations' => "integrations#index"
+      get 'integrations_mobility_attributes' => "integrations#mobility_attributes"
       post 'integrations' => "integrations#create"
       get 'integrations/:id' => "integrations#show"
       put 'integrations/:id' => "integrations#update"
@@ -51,6 +52,15 @@ Rails.application.routes.draw do
       namespace :manager do
         post 'auth/request', to:'authorization#google_authorization'
       end
+    end
+  end
+
+  namespace :integrations, defaults: { format: :json } do
+    get 'check' => 'integrations#index'
+
+    namespace :v1 do
+      resources :donations, only: [:index, :show]
+      resources :vouchers, only: [:show]
     end
   end
 end

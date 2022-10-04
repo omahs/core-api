@@ -328,6 +328,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_130659) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
+    t.bigint "integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

@@ -7,5 +7,12 @@ module Request
 
       RecursiveOpenStruct.new(response)
     end
+
+    def self.post(url, body:, headers: {})
+      default_headers = { 'Content-Type' => 'application/json' }
+      response = HTTParty.post(url, body:, headers: default_headers.merge(headers))
+
+      RecursiveOpenStruct.new(response)
+    end
   end
 end

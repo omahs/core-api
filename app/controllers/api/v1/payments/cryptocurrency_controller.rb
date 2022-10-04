@@ -32,7 +32,9 @@ module Api
             email: payment_params[:email],
             payment_method: :crypto,
             user: find_or_create_user,
-            transaction_hash: payment_params[:transaction_hash]
+            wallet_address: payment_params[:wallet_address],
+            transaction_hash: payment_params[:transaction_hash],
+            integration_id: payment_params[:integration_id]
           }
         end
 
@@ -41,7 +43,7 @@ module Api
         end
 
         def payment_params
-          params.permit(:email, :amount, :transaction_hash, :status)
+          params.permit(:email, :amount, :transaction_hash, :status, :wallet_address, :integration_id)
         end
       end
     end

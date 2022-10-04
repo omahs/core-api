@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_03_174235) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_03_174403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_174235) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.text "description"
+    t.integer "category"
+    t.integer "merit_badge_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "badges_sashes", force: :cascade do |t|
@@ -319,6 +328,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_174235) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
+    t.bigint "integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

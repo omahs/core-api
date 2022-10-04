@@ -17,6 +17,8 @@ class Badge < ApplicationRecord
 
   delegate :users, to: :merit_badge
 
+  validates :merit_badge_id, :description, :category, :name, presence: true
+
   def merit_badge
     Merit::Badge.find(merit_badge_id)
   end

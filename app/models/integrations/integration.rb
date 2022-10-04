@@ -13,14 +13,19 @@
 class Integration < ApplicationRecord
   has_many :integration_tasks
 
+  accepts_nested_attributes_for :integration_tasks
+
   has_one :integration_wallet, as: :owner
 
-  validates :name, :unique_address, :status, presence: true
+  has_one_attached :logo
+
+  validates :name, :unique_address, :status, :logo, presence: true
 
   has_many :integration_pools
   has_many :pools, through: :integration_pools
-
-  has_one_attached :logo
+  has_many :api_keys, as: :bearer
+  has_many :donations
+  has_many :vouchers
 
   enum status: {
     inactive: 0,

@@ -53,4 +53,13 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :integrations, defaults: { format: :json } do
+    get 'check' => 'integrations#index'
+
+    namespace :v1 do
+      resources :donations, only: [:index, :show]
+      resources :vouchers, only: [:show]
+    end
+  end
 end

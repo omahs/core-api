@@ -1,3 +1,3 @@
 class IntegrationTaskBlueprint < Blueprinter::Base
-  fields :link, :link_address, :description
+  fields :id, :link, :link_address, :description
 end

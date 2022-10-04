@@ -16,4 +16,14 @@ class Donation < ApplicationRecord
   belongs_to :user
 
   has_one :donation_blockchain_transaction
+
+  def impact
+    "#{impact_value} #{non_profit.impact_description}"
+  end
+
+  def impact_value
+    (value / non_profit.impact_for.usd_cents_to_one_impact_unit).to_i
+  rescue StandardError
+    0
+  end
 end

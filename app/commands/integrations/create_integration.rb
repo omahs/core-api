@@ -15,6 +15,7 @@ module Integrations
       with_exception_handle do
         integration = Integration.create!(enriched_integration_params)
         integration.create_integration_wallet!(encrypted_wallet)
+        create_integration_webhook(integration) if integration_params[:webhook_url].present?
 
         integration
       end
@@ -23,7 +24,7 @@ module Integrations
     private
 
     def enriched_integration_params
-      integration_params.merge(unique_address:)
+      integration_params.merge(unique_address:).except(:webhook_url)
     end
 
     def unique_address
@@ -52,6 +53,10 @@ module Integrations
 
     def encode(text)
       Base64.strict_encode64(text)
+    end
+
+    def create_integration_webhook(integration)
+      IntegrationWebhook.create(url: integration_params[:webhook_url], integration:)
     end
   end
 end

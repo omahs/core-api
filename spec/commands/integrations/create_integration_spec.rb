@@ -21,7 +21,8 @@ describe Integrations::CreateIntegration do
         {
           name: 'Integration 1',
           status: :active,
-          logo: logo['signed_id']
+          logo: logo['signed_id'],
+          webhook_url: 'https://webhook.site/6f7f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f'
         }
       end
 
@@ -31,6 +32,11 @@ describe Integrations::CreateIntegration do
 
       it 'creates a new integration wallet' do
         expect { command }.to change(IntegrationWallet, :count).by(1)
+      end
+
+      it 'creates a new integration webhook' do
+        expect { command }.to change(IntegrationWebhook, :count).by(1)
+        
       end
     end
 

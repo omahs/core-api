@@ -36,7 +36,7 @@ describe Integrations::CreateIntegration do
 
       it 'creates a new integration webhook' do
         expect { command }.to change(IntegrationWebhook, :count).by(1)
-        
+        expect(command.result.integration_webhook.url).to eq(params[:webhook_url])
       end
     end
 

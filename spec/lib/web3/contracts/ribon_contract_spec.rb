@@ -16,8 +16,8 @@ RSpec.describe Web3::Contracts::RibonContract do
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
       allow(::Eth::Contract).to receive(:from_abi).and_return(contract)
-      allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0, max_priority_fee_per_gas: 0,
-                                        gas_limit: 0)
+      allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0,
+                                        max_priority_fee_per_gas: 0, gas_limit: 0)
     end
 
     it 'calls the transact with correct args' do
@@ -26,9 +26,9 @@ RSpec.describe Web3::Contracts::RibonContract do
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
-        .to have_received(:transact).with(contract, 'addPoolBalance',
-                                          donation_pool.address, wei_amount,
-                                          gas_limit: 0, sender_key:)
+        .to have_received(:transact).with(
+          contract, 'addPoolBalance', donation_pool.address, wei_amount, gas_limit: 0, sender_key:
+        )
     end
   end
 
@@ -40,8 +40,8 @@ RSpec.describe Web3::Contracts::RibonContract do
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
       allow(::Eth::Contract).to receive(:from_abi).and_return(contract)
-      allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0, max_priority_fee_per_gas: 0,
-                                        gas_limit: 0)
+      allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0,
+                                        max_priority_fee_per_gas: 0, gas_limit: 0)
     end
 
     it 'calls the transact with correct args' do
@@ -50,9 +50,9 @@ RSpec.describe Web3::Contracts::RibonContract do
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
-        .to have_received(:transact).with(contract, 'addIntegrationBalance',
-                                          integration_address, wei_amount,
-                                          gas_limit: 0, sender_key:)
+        .to have_received(:transact).with(
+          contract, 'addIntegrationBalance', integration_address, wei_amount, gas_limit: 0, sender_key:
+        )
     end
   end
 
@@ -81,10 +81,10 @@ RSpec.describe Web3::Contracts::RibonContract do
       keccak256_user = Web3::Utils::Converter.keccak(user)
 
       expect(client)
-        .to have_received(:transact).with(contract, 'donateThroughIntegration',
-                                          donation_pool.address, non_profit_wallet_address,
-                                          keccak256_user, wei_amount, gas_limit: 0,
-                                                                      sender_key: key_struct)
+        .to have_received(:transact).with(
+          contract, 'donateThroughIntegration', donation_pool.address, non_profit_wallet_address,
+          keccak256_user, wei_amount, gas_limit: 0, sender_key: key_struct
+        )
     end
   end
 end

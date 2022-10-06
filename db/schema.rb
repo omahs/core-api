@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_04_130659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.text "description"
+    t.integer "category"
+    t.integer "merit_badge_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "badges_sashes", force: :cascade do |t|
@@ -158,6 +167,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["integration_id"], name: "index_integration_tasks_on_integration_id"
+  end
+
+  create_table "integration_webhooks", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id"], name: "index_integration_webhooks_on_integration_id"
   end
 
   create_table "integrations", force: :cascade do |t|
@@ -311,6 +328,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
+    t.bigint "integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end
@@ -370,6 +388,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "donation_streak", default: 0
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
@@ -441,6 +460,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
   add_foreign_key "integration_pools", "integrations"
   add_foreign_key "integration_pools", "pools"
   add_foreign_key "integration_tasks", "integrations"
+  add_foreign_key "integration_webhooks", "integrations"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"
   add_foreign_key "non_profit_pools", "pools"

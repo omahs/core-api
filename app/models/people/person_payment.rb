@@ -9,6 +9,7 @@
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  integration_id :bigint
 #  offer_id       :bigint
 #  person_id      :uuid
 #
@@ -22,7 +23,7 @@ class PersonPayment < ApplicationRecord
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 
-  validates :paid_date, :status, :payment_method, presence: true
+  validates :paid_date, :status, :payment_method, :integration_id, presence: true
 
   enum status: {
     processing: 0,

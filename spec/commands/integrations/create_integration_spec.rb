@@ -7,10 +7,22 @@ describe Integrations::CreateIntegration do
     subject(:command) { described_class.call(params) }
 
     context 'when all the data is valid' do
+      let(:logo) do
+        path = Rails.root.join('spec', 'factories', 'images', 'pitagoras.jpg')
+
+        upload = ActiveStorage::Blob.create_and_upload!(io: File.open(path),
+                                                        filename: 'pitagoras.jpg',
+                                                        content_type: 'image/jpg')
+
+        upload.as_json(root: false, methods: :signed_id)
+      end
+
       let(:params) do
         {
           name: 'Integration 1',
-          status: :active
+          status: :active,
+          logo: logo['signed_id'],
+          webhook_url: 'https://webhook.site/6f7f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f'
         }
       end
 
@@ -20,6 +32,11 @@ describe Integrations::CreateIntegration do
 
       it 'creates a new integration wallet' do
         expect { command }.to change(IntegrationWallet, :count).by(1)
+      end
+
+      it 'creates a new integration webhook' do
+        expect { command }.to change(IntegrationWebhook, :count).by(1)
+        expect(command.result.integration_webhook.url).to eq(params[:webhook_url])
       end
     end
 

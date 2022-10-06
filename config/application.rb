@@ -49,7 +49,7 @@ module RibonCoreApi
     config.cache_store = :redis_cache_store, { url: RibonCoreApi.redis_url, namespace: "ribon_core_api:cache" }
     config.active_job.queue_adapter = :sidekiq
     config.time_zone = 'Brasilia'
-
+    config.active_storage.silence_invalid_content_types_warning = true
     config.api_only = true
   end
 end

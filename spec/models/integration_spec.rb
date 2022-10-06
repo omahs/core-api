@@ -81,4 +81,16 @@ RSpec.describe Integration, type: :model do
       end
     end
   end
+
+  describe '#webhook_url' do
+    let(:integration) { create(:integration) }
+
+    before do
+      create(:integration_webhook, integration:, url: 'url')
+    end
+
+    it 'returns the integration_webhook url' do
+      expect(integration.webhook_url).to eq 'url'
+    end
+  end
 end

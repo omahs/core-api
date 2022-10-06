@@ -58,14 +58,14 @@ RSpec.describe Web3::Contracts::RibonContract do
 
   describe '#donate_through_integration' do
     subject(:method_call) do
-      described_class.new(chain:).donate_through_integration(donation_pool:, amount:, user:,
-                                                             non_profit_wallet_address:, sender_key:)
+      described_class.new(chain:).donate_through_integration(
+        donation_pool:, amount:, user:, non_profit_wallet_address:, sender_key:
+      )
     end
 
     let(:non_profit_wallet_address) { build(:non_profit).wallet_address }
     let(:sender_key) { RibonCoreApi.config[:web3][:wallets][:ribon_wallet_private_key] }
     let(:key_struct) { OpenStruct.new({ private_key: sender_key }) }
-    let(:donation_pool) { build(:pool) }
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)

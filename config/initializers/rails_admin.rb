@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
                             Donation, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, DonationBlockchainTransaction, Chain,
                             Cause, Story, IntegrationPool, NonProfitPool, IntegrationTask,
-                            Voucher, IntegrationWebhook]
+                            Voucher, IntegrationWebhook, Token, Pool]
 
   config.model RibonConfig do
     field :default_ticket_value do

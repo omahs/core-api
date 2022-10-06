@@ -51,4 +51,27 @@ RSpec.describe Chain, type: :model do
       expect(fee_instance).to have_received(:estimate_fee)
     end
   end
+
+  describe '#default_pool' do
+    let(:chain) { create(:chain, default_donation_pool_address:) }
+    let(:token) { create(:token, chain:) }
+    let!(:pool1) { create(:pool, token:, address: '0xP001') }
+    let!(:pool2) { create(:pool, token:, address: '0xP002') }
+
+    context 'when there is a default_donation_pool_address' do
+      let(:default_donation_pool_address) { '0xP002' }
+
+      it 'returns the pool with that address' do
+        expect(chain.default_donation_pool).to eq(pool2)
+      end
+    end
+
+    context 'when there is no default_donation_pool_address' do
+      let(:default_donation_pool_address) { '0x0' }
+
+      it 'returns the first pool' do
+        expect(chain.default_donation_pool).to eq(pool1)
+      end
+    end
+  end
 end

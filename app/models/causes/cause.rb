@@ -8,6 +8,10 @@
 #  updated_at :datetime         not null
 #
 class Cause < ApplicationRecord
+  extend Mobility
+
+  translates :name, type: :string
+
   has_many :non_profits
 
   validates :name, presence: true

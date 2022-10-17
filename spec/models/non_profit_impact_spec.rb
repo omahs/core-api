@@ -19,7 +19,6 @@ RSpec.describe NonProfitImpact, type: :model do
     it { is_expected.to belong_to(:non_profit) }
     it { is_expected.to validate_presence_of(:usd_cents_to_one_impact_unit) }
     it { is_expected.to validate_presence_of(:start_date) }
-    it { is_expected.to validate_presence_of(:end_date) }
   end
 
   describe '#impact_by_ticket' do

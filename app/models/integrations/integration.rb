@@ -11,17 +11,15 @@
 #  updated_at                     :datetime         not null
 #
 class Integration < ApplicationRecord
-  
   has_one :integration_wallet, as: :owner
   has_one :integration_task
   has_one :integration_webhook
-  
+
   has_one_attached :logo
 
   accepts_nested_attributes_for :integration_task
-  attr_accessor :webhook_url
-  
-  validates :name, :unique_address, :status, :logo, presence: true
+
+  validates :name, :unique_address, :status, presence: true
 
   has_many :integration_pools
   has_many :pools, through: :integration_pools

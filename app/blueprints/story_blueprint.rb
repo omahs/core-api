@@ -3,7 +3,7 @@ class StoryBlueprint < Blueprinter::Base
 
   fields :updated_at, :created_at, :title, :description
 
-  association :non_profit, blueprint: NonProfitBlueprint
+  association :non_profit, blueprint: NonProfitBlueprint, view: :minimal
 
   field(:image) do |object|
     ImagesHelper.image_url_for(object.image)

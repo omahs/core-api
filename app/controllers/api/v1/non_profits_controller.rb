@@ -4,7 +4,7 @@ module Api
       def index
         @non_profits = NonProfit.where(status: :active)
 
-        render json: NonProfitBlueprint.render(@non_profits, view: :extended)
+        render json: NonProfitBlueprint.render(@non_profits)
       end
 
       def stories

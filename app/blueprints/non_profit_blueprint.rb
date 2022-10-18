@@ -26,7 +26,7 @@ class NonProfitBlueprint < Blueprinter::Base
   end
 
   view :minimal do
-    excludes :created_at, :updated_at, :wallet_address, :impact_description, :logo, :main_image,
+    excludes :created_at, :updated_at, :wallet_address, :impact_description, :main_image,
              :background_image, :cover_image, :impact_by_ticket
   end
 end

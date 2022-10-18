@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'non_profits' => "non_profits#index"
+      get 'non_profits/:id/stories' => "non_profits#stories"
       get 'integrations' => "integrations#index"
       get 'integrations_mobility_attributes' => "integrations#mobility_attributes"
       post 'integrations' => "integrations#create"

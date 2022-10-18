@@ -24,9 +24,4 @@ class NonProfitBlueprint < Blueprinter::Base
   field(:impact_by_ticket) do |object|
     object.impact_by_ticket
   end
-
-  view :minimal do
-    excludes :created_at, :updated_at, :wallet_address, :impact_description, :main_image,
-             :background_image, :cover_image, :impact_by_ticket
-  end
 end

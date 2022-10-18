@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_03_174403) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_194127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -361,6 +361,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_174403) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "utms", force: :cascade do |t|
+    t.string "source"
+    t.string "medium"
+    t.string "campaign"
+    t.string "trackable_type"
+    t.bigint "trackable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trackable_type", "trackable_id"], name: "index_utms_on_trackable"
   end
 
   create_table "vouchers", force: :cascade do |t|

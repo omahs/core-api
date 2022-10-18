@@ -34,7 +34,7 @@ FactoryBot.define do
                               content_type: 'image/jpg')
     end
 
-    trait(:with_integration_tasks) do
+    trait(:with_integration_task) do
       after(:create) do
         build(:integration_task)
       end

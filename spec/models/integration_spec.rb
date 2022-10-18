@@ -26,7 +26,7 @@ RSpec.describe Integration, type: :model do
 
     it { is_expected.to have_many(:pools) }
     it { is_expected.to have_many(:integration_pools) }
-    it { is_expected.to have_many(:integration_tasks) }
+    it { is_expected.to have_one(:integration_task) }
     it { is_expected.to have_one(:integration_wallet) }
   end
 

@@ -1,4 +1,4 @@
 class UserImpactBlueprint < Blueprinter::Base
   fields :impact
-  association :non_profit, blueprint: NonProfitBlueprint
+  association :non_profit, blueprint: NonProfitBlueprint, view: :extended
 end

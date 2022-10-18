@@ -50,8 +50,7 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
     it 'returns a list of stories' do
       request
 
-      expect_response_collection_to_have_keys(%w[created_at id updated_at image title description
-                                                 non_profit])
+      expect_response_collection_to_have_keys(%w[id image title description])
     end
 
     it 'returns 2 stories' do

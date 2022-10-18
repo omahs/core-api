@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post 'integrations' => "integrations#create"
       get 'integrations/:id' => "integrations#show"
       put 'integrations/:id' => "integrations#update"
+      get 'person_payments' => "person_payments#index"
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"

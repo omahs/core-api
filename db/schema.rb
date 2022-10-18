@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_201805) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -246,6 +246,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_144041) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
+    t.string "external_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

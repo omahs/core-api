@@ -44,7 +44,7 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
     let(:non_profit) { create(:non_profit) }
 
     before do
-      create_list(:story, 2, non_profit: non_profit)
+      create_list(:story, 2, non_profit:)
     end
 
     it 'returns a list of stories' do

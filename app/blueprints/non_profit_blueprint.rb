@@ -11,19 +11,19 @@ class NonProfitBlueprint < Blueprinter::Base
 
   view :extended do
     fields :updated_at, :created_at, :wallet_address, :impact_description
-  
+
     field(:main_image) do |object|
       ImagesHelper.image_url_for(object.main_image)
     end
-  
+
     field(:background_image) do |object|
       ImagesHelper.image_url_for(object.background_image)
     end
-  
+
     field(:cover_image) do |object|
       ImagesHelper.image_url_for(object.cover_image)
     end
-  
+
     field(:impact_by_ticket) do |object|
       object.impact_by_ticket
     end

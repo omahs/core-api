@@ -31,6 +31,10 @@ module Payment
           Billing::Subscription.cancel(subscription:)
         end
 
+        def refund(payment)
+          Billing::Refund.create(stripe_charge_id: payment.external_id)
+        end
+
         private
 
         def setup_customer(order)

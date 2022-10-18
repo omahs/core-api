@@ -16,15 +16,19 @@ module Api
 
         private
 
-        def order_params
+        def order_param
           {
-            card:,
-            email: payment_params[:email],
-            offer:,
-            operation:,
+            card: CreditCard.new(cvv: '411',
+              number: '4111111111111111',
+              name: 'User Test',
+              expiration_month: '08',
+              expiration_year: '22'),
+            email: 'user@gmail.com',
+            offer: Offer.last,
+            operation: :purchase,
             payment_method: :credit_card,
-            tax_id: payment_params[:tax_id],
-            user: find_or_create_user
+            tax_id: '123456789',
+            user: User.last
           }
         end
 

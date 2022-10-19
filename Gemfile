@@ -60,6 +60,8 @@ gem 'aws-sdk-s3', require: false
 
 gem 'web3-eth'
 
+gem 'kaminari'
+
 # HTTP requests
 gem 'httparty'
 

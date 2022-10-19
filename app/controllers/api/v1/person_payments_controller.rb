@@ -4,12 +4,16 @@ module Api
       def index
         sortable = params[:sort].present? ? "#{params[:sort]} #{sort_direction}" : 'created_at desc'
 
-        @person_payments = PersonPayment.order(sortable).page(@page).per(@per)
+        @person_payments = order_person_payments(sort: sortable, page:, per:)
 
         render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
       end
 
       private
+
+      def order_person_payments(sort:, page:, per:)
+        PersonPayment.order(sort).page(page).per(per)
+      end
 
       def sort_direction
         %w[asc desc].include?(params[:sort_dir]) ? params[:sort_dir] : 'asc'

@@ -32,7 +32,7 @@ module Payment
         end
 
         def refund(payment)
-          Billing::Refund.create(stripe_charge_id: payment.external_id)
+          Billing::Refund.create(stripe_payment_intent: payment.external_id)
         end
 
         private

@@ -16,18 +16,18 @@ module Api
 
         private
 
-        def order_param
+        def order_params
           {
             card: CreditCard.new(cvv: '411',
-              number: '4111111111111111',
-              name: 'User Test',
-              expiration_month: '08',
-              expiration_year: '22'),
-            email: 'user@gmail.com',
+                                 number: '4111111111111111',
+                                 name: 'User Test',
+                                 expiration_month: '08',
+                                 expiration_year: '22'),
+            email: 'user@test.com',
             offer: Offer.last,
             operation: :purchase,
             payment_method: :credit_card,
-            tax_id: '123456789',
+            tax_id: '111.111.111-11',
             user: User.last
           }
         end
@@ -48,6 +48,16 @@ module Api
           return :subscribe if offer.subscription?
 
           :purchase
+        end
+
+        def refund
+          command = ::Givings::Payment::CreateCreditCardRefund.call(:stripe_payment_intent)
+
+          if command.success?
+            head :created
+          else
+            render_errors(command.errors)
+          end
         end
 
         def payment_params

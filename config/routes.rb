@@ -42,6 +42,8 @@ Rails.application.routes.draw do
         post 'credit_cards'   => 'credit_cards#create'
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
+        post 'credit_cards_refund' => 'credit_cards#refund'
+  
       end
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do

@@ -9,7 +9,11 @@
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+<<<<<<< HEAD
 #  external_id    :string
+=======
+#  integration_id :bigint
+>>>>>>> develop
 #  offer_id       :bigint
 #  person_id      :uuid
 #
@@ -23,7 +27,7 @@ class PersonPayment < ApplicationRecord
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 
-  validates :paid_date, :status, :payment_method, presence: true
+  validates :paid_date, :status, :payment_method, :integration_id, presence: true
 
   enum status: {
     processing: 0,
@@ -41,7 +45,7 @@ class PersonPayment < ApplicationRecord
     amount_with_fees = amount - service_fees
     return amount_with_fees if currency == :usd
 
-    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).to_f
+    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).round.to_f
   end
 
   def amount

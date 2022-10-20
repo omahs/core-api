@@ -27,8 +27,9 @@ module Api
             offer: Offer.last,
             operation: :purchase,
             payment_method: :credit_card,
-            tax_id: '111.111.111-11',
-            user: User.last
+            tax_id: payment_params[:tax_id],
+            user: find_or_create_user,
+            integration_id: payment_params[:integration_id]
           }
         end
 
@@ -61,7 +62,7 @@ module Api
         end
 
         def payment_params
-          params.permit(:email, :tax_id, :offer_id, :country, :city, :state,
+          params.permit(:email, :tax_id, :offer_id, :country, :city, :state, :integration_id,
                         card: %i[cvv number name expiration_month expiration_year])
         end
       end

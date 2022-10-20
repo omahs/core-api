@@ -7,9 +7,12 @@ module Api
         render json: IntegrationBlueprint.render(@integrations)
       end
 
+      def mobility_attributes
+        render json: IntegrationTask.mobility_attributes
+      end
+
       def create
         command = Integrations::CreateIntegration.call(integration_params)
-
         if command.success?
           render json: IntegrationBlueprint.render(command.result), status: :created
         else
@@ -26,14 +29,14 @@ module Api
       def update
         @integration = Integration.find integration_params[:id]
         @integration.update(integration_params)
-
         render json: IntegrationBlueprint.render(@integration)
       end
 
       private
 
       def integration_params
-        params.permit(:name, :status, :id, :ticket_availability_in_minutes)
+        params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo, :webhook_url,
+                      integration_task_attributes: %i[id description link link_address])
       end
 
       def fetch_integration_query

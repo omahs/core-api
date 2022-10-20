@@ -13,6 +13,7 @@ module Givings
 
       def call
         order = klass.generate_order
+
         payment_process_result = klass.process_payment(order)
 
         success_callback(order, payment_process_result)

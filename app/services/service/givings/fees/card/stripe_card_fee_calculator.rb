@@ -15,7 +15,7 @@ module Service
           def calculate_fee
             Currency::Rates.new(from: :brl, to: currency).add_rate unless currency == :brl
 
-            (value * STRIPE_PERCENTAGE_FEE) + stripe_fixed_fee
+            ((value * STRIPE_PERCENTAGE_FEE) + stripe_fixed_fee).round
           end
 
           private

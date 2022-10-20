@@ -4,7 +4,7 @@ module Givings
   module Payment
     module OrderTypes
       class CreditCard
-        attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation
+        attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation, :integration_id
 
         def initialize(args)
           @card           = args[:card]
@@ -14,6 +14,7 @@ module Givings
           @payment_method = args[:payment_method]
           @user           = args[:user]
           @operation      = args[:operation]
+          @integration_id = args[:integration_id]
         end
 
         def generate_order
@@ -35,7 +36,7 @@ module Givings
         end
 
         def create_payment(person)
-          PersonPayment.create!({ person:, offer:, paid_date:,
+          PersonPayment.create!({ person:, offer:, paid_date:, integration_id:,
                                   payment_method:, amount_cents:, status: :processing })
         end
 

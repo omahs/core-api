@@ -1,6 +1,7 @@
 en:
   donations:
     blocked_message: "Unable to donate now. Wait for your next donation."
+    invalid_voucher: "Invalid voucher."
   sources:
     has_source_message: "Source already created."
   manager:

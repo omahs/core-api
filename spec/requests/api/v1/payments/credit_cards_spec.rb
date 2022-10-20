@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
+  let(:offer) { create(:offer) }
+  let(:integration) { create(:integration) }
   let(:params) do
     { email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id,
-      country: 'Brazil', city: 'Brasilia', state: 'DF',
+      country: 'Brazil', city: 'Brasilia', state: 'DF', integration_id: integration.id,
       card: { cvv: 555, number: '4222 2222 2222 2222', name: 'User Test',
               expiration_month: '05', expiration_year: '25' } }
   end
   let(:create_order_command_double) do
     command_double(klass: ::Givings::Payment::CreateOrder)
   end
-  let(:offer) { create(:offer) }
+
   let(:credit_card_double) do
     CreditCard.new(cvv: params[:card][:cvv], number: params[:card][:number], name: params[:card][:name],
                    expiration_month: params[:card][:expiration_month],
@@ -56,12 +58,13 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
 
     context 'when the offer is a subscription' do
       let(:offer) { create(:offer, subscription: true) }
+      let(:integration) { create(:integration) }
 
       it 'calls the CreateOrder command with right params' do
         request
         expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
                              offer:, operation: :subscribe, payment_method: :credit_card,
-                             user: user_double }
+                             integration_id: integration.id.to_s, user: user_double }
 
         expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end
@@ -69,12 +72,13 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
 
     context 'when the offer is a purchase' do
       let(:offer) { create(:offer, subscription: false) }
+      let(:integration) { create(:integration) }
 
       it 'calls the CreateOrder command with right params' do
         request
         expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
                              offer:, operation: :purchase, payment_method: :credit_card,
-                             user: user_double }
+                             integration_id: integration.id.to_s, user: user_double }
 
         expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)
       end

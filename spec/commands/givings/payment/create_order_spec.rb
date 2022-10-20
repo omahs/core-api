@@ -15,10 +15,10 @@ describe Givings::Payment::CreateOrder do
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
+      let(:integration) { create(:integration) }
       let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
-
       let(:args) do
-        { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
+        { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
           payment_method: :credit_card, user: customer.user, operation: :subscribe }
       end
 

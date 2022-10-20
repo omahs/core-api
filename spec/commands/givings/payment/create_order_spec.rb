@@ -10,7 +10,7 @@ describe Givings::Payment::CreateOrder do
 
     let(:person) { create(:person) }
 
-    context 'when using a CreditCard payment' do
+    context 'when using a CreditCard payment and subscribe' do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
@@ -67,6 +67,12 @@ describe Givings::Payment::CreateOrder do
               offer_id: person_payment.offer.id, person_id: person_payment.person.id,
               status: person_payment.status, payment_method: person_payment.payment_method
             ))
+        end
+
+        it 'update payment_person' do
+          Service::Givings::Payment::Orchestrator.new(payload: :args)
+          byebug
+          expect(person_payment.external_id).not_to be_nil
         end
       end
     end

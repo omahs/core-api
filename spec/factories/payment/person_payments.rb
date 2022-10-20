@@ -6,5 +6,6 @@ FactoryBot.define do
     integration_id { 1 }
     association :person, factory: :person
     offer { build(:offer) }
+    external_id { nil }
   end
 end

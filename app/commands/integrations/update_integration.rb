@@ -36,7 +36,7 @@ module Integrations
     end
 
     def update_integration_webhook(integration)
-      IntegrationWebhook.where(integration:).last.update(url: integration_params[:webhook_url])
+      integration.integration_webhook.update(url: integration_params[:webhook_url])
     end
   end
 end

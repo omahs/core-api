@@ -70,9 +70,10 @@ describe Givings::Payment::CreateOrder do
         end
 
         it 'update payment_person' do
-          Service::Givings::Payment::Orchestrator.new(payload: :args)
-          byebug
-          expect(person_payment.external_id).not_to be_nil
+          order = command
+          person_payment = PersonPayment.where(offer:).last
+          expect(person_payment.external_id).to eq(order.result[:external_id])
+          expect(person_payment.status).to eq("paid")
         end
       end
     end

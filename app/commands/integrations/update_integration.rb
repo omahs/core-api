@@ -3,7 +3,6 @@
 module Integrations
   class UpdateIntegration < ApplicationCommand
     prepend SimpleCommand
-    include Web3
 
     attr_reader :integration_params
 
@@ -16,10 +15,10 @@ module Integrations
         integration = Integration.find integration_params[:id]
         integration.update(update_integration_params)
         if integration_params[:webhook_url].present?
-          if !integration.webhook_url
-            create_integration_webhook(integration)
-          else
+          if integration.webhook_url
             update_integration_webhook(integration)
+          else
+            create_integration_webhook(integration)
           end
         end
         integration

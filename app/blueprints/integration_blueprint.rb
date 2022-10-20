@@ -10,5 +10,5 @@ class IntegrationBlueprint < Blueprinter::Base
 
   association :integration_wallet, blueprint: IntegrationWalletBlueprint
 
-  association :integration_tasks, blueprint: IntegrationTaskBlueprint
+  association :integration_task, blueprint: IntegrationTaskBlueprint
 end

@@ -9,11 +9,8 @@
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-<<<<<<< HEAD
 #  external_id    :string
-=======
 #  integration_id :bigint
->>>>>>> develop
 #  offer_id       :bigint
 #  person_id      :uuid
 #

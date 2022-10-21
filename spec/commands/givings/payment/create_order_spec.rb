@@ -70,7 +70,7 @@ describe Givings::Payment::CreateOrder do
         end
 
         it 'update the status of payment_person' do
-          order = command
+          command
           person_payment = PersonPayment.where(offer:).last
           expect(person_payment.status).to eq('paid')
         end

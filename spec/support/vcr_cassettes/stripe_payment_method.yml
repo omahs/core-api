@@ -614,6 +614,123 @@ http_interactions:
         }
   recorded_at: Wed, 13 Jul 2022 13:38:04 GMT
 - request:
+    method: post
+    uri: https://api.stripe.com/v1/payment_intents
+    body:
+      encoding: UTF-8
+      string: customer=cus_M3C9p6XNMXtIzN&items[0][price]=price_1JYGkdJuOnwQq9Qx68T4Re34
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/6.3.0
+      Authorization:
+      - Bearer sk_test_51JRgaRJuOnwQq9Qxy7krZHxhvBXkNnydWiXQ89CNg94TxASNpOondjVSf6Qh2ooM8lA35KsIjy1aX2KGQas9fgJd00vNPkFAx0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_1pzHCRtpTpKltr","request_duration_ms":1243}}'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"6.3.0","lang":"ruby","lang_version":"3.1.2 p20 (2022-04-12)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 5.13.0-52-generic (buildd@lcy02-amd64-067) (gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1)
+        9.4.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #59~20.04.1-Ubuntu SMP Thu Jun
+        16 21:21:28 UTC 2022","hostname":"nicknish-machine"}'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 13 Jul 2022 13:38:04 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3830'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 7dcd884b-2bc1-44d1-894c-d348d93f8088
+      Original-Request:
+      - req_zrgSE1slE2EGm1
+      Request-Id:
+      - req_zrgSE1slE2EGm1
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "pi_1DseH42eZvKYlo2C5UQDyYph",
+          "object": "payment_intent",
+          "amount": 2000,
+          "amount_capturable": 0,
+          "amount_details": {
+            "tip": {}
+          },
+          "amount_received": 0,
+          "application": null,
+          "application_fee_amount": null,
+          "automatic_payment_methods": null,
+          "canceled_at": null,
+          "cancellation_reason": null,
+          "capture_method": "automatic",
+          "charges": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "url": "/v1/charges?payment_intent=pi_1DseH42eZvKYlo2C5UQDyYph"
+          },
+          "client_secret": "pi_1DseH42eZvKYlo2C5UQDyYph_secret_gowsU3j2SgDfFECrHNzE8UtGK",
+          "confirmation_method": "automatic",
+          "created": 1547506278,
+          "currency": "usd",
+          "customer": null,
+          "description": null,
+          "invoice": null,
+          "last_payment_error": null,
+          "livemode": false,
+          "metadata": {},
+          "next_action": null,
+          "on_behalf_of": null,
+          "payment_method": null,
+          "payment_method_options": {},
+          "payment_method_types": [
+            "card"
+          ],
+          "processing": null,
+          "receipt_email": null,
+          "redaction": null,
+          "review": null,
+          "setup_future_usage": null,
+          "shipping": null,
+          "statement_descriptor": null,
+          "statement_descriptor_suffix": null,
+          "status": "requires_payment_method",
+          "transfer_data": null,
+          "transfer_group": null
+        }
+  recorded_at: Wed, 13 Jul 2022 13:38:04 GMT
+- request:
     method: get
     uri: http://economia.awesomeapi.com.br/json/last/brl-usd
     body:

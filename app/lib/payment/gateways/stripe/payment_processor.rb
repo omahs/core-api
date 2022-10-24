@@ -6,12 +6,12 @@ module Payment
 
         def purchase(order)
           setup_customer(order)
-          Billing::UniquePayment.create(stripe_customer:,
-                                        stripe_payment_method:, offer: order&.offer)
-
+          payment = Billing::UniquePayment.create(stripe_customer:,
+                                                  stripe_payment_method:, offer: order&.offer)
           {
             external_customer_id: stripe_customer.id,
-            external_payment_method_id: stripe_payment_method.id
+            external_payment_method_id: stripe_payment_method.id,
+            external_id: payment&.id
           }
         end
 

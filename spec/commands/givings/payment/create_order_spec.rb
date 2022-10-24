@@ -69,11 +69,78 @@ describe Givings::Payment::CreateOrder do
             ))
         end
 
-        it 'update payment_person' do
+        it 'update the status of payment_person' do
+          command
+          person_payment = PersonPayment.where(offer:).last
+          expect(person_payment.status).to eq('paid')
+        end
+      end
+    end
+
+    context 'when using a CreditCard payment and purchase' do
+      let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
+      let(:customer) { build(:customer, person:, user: create(:user)) }
+      let(:card) { build(:credit_card) }
+      let(:offer) { create(:offer) }
+      let(:integration) { create(:integration) }
+      let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
+      let(:args) do
+        { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
+          payment_method: :credit_card, user: customer.user, operation: :purchase }
+      end
+
+      context 'when there is no customer associated with the user' do
+        it 'creates a new customer to the user' do
+          expect { command }.to change(Customer, :count).by(1)
+        end
+      end
+
+      it 'creates a PersonPayment' do
+        expect { command }.to change(PersonPayment, :count).by(1)
+      end
+
+      it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new)
+        allow(Person).to receive(:create!).and_return(person)
+        allow(Customer).to receive(:create!).and_return(customer)
+        allow(PersonPayment).to receive(:create!).and_return(person_payment)
+        command
+
+        expect(Service::Givings::Payment::Orchestrator)
+          .to have_received(:new).with(payload: an_object_containing(
+            payment_method: 'credit_card', payment: person_payment,
+            status: :paid, card:, offer:, person:
+          ))
+      end
+
+      it 'calls Service::Givings::Payment::Orchestrator process' do
+        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+        command
+
+        expect(orchestrator_double).to have_received(:call)
+      end
+
+      context 'when the payment is sucessfull' do
+        it 'calls the success callback' do
+          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+          allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+          command
+
+          expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
+            .with(amount: person_payment.crypto_amount, payment: an_object_containing(
+              id: person_payment.id, amount_cents: person_payment.amount_cents,
+              offer_id: person_payment.offer.id, person_id: person_payment.person.id,
+              status: person_payment.status, payment_method: person_payment.payment_method
+            ))
+        end
+
+        it 'update the status and external_id of payment_person' do
           order = command
           person_payment = PersonPayment.where(offer:).last
           expect(person_payment.external_id).to eq(order.result[:external_id])
-          expect(person_payment.status).to eq("paid")
+          expect(person_payment.status).to eq('paid')
         end
       end
     end

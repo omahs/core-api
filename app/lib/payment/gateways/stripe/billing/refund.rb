@@ -3,9 +3,9 @@ module Payment
     module Stripe
       module Billing
         class Refund
-          def self.create(stripe_payment_intent:)
+          def self.create(external_id:)
             ::Stripe::Refund.create({
-                                      payment_intent: stripe_payment_intent
+                                      payment_intent: external_id
                                     })
           end
         end

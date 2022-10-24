@@ -14,6 +14,16 @@ module Api
           end
         end
 
+        def refund
+          command = ::Givings::Payment::CreditCardRefund.call(external_id: params[:external_id])
+
+          if command.success?
+            head :created
+          else
+            render_errors(command.errors)
+          end
+        end
+
         private
 
         def order_params
@@ -45,16 +55,6 @@ module Api
           return :subscribe if offer.subscription?
 
           :purchase
-        end
-
-        def refund
-          command = ::Givings::Payment::CreateCreditCardRefund.call(:stripe_payment_intent)
-
-          if command.success?
-            head :created
-          else
-            render_errors(command.errors)
-          end
         end
 
         def payment_params

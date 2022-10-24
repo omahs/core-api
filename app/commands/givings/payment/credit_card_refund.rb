@@ -2,19 +2,18 @@
 
 module Givings
   module Payment
-    class CreateCreditCardRefund < ApplicationCommand
-      attr_reader :stripe_payment_intent
-
+    class CreditCardRefund < ApplicationCommand
       prepend SimpleCommand
 
+      attr_reader :external_id
+
       def initialize(args)
-        @stripe_payment_intent = args[:stripe_payment_intent]
+        @external_id = args[:external_id]
       end
 
       def call
         payment = find_person_payment
-        refund = Payment::Gateways::Stripe::Billing::Refund.create(stripe_payment_intent: payment.external_id)
-
+        refund = Service::Givings::Payment::Orchestrator.new(payload: refund_params).call if payment&.external_id?
         success_refund(refund)
       rescue StandardError => e
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
@@ -28,7 +27,11 @@ module Givings
       end
 
       def find_person_payment
-        PersonPayment.find_by({ external_id: @stripe_payment_intent })
+        PersonPayment.find_by({ external_id: })
+      end
+
+      def refund_params
+        Refund.from(external_id, 'stripe', 'refund')
       end
     end
   end

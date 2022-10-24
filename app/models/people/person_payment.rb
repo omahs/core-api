@@ -10,7 +10,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  external_id    :string
-#  integration_id :bigint
+#  integration_id :string
 #  offer_id       :bigint
 #  person_id      :uuid
 #

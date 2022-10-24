@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
     it 'returns a list of person_payments' do
       request
 
-      expect_response_collection_to_have_keys(%w[amount_cents crypto_amount id
+      expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                  offer page paid_date payment_method
                                                  person status total_items total_pages])
     end

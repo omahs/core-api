@@ -4,7 +4,7 @@ module Api
       def index
         @causes = Cause.all
 
-        render json: @causes
+        render json: CauseBlueprint.render(@causes)
       end
     end
   end

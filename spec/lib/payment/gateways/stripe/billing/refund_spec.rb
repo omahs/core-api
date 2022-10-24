@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Payment::Gateways::Stripe::Billing::Refund do
   describe '#create' do
-    subject(:method_call) { described_class.create(stripe_payment_intent:) }
+    subject(:method_call) { described_class.create(external_id:) }
 
-    let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
+    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:) }
+    let(:offer) { create(:offer, price_cents: 100, subscription: false) }
 
-    let(:stripe_payment_intent) {  'pi_123' } 
+    let(:external_id) { 'pi_123' }
 
     before do
       allow(::Stripe::Refund).to receive(:create)
@@ -17,7 +18,7 @@ RSpec.describe Payment::Gateways::Stripe::Billing::Refund do
 
       expect(::Stripe::Refund)
         .to have_received(:create)
-        .with({ payment_intent: 'pi_123' })
+        .with({ payment_intent: payment.external_id })
     end
   end
 end

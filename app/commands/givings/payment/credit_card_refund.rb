@@ -14,7 +14,7 @@ module Givings
       def call
         payment = find_person_payment
         refund = Service::Givings::Payment::Orchestrator.new(payload: refund_params).call if payment&.external_id?
-        success_refund(refund)
+        success_refund(payment, refund)
       rescue StandardError => e
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:message, e.message)
@@ -22,8 +22,8 @@ module Givings
 
       private
 
-      def success_refund(payment)
-        payment.update(status: :refunded)
+      def success_refund(payment, refund)
+        payment.update(status: :refunded) if refund[:status] == 'succeeded'
       end
 
       def find_person_payment

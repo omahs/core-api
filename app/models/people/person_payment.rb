@@ -10,7 +10,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  external_id    :string
-#  integration_id :string
+#  integration_id :bigint
 #  offer_id       :bigint
 #  person_id      :uuid
 #
@@ -29,7 +29,8 @@ class PersonPayment < ApplicationRecord
   enum status: {
     processing: 0,
     paid: 1,
-    failed: 2
+    failed: 2,
+    refunded: 3
   }
 
   enum payment_method: {

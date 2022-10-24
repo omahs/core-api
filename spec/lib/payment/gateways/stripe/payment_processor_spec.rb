@@ -60,6 +60,29 @@ RSpec.describe Payment::Gateways::Stripe::PaymentProcessor do
     end
   end
 
+  describe '#refund' do
+    let(:operation) { :refund }
+    let(:gateway) { :stripe }
+
+    let(:payload) { Refund.from(payment.external_id, gateway, operation) }
+    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:) }
+    let(:offer) { create(:offer, price_cents: 100, subscription: false) }
+
+    before do
+      allow(::Stripe::Refund)
+        .to receive(:create)
+    end
+
+    it 'calls Stripe::Refund api' do
+      payment_processor_call
+
+      expect(Stripe::Refund)
+        .to have_received(:create).with({
+                                          payment_intent: payment.external_id
+                                        })
+    end
+  end
+
   describe '#unsubscribe' do
     let(:operation) { :unsubscribe }
 

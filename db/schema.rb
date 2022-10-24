@@ -364,6 +364,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_141936) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "utms", force: :cascade do |t|
+    t.string "source"
+    t.string "medium"
+    t.string "campaign"
+    t.string "trackable_type"
+    t.bigint "trackable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trackable_type", "trackable_id"], name: "index_utms_on_trackable"
+  end
+
   create_table "vouchers", force: :cascade do |t|
     t.string "external_id"
     t.bigint "integration_id", null: false

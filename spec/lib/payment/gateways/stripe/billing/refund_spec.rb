@@ -4,7 +4,7 @@ RSpec.describe Payment::Gateways::Stripe::Billing::Refund do
   describe '#create' do
     subject(:method_call) { described_class.create(external_id:) }
 
-    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:) }
+    let(:payment) { build(:person_payment, payment_method: :credit_card, offer:, external_id: 'pi_123') }
     let(:offer) { create(:offer, price_cents: 100, subscription: false) }
 
     let(:external_id) { 'pi_123' }

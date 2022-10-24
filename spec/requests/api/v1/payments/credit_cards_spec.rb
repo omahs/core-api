@@ -29,19 +29,22 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
     allow(User).to receive(:find_or_create_by).and_return(user_double)
   end
 
-  describe 'POST /credit_card_refund' do
-    subject(:post_credit_card_refund) { post '/credit_card_refund', params: }
+  describe 'POST /credit_cards_refund' do
+    subject(:request) { post '/api/v1/payments/credit_cards_refund', params: external_id }
 
-    context 'when the command is successful' do
-      let(:create_credit_card_refund_command) do
-        command(klass: ::Givings::Payment::CreateCreditCardRefund, success: true)
-      end
+    let(:external_id) do
+      { external_id: 'pi_123' }
+    end
 
-      it 'returns http status created' do
-        request
+    before do
+      mock_command(klass: Givings::Payment::CreditCardRefund, result: true)
+      request
+    end
 
-        expect(response).to have_http_status :created
-      end
+    it 'returns http status created' do
+      request
+
+      expect(response).to have_http_status :created
     end
   end
 
@@ -87,13 +90,13 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
     end
 
     context 'when the offer is a purchase' do
-      let(:offer) { create(:offer, purchase: false) }
+      let(:offer) { create(:offer, subscription: false) }
       let(:integration) { create(:integration) }
 
       it 'calls the CreateOrder command with right params' do
         request
         expected_payload = { card: credit_card_double, email: 'user@test.com', tax_id: '111.111.111-11',
-                             offer:, operation:, purchase:, payment_method: :credit_card,
+                             offer:, operation: :purchase, payment_method: :credit_card,
                              integration_id: integration.id.to_s, user: user_double }
 
         expect(::Givings::Payment::CreateOrder).to have_received(:call).with(order_type, expected_payload)

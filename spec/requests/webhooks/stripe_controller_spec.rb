@@ -26,7 +26,7 @@ RSpec.describe 'Webhooks::Stripe', type: :request do
         allow(::Stripe::Webhook).to receive(:construct_event).and_return(RecursiveOpenStruct.new(event_params))
       end
 
-      context 'and it is a charge.refunded type request' do
+      context 'when it is a charge refunded type request' do
         let(:event_params) do
           file = Rails.root.join('spec/support/webhooks/stripe/refunded.json').read
           JSON.parse file
@@ -38,7 +38,7 @@ RSpec.describe 'Webhooks::Stripe', type: :request do
         end
       end
 
-      context 'and it is a charge.refund.update type request' do
+      context 'when it is a charge refund update type request' do
         let(:event_params) do
           file = Rails.root.join('spec/support/webhooks/stripe/refund_update.json').read
           JSON.parse file

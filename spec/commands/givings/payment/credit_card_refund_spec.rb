@@ -12,7 +12,10 @@ describe Givings::Payment::CreditCardRefund do
 
     context 'when using a CreditCard payment and refund' do
       let(:offer) { create(:offer) }
-      let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1, external_id: 'pi_123') }
+      let(:person_payment) do
+        build(:person_payment, offer:, person:, amount_cents: 1, external_id: 'pi_123',
+                               refund_date: '2022-10-25 12:20:41')
+      end
       let(:args) { { external_id: 'pi_123' } }
 
       before do
@@ -41,6 +44,7 @@ describe Givings::Payment::CreditCardRefund do
         it 'update the status and external_id of person_payment' do
           command
           expect(person_payment.status).to eq('refunded')
+          expect(person_payment.refund_date).to eq Time.zone.parse('2022-10-25 12:20:40')
         end
       end
     end

@@ -65,4 +65,8 @@ Rails.application.routes.draw do
       resources :vouchers, only: [:show]
     end
   end
+
+  namespace :webhooks do
+    post 'stripe' => "stripe#events"
+  end
 end

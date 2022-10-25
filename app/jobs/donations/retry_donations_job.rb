@@ -5,6 +5,7 @@ module Donations
     def perform
       UpdateProcessingDonations.call
       UpdateApiOnlyDonations.call
+      UpdateFailedDonations.call
     end
   end
 end

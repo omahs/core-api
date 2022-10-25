@@ -6,11 +6,17 @@ module Donations
 
     def call
       donations_without_blockchain_transaction.each do |donation|
-        CreateBlockchainDonation.call(donation:)
+        update_transaction(donation)
       end
     end
 
     private
+
+    def update_transaction(donation)
+      CreateBlockchainDonation.call(donation:)
+    rescue StandardError => e
+      Reporter.log(error: e)
+    end
 
     def donations_without_blockchain_transaction
       donation_query = %(LEFT OUTER JOIN donation_blockchain_transactions

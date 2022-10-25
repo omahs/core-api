@@ -6,8 +6,16 @@ module Donations
 
     def call
       DonationBlockchainTransaction.failed.find_each do |donation_blockchain_transaction|
-        CreateBlockchainDonation.call(donation: donation_blockchain_transaction.donation)
+        update_transaction(donation_blockchain_transaction.donation)
       end
+    end
+
+    private
+
+    def update_transaction(donation)
+      CreateBlockchainDonation.call(donation:)
+    rescue StandardError => e
+      Reporter.log(error: e)
     end
   end
 end

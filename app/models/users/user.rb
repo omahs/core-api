@@ -26,7 +26,7 @@ class User < ApplicationRecord
   delegate :can_donate?, to: :user_donation_stats
 
   def badges
-    ::Badge.where(merit_badge_id: badge_ids)
+    ::Badge.where(merit_badge_id: badge_ids).order(category: :asc).order(id: :asc)
   end
 
   def impact

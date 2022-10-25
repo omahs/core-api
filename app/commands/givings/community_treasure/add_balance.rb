@@ -12,7 +12,7 @@ module Givings
       end
 
       def call
-        ribon_contract.add_pool_balance(donation_pool_address:, amount:)
+        ribon_contract.add_pool_balance(donation_pool:, amount:)
       end
 
       private
@@ -21,8 +21,8 @@ module Givings
         @default_chain ||= Chain.default
       end
 
-      def donation_pool_address
-        default_chain.default_donation_pool_address
+      def donation_pool
+        default_chain.default_donation_pool
       end
 
       def ribon_contract

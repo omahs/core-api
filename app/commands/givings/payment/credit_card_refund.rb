@@ -23,7 +23,11 @@ module Givings
       private
 
       def success_refund(payment, refund)
-        payment.update(status: :refunded) if refund[:status] == 'succeeded'
+        if refund[:status] == 'succeeded'
+          Rails.logger.debug Time.zone.at(refund[:created])
+          payment.update(status: :refunded,
+                         refund_date: Time.zone.at(refund[:created]))
+        end
       end
 
       def find_person_payment

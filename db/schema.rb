@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_141936) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -275,6 +275,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_141936) do
     t.integer "payment_method"
     t.bigint "integration_id"
     t.string "external_id"
+    t.datetime "refund_date"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end

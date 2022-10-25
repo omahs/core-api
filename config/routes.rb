@@ -48,6 +48,8 @@ Rails.application.routes.draw do
         post 'credit_cards'   => 'credit_cards#create'
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
+        post 'credit_cards_refund' => 'credit_cards#refund'
+  
       end
       namespace :vouchers do
         post 'donations'   => 'donations#create'
@@ -66,5 +68,9 @@ Rails.application.routes.draw do
       resources :donations, only: [:index, :show]
       resources :vouchers, only: [:show]
     end
+  end
+
+  namespace :webhooks do
+    post 'stripe' => "stripe#events"
   end
 end

@@ -6,6 +6,7 @@
 #  amount_cents   :integer
 #  paid_date      :datetime
 #  payment_method :integer
+#  refund_date    :datetime
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

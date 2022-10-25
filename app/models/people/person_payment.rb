@@ -29,7 +29,8 @@ class PersonPayment < ApplicationRecord
   enum status: {
     processing: 0,
     paid: 1,
-    failed: 2
+    failed: 2,
+    refunded: 3
   }
 
   enum payment_method: {

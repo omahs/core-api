@@ -4,7 +4,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
   let(:offer) { create(:offer) }
   let(:integration) { create(:integration) }
   let(:params) do
-    { email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id,
+    { email: 'user@test.com', tax_id: '111.111.111-11', offer_id: offer.id, external_id: 'pi_123',
       country: 'Brazil', city: 'Brasilia', state: 'DF', integration_id: integration.id,
       card: { cvv: 555, number: '4222 2222 2222 2222', name: 'User Test',
               expiration_month: '05', expiration_year: '25' } }
@@ -30,11 +30,7 @@ RSpec.describe 'Api::V1::Payments::CreditCards', type: :request do
   end
 
   describe 'POST /credit_cards_refund' do
-    subject(:request) { post '/api/v1/payments/credit_cards_refund', params: external_id }
-
-    let(:external_id) do
-      { external_id: 'pi_123' }
-    end
+    subject(:request) { post '/api/v1/payments/credit_cards_refund', params: }
 
     before do
       mock_command(klass: Givings::Payment::CreditCardRefund, result: true)

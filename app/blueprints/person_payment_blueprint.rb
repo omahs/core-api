@@ -15,6 +15,6 @@ class PersonPaymentBlueprint < Blueprinter::Base
     options[:total_pages]
   end
 
-  association :offer, blueprint: OfferBlueprint
+  association :offer, blueprint: OfferBlueprint, view: :minimal
   association :person, blueprint: PersonBlueprint
 end

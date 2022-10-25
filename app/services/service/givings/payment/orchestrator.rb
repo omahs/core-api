@@ -5,7 +5,6 @@ module Service
         attr_reader :payload
 
         def initialize(payload:)
-          Rails.logger.debug payload
           @payload = payload
         end
 

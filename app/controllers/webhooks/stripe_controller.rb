@@ -34,7 +34,7 @@ module Webhooks
       when 'charge.refund.updated'
         update_status(external_id, 'refund_failed') if external_id
       else
-        Rails.logger.debug { "Unhandled event type: #{event.type}" }
+        Rails.logger.info { "Unhandled event type: #{event.type}" }
       end
       nil
     end

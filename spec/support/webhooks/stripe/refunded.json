@@ -1,0 +1,21 @@
+{
+  "id": "evt_3LwqQFJuOnwQq9Qx1NIof0sn",
+  "object": "event",
+  "api_version": "2020-08-27",
+  "created": 1666716977,
+  "data": {
+    "object": {
+      "id": "ch_3LwqQFJuOnwQq9Qx173xACg7",
+      "object": "charge",
+      "payment_intent": "pi_123456",
+      "created": 1666700440
+    }
+  },
+  "livemode": false,
+  "pending_webhooks": 2,
+  "request": {
+    "id": "req_sQh0Tri23IkQcY",
+    "idempotency_key": "c029a834-b671-467a-b226-2cb031d14be7"
+  },
+  "type": "charge.refunded"
+}

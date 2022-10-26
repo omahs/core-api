@@ -15,21 +15,21 @@ describe Donations::CreateBlockchainDonation do
                                                                  non_profit:, integration:))
       end
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
-      let(:default_chain_id) { 0x13881 }
-      let(:donation_pool_address) { '0xP000000000000000000000000000000000000000' }
+      let!(:chain) { create(:chain) }
+      let!(:token) { create(:token, chain:) }
+      let!(:donation_pool) { create(:pool, token:) }
 
       before do
         allow(Web3::Contracts::RibonContract).to receive(:new).and_return(ribon_contract)
         allow(ribon_contract).to receive(:donate_through_integration).and_return('0xFF20')
-        create(:ribon_config, default_ticket_value: 100)
-        create(:chain, chain_id: default_chain_id)
+        create(:ribon_config, default_ticket_value: 100, default_chain_id: chain.chain_id)
       end
 
       it 'calls the donation in contract' do
         command
 
         expect(ribon_contract).to have_received(:donate_through_integration)
-          .with(donation_pool_address:, amount: 1.0,
+          .with(donation_pool:, amount: 1.0,
                 non_profit_wallet_address: non_profit.wallet_address, user: donation.user.email,
                 sender_key: integration.integration_wallet.private_key)
       end
@@ -38,7 +38,7 @@ describe Donations::CreateBlockchainDonation do
         command
 
         expect(donation.donation_blockchain_transaction.transaction_hash).to eq '0xFF20'
-        expect(donation.donation_blockchain_transaction.chain.chain_id).to eq default_chain_id
+        expect(donation.donation_blockchain_transaction.chain.chain_id).to eq chain.chain_id
       end
 
       it 'returns the donation blockchain transaction' do

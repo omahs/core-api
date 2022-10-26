@@ -6,9 +6,11 @@
 #  amount_cents   :integer
 #  paid_date      :datetime
 #  payment_method :integer
+#  refund_date    :datetime
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  external_id    :string
 #  integration_id :bigint
 #  offer_id       :bigint
 #  person_id      :uuid
@@ -28,7 +30,9 @@ class PersonPayment < ApplicationRecord
   enum status: {
     processing: 0,
     paid: 1,
-    failed: 2
+    failed: 2,
+    refunded: 3,
+    refund_failed: 4
   }
 
   enum payment_method: {

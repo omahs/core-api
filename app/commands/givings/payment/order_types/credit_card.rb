@@ -40,6 +40,8 @@ module Givings
                                   payment_method:, amount_cents:, status: :processing })
         end
 
+        def refund; end
+
         def amount_cents
           offer.price_cents
         end

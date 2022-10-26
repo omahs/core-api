@@ -12,9 +12,9 @@
 #
 FactoryBot.define do
   factory :donation_blockchain_transaction do
-    donation { nil }
-    chain { nil }
-    transaction_hash { 'MyString' }
+    donation { build(:donation) }
+    chain { build(:chain) }
+    transaction_hash { '0x000' }
     status { 1 }
   end
 end

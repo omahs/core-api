@@ -15,7 +15,15 @@ class Donation < ApplicationRecord
   belongs_to :integration
   belongs_to :user
 
-  has_one :donation_blockchain_transaction
+  has_many :donation_blockchain_transactions
+
+  def donation_blockchain_transaction
+    donation_blockchain_transactions.last
+  end
+
+  def create_donation_blockchain_transaction(transaction_hash:, chain:)
+    donation_blockchain_transactions.create(transaction_hash:, chain:)
+  end
 
   def impact
     "#{impact_value} #{non_profit.impact_description}"

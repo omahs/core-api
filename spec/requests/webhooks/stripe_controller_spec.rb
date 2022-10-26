@@ -36,6 +36,12 @@ RSpec.describe 'Webhooks::Stripe', type: :request do
           request
           expect(person_payment.reload.status).to eq('refunded')
         end
+
+        it 'updates the refund_date of person payment' do
+          request
+          expect(person_payment.reload.refund_date).to eq(Time.zone.at(event_params.dig('data', 'object',
+                                                                                        'created')))
+        end
       end
 
       context 'when it is a charge refund update type request' do
@@ -47,6 +53,10 @@ RSpec.describe 'Webhooks::Stripe', type: :request do
         it 'updates the status of person payment' do
           request
           expect(person_payment.reload.status).to eq('refund_failed')
+        end
+
+        it 'do not update the refund_date of person payment' do
+          expect { request }.not_to change(person_payment, :refund_date)
         end
       end
     end

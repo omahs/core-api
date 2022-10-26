@@ -12,7 +12,7 @@
 #
 class Badge < ApplicationRecord
   has_one_attached :image
-  enum category: { onboarding: 0, donation: 1 }
+  enum category: { onboarding: 0, donation: 1, streak: 2 }
 
   delegate :users, to: :merit_badge
   validates :merit_badge_id, :description, :category, :name, presence: true

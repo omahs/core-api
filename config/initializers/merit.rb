@@ -24,7 +24,12 @@ Rails.application.reloader.to_prepare do
       id: (badge_id += 1),
       name: '10-days-streak',
       description: 'You donated 10 days in a row!',
-      custom_fields: { category: 'donation' }
+      custom_fields: { category: 'streak' }
+    }, {
+      id: (badge_id += 1),
+      name: '20-days-streak',
+      description: 'You donated 20 days in a row!',
+      custom_fields: { category: 'streak' }
     }
   ].concat(donation_badges)
 

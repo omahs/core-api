@@ -11,7 +11,7 @@ RSpec.describe 'Api::V1::Causes', type: :request do
     it 'returns a list of causes' do
       request
 
-      expect_response_collection_to_have_keys(%w[created_at id updated_at name])
+      expect_response_collection_to_have_keys(%w[created_at id updated_at name main_image])
     end
   end
 end

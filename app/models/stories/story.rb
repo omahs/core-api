@@ -12,6 +12,10 @@
 #  non_profit_id :bigint           not null
 #
 class Story < ApplicationRecord
+  extend Mobility
+
+  translates :title, :description, type: :string
+
   belongs_to :non_profit
 
   validates :title, :description, :position, :active, presence: true

@@ -152,7 +152,7 @@ describe Givings::Payment::CreateOrder do
 
       let(:args) do
         { wallet_address: guest.wallet_address, payment_method: :crypto,
-          user: nil, amount: '7.00', transaction_hash: }
+          user: nil, amount: '7.00', transaction_hash:, integration_id: integration.id }
       end
 
       before do

@@ -15,5 +15,8 @@ class Cause < ApplicationRecord
   has_many :non_profits
   has_many :pools
 
+  has_one_attached :main_image
+  has_one_attached :cover_image
+
   validates :name, presence: true
 end

@@ -24,6 +24,7 @@ class Integration < ApplicationRecord
   has_many :api_keys, as: :bearer
   has_many :donations
   has_many :vouchers
+  has_many :person_payment
 
   enum status: {
     inactive: 0,

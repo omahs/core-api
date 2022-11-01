@@ -264,9 +264,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
-    t.bigint "integration_id"
     t.string "external_id"
     t.datetime "refund_date"
+    t.bigint "integration_id"
+    t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end
@@ -399,6 +400,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
   add_foreign_key "offer_gateways", "offers"
   add_foreign_key "person_blockchain_transactions", "person_payments"
   add_foreign_key "person_payment_fees", "person_payments"
+  add_foreign_key "person_payments", "integrations"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
   add_foreign_key "pools", "causes"

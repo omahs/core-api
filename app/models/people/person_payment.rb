@@ -21,11 +21,12 @@ class PersonPayment < ApplicationRecord
   after_create :set_fees
 
   belongs_to :person
+  belongs_to :integration
   belongs_to :offer, optional: true
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 
-  validates :paid_date, :status, :payment_method, :integration_id, presence: true
+  validates :paid_date, :status, :payment_method, presence: true
 
   enum status: {
     processing: 0,

@@ -38,7 +38,7 @@ module Givings
         end
 
         def create_payment(person)
-          PersonPayment.create!({ person:, paid_date:, integration_id:,
+          PersonPayment.create!({ person:, paid_date:, integration:,
                                   payment_method:, amount_cents:, status: :processing })
         end
 
@@ -53,6 +53,10 @@ module Givings
 
         def paid_date
           Time.zone.now
+        end
+
+        def integration
+          Integration.find_by_id_or_unique_address(integration_id)
         end
       end
     end

@@ -9,14 +9,14 @@ describe Givings::Payment::CreateOrder do
     include_context('when mocking a request') { let(:cassette_name) { 'stripe_payment_method' } }
 
     let(:person) { create(:person) }
+    let(:integration) { create(:integration) }
 
     context 'when using a CreditCard payment and subscribe' do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:integration) { create(:integration) }
-      let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
+      let(:person_payment) { build(:person_payment, offer:, person:, integration:, amount_cents: 1) }
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
           payment_method: :credit_card, user: customer.user, operation: :subscribe }
@@ -82,8 +82,7 @@ describe Givings::Payment::CreateOrder do
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:integration) { create(:integration) }
-      let(:person_payment) { build(:person_payment, offer:, person:, amount_cents: 1) }
+      let(:person_payment) { build(:person_payment, offer:, person:, integration:, amount_cents: 1) }
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
           payment_method: :credit_card, user: customer.user, operation: :purchase }
@@ -148,7 +147,7 @@ describe Givings::Payment::CreateOrder do
     context 'when using a Crypto payment' do
       let(:order_type_class) { Givings::Payment::OrderTypes::Cryptocurrency }
       let(:transaction_hash) { '0xFFFF' }
-      let(:person_payment) { build(:person_payment, offer: nil, person:) }
+      let(:person_payment) { build(:person_payment, offer: nil, person:, integration:) }
       let(:guest) { build(:guest, person:) }
 
       let(:args) do

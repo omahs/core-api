@@ -13,6 +13,7 @@ class Cause < ApplicationRecord
   translates :name, type: :string
 
   has_many :non_profits
+  has_many :pools
 
   validates :name, presence: true
 end

@@ -21,6 +21,7 @@ class PersonPayment < ApplicationRecord
   after_create :set_fees
 
   belongs_to :person
+  belongs_to :integration
   belongs_to :offer, optional: true
   has_one :person_blockchain_transaction
   has_one :person_payment_fee

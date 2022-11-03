@@ -12,7 +12,7 @@ module Service
 
           def calculate_fee
             request = Request::ApiRequest.get(polygon_fee_url, expires_in: 2.hours)
-            gas_fee_in_usd = request.speeds.first['estimatedFee']
+            gas_fee_in_usd = request['speeds'].first['estimatedFee']
 
             formatted_gas_fee(gas_fee_in_usd).round
           end

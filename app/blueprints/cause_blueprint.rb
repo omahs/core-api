@@ -3,6 +3,8 @@ class CauseBlueprint < Blueprinter::Base
 
   fields :updated_at, :created_at, :name
 
+  association :pools, blueprint: PoolBlueprint
+
   field(:main_image) do |object|
     ImagesHelper.image_url_for(object.main_image)
   end

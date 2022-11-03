@@ -25,6 +25,12 @@ module Web3
                  keccak256_user, parsed_amount, sender_key: key)
       end
 
+      def create_pool(token:, sender_key:)
+        key = ::Eth::Key.new(priv: sender_key)
+
+        transact('createPool', token, sender_key: key)
+      end
+
       private
 
       def contract_name

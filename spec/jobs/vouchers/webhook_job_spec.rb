@@ -9,11 +9,11 @@ RSpec.describe Vouchers::WebhookJob, type: :job do
     let(:integration_webhook) { build(:integration_webhook, url: 'http://example.url') }
 
     before do
-      allow(Request::ApiRequest).to receive(:post).and_return(OpenStruct.new({ status: }))
+      allow(Request::ApiRequest).to receive(:post).and_return(OpenStruct.new({ ok?: ok }))
     end
 
     context 'when the request returns a response success' do
-      let(:status) { 200 }
+      let(:ok) { true }
 
       it 'calls the api request with correct params' do
         perform_job
@@ -24,7 +24,7 @@ RSpec.describe Vouchers::WebhookJob, type: :job do
     end
 
     context 'when the request returns a response failure' do
-      let(:status) { 404 }
+      let(:ok) { false }
 
       it 'raises a webhook failed error' do
         expect { perform_job }.to raise_error(StandardError, 'webhook failed')

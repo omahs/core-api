@@ -27,16 +27,19 @@ module Api
       end
 
       def update
-        @integration = Integration.find integration_params[:id]
-        @integration.update(integration_params)
-        render json: IntegrationBlueprint.render(@integration)
+        command = Integrations::UpdateIntegration.call(integration_params)
+        if command.success?
+          render json: IntegrationBlueprint.render(command.result), status: :ok
+        else
+          render_errors(command.errors)
+        end
       end
 
       private
 
       def integration_params
         params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo, :webhook_url,
-                      integration_tasks_attributes: %i[id description link link_address])
+                      integration_task_attributes: %i[id description link link_address])
       end
 
       def fetch_integration_query

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_01_135938) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -129,15 +129,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_135938) do
     t.datetime "updated_at", null: false
     t.uuid "person_id"
     t.index ["person_id"], name: "index_guests_on_person_id"
-  end
-
-  create_table "integration_pools", force: :cascade do |t|
-    t.bigint "integration_id", null: false
-    t.bigint "pool_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["integration_id"], name: "index_integration_pools_on_integration_id"
-    t.index ["pool_id"], name: "index_integration_pools_on_pool_id"
   end
 
   create_table "integration_tasks", force: :cascade do |t|
@@ -286,6 +277,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_135938) do
     t.bigint "token_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.bigint "cause_id", null: false
+    t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
 
@@ -397,8 +391,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_135938) do
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"
-  add_foreign_key "integration_pools", "integrations"
-  add_foreign_key "integration_pools", "pools"
   add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "integration_webhooks", "integrations"
   add_foreign_key "non_profit_impacts", "non_profits"
@@ -411,6 +403,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_135938) do
   add_foreign_key "person_payments", "integrations"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
+  add_foreign_key "pools", "causes"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"

@@ -3,5 +3,5 @@ class VoucherBlueprint < Blueprinter::Base
 
   fields :updated_at, :created_at, :external_id, :callback_url
 
-  association :donation, blueprint: DonationBlueprint
+  association :donation, blueprint: DonationBlueprint, view: :minimal
 end

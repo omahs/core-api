@@ -14,5 +14,9 @@
 require 'rails_helper'
 
 RSpec.describe Utm, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '.validations' do
+    subject { build(:utm) }
+
+    it { is_expected.to validate_presence_of(:source) }
+  end
 end

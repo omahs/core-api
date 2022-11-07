@@ -16,8 +16,7 @@ module Tracking
         @utm = trackable.create_utm!(utm_params) if trackable.utm.nil? && valid_params?
       end
 
-      @result = utm
-      self
+      utm
     rescue StandardError => e
       Reporter.log(error: e, extra: { message: e.message })
     end

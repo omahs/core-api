@@ -1,14 +1,21 @@
+require 'rails_helper'
+
 describe Tracking::AddUtm do
   describe '.call' do
+    subject(:command) do
+      described_class.call(
+        trackable: user,
+        utm_source: 'source',
+        utm_medium: 'medium',
+        utm_campaign: 'campaign'
+      )
+    end
+
     let(:user) { create(:user) }
-    let(:utm_source) { 'source' }
-    let(:utm_medium) { 'medium' }
-    let(:utm_campaign) { 'campaign' }
 
     context 'when send all parameters correctly' do
-      it 'expects to create an new utm' do
-        command = described_class.new(utm_source:, utm_medium:, utm_campaign:)
-        expect { command.call(trackable: user) }.to change(Utm, :count).by(1)
+      it 'expects to create a new utm' do
+        expect { command }.to change(Utm, :count).by(1)
       end
     end
 
@@ -18,8 +25,7 @@ describe Tracking::AddUtm do
       end
 
       it 'expects not to create a new utm' do
-        command = described_class.new(utm_source:, utm_medium:, utm_campaign:)
-        expect { command.call(trackable: user) }.not_to change(Utm, :count)
+        expect { command }.not_to change(Utm, :count)
       end
     end
 
@@ -28,22 +34,15 @@ describe Tracking::AddUtm do
       let(:utm_medium) { nil }
       let(:utm_campaign) { nil }
 
-      it 'expects not to craete a new utm' do
-        command = described_class.new(utm_source:, utm_medium:, utm_campaign:)
-        expect { command.call(trackable: user) }.not_to change(Utm, :count)
-      end
-    end
-
-    context 'when an error happens' do
-      let(:user) { create(:user) }
-
-      before do
-        allow(Utm).to receive(:create!).and_raise(StandardError)
-      end
-
-      it 'expects not to create an new utm' do
-        command = described_class.new(utm_source:, utm_medium:, utm_campaign:)
-        expect { command.call(trackable: nil) }.not_to change(Utm, :count)
+      it 'expects not to create a new utm' do
+        expect do
+          described_class.call(
+            trackable: create(:user),
+            utm_source: nil,
+            utm_medium: nil,
+            utm_campaign: nil
+          )
+        end.not_to change(Utm, :count)
       end
     end
   end

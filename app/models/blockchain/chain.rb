@@ -23,11 +23,16 @@ class Chain < ApplicationRecord
             :default_donation_pool_address, presence: true
 
   has_many :tokens, dependent: :destroy
+  has_many :pools, through: :tokens
 
   def self.default
     default_chain_id = RibonConfig.default_chain_id
 
     find_by(chain_id: default_chain_id)
+  end
+
+  def default_donation_pool
+    pools.find_by(address: default_donation_pool_address) || pools.first
   end
 
   def gas_fee(currency: :usd)

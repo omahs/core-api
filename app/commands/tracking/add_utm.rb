@@ -2,15 +2,16 @@ module Tracking
   class AddUtm < ApplicationCommand
     prepend SimpleCommand
 
-    attr_reader :utm, :utm_source, :utm_medium, :utm_campaign
+    attr_reader :utm, :utm_source, :utm_medium, :utm_campaign, :trackable
 
-    def initialize(utm_source:, utm_medium:, utm_campaign:)
+    def initialize(utm_source:, utm_medium:, utm_campaign:, trackable:)
       @utm_source = utm_source
       @utm_medium = utm_medium
       @utm_campaign = utm_campaign
+      @trackable = trackable
     end
 
-    def call(trackable:)
+    def call
       ActiveRecord::Base.transaction do
         @utm = trackable.create_utm!(utm_params) if trackable.utm.nil? && valid_params?
       end

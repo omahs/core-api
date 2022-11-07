@@ -18,11 +18,13 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'non_profits' => "non_profits#index"
+      get 'non_profits/:id/stories' => "non_profits#stories"
       get 'integrations' => "integrations#index"
       get 'integrations_mobility_attributes' => "integrations#mobility_attributes"
       post 'integrations' => "integrations#create"
       get 'integrations/:id' => "integrations#show"
       put 'integrations/:id' => "integrations#update"
+      get 'person_payments' => "person_payments#index"
       post 'donations' => "donations#create"
       post 'users' => "users#create"
       post 'users/search' => "users#search"
@@ -30,6 +32,8 @@ Rails.application.routes.draw do
       get 'users/impact' => "users#impact"
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
+      get 'causes' => "causes#index"
+
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'
@@ -45,6 +49,8 @@ Rails.application.routes.draw do
         post 'credit_cards'   => 'credit_cards#create'
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
+        post 'credit_cards_refund' => 'credit_cards#refund'
+  
       end
       namespace :vouchers do
         post 'donations'   => 'donations#create'
@@ -63,5 +69,9 @@ Rails.application.routes.draw do
       resources :donations, only: [:index, :show]
       resources :vouchers, only: [:show]
     end
+  end
+
+  namespace :webhooks do
+    post 'stripe' => "stripe#events"
   end
 end

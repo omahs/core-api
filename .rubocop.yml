@@ -62,7 +62,7 @@ Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 8
+  Max: 10
 
 RSpec/NoExpectationExample:
   Enabled: false

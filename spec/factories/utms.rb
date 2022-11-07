@@ -16,6 +16,6 @@ FactoryBot.define do
     source { 'Source' }
     medium { 'Medium' }
     campaign { 'Campaign' }
-    trackable { nil }
+    trackable { build(:user) }
   end
 end

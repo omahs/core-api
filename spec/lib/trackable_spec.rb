@@ -28,22 +28,5 @@ RSpec.describe Trackable do
         expect { test_instance.track(trackable: user, utm_params:) }.to change(Utm, :count).by(1)
       end
     end
-
-    context 'when an error occurs' do
-      let(:user) { create(:user) }
-
-      before do
-        allow(Reporter).to receive(:log)
-      end
-
-      it 'calls the reporter log' do
-        test_instance = TestClass.new
-        utm_params = { source: 'source', campaign: 'campaign', medium: 'medium' }
-        allow(user).to receive(:create_utm!).and_raise(StandardError)
-
-        expect(Reporter).to receive(:log)
-        test_instance.track(trackable: user, utm_params:)
-      end
-    end
   end
 end

@@ -23,7 +23,7 @@ module Donations
       amount = ticket_value * CENTS_FACTOR
       non_profit_wallet_address = non_profit.wallet_address
 
-      ribon_contract.donate_through_integration(donation_pool_address:,
+      ribon_contract.donate_through_integration(donation_pool:,
                                                 non_profit_wallet_address:,
                                                 user: user.email, amount:, sender_key:)
     end
@@ -60,8 +60,8 @@ module Donations
       @user ||= donation.user
     end
 
-    def donation_pool_address
-      chain.default_donation_pool_address
+    def donation_pool
+      chain.default_donation_pool
     end
   end
 end

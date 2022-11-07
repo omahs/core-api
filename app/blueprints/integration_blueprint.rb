@@ -2,7 +2,7 @@ class IntegrationBlueprint < Blueprinter::Base
   identifier :id
 
   fields :updated_at, :created_at, :name, :unique_address, :status, :integration_address,
-         :ticket_availability_in_minutes
+         :ticket_availability_in_minutes, :webhook_url
 
   field(:logo) do |object|
     ImagesHelper.image_url_for(object.logo)
@@ -10,5 +10,5 @@ class IntegrationBlueprint < Blueprinter::Base
 
   association :integration_wallet, blueprint: IntegrationWalletBlueprint
 
-  association :integration_tasks, blueprint: IntegrationTaskBlueprint
+  association :integration_task, blueprint: IntegrationTaskBlueprint
 end

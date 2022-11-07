@@ -18,5 +18,12 @@ FactoryBot.define do
     non_profit_id { 1 }
     position { 1 }
     active { true }
+
+    trait :with_image do
+      after(:build) do |story|
+        story.image.attach(io: Rails.root.join('vendor', 'assets', 'ribon_logo.png').open,
+                           filename: 'ribon_logo.png', content_type: 'image/png')
+      end
+    end
   end
 end

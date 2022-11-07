@@ -19,4 +19,8 @@ class Cause < ApplicationRecord
   has_one_attached :cover_image
 
   validates :name, presence: true
+
+  def default_pool
+    pools.joins(:token).where(tokens: { chain_id: Chain.default.id }).first
+  end
 end

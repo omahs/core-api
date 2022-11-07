@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        @cause = Cause.find_by cause_integration_query
+        @cause = Cause.find_by cause_query
 
         render json: CauseBlueprint.render(@cause)
       end
@@ -17,7 +17,7 @@ module Api
         params.permit(:id)
       end
 
-      def cause_integration_query
+      def cause_query
         uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
         return { unique_address: cause_params[:id] } if uuid_regex.match?(cause_params[:id])

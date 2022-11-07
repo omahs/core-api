@@ -10,7 +10,7 @@ class NonProfitBlueprint < Blueprinter::Base
   end
 
   field(:main_image) do |object|
-    ImagesHelper.image_url_for(object.main_image)
+    ImagesHelper.image_url_for(object.main_image, variant: { resize_to_fit: [450, 450], format: :jpg })
   end
 
   field(:background_image) do |object|

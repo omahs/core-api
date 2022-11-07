@@ -66,7 +66,7 @@ describe Givings::Payment::CreateOrder do
               id: person_payment.id, amount_cents: person_payment.amount_cents,
               offer_id: person_payment.offer.id, person_id: person_payment.person.id,
               status: person_payment.status, payment_method: person_payment.payment_method
-            ))
+            ), pool: nil)
         end
 
         it 'update the status of payment_person' do
@@ -132,7 +132,7 @@ describe Givings::Payment::CreateOrder do
               id: person_payment.id, amount_cents: person_payment.amount_cents,
               offer_id: person_payment.offer.id, person_id: person_payment.person.id,
               status: person_payment.status, payment_method: person_payment.payment_method
-            ))
+            ), pool: nil)
         end
 
         it 'update the status and external_id of payment_person' do

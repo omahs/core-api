@@ -19,11 +19,7 @@ module Tracking
       @result = utm
       self
     rescue StandardError => e
-      Reporter.log(
-        e,
-        trackable:,
-        utm_params:
-      )
+      Reporter.log(error: e, extra: { message: e.message })
     end
 
     private

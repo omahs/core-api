@@ -6,7 +6,8 @@ class StoryBlueprint < Blueprinter::Base
   association :non_profit, blueprint: NonProfitBlueprint, view: :minimal
 
   field(:image) do |object|
-    ImagesHelper.image_url_for(object.image, variant: { resize_to_fit: [600, 600], format: :jpg })
+    ImagesHelper.image_url_for(object.image, variant: { resize_to_fit: [800, 800],
+                                                        saver: { quality: 95 }, format: :jpg })
   end
 
   view :minimal do

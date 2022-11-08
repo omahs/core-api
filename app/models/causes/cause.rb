@@ -23,4 +23,10 @@ class Cause < ApplicationRecord
   def default_pool
     pools.joins(:token).where(tokens: { chain_id: Chain.default.id }).first
   end
+
+  def active
+    @non_profits = NonProfit.where(status: :active)
+
+    non_profits.present?
+  end
 end

@@ -21,11 +21,10 @@ class Integration < ApplicationRecord
 
   validates :name, :unique_address, :status, presence: true
 
-  has_many :integration_pools
-  has_many :pools, through: :integration_pools
   has_many :api_keys, as: :bearer
   has_many :donations
   has_many :vouchers
+  has_many :person_payment
 
   enum status: {
     inactive: 0,

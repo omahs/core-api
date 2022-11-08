@@ -7,7 +7,7 @@ RSpec.describe Request::ApiRequest do
     let(:url) { 'http://test.url' }
     let(:response_json) do
       {
-        some_key: 'value'
+        'some_key' => 'value'
       }
     end
 
@@ -22,7 +22,7 @@ RSpec.describe Request::ApiRequest do
     end
 
     it 'formats the request as an openstruct' do
-      expect(request.some_key).to eq 'value'
+      expect(request['some_key']).to eq 'value'
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe Request::ApiRequest do
     let(:url) { 'http://test.url' }
     let(:response_json) do
       {
-        some_key: 'value'
+        'some_key' => 'value'
       }
     end
     let(:body) do
@@ -56,7 +56,7 @@ RSpec.describe Request::ApiRequest do
     end
 
     it 'formats the request as an openstruct' do
-      expect(request.some_key).to eq 'value'
+      expect(request['some_key']).to eq 'value'
     end
   end
 end

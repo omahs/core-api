@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,25 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
-  end
-
-  create_table "badges", force: :cascade do |t|
-    t.text "description"
-    t.integer "category"
-    t.integer "merit_badge_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "badges_sashes", force: :cascade do |t|
-    t.integer "badge_id"
-    t.integer "sash_id"
-    t.boolean "notified_user", default: false
-    t.datetime "created_at"
-    t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
-    t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
-    t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
   end
 
   create_table "causes", force: :cascade do |t|
@@ -150,15 +131,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.index ["person_id"], name: "index_guests_on_person_id"
   end
 
-  create_table "integration_pools", force: :cascade do |t|
-    t.bigint "integration_id", null: false
-    t.bigint "pool_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["integration_id"], name: "index_integration_pools_on_integration_id"
-    t.index ["pool_id"], name: "index_integration_pools_on_pool_id"
-  end
-
   create_table "integration_tasks", force: :cascade do |t|
     t.string "description"
     t.string "link"
@@ -184,42 +156,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.uuid "unique_address", default: -> { "gen_random_uuid()" }, null: false
     t.integer "ticket_availability_in_minutes"
     t.integer "status", default: 0
-  end
-
-  create_table "merit_actions", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "action_method"
-    t.integer "action_value"
-    t.boolean "had_errors", default: false
-    t.string "target_model"
-    t.integer "target_id"
-    t.text "target_data"
-    t.boolean "processed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["processed"], name: "index_merit_actions_on_processed"
-  end
-
-  create_table "merit_activity_logs", force: :cascade do |t|
-    t.integer "action_id"
-    t.string "related_change_type"
-    t.integer "related_change_id"
-    t.string "description"
-    t.datetime "created_at"
-  end
-
-  create_table "merit_score_points", force: :cascade do |t|
-    t.bigint "score_id"
-    t.bigint "num_points", default: 0
-    t.string "log"
-    t.datetime "created_at"
-    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
-  end
-
-  create_table "merit_scores", force: :cascade do |t|
-    t.bigint "sash_id"
-    t.string "category", default: "default"
-    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
   end
 
   create_table "mobility_string_translations", force: :cascade do |t|
@@ -328,9 +264,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.uuid "person_id"
     t.integer "status", default: 0
     t.integer "payment_method"
-    t.bigint "integration_id"
     t.string "external_id"
     t.datetime "refund_date"
+    t.bigint "integration_id"
+    t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
   end
@@ -340,6 +277,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.bigint "token_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.bigint "cause_id", null: false
+    t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
 
@@ -348,11 +288,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "default_chain_id"
-  end
-
-  create_table "sashes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "sources", force: :cascade do |t|
@@ -390,7 +325,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "donation_streak", default: 0
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
@@ -423,9 +357,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sash_id"
-    t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "utms", force: :cascade do |t|
+    t.string "source"
+    t.string "medium"
+    t.string "campaign"
+    t.string "trackable_type"
+    t.bigint "trackable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trackable_type", "trackable_id"], name: "index_utms_on_trackable"
   end
 
   create_table "vouchers", force: :cascade do |t|
@@ -459,8 +402,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"
-  add_foreign_key "integration_pools", "integrations"
-  add_foreign_key "integration_pools", "pools"
   add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "integration_webhooks", "integrations"
   add_foreign_key "non_profit_impacts", "non_profits"
@@ -470,8 +411,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_133106) do
   add_foreign_key "offer_gateways", "offers"
   add_foreign_key "person_blockchain_transactions", "person_payments"
   add_foreign_key "person_payment_fees", "person_payments"
+  add_foreign_key "person_payments", "integrations"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
+  add_foreign_key "pools", "causes"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"

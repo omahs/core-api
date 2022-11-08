@@ -13,7 +13,7 @@ module Currency
 
     def rate
       response = Request::ApiRequest.get(request_url, expires_in: 2.hours)
-      response["#{from.upcase}#{to.upcase}"].ask
+      response["#{from.upcase}#{to.upcase}"]['ask']
     end
 
     private

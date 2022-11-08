@@ -32,9 +32,12 @@ Rails.application.routes.draw do
       get 'users/impact' => "users#impact"
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
+      get 'causes' => "causes#index"
+
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'
+        put 'track', to: 'users/trackings#track_user'
       end
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
@@ -46,6 +49,8 @@ Rails.application.routes.draw do
         post 'credit_cards'   => 'credit_cards#create'
         post 'cryptocurrency' => 'cryptocurrency#create'
         put  'cryptocurrency' => 'cryptocurrency#update_treasure_entry_status'
+        post 'credit_cards_refund' => 'credit_cards#refund'
+  
       end
       namespace :vouchers do
         post 'donations'   => 'donations#create'
@@ -64,5 +69,9 @@ Rails.application.routes.draw do
       resources :donations, only: [:index, :show]
       resources :vouchers, only: [:show]
     end
+  end
+
+  namespace :webhooks do
+    post 'stripe' => "stripe#events"
   end
 end

@@ -27,9 +27,13 @@ module Givings
 
       private
 
-      def success_callback(order, _result)
-        order.payment.update(status: :paid)
-        call_add_giving_blockchain_job(order) if klass.payment_method.eql?(:credit_card)
+      def success_callback(order, result)
+        if result
+          order.payment.update(status: :paid)
+          order.payment.update(external_id: result[:external_id]) if result[:external_id]
+        end
+
+        klass.success_callback(order, result)
       end
 
       def failure_callback(order, _result)

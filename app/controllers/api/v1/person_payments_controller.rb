@@ -32,7 +32,7 @@ module Api
       end
 
       def per
-        @per = params[:per] || 10
+        @per = params[:per] || 100
       end
     end
   end

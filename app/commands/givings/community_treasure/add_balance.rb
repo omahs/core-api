@@ -4,15 +4,16 @@ module Givings
   module CommunityTreasure
     class AddBalance < ApplicationCommand
       prepend SimpleCommand
-      attr_reader :amount, :chain
+      attr_reader :amount, :chain, :pool
 
-      def initialize(amount:, chain: default_chain)
+      def initialize(amount:, chain: default_chain, pool: nil)
         @amount = amount
         @chain = chain
+        @pool = pool
       end
 
       def call
-        ribon_contract.add_pool_balance(donation_pool_address:, amount:)
+        ribon_contract.add_pool_balance(donation_pool:, amount:)
       end
 
       private
@@ -21,8 +22,8 @@ module Givings
         @default_chain ||= Chain.default
       end
 
-      def donation_pool_address
-        default_chain.default_donation_pool_address
+      def donation_pool
+        pool || default_chain.default_donation_pool
       end
 
       def ribon_contract

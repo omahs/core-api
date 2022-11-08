@@ -4,7 +4,7 @@ module Givings
   module Payment
     module OrderTypes
       class CreditCard
-        attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation, :integration_id
+        attr_reader :card, :email, :tax_id, :offer, :payment_method, :user, :operation, :integration_id, :cause
 
         def initialize(args)
           @card           = args[:card]
@@ -15,6 +15,7 @@ module Givings
           @user           = args[:user]
           @operation      = args[:operation]
           @integration_id = args[:integration_id]
+          @cause          = args[:cause]
         end
 
         def generate_order
@@ -28,6 +29,10 @@ module Givings
           Service::Givings::Payment::Orchestrator.new(payload: order).call
         end
 
+        def success_callback(order, _result)
+          call_add_giving_blockchain_job(order)
+        end
+
         private
 
         def find_or_create_customer
@@ -38,6 +43,12 @@ module Givings
         def create_payment(person)
           PersonPayment.create!({ person:, offer:, paid_date:, integration:,
                                   payment_method:, amount_cents:, status: :processing })
+        end
+
+        def call_add_giving_blockchain_job(order)
+          AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount,
+                                                 payment: order.payment,
+                                                 pool: cause&.default_pool)
         end
 
         def refund; end

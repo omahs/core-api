@@ -61,7 +61,7 @@ module Donations
     end
 
     def donation_pool
-      chain.default_donation_pool
+      non_profit.cause&.default_pool || chain.default_donation_pool
     end
   end
 end

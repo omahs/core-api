@@ -26,8 +26,7 @@ module Web3
       end
 
       def create_pool(token:)
-
-        transact('createPool', token, sender_key: Providers::Keys::RIBON_KEY)
+        transact_and_wait('createPool', token, sender_key: Providers::Keys::RIBON_KEY)
       end
 
       private

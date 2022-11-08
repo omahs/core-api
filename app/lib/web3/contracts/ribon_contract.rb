@@ -29,6 +29,10 @@ module Web3
         transact_and_wait('createPool', token, sender_key: Providers::Keys::RIBON_KEY)
       end
 
+      def fetch_pools(index:, length:)
+        call('fetchPools', index, length)
+      end
+
       private
 
       def contract_name

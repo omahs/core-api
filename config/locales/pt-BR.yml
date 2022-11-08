@@ -227,5 +227,8 @@ pt-BR:
     has_source_message: "Source já criada."
   manager:
     login_success: "Logado com sucesso no Google"
-  pool: 
+  pools: 
     create_failed: "Não foi possível criar a pool"
+    fetch_failed: "Não foi possível obter o endereço da pool"
+  causes:
+    create_failed: "Não foi possível criar a causa"

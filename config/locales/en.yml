@@ -6,5 +6,8 @@ en:
     has_source_message: "Source already created."
   manager:
     login_success: "Signed in successfully with Google"
-  pool: 
+  pools: 
     create_failed: "Could not create pool"
+    fetch_failed: "Could not fetch pool"
+  causes:
+    create_failed: "Ops, something was wrong"

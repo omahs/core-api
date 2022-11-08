@@ -12,16 +12,22 @@ module Causes
     end
 
     def call
-      with_exception_handle do
-        # transaction_hash = create_pool
-        transaction_hash="0x1f8e594f1c3ee99b8e68e77c3f2da7e6cad04dfd74e7d17c6eb75571f0543ed8"
-        result = transaction_utils.transaction_status(transaction_hash)
-        if (result == :success)
-          Cause.create!(cause_params)
+      transaction_hash = create_pool
+      result = transaction_utils.transaction_status(transaction_hash)
+      if (result == :success)
+        pools = fetch_pools(0,10)
+        byebug
+        if(pools && pools[pools.last-2])
+          cause = Cause.create!(cause_params)
+          Pool.create!(address: pools[pools.last-2], name: cause_params[:name], token: token, cause: cause)
         else
-          errors.add(:message, I18n.t('pool.create_failed'))
+          errors.add(:message, I18n.t('pools.fetch_failed'))
         end
+      else
+        errors.add(:message, I18n.t('pools.create_failed'))
       end
+    rescue StandardError
+      errors.add(:message, I18n.t('causes.create_failed'))
     end
 
     private
@@ -40,6 +46,10 @@ module Causes
 
     def create_pool
       Web3::Contracts::RibonContract.new(chain:).create_pool(token: token.address)
+    end
+
+    def fetch_pools(index,length)
+      Web3::Contracts::RibonContract.new(chain:).fetch_pools(index:,length:)
     end
   end
 end

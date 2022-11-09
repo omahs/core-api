@@ -25,8 +25,6 @@ class Cause < ApplicationRecord
   end
 
   def active
-    @non_profits = NonProfit.where(status: :active)
-
-    non_profits.present?
+    non_profits.where(status: :active).present?
   end
 end

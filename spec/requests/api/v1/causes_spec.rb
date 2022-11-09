@@ -36,13 +36,12 @@ RSpec.describe 'Api::V1::Causes', type: :request do
 
     before do
       mock_command(klass: Causes::UpsertCause, result:)
-      request
     end
 
     it 'returns a single causes' do
-      cause = request
+      request
 
-      expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools])
+      expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active])
     end
   end
 

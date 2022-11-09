@@ -6,7 +6,7 @@ describe Causes::UpsertCause do
   describe '.call' do
     subject(:command) { described_class.call(cause_params) }
 
-    context 'create' do
+    context 'when create' do
       let(:cause_params) do
         {
           name: 'New Cause'
@@ -46,7 +46,7 @@ describe Causes::UpsertCause do
       end
     end
 
-    context 'update' do
+    context 'when update' do
       let(:cause) { create(:cause) }
       let(:cause_params) do
         {

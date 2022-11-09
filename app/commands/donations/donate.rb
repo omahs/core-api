@@ -49,7 +49,7 @@ module Donations
     end
 
     def set_last_donated_cause
-      SetLastDonatedCause.call(user: user, cause: non_profit.cause)
+      SetLastDonatedCause.call(user:, cause: non_profit.cause)
     end
 
     def ticket_value

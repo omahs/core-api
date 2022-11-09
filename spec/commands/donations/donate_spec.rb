@@ -50,7 +50,7 @@ describe Donations::Donate do
         command
 
         expect(Donations::SetLastDonatedCause)
-          .to have_received(:call).with(user: user, cause: non_profit.cause)
+          .to have_received(:call).with(user:, cause: non_profit.cause)
       end
 
       it 'returns the donation created' do

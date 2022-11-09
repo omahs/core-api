@@ -48,7 +48,7 @@ RSpec.describe 'Api::V1::Causes', type: :request do
     context 'when the cause has active non_profits associated' do
       let(:cause) { create(:cause, non_profits: [create(:non_profit, status: :active)]) }
 
-      it 'returns false' do
+      it 'returns true' do
         expect(cause.active).to be_truthy
       end
     end

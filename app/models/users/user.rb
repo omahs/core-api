@@ -2,11 +2,10 @@
 #
 # Table name: users
 #
-#  id                 :bigint           not null, primary key
-#  email              :string
-#  last_donated_cause :bigint
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id         :bigint           not null, primary key
+#  email      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -22,6 +21,7 @@ class User < ApplicationRecord
 
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
+  delegate :last_donated_cause, to: :user_donation_stats
 
   def impact
     UserServices::UserImpact.new(user: self).impact

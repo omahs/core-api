@@ -325,6 +325,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "last_donated_cause"
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
@@ -357,7 +358,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "last_donated_cause"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -8,7 +8,7 @@ module Api
       end
 
       def create
-        command = Causes::CreateCause.call(cause_params)
+        command = Causes::UpsertCause.call(cause_params)
         if command.success?
           render json: CauseBlueprint.render(command.result), status: :created
         else
@@ -23,7 +23,7 @@ module Api
       end
 
       def update
-        command = Causes::UpdateCause.call(cause_params)
+        command = Causes::UpsertCause.call(cause_params)
         if command.success?
           render json: CauseBlueprint.render(command.result), status: :ok
         else

@@ -10,4 +10,4 @@ en:
     create_failed: "Could not create pool"
     fetch_failed: "Could not fetch pool"
   causes:
-    create_failed: "Ops, something was wrong"
+    create_failed: "Ops, something went wrong"

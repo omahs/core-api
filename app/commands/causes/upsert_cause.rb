@@ -22,14 +22,10 @@ module Causes
     private
 
     def create
-      Rails.logger.debug('aquiiiii')
       transaction_hash = create_pool
-      Rails.logger.debug(transaction_hash)
       result = transaction_status(transaction_hash)
-      Rails.logger.debug(result)
       if result == :success
         pool_address = fetch_pool
-        Rails.logger.debug(pool_address)
         if pool_address
           cause = Cause.create!(cause_params)
           Pool.create!(address: pool_address, name: cause_params[:name], token:, cause:)

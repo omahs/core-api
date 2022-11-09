@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -278,7 +278,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id", null: false
+    t.bigint "cause_id"
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
@@ -357,6 +357,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_173448) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "last_donated_cause"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

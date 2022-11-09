@@ -27,6 +27,7 @@ module Donations
       create_donation
       create_blockchain_donation
       set_user_last_donation_at
+      set_last_donated_cause
 
       donation
     end
@@ -45,6 +46,10 @@ module Donations
 
     def set_user_last_donation_at
       SetUserLastDonationAt.call(user:, date_to_set: donation.created_at)
+    end
+
+    def set_last_donated_cause
+      SetLastDonatedCause.call(user: user, cause: non_profit.cause)
     end
 
     def ticket_value

@@ -13,12 +13,11 @@
 class NonProfit < ApplicationRecord
   extend Mobility
 
-  translates :impact_description, :description, type: :string
+  translates :impact_description, type: :string
 
   has_one_attached :logo
   has_one_attached :main_image
   has_one_attached :background_image
-  has_one_attached :cover_image
   has_many :non_profit_impacts
   has_many :non_profit_wallets, as: :owner
 

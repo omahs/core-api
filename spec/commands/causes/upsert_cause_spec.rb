@@ -18,7 +18,7 @@ describe Causes::UpsertCause do
       let(:ribon_contract) { instance_double(Web3::Contracts::RibonContract) }
       let(:transaction_utils) { instance_double(Web3::Utils::TransactionUtils) }
       let(:transaction_hash) { '0xeba1bb09c8d20be6d4a18e0485e331b4a15e9e9e7f04fe50a44c97f923e08b58' }
-      let(:pool_address) { '0xdaaa2e4b502d60362084ee822c7753567625f4b9' }
+      let(:pool_address) { pools.data.pools.last.id }
 
       before do
         allow(Token).to receive(:default).and_return(token)

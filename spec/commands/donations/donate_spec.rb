@@ -19,6 +19,8 @@ describe Donations::Donate do
         allow(Donations::CreateBlockchainDonationJob).to receive(:perform_later)
         allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
+        allow(Donations::SetLastDonatedCause).to receive(:call)
+          .and_return(command_double(klass: Donations::SetLastDonatedCause))
         allow(donation).to receive(:save)
         allow(user).to receive(:can_donate?).and_return(true)
         create(:ribon_config, default_ticket_value: 100)
@@ -42,6 +44,13 @@ describe Donations::Donate do
 
         expect(Donations::SetUserLastDonationAt)
           .to have_received(:call).with(user:, date_to_set: donation.created_at)
+      end
+
+      it 'calls the Donations::SetLastDonatedCause' do
+        command
+
+        expect(Donations::SetLastDonatedCause)
+          .to have_received(:call).with(user:, cause: non_profit.cause)
       end
 
       it 'returns the donation created' do

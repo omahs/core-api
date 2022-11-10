@@ -24,7 +24,6 @@ module Causes
     private
 
     def create
-      Rails.logger.debug('aqui')
       pool_address = create_pool
       if pool_address
         cause = Cause.create!(cause_params)
@@ -53,7 +52,6 @@ module Causes
 
     def create_pool
       transaction_hash = Web3::Contracts::RibonContract.new(chain:).create_pool(token: token.address)
-      Rails.logger.debug(transaction_hash)
       result = transaction_status(transaction_hash)
       if result == :success
         fetch_pool
@@ -74,7 +72,8 @@ module Causes
       pool_address = result.data.pools.last.id
       return pool_address unless Pool.where(address: pool_address).first
 
-      false
+      errors.add(:message, I18n.t('pools.fetch_failed'))
+      nil
     rescue StandardError
       errors.add(:message, I18n.t('pools.fetch_failed'))
     end

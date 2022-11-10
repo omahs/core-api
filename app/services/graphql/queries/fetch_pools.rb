@@ -3,9 +3,9 @@ module Graphql
     module FetchPools
       Query = Graphql::RibonApi::Client.parse <<-'GRAPHQL'
         query {
-          pools {
+          pools(orderBy: timestamp, orderDirection: asc) {
             id
-            balance
+            timestamp
           }
         }
       GRAPHQL

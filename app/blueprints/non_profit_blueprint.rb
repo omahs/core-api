@@ -1,7 +1,7 @@
 class NonProfitBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :updated_at, :created_at, :name, :wallet_address, :impact_description
+  fields :updated_at, :created_at, :name, :wallet_address, :impact_description, :status
 
   association :cause, blueprint: CauseBlueprint, view: :minimal
 

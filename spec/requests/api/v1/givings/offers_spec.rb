@@ -35,7 +35,6 @@ RSpec.describe 'Api::V1::Offers', type: :request do
     let(:url) { '/api/v1/givings/offers_manager' }
     let!(:offers) { create_list(:offer, 2) }
 
-
     it 'returns all offers' do
       request
 

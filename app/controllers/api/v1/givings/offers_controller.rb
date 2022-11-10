@@ -9,6 +9,12 @@ module Api
           render json: OfferBlueprint.render(@offers)
         end
 
+        def show_manager
+          @offers = Offer.order('position_order ASC, price_cents ASC')
+
+          render json: OfferManagerBlueprint.render(@offers)
+        end
+
         private
 
         def currency

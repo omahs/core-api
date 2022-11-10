@@ -35,14 +35,11 @@ RSpec.describe 'Api::V1::Offers', type: :request do
     let(:url) { '/api/v1/givings/offers_manager' }
     let!(:offers) { create_list(:offer, 2) }
 
-    before do
-      create_list(:offer, 3)
-    end
 
-    it 'returns all active offers' do
+    it 'returns all offers' do
       request
 
-      expect(response_body.length).to eq 5
+      expect(response_body.length).to eq 2
       response_body.each { |offer| expect(offers.pluck(:id)).to include(offer['id']) }
     end
 

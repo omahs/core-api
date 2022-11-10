@@ -27,4 +27,27 @@ RSpec.describe 'Api::V1::Offers', type: :request do
                            price price_cents price_value subscription title updated_at]
     end
   end
+
+  describe 'GET /v1/givings/offers_manager' do
+    subject(:request) { get url }
+
+    let(:user) { create(:user) }
+    let(:url) { '/api/v1/givings/offers_manager' }
+    let!(:offers) { create_list(:offer, 2) }
+
+    it 'returns all offers' do
+      request
+
+      expect(response_body.length).to eq 2
+      response_body.each { |offer| expect(offers.pluck(:id)).to include(offer['id']) }
+    end
+
+    it 'returns all necessary keys' do
+      request
+
+      expect(response_json.first.keys)
+        .to match_array %w[active created_at currency id position_order external_id gateway
+                           price price_cents price_value subscription title updated_at]
+    end
+  end
 end

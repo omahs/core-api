@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
-        get 'offers_manager', to: 'offers#show_manager'
+        get 'offers_manager', to: 'offers#index_manager'
         get 'user_givings' => 'user_givings#index'
         post 'impact_by_non_profit' => 'impacts#impact_by_non_profit'
       end

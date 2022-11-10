@@ -232,3 +232,4 @@ pt-BR:
     fetch_failed: "Não foi possível obter o endereço da pool"
   causes:
     create_failed: "Não foi possível criar a causa"
+    update_failed: "Não foi possível atualizar a causa"

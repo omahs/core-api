@@ -11,3 +11,4 @@ en:
     fetch_failed: "Could not fetch pool"
   causes:
     create_failed: "Ops, something went wrong"
+    update_failed: "Ops, something went wrong"

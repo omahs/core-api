@@ -7,14 +7,34 @@ module Api
         render json: CauseBlueprint.render(@causes)
       end
 
+      def create
+        command = Causes::UpsertCause.call(cause_params)
+        if command.success?
+          render json: CauseBlueprint.render(command.result), status: :created
+        else
+          render_errors(command.errors)
+        end
+      end
+
       def show
         @cause = Cause.find_by cause_query
 
         render json: CauseBlueprint.render(@cause)
       end
 
+      def update
+        command = Causes::UpsertCause.call(cause_params)
+        if command.success?
+          render json: CauseBlueprint.render(command.result), status: :ok
+        else
+          render_errors(command.errors)
+        end
+      end
+
+      private
+
       def cause_params
-        params.permit(:id)
+        params.permit(:id, :name)
       end
 
       def cause_query

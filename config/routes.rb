@@ -45,6 +45,7 @@ Rails.application.routes.draw do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
         get 'offers_manager', to: 'offers#index_manager'
+        get 'offers/:id' => 'offers#show'
         get 'user_givings' => 'user_givings#index'
         post 'impact_by_non_profit' => 'impacts#impact_by_non_profit'
       end

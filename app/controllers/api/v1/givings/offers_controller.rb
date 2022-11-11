@@ -15,7 +15,17 @@ module Api
           render json: OfferBlueprint.render(@offers)
         end
 
+        def show
+          @offer = Offer.find_by(id: params[:id])
+
+          render json: OfferBlueprint.render(@offer, view: :minimal)
+        end
+
         private
+
+        def offer_params
+          params.permit(:id)
+        end
 
         def currency
           params[:currency] || :brl

@@ -31,6 +31,8 @@ module Givings
           }
         end
 
+        def success_callback(_order, _result); end
+
         private
 
         def find_or_create_guest

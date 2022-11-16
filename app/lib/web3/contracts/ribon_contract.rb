@@ -25,6 +25,13 @@ module Web3
                  keccak256_user, parsed_amount, sender_key: key)
       end
 
+      def create_pool(token:)
+        gas_limit = gas_limit_for_create_pool
+        hash = transact_and_wait('createPool', token, gas_limit:, sender_key: Providers::Keys::RIBON_KEY)
+        wait_for_tx(hash)
+        hash
+      end
+
       private
 
       def contract_name
@@ -37,6 +44,10 @@ module Web3
 
       def abi
         File.read("#{Rails.root}/app/lib/web3/utils/abis/ribon_abi.json")
+      end
+
+      def gas_limit_for_create_pool
+        client.gas_limit * 26
       end
     end
   end

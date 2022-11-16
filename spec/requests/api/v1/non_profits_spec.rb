@@ -12,8 +12,8 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[created_at id impact_description name updated_at
-                                                 wallet_address cover_image background_image logo main_image
-                                                 impact_by_ticket cause])
+                                                 wallet_address background_image logo main_image
+                                                 impact_by_ticket cause status])
     end
 
     it 'returns 2 non profits' do

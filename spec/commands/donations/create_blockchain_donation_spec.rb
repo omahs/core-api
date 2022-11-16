@@ -44,6 +44,24 @@ describe Donations::CreateBlockchainDonation do
       it 'returns the donation blockchain transaction' do
         expect(command.result.transaction_hash).to eq '0xFF20'
       end
+
+      context 'when the non profit has a cause with a pool' do
+        let!(:new_pool) { create(:pool, token:, cause:) }
+        let(:non_profit) { create(:non_profit, cause:) }
+        let(:cause) { create(:cause) }
+        let(:donation) do
+          create(:donation, user: create(:user), non_profit:, integration:)
+        end
+
+        it 'calls the donation in contract with the new pool' do
+          command
+
+          expect(ribon_contract)
+            .to have_received(:donate_through_integration)
+            .with(donation_pool: new_pool, amount: 1.0, non_profit_wallet_address: non_profit.wallet_address,
+                  user: donation.user.email, sender_key: integration.integration_wallet.private_key)
+        end
+      end
     end
 
     context 'when an error occurs at the blockchain process' do

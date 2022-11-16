@@ -15,4 +15,9 @@ class Token < ApplicationRecord
 
   belongs_to :chain
   has_many :pools
+
+  def self.default
+    default_chain_id = Chain.default.id
+    where(chain_id: default_chain_id).first
+  end
 end

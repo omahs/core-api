@@ -17,9 +17,11 @@ class User < ApplicationRecord
   has_many :customers
 
   has_one :user_donation_stats
+  has_one :utm, as: :trackable
 
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
+  delegate :last_donated_cause, to: :user_donation_stats
 
   def impact
     UserServices::UserImpact.new(user: self).impact

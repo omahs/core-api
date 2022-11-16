@@ -19,6 +19,12 @@ module Web3
         client.transact(contract, function_name, *args, **kwargs.merge(default_args))
       end
 
+      delegate :wait_for_tx, to: :client
+
+      def transact_and_wait(function_name, *args, **kwargs)
+        client.transact_and_wait(contract, function_name, *args, **kwargs)
+      end
+
       private
 
       def default_args

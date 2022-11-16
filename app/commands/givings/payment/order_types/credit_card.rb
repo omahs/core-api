@@ -45,8 +45,8 @@ module Givings
         end
 
         def create_payment(person)
-          PersonPayment.create!({ person:, offer:, paid_date:, integration:,
-                                  payment_method:, amount_cents:, status: :processing })
+          PersonPayment.create!({ person:, offer:, paid_date:, integration:, payment_method:,
+                                  amount_cents:, status: :processing, receiver: })
         end
 
         def call_add_giving_blockchain_job(order)
@@ -71,6 +71,10 @@ module Givings
 
         def integration
           Integration.find_by_id_or_unique_address(integration_id)
+        end
+
+        def receiver
+          non_profit || cause
         end
       end
     end

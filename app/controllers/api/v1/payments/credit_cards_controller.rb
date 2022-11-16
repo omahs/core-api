@@ -36,7 +36,8 @@ module Api
             tax_id: payment_params[:tax_id],
             user: find_or_create_user,
             integration_id: payment_params[:integration_id],
-            cause:
+            cause:,
+            non_profit:
           }
         end
 
@@ -54,6 +55,10 @@ module Api
 
         def cause
           @cause ||= Cause.find payment_params[:cause_id].to_i if payment_params[:cause_id]
+        end
+
+        def non_profit
+          @non_profit ||= NonProfit.find payment_params[:non_profit_id].to_i if payment_params[:non_profit_id]
         end
 
         def operation

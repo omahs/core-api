@@ -142,6 +142,23 @@ describe Givings::Payment::CreateOrder do
           expect(person_payment.status).to eq('paid')
         end
       end
+
+      context 'when the order is to a non profit' do
+        let(:args) do
+          { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
+            integration_id: integration.id, payment_method: :credit_card,
+            user: customer.user, operation: :subscribe, non_profit: create(:non_profit) }
+        end
+
+        it 'does not call the AddGivingToBlockchainJob' do
+          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+          allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
+          command
+
+          expect(Givings::Payment::AddGivingToBlockchainJob).not_to have_received(:perform_later)
+        end
+      end
     end
 
     context 'when using a Crypto payment' do

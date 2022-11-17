@@ -22,7 +22,7 @@ module Api
         end
 
         def create
-          command = ::Offers::CreateOffer.call(offer_params)
+          command = ::Offers::UpsertOffer.call(offer_params)
           if command.success?
             render json: OfferBlueprint.render(command.result), status: :created
           else
@@ -31,7 +31,7 @@ module Api
         end
 
         def update
-          command = ::Offers::CreateOffer.call(offer_params)
+          command = ::Offers::UpsertOffer.call(offer_params)
           if command.success?
             render json: OfferBlueprint.render(command.result), status: :created
           else

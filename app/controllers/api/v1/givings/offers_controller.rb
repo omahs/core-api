@@ -41,6 +41,10 @@ module Api
 
         private
 
+        def offer_params
+          params.permit(:id)
+        end
+
         def currency
           params[:currency] || :brl
         end

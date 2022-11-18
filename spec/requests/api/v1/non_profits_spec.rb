@@ -59,4 +59,53 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
       expect(response_json.count).to eq(2)
     end
   end
+
+  describe 'POST /create' do
+    subject(:request) { post '/api/v1/non_profits', params: }
+
+    let(:params) do
+      {
+        name: 'Ribon',
+        status: :inactive
+      }
+    end
+
+    let!(:result) { create(:non_profit) }
+
+    before do
+      mock_command(klass: NonProfits::CreateNonProfit, result:)
+      request
+    end
+
+    it 'returns a single non_profit' do
+      expect_response_to_have_keys(%w[background_image cause created_at id impact_by_ticket impact_description logo
+                                      main_image name status updated_at wallet_address])
+    end
+  end
+
+  describe 'GET /show' do
+    subject(:request) { get "/api/v1/non_profits/#{non_profit.id}" }
+
+    let(:non_profit) { create(:non_profit) }
+
+    it 'returns a single non_profit' do
+      request
+
+      expect_response_to_have_keys(%w[background_image cause created_at id impact_by_ticket impact_description logo
+                                      main_image name status updated_at wallet_address])
+    end
+  end
+
+  describe 'PUT /update' do
+    subject(:request) { put "/api/v1/non_profits/#{non_profit.id}", params: }
+
+    let(:non_profit) { create(:non_profit) }
+    let(:params) { { name: 'New Name' } }
+
+    it 'updates the non_profit' do
+      request
+
+      expect(non_profit.reload.name).to eq('New Name')
+    end
+  end
 end

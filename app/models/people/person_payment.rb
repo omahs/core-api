@@ -6,6 +6,7 @@
 #  amount_cents   :integer
 #  paid_date      :datetime
 #  payment_method :integer
+#  receiver_type  :string
 #  refund_date    :datetime
 #  status         :integer          default("processing")
 #  created_at     :datetime         not null
@@ -14,6 +15,7 @@
 #  integration_id :bigint
 #  offer_id       :bigint
 #  person_id      :uuid
+#  receiver_id    :bigint
 #
 class PersonPayment < ApplicationRecord
   include UuidHelper
@@ -23,6 +25,8 @@ class PersonPayment < ApplicationRecord
   belongs_to :person
   belongs_to :integration
   belongs_to :offer, optional: true
+  belongs_to :receiver, polymorphic: true, optional: true
+
   has_one :person_blockchain_transaction
   has_one :person_payment_fee
 

@@ -5,7 +5,10 @@ module Donations
     prepend SimpleCommand
 
     def call
-      DonationBlockchainTransaction.failed.find_each do |donation_blockchain_transaction|
+      failed_transactions = Donation.all.filter_map do |donation|
+        donation.donation_blockchain_transaction if donation.donation_blockchain_transaction&.failed?
+      end
+      failed_transactions.each do |donation_blockchain_transaction|
         update_transaction(donation_blockchain_transaction.donation)
       end
     end

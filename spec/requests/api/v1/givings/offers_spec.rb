@@ -89,27 +89,29 @@ RSpec.describe 'Api::V1::Offers', type: :request do
       end
     end
   end
-end
 
-describe 'PUT /update' do
-  context 'with the right params' do
-    subject(:request) { put "/api/v1/givings/offers/#{offer.id}", params: }
+  describe 'PUT /update' do
+    context 'with the right params' do
+      subject(:request) { put "/api/v1/givings/offers/#{offer.id}", params: }
 
-    let(:offer) { create(:offer) }
-    let(:params) { { id: offer.id.to_s, external_id: 'id_1234', currency: 'brl', price_cents: '1' } }
+      let(:offer) { create(:offer) }
+      let(:params) do
+        { id: offer.id.to_s, external_id: 'id_1234', currency: 'brl', price_cents: '1', gateway: 'stripe' }
+      end
 
-    it 'calls the upsert command with right params' do
-      allow(Offers::UpsertOffer).to receive(:call).and_return(command_double(klass: Offers::UpsertOffer,
-                                                                             result: offer))
-      request
+      it 'calls the upsert command with right params' do
+        allow(Offers::UpsertOffer).to receive(:call).and_return(command_double(klass: Offers::UpsertOffer,
+                                                                               result: offer))
+        request
 
-      expect(Offers::UpsertOffer).to have_received(:call).with(strong_params(params))
-    end
+        expect(Offers::UpsertOffer).to have_received(:call).with(strong_params(params))
+      end
 
-    it 'updates the offer' do
-      request
+      it 'updates the offer' do
+        request
 
-      expect(offer.reload.external_id).to eq('id_1234')
+        expect(offer.reload.external_id).to eq('id_1234')
+      end
     end
   end
 end

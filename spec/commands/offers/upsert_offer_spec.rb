@@ -11,8 +11,10 @@ describe Offers::UpsertOffer do
         {
           currency: 'brl',
           price_cents: '1',
-          gateway: 'stripe',
-          external_id: 'id_123'
+          offer_gateway_attributes: {
+            gateway: 'stripe',
+            external_id: 'id_123'
+          }
         }
       end
 
@@ -36,12 +38,15 @@ describe Offers::UpsertOffer do
           id: offer.id,
           currency: 'brl',
           price_cents: '1',
-          gateway: 'stripe',
-          external_id: 'id_1234'
+          offer_gateway_attributes: {
+            id: offer.id,
+            gateway: 'stripe',
+            external_id: 'id_1234'
+          }
         }
       end
 
-      it 'updates the cause with a new name' do
+      it 'updates the offer with new external_id' do
         command
         expect(offer.reload.external_id).to eq('id_1234')
       end

@@ -50,7 +50,8 @@ module Api
         end
 
         def offer_params
-          params.permit(:id, :price_cents, :gateway, :currency, :external_id, :active)
+          params.permit(:id, :price_cents, :currency, :active,
+                        offer_gateway_attributes: %i[id gateway external_id])
         end
 
         def offer_query

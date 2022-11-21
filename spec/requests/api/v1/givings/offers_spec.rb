@@ -68,7 +68,11 @@ RSpec.describe 'Api::V1::Offers', type: :request do
     subject(:request) { post '/api/v1/givings/offers', params: }
 
     context 'with the right params' do
-      let(:params) { { price_cents: '1', currency: 'brl', gateway: 'stripe', external_id: 'id_123' } }
+      let(:params) do
+        { price_cents: '1', currency: 'brl', offer_gateway_attributes: {
+          gateway: 'stripe', external_id: 'id_123'
+        } }
+      end
       let(:result) { create(:offer) }
 
       before do
@@ -96,7 +100,11 @@ RSpec.describe 'Api::V1::Offers', type: :request do
 
       let(:offer) { create(:offer) }
       let(:params) do
-        { id: offer.id.to_s, external_id: 'id_1234', currency: 'brl', price_cents: '1', gateway: 'stripe' }
+        { id: offer.id.to_s, currency: 'brl', price_cents: '1', offer_gateway_attributes: {
+          id: offer.id.to_s,
+          external_id: 'id_1234',
+          gateway: 'stripe'
+        } }
       end
 
       it 'calls the upsert command with right params' do

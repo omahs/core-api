@@ -1,19 +1,14 @@
 module Offers
   class UpsertOffer < ApplicationCommand
     prepend SimpleCommand
-    attr_reader :id, :currency, :price_cents, :active, :external_id, :gateway
+    attr_reader :offer_params
 
-    def initialize(args)
-      @id = args[:id]
-      @currency = args[:currency]
-      @price_cents = args[:price_cents]
-      @active = args[:active]
-      @gateway = args[:gateway]
-      @external_id = args[:external_id]
+    def initialize(offer_params)
+      @offer_params = offer_params
     end
 
     def call
-      if id.present?
+      if offer_params[:id].present?
         update
       else
         create
@@ -23,18 +18,12 @@ module Offers
     private
 
     def create
-      offer = Offer.create!(currency:, price_cents:, active:)
-
-      OfferGateway.create!(external_id:, gateway:, offer:)
-      offer
+      Offer.create!(offer_params)
     end
 
     def update
-      offer = Offer.find id
-      offer.update!(currency:, price_cents:, active:)
-      offer_gateway = OfferGateway.find_by(offer:)
-
-      offer_gateway.update(external_id:, gateway:)
+      offer = Offer.find offer_params[:id]
+      offer.update!(offer_params)
       offer
     end
   end

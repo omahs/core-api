@@ -16,7 +16,7 @@ module Api
         end
 
         def show
-          @offer = Offer.find_by offer_query
+          @offer = Offer.find offer_params[:id]
 
           render json: OfferBlueprint.render(@offer)
         end
@@ -52,14 +52,6 @@ module Api
         def offer_params
           params.permit(:id, :price_cents, :currency, :active,
                         offer_gateway_attributes: %i[id gateway external_id])
-        end
-
-        def offer_query
-          uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-
-          return { unique_address: offer_params[:id] } if uuid_regex.match?(offer_params[:id])
-
-          { id: offer_params[:id] }
         end
       end
     end

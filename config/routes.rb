@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'non_profits' => 'non_profits#index'
       get 'non_profits/:id/stories' => 'non_profits#stories'
+      post 'non_profits' => 'non_profits#create'
+      get 'non_profits/:id' => 'non_profits#show'
+      put 'non_profits/:id' => 'non_profits#update'
       get 'integrations' => 'integrations#index'
       get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
       post 'integrations' => 'integrations#create'
@@ -44,7 +47,11 @@ Rails.application.routes.draw do
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
+        get 'offers/:id' => "offers#show"
+
         get 'offers_manager', to: 'offers#index_manager'
+        post 'offers' => 'offers#create'
+        put 'offers/:id' => "offers#update"
         get 'user_givings' => 'user_givings#index'
         post 'impact_by_non_profit' => 'impacts#impact_by_non_profit'
       end
@@ -60,7 +67,6 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
-       
       end
     end
   end

@@ -15,6 +15,30 @@ module Api
           render json: OfferBlueprint.render(@offers)
         end
 
+        def show
+          @offer = Offer.find offer_params[:id]
+
+          render json: OfferBlueprint.render(@offer)
+        end
+
+        def create
+          command = ::Offers::UpsertOffer.call(offer_params)
+          if command.success?
+            render json: OfferBlueprint.render(command.result), status: :created
+          else
+            render_errors(command.errors)
+          end
+        end
+
+        def update
+          command = ::Offers::UpsertOffer.call(offer_params)
+          if command.success?
+            render json: OfferBlueprint.render(command.result), status: :created
+          else
+            render_errors(command.errors)
+          end
+        end
+
         private
 
         def currency
@@ -23,6 +47,11 @@ module Api
 
         def subscription
           params[:subscription] || false
+        end
+
+        def offer_params
+          params.permit(:id, :price_cents, :currency, :active,
+                        offer_gateway_attributes: %i[id gateway external_id])
         end
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_16_163407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -267,9 +267,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
     t.string "external_id"
     t.datetime "refund_date"
     t.bigint "integration_id"
+    t.string "receiver_type"
+    t.bigint "receiver_id"
     t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
+    t.index ["receiver_type", "receiver_id"], name: "index_person_payments_on_receiver"
   end
 
   create_table "pools", force: :cascade do |t|
@@ -278,7 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_111102) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id", null: false
+    t.bigint "cause_id"
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end

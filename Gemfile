@@ -73,7 +73,7 @@ gem 'mobility', '~> 1.2.6'
 
 gem 'rubycritic', require: false
 
-gem 'ffi', github: "ffi/ffi", submodules: true
+gem 'ffi', github: 'ffi/ffi', submodules: true
 
 # Currency Conversion
 gem 'money'

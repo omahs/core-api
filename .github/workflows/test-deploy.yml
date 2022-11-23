@@ -15,4 +15,4 @@ jobs:
         run: |
           git fetch origin ${{ github.event.pull_request.head.ref }}
           git merge ${{ github.event.pull_request.head.ref }}
-          git push origin fix/test-flow
+          git push

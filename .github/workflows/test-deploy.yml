@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Merge branch -> fix/test-flow
+      - name: Merge PR branch -> fix/test-flow
         uses: devmasx/merge-branch@master
         with:
           type: now

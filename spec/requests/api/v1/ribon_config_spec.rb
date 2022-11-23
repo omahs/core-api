@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::RibonConfig', type: :request do
+RSpec.describe 'Api::V1::Configs::RibonConfig', type: :request do
   describe 'GET /index' do
-    subject(:request) { get '/api/v1/settings' }
+    subject(:request) { get '/api/v1/configs/settings' }
 
     before do
       create(:ribon_config)
@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::RibonConfig', type: :request do
   end
 
   describe 'PUT /update' do
-    subject(:request) { put "/api/v1/settings/#{ribon_config.id}", params: }
+    subject(:request) { put "/api/v1/configs/settings/#{ribon_config.id}", params: }
 
     let(:ribon_config) { create(:ribon_config) }
     let(:params) { { default_ticket_value: '100.4' } }
@@ -24,7 +24,7 @@ RSpec.describe 'Api::V1::RibonConfig', type: :request do
     it 'updates the ribon config' do
       request
 
-      expect(ribon_config.reload.default_ticket_value).to eq(0.1004e3)
+      expect(ribon_config.reload.default_ticket_value).to eq(100.4)
     end
   end
 end

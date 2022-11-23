@@ -9,7 +9,7 @@ module Api
         end
 
         def update
-          command = Configs::UpdateRibonConfig.call(ribon_config_params)
+          command = RibonConfigs::UpdateRibonConfig.call(ribon_config_params)
 
           if command.success?
 

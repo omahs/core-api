@@ -17,7 +17,7 @@ describe RibonConfigs::UpdateRibonConfig do
 
       it 'updates the ribon config with new default ticket value' do
         command
-        expect(ribon_config.reload.default_ticket_value).to eq(100.5)
+        expect(ribon_config.reload.default_ticket_value).to eq(100.4)
       end
     end
   end

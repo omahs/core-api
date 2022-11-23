@@ -1,0 +1,18 @@
+name: Merge on fix/test-flow
+on:
+  pull_request:
+    branches:
+    - staging
+jobs:
+  updateTestFlow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: fix/test-flow
+          token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: merge on fix/test-flow
+        run: |
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git merge ${{ github.event.pull_request.head.ref }}
+          git push

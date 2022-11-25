@@ -5,6 +5,8 @@ class CauseBlueprint < Blueprinter::Base
 
   association :pools, blueprint: PoolBlueprint
 
+  association :non_profits, blueprint: NonProfitBlueprint, view: :no_cause
+
   field(:main_image) do |object|
     ImagesHelper.image_url_for(object.main_image)
   end

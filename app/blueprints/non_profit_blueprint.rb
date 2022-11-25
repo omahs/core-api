@@ -22,4 +22,8 @@ class NonProfitBlueprint < Blueprinter::Base
   field(:impact_by_ticket) do |object|
     object.impact_by_ticket
   end
+
+  view :no_cause do
+    excludes :cause
+  end
 end

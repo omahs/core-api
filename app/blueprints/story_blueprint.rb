@@ -1,9 +1,7 @@
 class StoryBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :updated_at, :created_at, :title, :description, :active, :position, :non_profit_id
-
-  association :non_profit, blueprint: NonProfitBlueprint
+  fields :updated_at, :created_at, :title, :description, :active, :position
 
   field(:image) do |object|
     ImagesHelper.image_url_for(object.image, variant: { resize_to_fit: [800, 800],

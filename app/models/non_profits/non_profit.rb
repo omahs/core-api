@@ -26,6 +26,8 @@ class NonProfit < ApplicationRecord
   has_many :stories
   has_many :person_payments, as: :receiver
 
+  accepts_nested_attributes_for :stories
+
   validates :name, :impact_description, :status, :wallet_address, presence: true
 
   belongs_to :cause

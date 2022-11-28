@@ -34,7 +34,7 @@ module Api
       private
 
       def story_params
-        params.permit(:title, :description, :non_profit_id, :position, :active, :image)
+        params.permit(:title, :description, :position, :active, :image)
       end
 
       def fetch_story_query

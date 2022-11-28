@@ -5,6 +5,8 @@ class NonProfitBlueprint < Blueprinter::Base
 
   association :cause, blueprint: CauseBlueprint, view: :minimal
 
+  association :stories, blueprint: StoryBlueprint
+
   field(:logo) do |object|
     ImagesHelper.image_url_for(object.logo, variant: { resize_to_fit: [150, 150],
                                                        saver: { quality: 95 }, format: :jpg })

@@ -2,7 +2,7 @@ module Api
   module V1
     class NonProfitsController < ApplicationController
       def index
-        @non_profits = NonProfit.where(status: :active)
+        @non_profits = NonProfit.where(status: :active).order(cause_id: :asc)
 
         render json: NonProfitBlueprint.render(@non_profits)
       end

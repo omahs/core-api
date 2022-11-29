@@ -6,6 +6,7 @@ class NonProfitBlueprint < Blueprinter::Base
   association :cause, blueprint: CauseBlueprint, view: :minimal
 
   association :stories, blueprint: StoryBlueprint
+  association :non_profit_impacts, blueprint: NonProfitImpactsBlueprint
 
   field(:logo) do |object|
     ImagesHelper.image_url_for(object.logo, variant: { resize_to_fit: [150, 150],
@@ -23,5 +24,9 @@ class NonProfitBlueprint < Blueprinter::Base
 
   field(:impact_by_ticket) do |object|
     object.impact_by_ticket
+  end
+
+  view :no_cause do
+    excludes :cause
   end
 end

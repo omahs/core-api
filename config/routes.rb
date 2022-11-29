@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post 'stories' => 'stories#create'
       get 'stories/:id' => 'stories#show'
       put 'stories/:id' => 'stories#update'
+      delete 'stories/:id' => 'stories#destroy'
 
       get 'non_profits' => 'non_profits#index'
       get 'non_profits/:id/stories' => 'non_profits#stories'

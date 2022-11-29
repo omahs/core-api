@@ -17,7 +17,7 @@ module Api
       end
 
       def show
-        @story = Story.find_by fetch_story_query
+        @story = Story.find(story_params[:id])
 
         render json: StoryBlueprint.render(@story, view: :minimal)
       end
@@ -31,18 +31,16 @@ module Api
         end
       end
 
+      def destroy
+        @story = Story.find(story_params[:id])
+
+        @story.destroy
+      end
+
       private
 
       def story_params
-        params.permit(:title, :description, :position, :active, :image)
-      end
-
-      def fetch_story_query
-        uuid_regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-
-        return { unique_address: story_params[:id] } if uuid_regex.match?(story_params[:id])
-
-        { id: story_params[:id] }
+        params.permit(:id, :title, :description, :position, :active, :image)
       end
     end
   end

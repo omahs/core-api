@@ -9,6 +9,6 @@ class StoryBlueprint < Blueprinter::Base
   end
 
   view :minimal do
-    excludes :created_at, :updated_at, :non_profit
+    excludes :created_at, :updated_at
   end
 end

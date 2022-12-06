@@ -23,6 +23,10 @@ class RibonConfig < ApplicationRecord
     first.default_chain_id
   end
 
+  def ticket_value
+    default_ticket_value / 100.0
+  end
+
   private
 
   def singularity
@@ -35,4 +39,6 @@ class RibonConfig < ApplicationRecord
     errors.add(:base, :undestroyable)
     throw :abort
   end
+
+
 end

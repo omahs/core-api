@@ -41,7 +41,8 @@ module Api
       private
 
       def non_profit_params
-        params.permit(:id, :name, :status, :impact_description, :wallet_address, :logo, :main_image, :cause_id)
+        params.permit(:id, :name, :status, :impact_description, :wallet_address, :logo, :main_image, :cause_id,
+                      stories_attributes: %i[id title description position active image])
       end
 
       def fetch_non_profit_query

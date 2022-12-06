@@ -282,7 +282,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_16_163407) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id"
+    t.bigint "cause_id", null: false
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["integration_id"], name: "index_pools_on_integration_id"
     t.index ["token_id"], name: "index_pools_on_token_id"

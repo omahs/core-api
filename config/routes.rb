@@ -16,11 +16,19 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get 'stories' => 'stories#index'
+      get 'stories/:id/stories' => 'stories#stories'
+      post 'stories' => 'stories#create'
+      get 'stories/:id' => 'stories#show'
+      put 'stories/:id' => 'stories#update'
+      delete 'stories/:id' => 'stories#destroy'
+
       get 'non_profits' => 'non_profits#index'
       get 'non_profits/:id/stories' => 'non_profits#stories'
       post 'non_profits' => 'non_profits#create'
       get 'non_profits/:id' => 'non_profits#show'
       put 'non_profits/:id' => 'non_profits#update'
+
       get 'integrations' => 'integrations#index'
       get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
       post 'integrations' => 'integrations#create'

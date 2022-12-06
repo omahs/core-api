@@ -5,6 +5,8 @@ class NonProfitBlueprint < Blueprinter::Base
 
   association :cause, blueprint: CauseBlueprint, view: :minimal
 
+  association :stories, blueprint: StoryBlueprint, view: :minimal
+
   association :non_profit_impacts, blueprint: NonProfitImpactsBlueprint
 
   field(:logo) do |object|

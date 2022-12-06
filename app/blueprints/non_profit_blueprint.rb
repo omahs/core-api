@@ -30,8 +30,4 @@ class NonProfitBlueprint < Blueprinter::Base
   view :no_cause do
     excludes :cause
   end
-
-  view :no_stories do
-    excludes :stories
-  end
 end

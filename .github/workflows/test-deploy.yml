@@ -1,4 +1,4 @@
-name: Merge on fix/test-flow
+name: Merge on develop
 on:
   pull_request:
     branches:
@@ -7,12 +7,12 @@ jobs:
   updateTestFlow:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
+
+      - name: Merge PR branch -> develop
+        uses: devmasx/merge-branch@master
         with:
-          ref: fix/test-flow
-          token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: merge on fix/test-flow
-        run: |
-          git fetch origin ${{ github.event.pull_request.head.ref }}
-          git merge origin ${{ github.event.pull_request.head.ref }}
-          git push origin fix/test-flow
+          type: now
+          from_branch: ${{ github.event.pull_request.head.ref }}
+          target_branch: develop
+          github_token: "${{ secrets.GITHUB_TOKEN }}"

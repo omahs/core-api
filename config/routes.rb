@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       end
       namespace :vouchers do
         post 'donations' => 'donations#create'
+        post 'valid' => 'donations#valid_voucher'
       end
       namespace :configs do
         get 'settings' => 'ribon_config#index'

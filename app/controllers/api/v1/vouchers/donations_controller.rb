@@ -2,6 +2,16 @@ module Api
   module V1
     module Vouchers
       class DonationsController < ApplicationController
+        def valid_voucher
+          voucher = Voucher.new(integration:, external_id:)
+
+          if voucher.valid?
+            render json: { valid: true }, status: :ok
+          else
+            render json: { errors: voucher.errors.full_messages, valid: false }
+          end
+        end
+
         def create
           command = ::Vouchers::Donate.call(donation_command:, integration:, external_id:)
 

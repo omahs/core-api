@@ -11,6 +11,10 @@ module Service
 
       delegate :total_donations, :total_donors, :impact_per_non_profit, to: :statistics_service
 
+      def formatted_impact
+        { total_donations:, total_donors:, impact_per_non_profit: }
+      end
+
       private
 
       def statistics_service

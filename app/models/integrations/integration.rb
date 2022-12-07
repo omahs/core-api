@@ -50,7 +50,7 @@ class Integration < ApplicationRecord
   end
 
   def wallet_address
-    integration_wallet&.public_key || ''
+    integration_wallet&.public_key
   end
 
   private

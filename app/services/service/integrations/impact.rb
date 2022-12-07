@@ -9,17 +9,7 @@ module Service
         @end_date = end_date
       end
 
-      def total_donations
-        @total_donations ||= statistics_service.total_donations
-      end
-
-      def total_donors
-        @total_donors ||= statistics_service.total_donors
-      end
-
-      def impact_per_non_profit
-        @impact_per_non_profit ||= statistics_service.impact_per_non_profit
-      end
+      delegate :total_donations, :total_donors, :impact_per_non_profit, to: :statistics_service
 
       private
 

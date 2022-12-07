@@ -1,0 +1,18 @@
+name: Merge on develop
+on:
+  pull_request:
+    branches:
+    - staging
+jobs:
+  updateTestFlow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Merge PR branch -> develop
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: ${{ github.event.pull_request.head.ref }}
+          target_branch: develop
+          github_token: "${{ secrets.GITHUB_TOKEN }}"

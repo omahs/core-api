@@ -16,11 +16,19 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get 'stories' => 'stories#index'
+      get 'stories/:id/stories' => 'stories#stories'
+      post 'stories' => 'stories#create'
+      get 'stories/:id' => 'stories#show'
+      put 'stories/:id' => 'stories#update'
+      delete 'stories/:id' => 'stories#destroy'
+
       get 'non_profits' => 'non_profits#index'
       get 'non_profits/:id/stories' => 'non_profits#stories'
       post 'non_profits' => 'non_profits#create'
       get 'non_profits/:id' => 'non_profits#show'
       put 'non_profits/:id' => 'non_profits#update'
+
       get 'integrations' => 'integrations#index'
       get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
       post 'integrations' => 'integrations#create'
@@ -34,10 +42,10 @@ Rails.application.routes.draw do
       get 'users/impact' => 'users#impact'
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
-      get 'causes' => "causes#index"
-      post 'causes' => "causes#create"
-      get 'causes/:id' => "causes#show"
-      put 'causes/:id' => "causes#update"
+      get 'causes' => 'causes#index'
+      post 'causes' => 'causes#create'
+      get 'causes/:id' => 'causes#show'
+      put 'causes/:id' => 'causes#update'
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
@@ -47,11 +55,11 @@ Rails.application.routes.draw do
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'
-        get 'offers/:id' => "offers#show"
+        get 'offers/:id' => 'offers#show'
 
         get 'offers_manager', to: 'offers#index_manager'
         post 'offers' => 'offers#create'
-        put 'offers/:id' => "offers#update"
+        put 'offers/:id' => 'offers#update'
         get 'user_givings' => 'user_givings#index'
         post 'impact_by_non_profit' => 'impacts#impact_by_non_profit'
       end
@@ -64,10 +72,15 @@ Rails.application.routes.draw do
       namespace :vouchers do
         post 'donations' => 'donations#create'
       end
+      namespace :configs do
+        get 'settings' => 'ribon_config#index'
+        put 'settings/:id' => 'ribon_config#update'
+      end
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
       end
+
     end
   end
 

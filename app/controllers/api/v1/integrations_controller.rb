@@ -2,7 +2,7 @@ module Api
   module V1
     class IntegrationsController < ApplicationController
       def index
-        @integrations = Integration.all
+        @integrations = Integration.order(created_at: :desc)
 
         render json: IntegrationBlueprint.render(@integrations)
       end

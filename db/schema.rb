@@ -278,11 +278,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_16_163407) do
   create_table "pools", force: :cascade do |t|
     t.string "address"
     t.bigint "token_id", null: false
+    t.bigint "integration_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id"
+    t.bigint "cause_id", null: false
     t.index ["cause_id"], name: "index_pools_on_cause_id"
+    t.index ["integration_id"], name: "index_pools_on_integration_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
 
@@ -419,6 +421,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_16_163407) do
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
   add_foreign_key "pools", "causes"
+  add_foreign_key "pools", "integrations"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_donation_stats", "users"

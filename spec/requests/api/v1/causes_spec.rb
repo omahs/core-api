@@ -12,7 +12,7 @@ RSpec.describe 'Api::V1::Causes', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[created_at id updated_at name main_image cover_image pools
-                                                 active])
+                                                 active non_profits])
     end
   end
 
@@ -24,7 +24,8 @@ RSpec.describe 'Api::V1::Causes', type: :request do
     it 'returns a single causes' do
       request
 
-      expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active])
+      expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active
+                                      non_profits])
     end
   end
 
@@ -48,7 +49,8 @@ RSpec.describe 'Api::V1::Causes', type: :request do
       it 'returns a single causes' do
         request
 
-        expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active])
+        expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active
+                                        non_profits])
       end
     end
 

@@ -17,6 +17,10 @@ module Service
         @total_donors ||= statistics_service.total_donors
       end
 
+      def impact_per_non_profit
+        @impact_per_non_profit ||= statistics_service.impact_per_non_profit
+      end
+
       private
 
       def statistics_service

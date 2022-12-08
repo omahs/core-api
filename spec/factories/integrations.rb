@@ -33,7 +33,7 @@ FactoryBot.define do
                               filename: 'pitagoras.jpg',
                               content_type: 'image/jpg')
     end
-
+    
     trait(:with_integration_task) do
       after(:create) do
         build(:integration_task)

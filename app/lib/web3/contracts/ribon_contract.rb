@@ -15,18 +15,21 @@ module Web3
                  sender_key: Providers::Keys::RIBON_KEY)
       end
 
-      def donate_through_integration(donation_pool:, non_profit_wallet_address:, integration_wallet_address:, user:,
+      def donate_through_integration(donation_pool:,
+                                     non_profit_wallet_address:,
+                                     integration_wallet_address:,
+                                     user:,
                                      amount:)
         keccak256_user = Utils::Converter.keccak(user).to_s
         parsed_amount = Utils::Converter.to_decimals(amount, donation_pool.token.decimals)
 
-        result = transact('donateThroughIntegration',
-                          donation_pool.address,
-                          non_profit_wallet_address,
-                          integration_wallet_address,
-                          keccak256_user,
-                          parsed_amount,
-                          sender_key: Providers::Keys::RIBON_KEY)
+        transact('donateThroughIntegration',
+                 donation_pool.address,
+                 non_profit_wallet_address,
+                 integration_wallet_address,
+                 keccak256_user,
+                 parsed_amount,
+                 sender_key: Providers::Keys::RIBON_KEY)
       end
 
       def create_pool(token:)

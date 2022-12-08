@@ -80,13 +80,11 @@ RSpec.describe Web3::Contracts::RibonContract do
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
-        .to have_received(:transact).with(
-          contract, 'donateThroughIntegration',
-          donation_pool.address,
-          non_profit_wallet_address,
-          integration_wallet_address,
-          keccak256_user, wei_amount, gas_limit: 0, sender_key:
-        )
+        .to have_received(:transact).with(contract, 'donateThroughIntegration',
+                                          donation_pool.address,
+                                          non_profit_wallet_address,
+                                          integration_wallet_address,
+                                          keccak256_user, wei_amount, gas_limit: 0, sender_key:)
     end
   end
 end

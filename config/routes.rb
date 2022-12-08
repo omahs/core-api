@@ -90,6 +90,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :donations, only: %i[index show]
       resources :vouchers, only: [:show]
+      resources :impacts, only: [:index]
     end
   end
 

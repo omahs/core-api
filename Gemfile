@@ -87,6 +87,11 @@ gem 'stripe'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 
+# Web3 Storage
+gem 'nft_storage', '~> 1.0.0'
+
+gem 'sassc-rails'
+
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
   gem 'base64'
@@ -109,5 +114,5 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'annotate'
+  gem 'ruby-lsp', '~> 0.3.6', require: false
 end
-gem 'sassc-rails'

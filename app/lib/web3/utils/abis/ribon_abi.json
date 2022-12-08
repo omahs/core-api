@@ -321,14 +321,9 @@
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "_integration",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_donation_batch",
-        "type": "string"
+        "internalType": "bytes32",
+        "name": "_user",
+        "type": "bytes32"
       },
       {
         "internalType": "uint256",

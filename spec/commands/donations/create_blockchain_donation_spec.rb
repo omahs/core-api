@@ -30,8 +30,9 @@ describe Donations::CreateBlockchainDonation do
 
         expect(ribon_contract).to have_received(:donate_through_integration)
           .with(donation_pool:, amount: 1.0,
-                non_profit_wallet_address: non_profit.wallet_address, user: donation.user.email,
-                sender_key: integration.integration_wallet.private_key)
+                non_profit_wallet_address: non_profit.wallet_address,
+                integration_wallet_address: integration.wallet_address,
+                user: donation.user.email)
       end
 
       it 'creates donation_blockchain_transaction for the donation' do
@@ -46,6 +47,7 @@ describe Donations::CreateBlockchainDonation do
       end
 
       context 'when the non profit has a cause with a pool' do
+        let(:integration) { create(:integration) }
         let!(:new_pool) { create(:pool, token:, cause:) }
         let(:non_profit) { create(:non_profit, cause:) }
         let(:cause) { create(:cause) }
@@ -58,8 +60,10 @@ describe Donations::CreateBlockchainDonation do
 
           expect(ribon_contract)
             .to have_received(:donate_through_integration)
-            .with(donation_pool: new_pool, amount: 1.0, non_profit_wallet_address: non_profit.wallet_address,
-                  user: donation.user.email, sender_key: integration.integration_wallet.private_key)
+            .with(donation_pool: new_pool, amount: 1.0,
+                  non_profit_wallet_address: non_profit.wallet_address,
+                  integration_wallet_address: integration.wallet_address,
+                  user: donation.user.email)
         end
       end
     end

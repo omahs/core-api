@@ -49,6 +49,10 @@ class Integration < ApplicationRecord
     integration_webhook&.url
   end
 
+  def wallet_address
+    integration_wallet&.public_key
+  end
+
   private
 
   def base_url

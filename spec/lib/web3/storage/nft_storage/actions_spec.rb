@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Web3::Storage::NftStorage::Actions do
-  subject(:nft_storage_instance) { instance_double(NFTStorage::NFTStorageAPI) }
+  subject(:api_instance) { described_class.new }
 
-  let(:api_instance) { described_class.new }
+  let(:nft_storage_instance) { instance_double(NFTStorage::NFTStorageAPI) }
   let(:cid) { 'pi_123' }
 
   describe '#delete' do

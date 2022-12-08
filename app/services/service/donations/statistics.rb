@@ -1,5 +1,5 @@
 module Service
-  module Impact
+  module Donations
     class Statistics
       attr_reader :donations
 

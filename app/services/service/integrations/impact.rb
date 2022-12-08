@@ -18,7 +18,7 @@ module Service
       private
 
       def statistics_service
-        @statistics_service ||= Service::Impact::Statistics.new(donations: filtered_donations)
+        @statistics_service ||= Service::Donations::Statistics.new(donations: filtered_donations)
       end
 
       def filtered_donations

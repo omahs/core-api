@@ -20,10 +20,8 @@ module Web3
           Rails.logger.debug { "Error when calling NFTStorageAPI->status: #{e}" }
         end
 
-        def store
-          body = File.read("#{Rails.root}/app/lib/web3/utils/abis/ribon_abi.json")
-
-          api_instance.store(body)
+        def store(file:)
+          api_instance.store_with_http_info(file)
         rescue NFTStorage::ApiError => e
           Rails.logger.debug { "Error when calling NFTStorageAPI->store: #{e}" }
         end

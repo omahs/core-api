@@ -30,7 +30,9 @@ describe Donations::CreateBlockchainDonation do
 
         expect(ribon_contract).to have_received(:donate_through_integration)
           .with(donation_pool:, amount: 1.0,
-                non_profit_wallet_address: non_profit.wallet_address, integration_wallet_address: integration.wallet_address, user: donation.user.email)
+                non_profit_wallet_address: non_profit.wallet_address,
+                integration_wallet_address: integration.wallet_address,
+                user: donation.user.email)
       end
 
       it 'creates donation_blockchain_transaction for the donation' do

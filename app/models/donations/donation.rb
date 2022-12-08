@@ -17,6 +17,10 @@ class Donation < ApplicationRecord
 
   has_many :donation_blockchain_transactions
 
+  scope :created_between, lambda { |start_date, end_date|
+                            where('created_at >= ? AND created_at <= ?', start_date, end_date)
+                          }
+
   def donation_blockchain_transaction
     donation_blockchain_transactions.last
   end

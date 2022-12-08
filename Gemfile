@@ -87,6 +87,9 @@ gem 'stripe'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 
+# Web3 Storage
+gem 'nft_storage', '~> 1.0.0'
+
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
   gem 'base64'
@@ -111,3 +114,5 @@ group :development do
   gem 'annotate'
 end
 gem 'sassc-rails'
+
+gem 'ruby-lsp', '~> 0.3.6', group: :development

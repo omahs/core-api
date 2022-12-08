@@ -12,7 +12,7 @@ module Service
       end
 
       def total_donors
-        @total_donors ||= donations.select(:user_id).distinct.count
+        @total_donors ||= donations.distinct.count(:user_id)
       end
 
       def impact_per_non_profit

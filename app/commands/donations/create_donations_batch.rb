@@ -7,7 +7,8 @@ module Donations
     def call
       create_batch_file
 
-      create_batch
+      batch = create_batch
+      create_donations_batch(batch)
     end
 
     private
@@ -30,6 +31,7 @@ module Donations
       OpenStruct.new(result.parsed_response).value['cid']
     end
 
+    # rubocop:disable Metrics/MethodLength
     def temporary_json
       donations_json = []
 
@@ -38,15 +40,27 @@ module Donations
                               value: donation.value,
                               integration_id: donation.integration_id,
                               non_profit_id: donation.non_profit_id,
-                              user_id: donation.user_id
+                              user_id: donation.user_id,
+                              donation_id: donation.id,
+                              user_hash: donation.user_hash,
+                              integration_address: donation.integration.integration_address,
+                              non_profit_address: donation.non_profit.non_profit_address,
+                              timestamp: donation.created_at
                             })
       end
 
       donations_json
     end
+    # rubocop:enable Metrics/MethodLength
 
     def create_batch
       Batch.create(cid: store_batch)
+    end
+
+    def create_donations_batch(batch)
+      batch_donations.map do |donation|
+        DonationBatch.create(donation:, batch:)
+      end
     end
   end
 end

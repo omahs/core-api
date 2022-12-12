@@ -79,7 +79,7 @@ gem 'ffi', submodules: true
 gem 'money'
 
 gem 'sidekiq'
-gem "sidekiq-cron", "~> 1.1"
+gem 'sidekiq-cron', '~> 1.1'
 
 # Payment Gateways
 gem 'stripe'

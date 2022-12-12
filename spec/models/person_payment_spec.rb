@@ -4,6 +4,7 @@
 #
 #  id             :bigint           not null, primary key
 #  amount_cents   :integer
+#  error_code     :string
 #  paid_date      :datetime
 #  payment_method :integer
 #  receiver_type  :string

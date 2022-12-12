@@ -87,9 +87,6 @@ gem 'stripe'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 
-# Web3 Storage
-gem 'nft_storage', '~> 1.0.0'
-
 gem 'sassc-rails'
 
 group :development, :test do

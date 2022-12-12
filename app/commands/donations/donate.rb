@@ -25,7 +25,7 @@ module Donations
 
     def transact_donation
       create_donation
-      create_blockchain_donation
+      # create_blockchain_donation
       set_user_last_donation_at
       set_last_donated_cause
 

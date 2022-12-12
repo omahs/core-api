@@ -3,18 +3,26 @@
 module Donations
   class CreateDonationsBatch < ApplicationCommand
     prepend SimpleCommand
+    attr_reader :integration, :non_profit
+
+    def initialize(integration,non_profit)
+      @integration = integration
+      @non_profit = non_profit
+    end
 
     def call
-      create_batch_file
+      if batch_donations.length > 0
+        create_batch_file
 
-      batch = create_batch
-      create_donations_batch(batch)
+        batch = create_batch
+        create_donations_batch(batch)
+      end
     end
 
     private
 
     def batch_donations
-      Donation.left_outer_joins(:donation_batch).where('donation_batch.id': nil).distinct
+      Donation.where(integration:,non_profit:).left_outer_joins(:donation_batch).where('donation_batch.id': nil).distinct
     end
 
     def create_batch_file
@@ -42,9 +50,9 @@ module Donations
                               non_profit_id: donation.non_profit_id,
                               user_id: donation.user_id,
                               donation_id: donation.id,
-                              user_hash: donation.user_hash,
+                              user_hash: user_hash(donation.user.email),
                               integration_address: donation.integration.integration_address,
-                              non_profit_address: donation.non_profit.non_profit_address,
+                              non_profit_address: donation.non_profit.wallet_address,
                               timestamp: donation.created_at
                             })
       end
@@ -61,6 +69,10 @@ module Donations
       batch_donations.map do |donation|
         DonationBatch.create(donation:, batch:)
       end
+    end
+
+    def user_hash(email)
+      Web3::Utils::Converter.keccak(email)
     end
   end
 end

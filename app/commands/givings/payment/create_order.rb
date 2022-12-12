@@ -20,7 +20,7 @@ module Givings
 
         payment_process_result
       rescue StandardError => e
-        failure_callback(order, payment_process_result, e.code)
+        failure_callback(order, payment_process_result, e)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:message, e.message)
       end
@@ -36,8 +36,8 @@ module Givings
         klass.success_callback(order, result)
       end
 
-      def failure_callback(order, _result, error_code)
-        order.payment.update(status: :failed, error_code: error_code)
+      def failure_callback(order, _result, error)
+        order.payment.update(status: :failed, error_code: error.code)
       end
 
       def call_add_giving_blockchain_job(order)

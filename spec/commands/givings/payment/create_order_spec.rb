@@ -36,9 +36,7 @@ describe Givings::Payment::CreateOrder do
         orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(Person).to receive(:create!).and_return(person)
-        allow(Customer).to receive(:create!).and_return(customer)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
-
         command
 
         expect(Service::Givings::Payment::Orchestrator)
@@ -104,10 +102,8 @@ describe Givings::Payment::CreateOrder do
         orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(Person).to receive(:create!).and_return(person)
-        allow(Customer).to receive(:create!).and_return(customer)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
-
         expect(Service::Givings::Payment::Orchestrator)
           .to have_received(:new).with(payload: an_object_containing(
             payment_method: 'credit_card', payment: person_payment,
@@ -190,6 +186,7 @@ describe Givings::Payment::CreateOrder do
       end
     end
   end
+
   describe '.call returns error' do
     subject(:command) { described_class.call(order_type_class, args) }
 
@@ -209,14 +206,14 @@ describe Givings::Payment::CreateOrder do
           payment_method: :credit_card, user: customer.user, gateway: 'stripe', operation: :subscribe }
       end
 
-        it 'calls the failure callback' do
-          allow(Person).to receive(:create!).and_return(person)
-          allow(Customer).to receive(:create!).and_return(customer)
-          allow(PersonPayment).to receive(:create!).and_return(person_payment)
-          command
+      it 'calls the failure callback' do
+        allow(Person).to receive(:create!).and_return(person)
+        allow(Customer).to receive(:create!).and_return(customer)
+        allow(PersonPayment).to receive(:create!).and_return(person_payment)
+        command
 
-          expect(person_payment.error_code).to eq('card_declined')
-        end
+        expect(person_payment.error_code).to eq('card_declined')
       end
+    end
   end
 end

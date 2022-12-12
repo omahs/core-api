@@ -6,7 +6,8 @@ module Donations
 
     def call
       create_batch_file
-      store_batch
+
+      create_batch
     end
 
     private
@@ -24,14 +25,15 @@ module Donations
     end
 
     def store_batch
-      Web3::Storage::NftStorage::Actions.new.store(file: batch_file)
+      result = Web3::Storage::NftStorage::Actions.new.store(file: batch_file)
+
+      OpenStruct.new(result.parsed_response).value['cid']
     end
 
     def temporary_json
       donations_json = []
 
       batch_donations.map do |donation|
-        Rails.logger.debug donations_json
         donations_json.push({
                               value: donation.value,
                               integration_id: donation.integration_id,
@@ -41,6 +43,10 @@ module Donations
       end
 
       donations_json
+    end
+
+    def create_batch
+      Batch.create(cid: store_batch)
     end
   end
 end

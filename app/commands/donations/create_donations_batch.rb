@@ -11,13 +11,13 @@ module Donations
     end
 
     def call
-      if batch_donations.length.positive?
-        create_batch_file
+      return unless batch_donations.length.positive?
 
-        batch = create_batch
-        create_donations_batch(batch)
-        batch
-      end
+      create_batch_file
+
+      batch = create_batch
+      create_donations_batch(batch)
+      batch
     end
 
     private

@@ -16,10 +16,10 @@ describe Givings::Payment::CreateOrder do
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:person_payment) { build(:person_payment, offer:, person:, integration:, amount_cents: 1) }
+      let(:person_payment) { create(:person_payment, offer:, person:, integration:, amount_cents: 1) }
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
-          payment_method: :credit_card, user: customer.user, operation: :subscribe }
+          payment_method: :credit_card, user: customer.user, gateway: 'stripe', operation: :subscribe }
       end
 
       context 'when there is no customer associated with the user' do
@@ -33,9 +33,9 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
-        allow(Service::Givings::Payment::Orchestrator).to receive(:new)
+        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(Person).to receive(:create!).and_return(person)
-        allow(Customer).to receive(:create!).and_return(customer)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
 
@@ -82,7 +82,7 @@ describe Givings::Payment::CreateOrder do
       let(:customer) { build(:customer, person:, user: create(:user)) }
       let(:card) { build(:credit_card) }
       let(:offer) { create(:offer) }
-      let(:person_payment) { build(:person_payment, offer:, person:, integration:, amount_cents: 1) }
+      let(:person_payment) { create(:person_payment, offer:, person:, integration:, amount_cents: 1) }
       let(:args) do
         { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
           payment_method: :credit_card, user: customer.user, operation: :purchase }
@@ -99,12 +99,11 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
-        allow(Service::Givings::Payment::Orchestrator).to receive(:new)
+        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
+        allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(Person).to receive(:create!).and_return(person)
-        allow(Customer).to receive(:create!).and_return(customer)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
-
         expect(Service::Givings::Payment::Orchestrator)
           .to have_received(:new).with(payload: an_object_containing(
             payment_method: 'credit_card', payment: person_payment,
@@ -184,6 +183,36 @@ describe Givings::Payment::CreateOrder do
 
       it 'creates a PersonBlockchainTransaction' do
         expect { command }.to change(PersonBlockchainTransaction, :count).by(1)
+      end
+    end
+  end
+
+  describe '.call returns error' do
+    subject(:command) { described_class.call(order_type_class, args) }
+
+    include_context('when mocking a request') { let(:cassette_name) { 'stripe_payment_method_error' } }
+
+    let(:person) { create(:person) }
+    let(:integration) { create(:integration) }
+
+    context 'when the payment is failed' do
+      let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
+      let(:customer) { build(:customer, person:, user: create(:user)) }
+      let(:card) { build(:credit_card) }
+      let(:offer) { create(:offer) }
+      let(:person_payment) { create(:person_payment, offer:, person:, integration:, amount_cents: 1) }
+      let(:args) do
+        { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
+          payment_method: :credit_card, user: customer.user, gateway: 'stripe', operation: :subscribe }
+      end
+
+      it 'calls the failure callback' do
+        allow(Person).to receive(:create!).and_return(person)
+        allow(Customer).to receive(:create!).and_return(customer)
+        allow(PersonPayment).to receive(:create!).and_return(person_payment)
+        command
+
+        expect(person_payment.error_code).to eq('card_declined')
       end
     end
   end

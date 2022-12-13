@@ -32,7 +32,7 @@ describe Donations::CreateBlockchainDonation do
           .with(donation_pool:, amount: 1.0,
                 non_profit_wallet_address: non_profit.wallet_address,
                 integration_wallet_address: integration.wallet_address,
-                user: donation.user.email)
+                donation_batch: donation.user.email)
       end
 
       it 'creates donation_blockchain_transaction for the donation' do
@@ -62,7 +62,7 @@ describe Donations::CreateBlockchainDonation do
             .with(donation_pool: new_pool, amount: 1.0,
                   non_profit_wallet_address: non_profit.wallet_address,
                   integration_wallet_address: integration.wallet_address,
-                  user: donation.user.email)
+                  donation_batch: donation.user.email)
         end
       end
     end

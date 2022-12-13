@@ -52,6 +52,9 @@ Rails.application.routes.draw do
         get 'donations_count' => 'users/impacts#donations_count'
         put 'track', to: 'users/trackings#track_user'
       end
+      resources :integrations, only: [] do
+        get 'impacts' => 'integrations/impacts#index'
+      end
       namespace :givings do
         post 'card_fees' => 'fees#card_fees'
         get 'offers' => 'offers#index'

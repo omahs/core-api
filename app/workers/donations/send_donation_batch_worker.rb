@@ -7,7 +7,7 @@ module Donations
       Integration.each do |integration|
         NonProfit.each do |non_profit|
           batch = Donations::CreateDonationsBatch.call(integration:, non_profit:)
-          CreateBatchBlockchainDonationJob.perform_later(non_profit:,integration:,batch:)
+          CreateBatchBlockchainDonationJob.perform_later(non_profit:, integration:, batch:)
         end
       end
     rescue StandardError => e

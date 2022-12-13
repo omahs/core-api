@@ -55,8 +55,6 @@ module Givings
                                                  pool: cause&.default_pool)
         end
 
-        def refund; end
-
         def amount_cents
           offer.price_cents
         end

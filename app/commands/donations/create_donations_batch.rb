@@ -16,6 +16,7 @@ module Donations
 
         batch = create_batch
         create_donations_batch(batch)
+        batch
       end
     end
 
@@ -63,13 +64,21 @@ module Donations
     # rubocop:enable Metrics/MethodLength
 
     def create_batch
-      Batch.create(cid: store_batch)
+      Batch.create(cid: store_batch, amount: total_amount)
     end
 
     def create_donations_batch(batch)
       batch_donations.map do |donation|
         DonationBatch.create(donation:, batch:)
       end
+    end
+
+    def total_amount
+      amount = 0
+      batch_donations.map do |donation|
+        amount += donation.value || 0
+      end
+      amount
     end
 
     def user_hash(email)

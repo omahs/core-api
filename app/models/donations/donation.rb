@@ -16,6 +16,7 @@ class Donation < ApplicationRecord
   belongs_to :user
 
   has_one :donation_batch
+  has_many :donation_blockchain_transactions
 
   scope :created_between, lambda { |start_date, end_date|
                             where('created_at >= ? AND created_at <= ?', start_date, end_date)

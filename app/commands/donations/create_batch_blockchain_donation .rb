@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Donations
-  class CreateBlockchainDonation < ApplicationCommand
+  class CreateBatchBlockchainDonation < ApplicationCommand
     prepend SimpleCommand
 
     attr_reader :donation

@@ -12,9 +12,8 @@
 #  donation_id      :bigint           not null
 #
 class DonationBlockchainTransaction < ApplicationRecord
-  belongs_to :donation, polymorphic: true
+  belongs_to :donation
   belongs_to :chain
-  belongs_to :batch
 
   validates :transaction_hash, presence: true
 

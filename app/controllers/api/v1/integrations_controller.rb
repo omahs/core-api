@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        command = Integrations::CreateIntegration.call(integration_params)
+        command = ::Integrations::CreateIntegration.call(integration_params)
         if command.success?
           render json: IntegrationBlueprint.render(command.result), status: :created
         else
@@ -27,7 +27,7 @@ module Api
       end
 
       def update
-        command = Integrations::UpdateIntegration.call(integration_params)
+        command = ::Integrations::UpdateIntegration.call(integration_params)
         if command.success?
           render json: IntegrationBlueprint.render(command.result), status: :ok
         else

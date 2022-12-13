@@ -6,7 +6,7 @@ module Donations
     def perform
       Integration.each do |integration|
         NonProfit.each do |non_profit|
-          Donations::CreateDonationsBatch.call(integeration, non_profit)
+          Donations::CreateDonationsBatch.call(integration:, non_profit:)
           CreateBlockchainDonationJob.perform_later(donation)
         end
       end

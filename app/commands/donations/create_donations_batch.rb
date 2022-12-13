@@ -5,13 +5,13 @@ module Donations
     prepend SimpleCommand
     attr_reader :integration, :non_profit
 
-    def initialize(integration,non_profit)
+    def initialize(integration:, non_profit:)
       @integration = integration
       @non_profit = non_profit
     end
 
     def call
-      if batch_donations.length > 0
+      if batch_donations.length.positive?
         create_batch_file
 
         batch = create_batch
@@ -22,7 +22,8 @@ module Donations
     private
 
     def batch_donations
-      Donation.where(integration:,non_profit:).left_outer_joins(:donation_batch).where('donation_batch.id': nil).distinct
+      Donation.where(integration:,
+                     non_profit:).left_outer_joins(:donation_batch).where('donation_batch.id': nil).distinct
     end
 
     def create_batch_file

@@ -9,6 +9,7 @@
 #
 FactoryBot.define do
   factory :batch do
-    cid { 'MyString' }
+    cid { 'cid' }
+    # donations { create_list(:donation, 2) }
   end
 end

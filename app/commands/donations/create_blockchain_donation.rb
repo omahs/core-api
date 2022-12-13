@@ -8,32 +8,38 @@ module Donations
 
     CENTS_FACTOR = 0.01
 
-    def initialize(non_profit:, integration:, batch:)
-      @non_profit = non_profit
-      @integration = integration
-      @batch = batch
+    def initialize(donation:)
+      @donation = donation
     end
 
     def call
       transaction_hash = create_blockchain_donation
-      create_batch_blockchain_transaction(transaction_hash)
+      create_donation_blockchain_transaction(transaction_hash)
     end
 
     private
 
     def create_blockchain_donation
-      amount = batch.amount * CENTS_FACTOR
+      amount = ticket_value * CENTS_FACTOR
       non_profit_wallet_address = non_profit.wallet_address
       integration_wallet_address = integration.wallet_address
 
       ribon_contract.donate_through_integration(donation_pool:,
                                                 non_profit_wallet_address:,
                                                 integration_wallet_address:,
-                                                donation_batch:, amount:)
+                                                user: user.email, amount:)
     end
 
-    def create_batch_blockchain_transaction(transaction_hash)
-      batch.create_batch_blockchain_transaction(transaction_hash:, chain:)
+    def create_donation_blockchain_transaction(transaction_hash)
+      donation.create_donation_blockchain_transaction(transaction_hash:, chain:)
+    end
+
+    def sender_key
+      @sender_key ||= integration.integration_wallet&.private_key
+    end
+
+    def ticket_value
+      @ticket_value ||= RibonConfig.default_ticket_value
     end
 
     def ribon_contract
@@ -44,12 +50,20 @@ module Donations
       @chain ||= Chain.default
     end
 
-    def donation_pool
-      non_profit.cause&.default_pool || chain.default_donation_pool
+    def non_profit
+      @non_profit ||= donation.non_profit
     end
 
-    def donation_batch
-      batch.cid
+    def integration
+      @integration ||= donation.integration
+    end
+
+    def user
+      @user ||= donation.user
+    end
+
+    def donation_pool
+      non_profit.cause&.default_pool || chain.default_donation_pool
     end
   end
 end

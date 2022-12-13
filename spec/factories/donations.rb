@@ -15,5 +15,6 @@ FactoryBot.define do
     non_profit { build(:non_profit) }
     integration { build(:integration) }
     user { build(:user) }
+    donation_batch { nil }
   end
 end

@@ -65,6 +65,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_08_171015) do
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
   end
 
+  create_table "batches", force: :cascade do |t|
+    t.string "cid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "blockchain_transactions", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.string "transaction_hash"
+    t.bigint "chain_id", null: false
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chain_id"], name: "index_blockchain_transactions_on_chain_id"
+    t.index ["owner_type", "owner_id"], name: "index_blockchain_transactions_on_owner"
+  end
+
   create_table "causes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -98,6 +116,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_08_171015) do
     t.uuid "person_id"
     t.index ["person_id"], name: "index_customers_on_person_id"
     t.index ["user_id"], name: "index_customers_on_user_id", unique: true
+  end
+
+  create_table "donation_batches", force: :cascade do |t|
+    t.bigint "donation_id", null: false
+    t.bigint "batch_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["batch_id"], name: "index_donation_batches_on_batch_id"
+    t.index ["donation_id"], name: "index_donation_batches_on_donation_id"
   end
 
   create_table "donation_blockchain_transactions", force: :cascade do |t|
@@ -401,7 +428,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_08_171015) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blockchain_transactions", "chains"
   add_foreign_key "customers", "people"
+  add_foreign_key "donation_batches", "batches"
+  add_foreign_key "donation_batches", "donations"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
   add_foreign_key "donations", "integrations"

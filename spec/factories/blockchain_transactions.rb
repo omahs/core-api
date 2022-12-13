@@ -1,21 +1,21 @@
 # == Schema Information
 #
-# Table name: donation_blockchain_transactions
+# Table name: blockchain_transactions
 #
 #  id               :bigint           not null, primary key
+#  owner_type       :string           not null
 #  status           :integer          default("processing")
 #  transaction_hash :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  batch_id         :bigint           not null
 #  chain_id         :bigint           not null
-#  donation_id      :bigint           not null
+#  owner_id         :bigint           not null
 #
 FactoryBot.define do
-  factory :donation_blockchain_transaction do
-    donation { build(:donation) }
-    chain { build(:chain) }
-    transaction_hash { '0x000' }
+  factory :blockchain_transaction do
     status { 1 }
+    transaction_hash { 'MyString' }
+    chain { nil }
+    owner { nil }
   end
 end

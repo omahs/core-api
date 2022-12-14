@@ -1,4 +1,4 @@
-sidekiq_config = { url: RibonCoreApi.redis_url }
+sidekiq_config = { url: RibonCoreApi.redis_url, namespace: "core-api" }
 
 Sidekiq.configure_server do |config|
   config.redis = sidekiq_config

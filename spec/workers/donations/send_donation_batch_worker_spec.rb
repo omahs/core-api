@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'sidekiq/testing'
 
 RSpec.describe Donations::SendDonationBatchWorker, type: :worker do
   # describe '#perform' do

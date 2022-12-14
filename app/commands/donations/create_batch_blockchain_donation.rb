@@ -22,9 +22,9 @@ module Donations
     private
 
     def create_blockchain_donation
-      amount = batch.amount * CENTS_FACTOR
-      non_profit_wallet_address = non_profit.wallet_address
-      integration_wallet_address = integration.wallet_address
+      amount = @batch.amount * CENTS_FACTOR
+      non_profit_wallet_address = @non_profit.wallet_address
+      integration_wallet_address = @integration.wallet_address
 
       ribon_contract.donate_through_integration(donation_pool:,
                                                 non_profit_wallet_address:,
@@ -33,7 +33,7 @@ module Donations
     end
 
     def create_batch_blockchain_transaction(transaction_hash)
-      batch.create_batch_blockchain_transaction(transaction_hash:, chain:)
+      @batch.create_batch_blockchain_transaction(transaction_hash:, chain:)
     end
 
     def ribon_contract
@@ -45,11 +45,11 @@ module Donations
     end
 
     def donation_pool
-      non_profit.cause&.default_pool || chain.default_donation_pool
+      @non_profit.cause&.default_pool || chain.default_donation_pool
     end
 
     def donation_batch
-      batch.cid
+      @batch.cid
     end
   end
 end

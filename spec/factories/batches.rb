@@ -10,6 +10,6 @@
 FactoryBot.define do
   factory :batch do
     cid { 'cid' }
-    # donations { create_list(:donation, 2) }
+    amount { 100 }
   end
 end

@@ -6,10 +6,8 @@ module Donations
     def perform
       Integration.all.each do |integration|
         NonProfit.all.each do |non_profit|
-          result = Donations::CreateDonationsBatch.call(integration:, non_profit:)
-          return unless result && result.batch.present?
-          batch = result.batch
-          CreateBatchBlockchainDonationJob.perform_later(non_profit:, integration:, batch:)
+          batch = Donations::CreateDonationsBatch.call(integration:, non_profit:).result
+          CreateBatchBlockchainDonationJob.perform_later(non_profit:, integration:, batch:) if batch
         end
       end
     rescue StandardError => e

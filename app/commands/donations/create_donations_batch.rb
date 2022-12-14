@@ -53,7 +53,7 @@ module Donations
                               user_id: donation.user_id,
                               donation_id: donation.id,
                               user_hash: user_hash(donation.user.email),
-                              integration_address: donation.integration.integration_address,
+                              integration_address: donation.integration.wallet_address,
                               non_profit_address: donation.non_profit.wallet_address,
                               timestamp: donation.created_at
                             })

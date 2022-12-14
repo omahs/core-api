@@ -13,9 +13,9 @@
 #
 FactoryBot.define do
   factory :blockchain_transaction do
+    chain { build(:chain) }
+    transaction_hash { '0x000' }
     status { 1 }
-    transaction_hash { 'MyString' }
-    chain { nil }
-    owner { nil }
+    owner { build(:batch) }
   end
 end

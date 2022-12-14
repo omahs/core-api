@@ -1,6 +1,5 @@
 module Donations
   class SendDonationBatchJob < ApplicationJob
-
     def perform
       Integration.all.each do |integration|
         NonProfit.all.each do |non_profit|

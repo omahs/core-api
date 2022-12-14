@@ -9,9 +9,14 @@ RSpec.describe Donations::SendDonationBatchWorker, type: :worker do
 
     let(:integration) { create(:integration) }
     let(:non_profit) { create(:non_profit) }
+    let(:result) do
+      OpenStruct.new({
+                       result: create(:batch)
+                     })
+    end
 
     before do
-      allow(Donations::CreateDonationsBatch).to receive(:call)
+      allow(Donations::CreateDonationsBatch).to receive(:call).and_return(result)
     end
 
     it 'calls the CreateDonationsBatch command' do

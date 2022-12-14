@@ -14,6 +14,10 @@ class Batch < ApplicationRecord
 
   has_many :blockchain_transactions, as: :owner
 
+  def blockchain_transaction
+    blockchain_transactions.last
+  end
+
   def create_batch_blockchain_transaction(transaction_hash:, chain:)
     blockchain_transactions.create(transaction_hash:, chain:)
   end

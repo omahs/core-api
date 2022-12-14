@@ -1,7 +1,6 @@
 module Donations
   class SendDonationBatchWorker
     include Sidekiq::Worker
-    sidekiq_options queue: :donations
 
     def perform
       Integration.all.each do |integration|

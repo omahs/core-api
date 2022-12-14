@@ -23,7 +23,14 @@ class BlockchainTransaction < ApplicationRecord
     failed: 2
   }
 
+  after_create :update_status_from_chain
+
   def transaction_link
     "#{chain.block_explorer_url}tx/#{transaction_hash}"
+  end
+
+  def update_status_from_chain
+    # TODO: add listener to contract events to call this method
+    Donations::UpdateBlockchainTransactionStatusJob.set(wait_until: 5.minutes.from_now).perform_later(self)
   end
 end

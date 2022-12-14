@@ -2,17 +2,26 @@ require 'rails_helper'
 require 'sidekiq/testing'
 
 RSpec.describe Donations::SendDonationBatchWorker, type: :worker do
-  # describe '#perform' do
-  #   subject(:worker) { described_class.new }
+  include ActiveStorage::Blob::Analyzable
 
-  #   let(:integration) { create(:integration) }
-  #   let(:non_profit) { create(:non_profit) }
+  describe '#perform' do
+    subject(:worker) { described_class.new }
 
-  #   it 'calls the SendDonationBatchWorker command to all companies with an email' do
-  #     worker.perform
-  #     expect(Donations::CreateDonationsBatch).to receive(:call)
-  #   end
-  # end
+    let(:integration) { create(:integration) }
+    let(:non_profit) { create(:non_profit) }
+
+    before do
+      allow(Donations::CreateDonationsBatch).to receive(:call)
+    end
+
+    it 'calls the CreateDonationsBatch command' do
+      Donations::CreateDonationsBatch.call(non_profit:, integration:)
+
+      expect(Donations::CreateDonationsBatch).to have_received(:call)
+
+      worker.perform
+    end
+  end
 
   describe '.perform_async' do
     it 'expects to enqueue a job' do
@@ -21,7 +30,7 @@ RSpec.describe Donations::SendDonationBatchWorker, type: :worker do
       end.to change(described_class.jobs, :size).from(0).to(1)
     end
 
-    it 'expects to add one job in the reminders queue' do
+    it 'expects to add one job in the donations queue' do
       expect do
         described_class.perform_async
       end.to change(Sidekiq::Queues['donations'], :size).by(1)

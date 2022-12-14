@@ -1,7 +1,6 @@
 require 'simplecov'
 require "webmock/rspec"
 require 'vcr'
-require "sidekiq/testing"
 
 SimpleCov.start 'rails' do
   add_group "Blueprints", "app/blueprints"

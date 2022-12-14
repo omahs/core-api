@@ -78,6 +78,7 @@ gem 'ffi', submodules: true
 # Currency Conversion
 gem 'money'
 
+gem 'rspec-sidekiq'
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.1'
 

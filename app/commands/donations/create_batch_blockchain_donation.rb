@@ -4,7 +4,7 @@ module Donations
   class CreateBatchBlockchainDonation < ApplicationCommand
     prepend SimpleCommand
 
-    attr_reader :donation
+    attr_reader :non_profit, :integration, :batch
 
     CENTS_FACTOR = 0.01
 

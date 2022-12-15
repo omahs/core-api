@@ -5,7 +5,7 @@ module Donations
     prepend SimpleCommand
     attr_reader :integration, :non_profit
 
-    def initialize(integration:, non_profit:)
+    def initialize(integration, non_profit)
       @integration = integration
       @non_profit = non_profit
     end
@@ -62,7 +62,7 @@ module Donations
                               non_profit_id: donation.non_profit_id,
                               user_id: donation.user_id,
                               donation_id: donation.id,
-                              user_hash: user_hash(donation.user.email),
+                              user_hash: user_hash(donation&.user&.email),
                               integration_address: donation.integration.wallet_address,
                               non_profit_address: donation.non_profit.wallet_address,
                               timestamp: donation.created_at
@@ -92,7 +92,7 @@ module Donations
     end
 
     def user_hash(email)
-      Web3::Utils::Converter.keccak(email)
+      Web3::Utils::Converter.keccak(email) if email
     end
   end
 end

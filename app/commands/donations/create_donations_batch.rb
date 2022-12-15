@@ -11,7 +11,8 @@ module Donations
     end
 
     def call
-      return unless batch_donations.length.positive?
+      @donations = batch_donations
+      return unless @donations.length.positive?
 
       create_batch_file
 
@@ -23,8 +24,17 @@ module Donations
     private
 
     def batch_donations
-      Donation.where(integration:,
-                     non_profit:).left_outer_joins(:donation_batch).where('donation_batch.id': nil).distinct
+      sql = "Select distinct(donations.id) from donations
+            left outer join donation_blockchain_transactions dbt on dbt.donation_id = donations.id
+            left outer join donation_batches dba on dba.donation_id = donations.id
+            where dbt is null
+            and dba is null
+            and donations.integration_id = #{@integration.id}
+            and donations.non_profit_id = #{@non_profit.id}"
+      donation_ids = ActiveRecord::Base.connection.execute(sql).map do |t|
+        t['id']
+      end
+      Donation.where(id: donation_ids)
     end
 
     def create_batch_file
@@ -45,7 +55,7 @@ module Donations
     def temporary_json
       donations_json = []
 
-      batch_donations.map do |donation|
+      @donations.map do |donation|
         donations_json.push({
                               value: donation.value,
                               integration_id: donation.integration_id,
@@ -68,14 +78,14 @@ module Donations
     end
 
     def create_donations_batch(batch)
-      batch_donations.map do |donation|
+      @donations.map do |donation|
         DonationBatch.create(donation:, batch:)
       end
     end
 
     def total_amount
       amount = 0
-      batch_donations.map do |donation|
+      @donations.map do |donation|
         amount += donation.value || 0
       end
       amount

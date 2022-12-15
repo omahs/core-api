@@ -5,7 +5,7 @@ module Donations
     prepend SimpleCommand
     attr_reader :integration, :non_profit
 
-    def initialize(integration, non_profit)
+    def initialize(integration:, non_profit:)
       @integration = integration
       @non_profit = non_profit
     end

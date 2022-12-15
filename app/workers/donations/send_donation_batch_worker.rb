@@ -11,7 +11,7 @@ module Donations
         end
       end
     rescue StandardError => e
-      Reporter.log(error: e,extra: { message: e.message })
+      Reporter.log(error: e, extra: { message: e.message })
     end
   end
 end

@@ -50,7 +50,7 @@ module Donations
 
     def store_batch
       result = Web3::Storage::NftStorage::Actions.new.store(file: batch_file)
-      Rails.logger.info(result)
+
       OpenStruct.new(result.parsed_response).value['cid']
     end
 
@@ -76,12 +76,10 @@ module Donations
     # rubocop:enable Metrics/MethodLength
 
     def create_batch
-      Rails.logger.info('create_batch')
       Batch.create(cid: store_batch, amount: total_amount)
     end
 
     def create_donations_batch(batch)
-      Rails.logger.info('create_donations_batch')
       @donations.map do |donation|
         DonationBatch.create(donation:, batch:)
       end

@@ -34,13 +34,10 @@ module Donations
       donation_ids = ActiveRecord::Base.connection.execute(donations_without_batch).map do |t|
         t['id']
       end
-      Rails.logger.info(donation_ids)
       Donation.where(id: donation_ids)
     end
 
     def create_batch_file
-      Rails.logger.info('donation_json')
-      Rails.logger.info(temporary_json)
       File.write("#{Rails.root}/app/lib/web3/utils/donation_batch.json", temporary_json.to_json)
     end
 
@@ -86,11 +83,7 @@ module Donations
     end
 
     def total_amount
-      amount = 0
-      @donations.map do |donation|
-        amount += donation.value || 0
-      end
-      amount
+      @donations.sum(:value)
     end
 
     def user_hash(email)

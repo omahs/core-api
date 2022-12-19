@@ -56,6 +56,7 @@ module Donations
       donations_json = []
 
       @donations.map do |donation|
+        print(donation)
         donations_json.push({
                               value: donation.value,
                               integration_id: donation.integration_id,
@@ -84,7 +85,11 @@ module Donations
     end
 
     def total_amount
-      @donations.sum(:value)
+      amount = 0
+      @donations.map do |donation|
+        amount += donation.value || 0
+      end
+      amount
     end
 
     def user_hash(email)

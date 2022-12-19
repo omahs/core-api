@@ -39,6 +39,8 @@ module Donations
     end
 
     def create_batch_file
+      Rails.logger.info('donation_json')
+      Rails.logger.info(temporary_json)
       File.write("#{Rails.root}/app/lib/web3/utils/donation_batch.json", temporary_json.to_json)
     end
 
@@ -69,7 +71,6 @@ module Donations
                               timestamp: donation.created_at
                             })
       end
-
       donations_json
     end
     # rubocop:enable Metrics/MethodLength

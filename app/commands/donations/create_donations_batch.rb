@@ -69,7 +69,8 @@ module Donations
                               timestamp: donation.created_at
                             })
       end
-
+      Rails.logger.info("donation_json")
+      Rails.logger.info(donation_json)
       donations_json
     end
     # rubocop:enable Metrics/MethodLength

@@ -56,7 +56,6 @@ module Donations
       donations_json = []
 
       @donations.map do |donation|
-        print(donation)
         donations_json.push({
                               value: donation.value,
                               integration_id: donation.integration_id,

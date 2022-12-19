@@ -76,14 +76,10 @@ module Donations
     # rubocop:enable Metrics/MethodLength
 
     def create_batch
-      Rails.logger.info('create_batch')
-      Rails.logger.info(store_batch)
-      Rails.logger.info(total_amount)
       Batch.create(cid: store_batch, amount: total_amount)
     end
 
     def create_donations_batch(batch)
-      Rails.logger.info('create_donations_batch')
       @donations.map do |donation|
         DonationBatch.create(donation:, batch:)
       end

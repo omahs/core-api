@@ -11,7 +11,7 @@ module Web3
         end
 
         def store(file:)
-          Request::ApiRequest.post("#{base_url}/upload", body: file, headers:)
+          HTTParty.post("#{base_url}/upload", body: file, headers:)
         end
 
         private

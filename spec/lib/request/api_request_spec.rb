@@ -18,7 +18,7 @@ RSpec.describe Request::ApiRequest do
     it 'calls httparty with get method and correct params' do
       request
 
-      expect(HTTParty).to have_received(:get).with(url)
+      expect(HTTParty).to have_received(:get).with(url, headers: {})
     end
 
     it 'formats the request as an openstruct' do

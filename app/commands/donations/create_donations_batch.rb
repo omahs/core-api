@@ -24,14 +24,14 @@ module Donations
     private
 
     def batch_donations
-      sql = "Select distinct(donations.id) from donations
+      donations_without_batch = "Select distinct(donations.id) from donations
             left outer join donation_blockchain_transactions dbt on dbt.donation_id = donations.id
             left outer join donation_batches dba on dba.donation_id = donations.id
             where dbt is null
             and dba is null
             and donations.integration_id = #{@integration.id}
             and donations.non_profit_id = #{@non_profit.id}"
-      donation_ids = ActiveRecord::Base.connection.execute(sql).map do |t|
+      donation_ids = ActiveRecord::Base.connection.execute(donations_without_batch).map do |t|
         t['id']
       end
       Donation.where(id: donation_ids)
@@ -84,11 +84,7 @@ module Donations
     end
 
     def total_amount
-      amount = 0
-      @donations.map do |donation|
-        amount += donation.value || 0
-      end
-      amount
+      @donations.sum(:value)
     end
 
     def user_hash(email)

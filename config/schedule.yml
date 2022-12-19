@@ -1,4 +1,4 @@
 send_donation_batch:
   cron: "0 1 * * *" # At 01:00 everyday.
-  class: "Donations::SendDonationBatchJob"
+  class: "Donations::SendDonationBatchWorker"
   queue: donations

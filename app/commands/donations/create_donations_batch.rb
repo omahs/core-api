@@ -34,6 +34,7 @@ module Donations
       donation_ids = ActiveRecord::Base.connection.execute(donations_without_batch).map do |t|
         t['id']
       end
+      Rails.logger.info(donation_ids)
       Donation.where(id: donation_ids)
     end
 

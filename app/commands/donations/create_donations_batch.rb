@@ -84,7 +84,7 @@ module Donations
     end
 
     def total_amount
-      @donations.sum(&:value)
+      @donations.sum(:value)
     end
 
     def user_hash(email)

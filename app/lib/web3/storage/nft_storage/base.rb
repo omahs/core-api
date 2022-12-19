@@ -3,15 +3,15 @@ module Web3
     module NftStorage
       class Base
         def delete(cid:)
-          HTTParty.delete("#{base_url}/#{cid}", headers:)
+          Request::ApiRequest.delete("#{base_url}/#{cid}", headers:)
         end
 
         def list
-          HTTParty.get(base_url, headers:)
+          Request::ApiRequest.get(base_url, headers:)
         end
 
         def store(file:)
-          HTTParty.post("#{base_url}/upload", body: file, headers:)
+          Request::ApiRequest.post("#{base_url}/upload", body: file, headers:)
         end
 
         private

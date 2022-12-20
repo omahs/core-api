@@ -13,11 +13,7 @@ module Donations
 
     def call
       with_exception_handle do
-        if !user
-          errors.add(:message, I18n.t('donations.user_not_found'))
-        elsif !allowed?
-          errors.add(:message, I18n.t('donations.blocked_message'))
-        else
+        if valid_dependencies?
           transact_donation
         end
       end
@@ -31,6 +27,20 @@ module Donations
       set_last_donated_cause
 
       donation
+    end
+
+    def valid_dependencies?
+      if !user
+        errors.add(:message, I18n.t('donations.user_not_found'))
+      elsif !integration
+        errors.add(:message, I18n.t('donations.integration_not_found'))
+      elsif !non_profit
+        errors.add(:message, I18n.t('donations.non_profit_not_found'))
+      elsif !allowed?
+        errors.add(:message, I18n.t('donations.blocked_message'))
+      end
+
+      integration && non_profit && user && allowed?
     end
 
     def allowed?

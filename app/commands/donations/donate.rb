@@ -13,9 +13,9 @@ module Donations
 
     def call
       with_exception_handle do
-        if not user
+        if !user
           errors.add(:message, I18n.t('donations.user_not_found'))
-        elsif not allowed?
+        elsif !allowed?
           errors.add(:message, I18n.t('donations.blocked_message'))
         else
           transact_donation

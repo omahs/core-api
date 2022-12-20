@@ -3,7 +3,7 @@ class SiteNonProfitsBlueprint < Blueprinter::Base
 
   field(:main_image) do |object|
     ImagesHelper.image_url_for(object.main_image, variant: { resize_to_fit: [800, 800],
-                                                        saver: { quality: 95 }, format: :jpg })
+                                                             saver: { quality: 95 }, format: :jpg })
   end
 
   field :description do |non_profit, options|

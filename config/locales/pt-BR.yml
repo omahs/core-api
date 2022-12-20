@@ -224,6 +224,8 @@ pt-BR:
     blocked_message: "Não foi possível doar. Espere sua próxima doação."
     invalid_voucher: "Voucher inválido."
     user_not_found: "Usuário não encontrado. Realize o logout e tente novamente."
+    integration_not_found: "A Integração de origem não foi encontrada. Recarregue a página e tente novamente."
+    non_profit_not_found: "A ONG para qual você tentou doar não existe. Recarregue a página e tente novamente."
   sources:
     has_source_message: "Source já criada."
   manager:

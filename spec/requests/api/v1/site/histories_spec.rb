@@ -15,7 +15,7 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     end
   end
 
-    describe 'GET /total_donations' do
+  describe 'GET /total_donations' do
     subject(:request) { get '/api/v1/site/total_donations' }
 
     before do

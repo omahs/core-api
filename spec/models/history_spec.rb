@@ -9,7 +9,7 @@
 require 'rails_helper'
 
 RSpec.describe History, type: :model do
-   describe '.validations' do
+  describe '.validations' do
     subject { build(:history) }
 
     it { is_expected.to validate_presence_of(:total_donations) }

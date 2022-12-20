@@ -5,7 +5,7 @@ module Api
         def index
           formatted_impact = impact_service.formatted_impact
 
-          render json: formatted_impact, status: :ok
+          render json: IntegrationImpactBlueprint.render(formatted_impact), status: :ok
         end
 
         private

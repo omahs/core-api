@@ -1,3 +1,6 @@
+require 'sidekiq/web'
+require "sidekiq/cron/web"
+
 Rails.application.routes.draw do
   root to: 'rails_admin/main#dashboard'
   get '/health', to: 'main#health'
@@ -11,7 +14,6 @@ Rails.application.routes.draw do
     post '/graphql', to: 'graphql#execute'
   end
 
-  require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :api, defaults: { format: :json } do
@@ -46,6 +48,8 @@ Rails.application.routes.draw do
       post 'causes' => 'causes#create'
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
+
+      
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
@@ -82,6 +86,11 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
+      end
+
+      namespace :site do 
+        get 'total_donations' => 'histories#total_donations'
+        get 'total_donors' => 'histories#total_donors'
       end
 
     end

@@ -8,18 +8,19 @@ RSpec.describe 'Api::V1::Integrations::Impacts', type: :request do
 
     let(:impact) do
       { total_donations: 10, total_donors: 5,
-        impact_per_non_profit: [{ non_profit: { name: 'Non Profit 1' }, impact: 350 }] }
+        impact_per_non_profit: [{ non_profit:, impact: 350 }] }
     end
     let(:impact_service_instance) { instance_double(Service::Integrations::Impact, formatted_impact: impact) }
+    let(:non_profit) { build(:non_profit) }
 
     before do
       allow(Service::Integrations::Impact).to receive(:new).and_return(impact_service_instance)
     end
 
-    it 'returns the integration impact' do
+    it 'returns the required keys' do
       request
 
-      expect(response_json.to_json).to eq impact.to_json
+      expect_response_to_have_keys(%w[total_donations total_donors impact_per_non_profit])
     end
   end
 end

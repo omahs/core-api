@@ -18,8 +18,4 @@ class CauseBlueprint < Blueprinter::Base
   view :minimal do
     excludes :created_at, :updated_at
   end
-
-  view :site do
-    excludes :pools, :created_at, :updated_at, :active, :non_profits
-  end
 end

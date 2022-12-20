@@ -31,10 +31,10 @@ RailsAdmin.config do |config|
   end
 
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
-                            Donation, RibonConfig, Offer, OfferGateway,
-                            Customer, PersonPayment, DonationBlockchainTransaction, Chain,
+                            Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
+                            Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
                             Cause, Story, NonProfitPool, IntegrationTask,
-                            Voucher, IntegrationWebhook, Token, Pool]
+                            Voucher, IntegrationWebhook, Token, Pool, History]
 
   config.model RibonConfig do
     field :default_ticket_value do

@@ -16,7 +16,7 @@ module Service
       end
 
       def impact_per_non_profit
-        non_profits.map { |non_profit| format_result(non_profit) }
+        non_profits.map { |non_profit| format_result(non_profit) }.select { |result| (result[:impact]).positive? }
       end
 
       private

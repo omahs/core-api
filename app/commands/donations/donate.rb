@@ -13,10 +13,12 @@ module Donations
 
     def call
       with_exception_handle do
-        if allowed?
-          transact_donation
-        else
+        if !user
+          errors.add(:message, I18n.t('donations.user_not_found'))
+        elsif !allowed?
           errors.add(:message, I18n.t('donations.blocked_message'))
+        else
+          transact_donation
         end
       end
     end
@@ -25,7 +27,6 @@ module Donations
 
     def transact_donation
       create_donation
-      create_blockchain_donation
       set_user_last_donation_at
       set_last_donated_cause
 
@@ -38,10 +39,6 @@ module Donations
 
     def create_donation
       @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
-    end
-
-    def create_blockchain_donation
-      CreateBlockchainDonationJob.perform_later(donation)
     end
 
     def set_user_last_donation_at

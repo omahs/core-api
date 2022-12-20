@@ -1,3 +1,6 @@
+require 'sidekiq/web'
+require "sidekiq/cron/web"
+
 Rails.application.routes.draw do
   root to: 'rails_admin/main#dashboard'
   get '/health', to: 'main#health'
@@ -11,7 +14,6 @@ Rails.application.routes.draw do
     post '/graphql', to: 'graphql#execute'
   end
 
-  require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :api, defaults: { format: :json } do

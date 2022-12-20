@@ -79,6 +79,7 @@ gem 'ffi', submodules: true
 gem 'money'
 
 gem 'sidekiq'
+gem 'sidekiq-cron', '~> 1.1'
 
 # Payment Gateways
 gem 'stripe'
@@ -86,9 +87,6 @@ gem 'stripe'
 # Error Handling
 gem 'sentry-rails'
 gem 'sentry-ruby'
-
-# Web3 Storage
-gem 'nft_storage', '~> 1.0.0'
 
 gem 'sassc-rails'
 

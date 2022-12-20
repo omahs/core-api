@@ -13,7 +13,7 @@
 class NonProfit < ApplicationRecord
   extend Mobility
 
-  translates :impact_description, type: :string
+  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
 
   has_one_attached :logo
   has_one_attached :main_image

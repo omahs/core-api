@@ -108,4 +108,6 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
       expect(non_profit.reload.name).to eq('New Name')
     end
   end
+
+
 end

@@ -78,5 +78,35 @@ describe Donations::Donate do
         expect(command.errors[:message]).to eq ['Unable to donate now. Wait for your next donation.']
       end
     end
+
+    context 'when user does not exist on database' do
+      let(:integration) { build(:integration) }
+      let(:non_profit) { build(:non_profit) }
+      let(:user) { nil }
+      let(:donation) { build(:donation) }
+
+      before do
+        allow(Donation).to receive(:create!).and_return(donation)
+        allow(Donations::SetUserLastDonationAt).to receive(:call)
+          .and_return(command_double(klass: Donations::SetUserLastDonationAt))
+        allow(donation).to receive(:save)
+      end
+
+      it 'does not create the donation on the database' do
+        expect { command }.not_to change(Donation, :count)
+      end
+
+      it 'returns nil' do
+        expect(command.result).to be_nil
+      end
+
+      it 'returns an error' do
+        expect(command.errors).to be_present
+      end
+
+      it 'returns an error message' do
+        expect(command.errors[:message]).to eq ['User not found. Please logout and try again.']
+      end
+    end
   end
 end

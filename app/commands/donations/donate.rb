@@ -13,7 +13,7 @@ module Donations
 
     def call
       with_exception_handle do
-        transact_donation if has_valid_dependencies?
+        transact_donation if valid_dependencies?
       end
     end
 
@@ -27,7 +27,7 @@ module Donations
       donation
     end
 
-    def has_valid_dependencies?
+    def valid_dependencies?
       valid_user? && valid_integration? && valid_non_profit? && allowed?
     end
 

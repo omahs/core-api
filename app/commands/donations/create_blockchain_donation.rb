@@ -27,7 +27,7 @@ module Donations
       ribon_contract.donate_through_integration(donation_pool:,
                                                 non_profit_wallet_address:,
                                                 integration_wallet_address:,
-                                                user: user.email, amount:)
+                                                donation_batch: user.email, amount:)
     end
 
     def create_donation_blockchain_transaction(transaction_hash)

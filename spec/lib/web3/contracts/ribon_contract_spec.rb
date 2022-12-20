@@ -5,7 +5,7 @@ RSpec.describe Web3::Contracts::RibonContract do
   let(:client) { instance_double(::Eth::Client) }
   let(:contract) { OpenStruct.new({}) }
   let(:amount) { 0.5 }
-  let(:user) { build(:user).email }
+  let(:donation_batch) { build(:batch).cid }
   let(:donation_pool) { build(:pool) }
 
   describe '#add_pool_balance' do
@@ -59,7 +59,7 @@ RSpec.describe Web3::Contracts::RibonContract do
   describe '#donate_through_integration' do
     subject(:method_call) do
       described_class.new(chain:).donate_through_integration(
-        donation_pool:, amount:, user:, non_profit_wallet_address:, integration_wallet_address:
+        donation_pool:, amount:, donation_batch:, non_profit_wallet_address:, integration_wallet_address:
       )
     end
 
@@ -76,13 +76,12 @@ RSpec.describe Web3::Contracts::RibonContract do
     it 'calls the transact with correct args' do
       method_call
       wei_amount = Web3::Utils::Converter.to_decimals(amount, 6)
-      keccak256_user = Web3::Utils::Converter.keccak(user).to_s
       sender_key = Web3::Providers::Keys::RIBON_KEY
 
       expect(client)
         .to have_received(:transact).with(
           contract, 'donateThroughIntegration', donation_pool.address, non_profit_wallet_address,
-          integration_wallet_address, keccak256_user, wei_amount, gas_limit: 0, sender_key:
+          integration_wallet_address, donation_batch, wei_amount, gas_limit: 0, sender_key:
         )
     end
   end

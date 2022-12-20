@@ -7,5 +7,5 @@
 #  total_donors    :bigint
 #
 class History < ApplicationRecord
-    validates :total_donors, :total_donations, presence: true
+  validates :total_donors, :total_donations, presence: true
 end

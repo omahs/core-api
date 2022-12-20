@@ -108,4 +108,26 @@ RSpec.describe 'Api::V1::NonProfits', type: :request do
       expect(non_profit.reload.name).to eq('New Name')
     end
   end
+
+  describe 'GET /lasts' do
+    subject(:request) { get '/api/v1/last_non_profits' }
+
+    before do
+      create_list(:non_profit, 4)
+    end
+
+    it 'returns a list of non profits' do
+      request
+
+      expect_response_collection_to_have_keys(%w[created_at id impact_description name updated_at
+                                                 wallet_address background_image logo main_image
+                                                 impact_by_ticket stories cause status non_profit_impacts])
+    end
+
+    it 'returns 3 last non profits' do
+      request
+
+      expect(response_json.count).to eq(3)
+    end
+  end
 end

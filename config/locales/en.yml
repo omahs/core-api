@@ -2,6 +2,7 @@ en:
   donations:
     blocked_message: "Unable to donate now. Wait for your next donation."
     invalid_voucher: "Invalid voucher."
+    user_not_found: "User not found. Please logout and try again."
   sources:
     has_source_message: "Source already created."
   manager:

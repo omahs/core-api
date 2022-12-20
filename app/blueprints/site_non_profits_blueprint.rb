@@ -1,5 +1,10 @@
 class SiteNonProfitsBlueprint < Blueprinter::Base
-  fields :name, :main_image
+  fields :name
+
+  field(:main_image) do |object|
+    ImagesHelper.image_url_for(object.main_image, variant: { resize_to_fit: [450, 450],
+                                                             saver: { quality: 95 }, format: :jpg })
+  end
 
   field :description do |non_profit, options|
     if options[:language] == 'pt-BR'

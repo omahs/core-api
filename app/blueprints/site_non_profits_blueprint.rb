@@ -8,6 +8,4 @@ class SiteNonProfitsBlueprint < Blueprinter::Base
       "Donate #{non_profit.impact_by_ticket} #{non_profit.impact_description}"
     end
   end
-
-
 end

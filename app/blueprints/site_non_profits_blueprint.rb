@@ -1,7 +1,5 @@
 class SiteNonProfitsBlueprint < Blueprinter::Base
-  fields :name
-
-  association :cause, blueprint: CauseBlueprint, view: :site
+  fields :name, :main_image
 
   field :description do |non_profit, options|
     if options[:language] == 'pt-BR'
@@ -10,4 +8,6 @@ class SiteNonProfitsBlueprint < Blueprinter::Base
       "Donate #{non_profit.impact_by_ticket} #{non_profit.impact_description}"
     end
   end
+
+
 end

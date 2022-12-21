@@ -6,6 +6,10 @@ module Api
           @non_profits = NonProfit.where(status: :active).last(3)
           render json: SiteNonProfitsBlueprint.render(@non_profits, language: params[:language])
         end
+
+        def total_impacted_lives
+            render json: {total_impacted_lives: 101010}
+        end
       end
     end
   end

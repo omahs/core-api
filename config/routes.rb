@@ -91,6 +91,7 @@ Rails.application.routes.draw do
       namespace :site do 
         get 'total_donations' => 'histories#total_donations'
         get 'total_donors' => 'histories#total_donors'
+        get 'non_profits' => 'site#non_profits'
       end
 
     end

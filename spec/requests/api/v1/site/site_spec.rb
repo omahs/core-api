@@ -23,12 +23,12 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
 
     describe 'GET /total_impacted_lives' do
     subject(:request) { get '/api/v1/site/total_impacted_lives' }
-    let(:total_impacted_lives) {total_impacted_lives: 101010}
+    let(:total_impacted_lives) {{total_impacted_lives: "470.770"}}
 
     it 'returns a mocked data' do
       request
 
-      expect(response_json).to eq(total_impacted_lives)
+      expect(response_json.to_json).to eq(total_impacted_lives.to_json)
     end
   end
 end

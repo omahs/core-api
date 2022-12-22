@@ -8,7 +8,7 @@ module Api
         end
 
         def total_impacted_lives
-            render json: {total_impacted_lives: 101010}
+            render json: {total_impacted_lives: "470.770"}
         end
       end
     end

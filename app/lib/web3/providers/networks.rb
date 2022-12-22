@@ -5,7 +5,7 @@ module Web3
 
       POLYGON = {
         name: 'Polygon Mainnet',
-        ribon_contract_address: '0x411DF13350D6aB065Fc2d1Fd026b6d7f4133e9Df',
+        ribon_contract_address: '0x4Ef236DA69ac23a9246cd1d8866264f1A95601C0',
         donation_token_contract_address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
         chain_id: 0x89,
         rpc_url: config[:polygon][:rpc_url],
@@ -17,7 +17,7 @@ module Web3
 
       MUMBAI = {
         name: 'Mumbai Testnet',
-        ribon_contract_address: '0xD3850333819fBdd43784498F67010E5c87a2EAb3',
+        ribon_contract_address: '0x348eA4886c5F0926d7A6Ad6C5CF6dFA4F88CA9Bf',
         donation_token_contract_address: '0x21A72dc641c8e5f13717a7e087d6D63B4f9A3574',
         chain_id: 0x13881,
         rpc_url: config[:mumbai][:rpc_url],

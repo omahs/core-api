@@ -92,6 +92,7 @@ Rails.application.routes.draw do
         get 'total_donations' => 'histories#total_donations'
         get 'total_donors' => 'histories#total_donors'
         get 'non_profits' => 'site#non_profits'
+        get 'total_impacted_lives' => 'site#total_impacted_lives'
       end
 
     end

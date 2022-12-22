@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Site::Histories', type: :request do
+   
   describe 'GET /total_donors' do
     subject(:request) { get '/api/v1/site/total_donors' }
 
@@ -19,6 +20,8 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     subject(:request) { get '/api/v1/site/total_donations' }
 
     before do
+      VCR.insert_cassette 'conversion_rate_usd_brl'
+      allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
       create_list(:history, 1)
     end
 

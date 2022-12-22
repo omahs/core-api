@@ -11,7 +11,7 @@ module Api
         def total_donations
           @histories = History.all
 
-          render json: HistoryBlueprint.render(@histories, view: :donations)
+          render json: HistoryBlueprint.render(@histories, view: :donations, language: params[:language])
         end
 
         def total_donors

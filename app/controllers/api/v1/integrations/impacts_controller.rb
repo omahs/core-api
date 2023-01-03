@@ -11,11 +11,11 @@ module Api
         private
 
         def start_date
-          @start_date ||= params[:start_date]
+          @start_date ||= Date.parse(params[:start_date])
         end
 
         def end_date
-          @end_date ||= params[:end_date]
+          @end_date ||= Date.parse(params[:end_date])
         end
 
         def integration

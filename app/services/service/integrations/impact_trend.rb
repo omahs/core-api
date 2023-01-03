@@ -5,8 +5,8 @@ module Service
 
       def initialize(integration:, start_date:, end_date:)
         @integration = integration
-        @start_date = Date.parse(start_date)
-        @end_date = Date.parse(end_date)
+        @start_date = start_date
+        @end_date = end_date
       end
 
       delegate :total_donations, :total_donors, :impact_per_non_profit, to: :impact_service

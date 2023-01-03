@@ -14,9 +14,7 @@ module Service
       def formatted_impact
         {
           total_donations:, total_donors:, impact_per_non_profit:,
-          previous_total_donations:,
-          previous_total_donors:,
-          previous_impact_per_non_profit: previous_impact_service.impact_per_non_profit,
+          previous_total_donations:, previous_total_donors:, previous_impact_per_non_profit:,
           total_donations_balance:, total_donors_balance:, total_donations_trend:, total_donors_trend:
         }
       end
@@ -35,6 +33,10 @@ module Service
 
       def previous_total_donations
         previous_impact_service.total_donations
+      end
+
+      def previous_impact_per_non_profit
+        previous_impact_service.impact_per_non_profit
       end
 
       def total_donations_balance

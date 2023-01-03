@@ -5,8 +5,8 @@ module Service
 
       def initialize(integration:, start_date:, end_date:)
         @integration = integration
-        @start_date = start_date
-        @end_date = end_date
+        @start_date = Date.parse(start_date)
+        @end_date = Date.parse(end_date)
       end
 
       delegate :total_donations, :total_donors, :impact_per_non_profit, to: :impact_service
@@ -20,10 +20,14 @@ module Service
       end
 
       def total_donations_trend
+        return 0 if previous_total_donations.zero?
+
         total_donations_balance.percent_of(previous_total_donations).round(2)
       end
 
       def total_donors_trend
+        return 0 if previous_total_donors.zero?
+
         total_donors_balance.percent_of(previous_total_donors).round(2)
       end
 

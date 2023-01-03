@@ -9,34 +9,43 @@ module Service
         @end_date = end_date
       end
 
+      delegate :total_donations, :total_donors, :impact_per_non_profit, to: :impact_service
+
       def formatted_impact
         {
-          total_donations: impact_service.total_donations, total_donors: impact_service.total_donors,
-          impact_per_non_profit: impact_service.impact_per_non_profit,
-          previous_total_donations: previous_impact_service.total_donations,
-          previous_total_donors: previous_impact_service.total_donors,
+          total_donations:, total_donors:, impact_per_non_profit:,
+          previous_total_donations:,
+          previous_total_donors:,
           previous_impact_per_non_profit: previous_impact_service.impact_per_non_profit,
           total_donations_balance:, total_donors_balance:, total_donations_trend:, total_donors_trend:
         }
       end
 
-      private
-
       def total_donations_trend
-        ((total_donations_balance.to_f / previous_impact_service.total_donations) * 100).round(2)
+        total_donations_balance.percent_of(previous_total_donations).round(2)
       end
 
       def total_donors_trend
-        ((total_donors_balance.to_f / previous_impact_service.total_donors) * 100).round(2)
+        total_donors_balance.percent_of(previous_total_donors).round(2)
+      end
+
+      def previous_total_donors
+        previous_impact_service.total_donors
+      end
+
+      def previous_total_donations
+        previous_impact_service.total_donations
       end
 
       def total_donations_balance
-        impact_service.total_donations - previous_impact_service.total_donations
+        impact_service.total_donations - previous_total_donations
       end
 
       def total_donors_balance
-        impact_service.total_donors - previous_impact_service.total_donors
+        impact_service.total_donors - previous_total_donors
       end
+
+      private
 
       def impact_service
         @impact_service ||= Impact.new(integration:, start_date:, end_date:)
@@ -48,11 +57,15 @@ module Service
       end
 
       def previous_start_date
-        start_date - 1.month
+        start_date - time_offset
       end
 
       def previous_end_date
-        end_date - 1.month
+        end_date - time_offset
+      end
+
+      def time_offset
+        (start_date - end_date).abs
       end
     end
   end

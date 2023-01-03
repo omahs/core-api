@@ -12,6 +12,6 @@ class History < ApplicationRecord
   validates :total_donors, :total_donations, presence: true
 
   def total_donations_usd
-    Currency::Converters.convert_to_usd(value: total_donations, from: 'BRL').round.to_f
+    Currency::Converters.convert_to_usd(value: total_donations, from: :brl).round.to_f
   end
 end

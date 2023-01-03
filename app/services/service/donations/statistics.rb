@@ -22,7 +22,20 @@ module Service
       private
 
       def format_result(non_profit)
-        { non_profit:, impact: impact_sum_by_non_profit(non_profit) }
+        {
+          non_profit:,
+          impact: impact_sum_by_non_profit(non_profit),
+          donations: donations_sum_by_non_profit(non_profit),
+          donors: donors_sum_by_non_profit(non_profit)
+        }
+      end
+
+      def donors_sum_by_non_profit(non_profit)
+        donations.where(non_profit:).distinct.count(:user_id)
+      end
+
+      def donations_sum_by_non_profit(non_profit)
+        donations.where(non_profit:).count
       end
 
       def impact_sum_by_non_profit(non_profit)

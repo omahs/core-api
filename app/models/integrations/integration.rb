@@ -41,6 +41,10 @@ class Integration < ApplicationRecord
     "#{base_url}#{unique_address}"
   end
 
+  def integration_dashboard_address
+    "#{dash_base_url}#{unique_address}"
+  end
+
   def available_everyday_at_midnight?
     ticket_availability_in_minutes.nil?
   end
@@ -57,5 +61,9 @@ class Integration < ApplicationRecord
 
   def base_url
     RibonCoreApi.config[:integration_address][:base_url]
+  end
+
+  def dash_base_url
+    RibonCoreApi.config[:integration_dashboard_address][:base_url]
   end
 end

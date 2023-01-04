@@ -8,6 +8,7 @@ module Service
       end
 
       def add_balance
+        balance = pool_balance
         @pool.balance_histories.create!(date:, cause:, balance:, amount_donated:) if balance.positive?
       end
 
@@ -29,8 +30,8 @@ module Service
         @pool.address
       end
 
-      def balance
-        Web3::Networks::Polygon::Scan.new(contract_address:, address:).balance
+      def pool_balance
+        Web3::Networks::Polygon::Scan.new(contract_address:, address:).balance.to_f / (10**6)
       end
 
       def amount_free_donations

@@ -21,13 +21,16 @@ module Service
         @pool.cause
       end
 
+      def pool_address
+        @pool.address
+      end
+
       def balance
-        result = Graphql::RibonApi::Client.query(Graphql::Queries::FetchPools::Query)
-        result.data.pools.find{|x| x.id == pool.address}&.balance.to_i
+        Web3::Networks::Polygon::Scan.new(pool_address:).balance
       end
       
       def amount_free_donations
-        amount_today_donations = "SELECT SUM(value) FROM donations 
+        amount_today_donations = "SELECT SUM(value) as sum FROM donations 
                left outer join non_profits on non_profits.id = donations.non_profit_id
                left outer join causes on causes.id = non_profits.cause_id
                WHERE donations.created_at BETWEEN '#{start_date}' AND '#{end_date}' 

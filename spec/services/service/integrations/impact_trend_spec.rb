@@ -11,12 +11,20 @@ RSpec.describe Service::Integrations::ImpactTrend, type: :service do
 
   let(:impact_service) do
     instance_double(Service::Integrations::Impact, {
-                      total_donations: 10, total_donors: 6, impact_per_non_profit: []
+                      total_donations: 10,
+                      total_donors: 6,
+                      impact_per_non_profit: [],
+                      donations_per_non_profit: [],
+                      donors_per_non_profit: []
                     })
   end
   let(:previous_impact_service) do
     instance_double(Service::Integrations::Impact, {
-                      total_donations: 5, total_donors: 3, impact_per_non_profit: []
+                      total_donations: 5,
+                      total_donors: 3,
+                      impact_per_non_profit: [],
+                      donations_per_non_profit: [],
+                      donors_per_non_profit: []
                     })
   end
   let(:integration) { build(:integration) }
@@ -28,8 +36,10 @@ RSpec.describe Service::Integrations::ImpactTrend, type: :service do
       expect(impact_trend_service.formatted_impact)
         .to eq({
                  total_donations: 10, previous_total_donations: 5, total_donors: 6, previous_total_donors: 3,
-                 impact_per_non_profit: [], total_donations_balance: 5, total_donors_balance: 3,
-                 total_donations_trend: 100.0, total_donors_trend: 100.0, previous_impact_per_non_profit: []
+                 impact_per_non_profit: [], donations_per_non_profit: [], donors_per_non_profit: [],
+                 total_donations_balance: 5, total_donors_balance: 3,
+                 total_donations_trend: 100.0, total_donors_trend: 100.0, previous_impact_per_non_profit: [],
+                 previous_donations_per_non_profit: [], previous_donors_per_non_profit: []
                })
     end
   end

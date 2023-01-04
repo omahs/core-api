@@ -13,10 +13,10 @@
 #
 FactoryBot.define do
   factory :balance_history do
-    date { "2022-12-21" }
+    date { '2022-12-21' }
     cause { build(:cause) }
     pool { build(:pool) }
-    balance { "9.99" }
-    amount_donated { "9.99" }
+    balance { '9.99' }
+    amount_donated { '9.99' }
   end
 end

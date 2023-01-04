@@ -75,9 +75,9 @@ class PersonPayment < ApplicationRecord
   def pool
     case receiver_type
     when 'Cause'
-      self.receiver.default_pool
+      receiver.default_pool
     when 'NonProfit'
-      self.receiver.cause.default_pool  
+      receiver.cause.default_pool
     end
   end
 

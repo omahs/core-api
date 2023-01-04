@@ -8,7 +8,7 @@ module Service
       end
 
       def add_balance
-        @pool.balance_histories.create!(date:, cause:, balance:, amount_donated:) if balance > 0
+        @pool.balance_histories.create!(date:, cause:, balance:, amount_donated:) if balance.positive?
       end
 
       private
@@ -28,20 +28,20 @@ module Service
       def balance
         Web3::Networks::Polygon::Scan.new(pool_address:).balance
       end
-      
+
       def amount_free_donations
-        amount_today_donations = "SELECT SUM(value) as sum FROM donations 
+        amount_today_donations = "SELECT SUM(value) as sum FROM donations
                left outer join non_profits on non_profits.id = donations.non_profit_id
                left outer join causes on causes.id = non_profits.cause_id
-               WHERE donations.created_at BETWEEN '#{start_date}' AND '#{end_date}' 
+               WHERE donations.created_at BETWEEN '#{start_date}' AND '#{end_date}'
                AND causes.id = #{cause.id}"
         ActiveRecord::Base.connection.execute(amount_today_donations).first['sum'].to_f
       end
 
       def amount_paid_donations
-        PersonPayment.where(status: :paid,created_at: start_date..end_date).map{ |person_payment|
+        PersonPayment.where(status: :paid, created_at: start_date..end_date).sum do |person_payment|
           person_payment.pool.id == @pool.id ? person_payment.crypto_amount : 0
-        }.sum
+        end
       end
 
       def amount_donated

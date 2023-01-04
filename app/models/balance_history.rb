@@ -15,5 +15,5 @@ class BalanceHistory < ApplicationRecord
   belongs_to :cause
   belongs_to :pool
 
-  validates_presence_of :balance, :amount_donated, :date
+  validates :balance, :amount_donated, :date, presence: true
 end

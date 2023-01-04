@@ -5,7 +5,7 @@ module Web3
 
       POLYGON = {
         name: 'Polygon Mainnet',
-        ribon_contract_address: '0x4Ef236DA69ac23a9246cd1d8866264f1A95601C0	',
+        ribon_contract_address: '0x4Ef236DA69ac23a9246cd1d8866264f1A95601C0',
         donation_token_contract_address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
         chain_id: 0x89,
         rpc_url: config[:polygon][:rpc_url],

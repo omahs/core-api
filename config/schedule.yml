@@ -2,3 +2,8 @@ send_donation_batch:
   cron: "0 1 * * 1" # At 01:00 on monday.
   class: "Donations::SendDonationBatchWorker"
   queue: donations
+
+retry_donation_batch:
+  cron: "0 1 1 * *" # At 01:00 on day-of-month 1.
+  class: "Donations::RetryDonationBatchWorker"
+  queue: donations

@@ -1,5 +1,5 @@
 module Donations
-  class GenerateBalanceHistory
+  class GenerateBalanceHistoryWorker
     include Sidekiq::Worker
     sidekiq_options queue: :donations
 

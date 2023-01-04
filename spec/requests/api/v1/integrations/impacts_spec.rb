@@ -9,8 +9,13 @@ RSpec.describe 'Api::V1::Integrations::Impacts', type: :request do
     let(:impact) do
       { total_donations: 10, total_donors: 6,
         impact_per_non_profit: [{ non_profit:, impact: 350 }],
+        donations_per_non_profit: [{ non_profit:, donations: 5 }],
+        donors_per_non_profit: [{ non_profit:, donors: 3 }],
         previous_total_donations: 5, previous_total_donors: 3,
-        previous_impact_per_non_profit: [], total_donations_balance: 5,
+        previous_impact_per_non_profit: [],
+        previous_donations_per_non_profit: [],
+        previous_donors_per_non_profit: [],
+        total_donations_balance: 5,
         total_donors_balance: 2, total_donations_trend: 100.0, total_donors_trend: 100.0 }
     end
     let(:impact_service_instance) { instance_double(Service::Integrations::ImpactTrend, formatted_impact: impact) }
@@ -26,7 +31,9 @@ RSpec.describe 'Api::V1::Integrations::Impacts', type: :request do
       expect_response_to_have_keys(%w[total_donations total_donors impact_per_non_profit
                                       previous_impact_per_non_profit previous_total_donations
                                       previous_total_donors total_donations_balance total_donations_trend
-                                      total_donors_balance total_donors_trend])
+                                      total_donors_balance total_donors_trend donations_per_non_profit
+                                      donors_per_non_profit previous_donations_per_non_profit
+                                      previous_donors_per_non_profit])
     end
   end
 end

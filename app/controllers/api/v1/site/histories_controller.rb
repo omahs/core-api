@@ -12,7 +12,7 @@ module Api
           histories = History.all
 
           histories_donations = histories.sum(:total_donations).round.to_f
-          donations = Donation.all.sum(:value).round.to_f
+          donations = Donation.all.sum(:value).round.to_f / 100
 
           total_usd = convert_to_usd(histories_donations) + donations
           total_brl = convert_to_brl(donations) + histories_donations

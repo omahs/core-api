@@ -37,4 +37,22 @@ RSpec.describe Service::Donations::Statistics, type: :service do
       expect(service.impact_per_non_profit.second[:non_profit].name).to eq non_profit2.name
     end
   end
+
+  describe '#donations_per_non_profit' do
+    it 'returns the donations count per non profit' do
+      expect(service.donations_per_non_profit.first[:donations]).to eq 2
+      expect(service.donations_per_non_profit.second[:donations]).to eq 1
+      expect(service.donations_per_non_profit.first[:non_profit].name).to eq non_profit1.name
+      expect(service.donations_per_non_profit.second[:non_profit].name).to eq non_profit2.name
+    end
+  end
+
+  describe '#donors_per_non_profit' do
+    it 'returns the donors count per non profit' do
+      expect(service.donors_per_non_profit.first[:donors]).to eq 1
+      expect(service.donors_per_non_profit.second[:donors]).to eq 1
+      expect(service.donors_per_non_profit.first[:non_profit].name).to eq non_profit1.name
+      expect(service.donors_per_non_profit.second[:non_profit].name).to eq non_profit2.name
+    end
+  end
 end

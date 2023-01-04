@@ -38,7 +38,7 @@ RSpec.describe Service::Donations::BalanceHistory, type: :service do
 
     it 'returns the balance of the pool' do
       balance_history = service.add_balance
-      expect(balance_history.balance).to eq 95_150_000
+      expect(balance_history.balance).to eq 95.15
     end
 
     it 'returns the total amount donated of the pool' do

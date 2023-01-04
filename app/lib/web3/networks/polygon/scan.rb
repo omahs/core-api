@@ -22,7 +22,7 @@ module Web3
         private
 
         def api_key
-          RibonCoreApi.config[:web3][:networks][:polygon][:scan_api_key]
+          RibonCoreApi.config[:polygon_scan][:api_key]
         end
 
         def base_url

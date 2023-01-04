@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.polygonscan.com/api?action=tokenbalance&address=0xa932851982118bd5fa99e16b144afe4622eb2a49&apikey=W1KZQQYRXIUFTQGZ716GGPYVBZJ2V59JGC&contractaddress=0xF000000000000000000000000000000000000000&module=account&tag=latest
+    uri: https://api.polygonscan.com/api?action=tokenbalance&address=0xa932851982118bd5fa99e16b144afe4622eb2a49&apikey=YourApiKey&contractaddress=0xF000000000000000000000000000000000000000&module=account&tag=latest
     body:
       encoding: US-ASCII
       string: ''

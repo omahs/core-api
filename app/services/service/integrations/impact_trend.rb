@@ -20,10 +20,14 @@ module Service
       end
 
       def total_donations_trend
+        return 0 if previous_total_donations.zero?
+
         total_donations_balance.percent_of(previous_total_donations).round(2)
       end
 
       def total_donors_trend
+        return 0 if previous_total_donors.zero?
+
         total_donors_balance.percent_of(previous_total_donors).round(2)
       end
 

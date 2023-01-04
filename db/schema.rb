@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_20_150049) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_21_133602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_20_150049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "balance_histories", force: :cascade do |t|
+    t.date "date"
+    t.bigint "cause_id", null: false
+    t.bigint "pool_id", null: false
+    t.decimal "balance"
+    t.decimal "amount_donated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cause_id"], name: "index_balance_histories_on_cause_id"
+    t.index ["pool_id"], name: "index_balance_histories_on_pool_id"
   end
 
   create_table "batches", force: :cascade do |t|
@@ -436,6 +448,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_20_150049) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "balance_histories", "causes"
+  add_foreign_key "balance_histories", "pools"
   add_foreign_key "blockchain_transactions", "chains"
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"

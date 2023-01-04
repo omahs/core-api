@@ -16,15 +16,18 @@ module Service
       end
 
       def impact_per_non_profit
-        non_profits.map { |non_profit| format_impacts(non_profit) }.select { |result| (result[:impact]).positive? }
+        non_profits.map { |non_profit| format_impacts(non_profit) }
+                   .select { |result| (result[:impact]).positive? }
       end
 
       def donations_per_non_profit
-        non_profits.map { |non_profit| format_donations(non_profit) }.select { |result| (result[:donations]).positive? }
+        non_profits.map { |non_profit| format_donations(non_profit) }
+                   .select { |result| (result[:donations]).positive? }
       end
 
       def donors_per_non_profit
-        non_profits.map { |non_profit| format_donors(non_profit) }.select { |result| (result[:donors]).positive? }
+        non_profits.map { |non_profit| format_donors(non_profit) }
+                   .select { |result| (result[:donors]).positive? }
       end
 
       private

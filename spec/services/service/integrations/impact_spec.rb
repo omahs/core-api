@@ -45,7 +45,8 @@ RSpec.describe Service::Integrations::Impact, type: :service do
     it 'returns the donations count per non profit' do
       allow(Service::Donations::Statistics)
         .to receive(:new).and_return(
-          instance_double(Service::Donations::Statistics, donations_per_non_profit: [{ non_profit:, donations: 10 }])
+          instance_double(Service::Donations::Statistics,
+                          donations_per_non_profit: [{ non_profit:, donations: 10 }])
         )
 
       expect(service.donations_per_non_profit.first[:donations]).to eq 10

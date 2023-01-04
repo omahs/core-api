@@ -16,26 +16,32 @@ module Service
       end
 
       def impact_per_non_profit
-        non_profits.map { |non_profit| format_result(non_profit) }.select { |result| (result[:impact]).positive? }
+        non_profits.map { |non_profit| format_impacts(non_profit) }
+                   .select { |result| (result[:impact]).positive? }
+      end
+
+      def donations_per_non_profit
+        non_profits.map { |non_profit| format_donations(non_profit) }
+                   .select { |result| (result[:donations]).positive? }
+      end
+
+      def donors_per_non_profit
+        non_profits.map { |non_profit| format_donors(non_profit) }
+                   .select { |result| (result[:donors]).positive? }
       end
 
       private
 
-      def format_result(non_profit)
-        {
-          non_profit:,
-          impact: impact_sum_by_non_profit(non_profit),
-          donations: donations_sum_by_non_profit(non_profit),
-          donors: donors_sum_by_non_profit(non_profit)
-        }
+      def format_impacts(non_profit)
+        { non_profit:, impact: impact_sum_by_non_profit(non_profit) }
       end
 
-      def donors_sum_by_non_profit(non_profit)
-        donations.where(non_profit:).distinct.count(:user_id)
+      def format_donations(non_profit)
+        { non_profit:, donations: donations.where(non_profit:).count }
       end
 
-      def donations_sum_by_non_profit(non_profit)
-        donations.where(non_profit:).count
+      def format_donors(non_profit)
+        { non_profit:, donors: donations.where(non_profit:).distinct.count(:user_id) }
       end
 
       def impact_sum_by_non_profit(non_profit)

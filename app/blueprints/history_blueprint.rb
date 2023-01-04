@@ -1,11 +1,11 @@
 class HistoryBlueprint < Blueprinter::Base
   fields :total_donors
 
-  field :total_donations do |history, options|
+  field :total_donations do |_history, options|
     if options[:language] == 'pt-BR'
-      [options:total]
+      options[:total_brl]
     else
-      history.total_donations_usd
+      options[:total_usd]
     end
   end
 

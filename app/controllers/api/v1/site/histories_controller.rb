@@ -11,15 +11,14 @@ module Api
         def total_donations
           histories = History.all
 
+          histories_donations = histories.sum(:total_donations).round.to_f
           donations = Donation.all.sum(:value).round.to_f
-          
-          payments = PersonPayment.where(receiver_type: "NonProfit").sum(:amount_cents) / 100
 
-          total = (donations + payments)
+          total_usd = convert_to_usd(histories_donations) + donations
+          total_brl = convert_to_brl(donations) + histories_donations
 
-
-        
-          render json: HistoryBlueprint.render(histories, view: :donations, language: params[:language])
+          render json: HistoryBlueprint.render(histories, view: :donations, language: params[:language],
+                                                          total_usd:, total_brl:)
         end
 
         def total_donors
@@ -30,8 +29,12 @@ module Api
 
         private
 
-        def all_donations(total)
-          Currency::Converters.convert_to_usd(value: total, from: 'BRL').round.to_f
+        def convert_to_usd(value)
+          Currency::Converters.convert_to_usd(value:, from: 'BRL').round.to_f
+        end
+
+        def convert_to_brl(value)
+          Currency::Converters.convert_to_brl(value:, from: 'USD').round.to_f
         end
       end
     end

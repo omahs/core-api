@@ -10,8 +10,7 @@ RSpec.describe 'Integrations::V1::Impacts', type: :request do
       { total_donations: 10, total_donors: 5,
         impact_per_non_profit: [{ non_profit: { name: 'Non Profit 1' }, impact: 350 }],
         donations_per_non_profit: [{ non_profit: { name: 'Non Profit 1' }, donations: 5 }],
-        donors_per_non_profit: [{ non_profit: { name: 'Non Profit 1' }, donors: 3 }],
-      }
+        donors_per_non_profit: [{ non_profit: { name: 'Non Profit 1' }, donors: 3 }] }
     end
     let(:impact_service_instance) { instance_double(Service::Integrations::Impact, formatted_impact: impact) }
 

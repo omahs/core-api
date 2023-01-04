@@ -21,12 +21,16 @@ module Service
         @pool.cause
       end
 
-      def pool_address
+      def contract_address
+        @pool.token.address
+      end
+
+      def address
         @pool.address
       end
 
       def balance
-        Web3::Networks::Polygon::Scan.new(pool_address:).balance
+        Web3::Networks::Polygon::Scan.new(contract_address:, address:).balance
       end
 
       def amount_free_donations

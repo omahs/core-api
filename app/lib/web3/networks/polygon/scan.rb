@@ -2,16 +2,17 @@ module Web3
   module Networks
     module Polygon
       class Scan
-        def initialize(pool_address:)
-          @pool_address = pool_address
+        def initialize(contract_address:, address:)
+          @contract_address = contract_address
+          @address = address
         end
 
         def balance
           result = Request::ApiRequest.get("#{base_url}?" \
                                            'module=account&' \
                                            'action=tokenbalance&' \
-                                           "contractaddress=#{contract_address}&" \
-                                           "address=#{@pool_address}&" \
+                                           "contractaddress=#{@contract_address}&" \
+                                           "address=#{@address}&" \
                                            'tag=latest&' \
                                            "apikey=#{api_key}")
           return 0 unless result['result']
@@ -27,10 +28,6 @@ module Web3
 
         def base_url
           'https://api.polygonscan.com/api'
-        end
-
-        def contract_address
-          Token.default.address
         end
       end
     end

@@ -11,10 +11,14 @@ module Api
         private
 
         def start_date
+          return 7.days.ago unless params[:start_date]
+
           @start_date ||= Date.parse(params[:start_date])
         end
 
         def end_date
+          return Time.zone.now unless params[:end_date]
+
           @end_date ||= Date.parse(params[:end_date])
         end
 

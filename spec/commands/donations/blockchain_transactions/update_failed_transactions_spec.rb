@@ -31,7 +31,11 @@ describe Donations::BlockchainTransactions::UpdateFailedTransactions do
           batch: transaction.owner
         ).once
       end
+    end
 
+    it 'doesnt call the Donations::CreateBatchBlockchainDonation with successfull transactions donations' do
+      command
+      
       success_transactions.each do |transaction|
         expect(Donations::CreateBatchBlockchainDonation)
           .not_to have_received(:call).with(

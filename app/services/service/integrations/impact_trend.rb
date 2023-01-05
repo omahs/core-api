@@ -10,7 +10,8 @@ module Service
       end
 
       delegate :total_donations, :total_donors, :impact_per_non_profit, :donations_per_non_profit,
-               :donors_per_non_profit, to: :impact_service
+               :donors_per_non_profit, :donations_in_date_intervals, :donors_in_date_intervals,
+               to: :impact_service
 
       def formatted_impact
         {
@@ -18,7 +19,8 @@ module Service
           donors_per_non_profit:, previous_total_donations:, previous_total_donors:,
           previous_impact_per_non_profit:, total_donations_balance:,
           total_donors_balance:, total_donations_trend:, total_donors_trend:,
-          previous_donations_per_non_profit:, previous_donors_per_non_profit:
+          previous_donations_per_non_profit:, previous_donors_per_non_profit:,
+          donations_in_date_intervals:, donors_in_date_intervals:
         }
       end
 
@@ -52,6 +54,14 @@ module Service
 
       def previous_donors_per_non_profit
         previous_impact_service.donors_per_non_profit
+      end
+
+      def previous_donations_in_date_intervals
+        previous_impact_service.donations_in_date_intervals
+      end
+
+      def previous_donors_in_date_intervals
+        previous_impact_service.donors_in_date_intervals
       end
 
       def total_donations_balance

@@ -22,7 +22,10 @@ describe Donations::BlockchainTransactions::UpdateApiOnlyTransactions do
         integration: api_only_batch.integration,
         batch: api_only_batch
       )
+    end
 
+    it 'doesnt call the Donation::CreateBatchBlockchainDonation with successfull transactions donations' do
+      command
       expect(Donations::CreateBatchBlockchainDonation)
         .not_to have_received(:call).with(
           non_profit: batch_with_blockchain_transaction.non_profit,

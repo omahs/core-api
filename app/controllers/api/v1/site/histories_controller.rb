@@ -2,28 +2,25 @@ module Api
   module V1
     module Site
       class HistoriesController < ApplicationController
-        def index
-          @histories = History.all
-
-          render json: HistoryBlueprint.render(@histories)
-        end
-
-        def total_donations
-          histories = History.all
-          histories_donations = histories.sum(:total_donations)
+        def non_profits_total_balance
+          histories_donations = History.all.sum(:total_donations)
 
           donations = Donation.all.sum(:value) / 100
           total_usd = convert_to_usd(histories_donations) + donations
           total_brl = convert_to_brl(donations) + histories_donations
 
-          render json: HistoryBlueprint.render(histories, view: :donations, language: params[:language],
-                                                          total_usd:, total_brl:)
+          if params[:language] == 'pt-BR'
+            render json: { non_profits_total_balance: total_brl }
+          else
+            render json: { non_profits_total_balance: total_usd }
+          end
         end
 
         def total_donors
-          @histories = History.all
+          histories_donors = History.all.sum(:total_donors)
+          users = Donation.all.pluck(:user_id).uniq.compact.count
 
-          render json: HistoryBlueprint.render(@histories, view: :donors)
+          render json: { total_donors: histories_donors + users }
         end
 
         private

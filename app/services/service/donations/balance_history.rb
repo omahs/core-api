@@ -9,7 +9,7 @@ module Service
 
       def add_balance
         balance = pool_balance
-        @pool.balance_histories.create!(date:, cause:, balance:, amount_donated:) if balance.positive?
+        pool.balance_histories.create!(date:, cause:, balance:, amount_donated:) if balance.positive?
       end
 
       private
@@ -19,19 +19,19 @@ module Service
       end
 
       def cause
-        @pool.cause
+        pool.cause
       end
 
       def contract_address
-        @pool.token.address
+        pool.token.address
       end
 
       def address
-        @pool.address
+        pool.address
       end
 
       def pool_balance
-        Web3::Networks::Polygon::Scan.new(contract_address:, address:).balance.to_f / (10**6)
+        Web3::Networks::Polygon::Scan.new(contract_address:, address:).balance.to_f / (10**pool.token.decimals)
       end
 
       def amount_free_donations
@@ -45,7 +45,7 @@ module Service
 
       def amount_paid_donations
         PersonPayment.where(status: :paid, created_at: start_date..end_date).sum do |person_payment|
-          person_payment.pool.id == @pool.id ? person_payment.crypto_amount : 0
+          person_payment.pool.id == pool.id ? person_payment.crypto_amount : 0
         end
       end
 

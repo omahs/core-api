@@ -8,7 +8,7 @@ RSpec.describe Service::Donations::BalanceHistory, type: :service do
 
   describe '#add_balance' do
     let(:chain) { create(:chain) }
-    let(:token) { create(:token, chain:) }
+    let(:token) { create(:token, chain:, decimals: 6) }
     let(:cause) { create(:cause) }
     let(:pool) { create(:pool, cause:, token:, address: '0xa932851982118bd5fa99e16b144afe4622eb2a49') }
 

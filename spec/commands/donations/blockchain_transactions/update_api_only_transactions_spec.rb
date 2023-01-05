@@ -20,13 +20,15 @@ describe Donations::BlockchainTransactions::UpdateApiOnlyTransactions do
       expect(Donations::CreateBatchBlockchainDonation).to have_received(:call).with(
         non_profit: api_only_batch.non_profit,
         integration: api_only_batch.integration,
-        batch: api_only_batch)
+        batch: api_only_batch
+      )
 
       expect(Donations::CreateBatchBlockchainDonation)
         .not_to have_received(:call).with(
           non_profit: batch_with_blockchain_transaction.non_profit,
           integration: batch_with_blockchain_transaction.integration,
-          batch: batch_with_blockchain_transaction)
+          batch: batch_with_blockchain_transaction
+        )
     end
   end
 end

@@ -15,7 +15,9 @@ RSpec.describe Service::Integrations::ImpactTrend, type: :service do
                       total_donors: 6,
                       impact_per_non_profit: [],
                       donations_per_non_profit: [],
-                      donors_per_non_profit: []
+                      donors_per_non_profit: [],
+                      donations_in_date_intervals: [],
+                      donors_in_date_intervals: []
                     })
   end
   let(:previous_impact_service) do
@@ -24,7 +26,9 @@ RSpec.describe Service::Integrations::ImpactTrend, type: :service do
                       total_donors: 3,
                       impact_per_non_profit: [],
                       donations_per_non_profit: [],
-                      donors_per_non_profit: []
+                      donors_per_non_profit: [],
+                      donations_in_date_intervals: [],
+                      donors_in_date_intervals: []
                     })
   end
   let(:integration) { build(:integration) }
@@ -39,7 +43,8 @@ RSpec.describe Service::Integrations::ImpactTrend, type: :service do
                  impact_per_non_profit: [], donations_per_non_profit: [], donors_per_non_profit: [],
                  total_donations_balance: 5, total_donors_balance: 3,
                  total_donations_trend: 100.0, total_donors_trend: 100.0, previous_impact_per_non_profit: [],
-                 previous_donations_per_non_profit: [], previous_donors_per_non_profit: []
+                 previous_donations_per_non_profit: [], previous_donors_per_non_profit: [],
+                 donations_in_date_intervals: [], donors_in_date_intervals: []
                })
     end
   end

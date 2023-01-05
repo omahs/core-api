@@ -49,6 +49,8 @@ Rails.application.routes.draw do
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
 
+      
+
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'donations_count' => 'users/impacts#donations_count'
@@ -84,6 +86,13 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
+      end
+
+      namespace :site do 
+        get 'total_donations' => 'histories#total_donations'
+        get 'total_donors' => 'histories#total_donors'
+        get 'non_profits' => 'site#non_profits'
+        get 'total_impacted_lives' => 'site#total_impacted_lives'
       end
 
     end

@@ -12,7 +12,6 @@ module Graphql
             nonProfit{
               id
             }
-            user
           }
         }
       GRAPHQL

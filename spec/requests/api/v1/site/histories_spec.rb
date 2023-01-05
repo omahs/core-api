@@ -19,6 +19,9 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     subject(:request) { get '/api/v1/site/total_donations' }
 
     before do
+      VCR.insert_cassette 'conversion_rate_usd_brl'
+      allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
+      allow(Currency::Converters).to receive(:convert_to_brl).and_return(1)
       create_list(:history, 1)
     end
 

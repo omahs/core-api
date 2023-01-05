@@ -11,12 +11,12 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donors' do
       request
 
-      expect_response_collection_to_have_keys(%w[total_donors])
+      expect(response_json.to_json).to eq({ total_donors: History.all.sum(:total_donors) }.to_json)
     end
   end
 
-  describe 'GET /total_donations' do
-    subject(:request) { get '/api/v1/site/total_donations' }
+  describe 'GET /non_profits_total_balance' do
+    subject(:request) { get '/api/v1/site/non_profits_total_balance' }
 
     before do
       VCR.insert_cassette 'conversion_rate_usd_brl'
@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donations' do
       request
 
-      expect_response_collection_to_have_keys(%w[total_donations])
+      expect(response_json.to_json).to eq({ non_profits_total_balance: '1.0' }.to_json)
     end
   end
 end

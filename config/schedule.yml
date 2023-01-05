@@ -9,6 +9,6 @@ retry_donation_batch:
   queue: donations
   
 generate_balance_history:
-  cron: "0 1 * * *" # At 01:00 everyday.
+  cron: "0 2 * * *" # At 02:00 everyday.
   class: "Donations::GenerateBalanceHistoryWorker"
   queue: donations

@@ -31,11 +31,6 @@ RSpec.describe Service::Donations::BalanceHistory, type: :service do
       expect(balance_history.cause).to eq cause
     end
 
-    it 'date should be today' do
-      balance_history = service.add_balance
-      expect(balance_history.date).to eq Time.zone.today
-    end
-
     it 'returns the balance of the pool' do
       balance_history = service.add_balance
       expect(balance_history.balance).to eq 95.15

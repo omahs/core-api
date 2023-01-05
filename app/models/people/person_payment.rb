@@ -72,6 +72,15 @@ class PersonPayment < ApplicationRecord
     Reporter.log(error: e)
   end
 
+  def pool
+    case receiver_type
+    when 'Cause'
+      receiver.default_pool
+    when 'NonProfit'
+      receiver.cause.default_pool
+    end
+  end
+
   private
 
   def currency

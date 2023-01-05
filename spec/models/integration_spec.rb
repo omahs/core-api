@@ -54,6 +54,14 @@ RSpec.describe Integration, type: :model do
     end
   end
 
+  describe '#integration_dashboard_address' do
+    let(:integration) { create(:integration) }
+
+    it 'returns the integration dashboard address' do
+      expect(integration.integration_dashboard_address).to eq("https://integration.ribon.io/?integration_id=#{integration.unique_address}")
+    end
+  end
+
   describe '#available_everyday_at_midnight?' do
     context 'when ticket_availability_in_minutes is present' do
       let(:integration) { create(:integration, ticket_availability_in_minutes: 10) }

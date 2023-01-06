@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe CauseBlueprint, type: :blueprint do
-
   let(:cause) { create(:cause) }
   let(:cause_blueprint) { described_class.render(cause) }
   let(:cause_blueprint_minimal) { described_class.render(cause, view: :minimal) }

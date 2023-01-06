@@ -5,7 +5,6 @@
 #  id             :bigint           not null, primary key
 #  amount_donated :decimal(, )
 #  balance        :decimal(, )
-#  date           :date
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  cause_id       :bigint           not null
@@ -15,5 +14,5 @@ class BalanceHistory < ApplicationRecord
   belongs_to :cause
   belongs_to :pool
 
-  validates :balance, :amount_donated, :date, presence: true
+  validates :balance, :amount_donated, presence: true
 end

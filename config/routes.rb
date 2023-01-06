@@ -89,8 +89,9 @@ Rails.application.routes.draw do
       end
 
       namespace :site do 
-        get 'total_donations' => 'histories#total_donations'
+        get 'non_profits_total_balance' => 'histories#non_profits_total_balance'
         get 'total_donors' => 'histories#total_donors'
+        get 'total_donations' => 'site#total_donations'
         get 'non_profits' => 'site#non_profits'
         get 'total_impacted_lives' => 'site#total_impacted_lives'
       end

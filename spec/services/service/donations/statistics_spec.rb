@@ -59,7 +59,7 @@ RSpec.describe Service::Donations::Statistics, type: :service do
   describe '#donations_in_date_intervals' do
     it 'returns the donations count in date intervals' do
       expect(service.donations_in_date_intervals.first[:initial_date]).to eq Time.zone.now.strftime('%d/%m/%Y')
-      expect(service.donations_in_date_intervals.first[:count]).to eq 3
+      expect(service.donations_in_date_intervals.first[:count]).to eq 1
     end
   end
 

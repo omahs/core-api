@@ -19,7 +19,7 @@ module Service
         start_date = donations.minimum(:created_at)
         end_date = donations.maximum(:created_at)
         users_ids = donations.pluck(:user_id).uniq
-        User.all.where(id: users_ids).created_between(start_date, end_date).count
+        User.where(id: users_ids).created_between(start_date, end_date).count
       end
 
       def total_donors_recurrent

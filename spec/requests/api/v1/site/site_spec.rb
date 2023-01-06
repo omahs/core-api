@@ -21,6 +21,23 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
     end
   end
 
+  describe 'GET /total_donations' do
+    subject(:request) { get '/api/v1/site/total_donations' }
+
+    let(:balance) { create(:balance, created_at: Time.zone.yesterday + 1.hour) }
+    let(:total_donations) do
+      { total_donations: BalanceHistory
+        .where('created_at > ?', Time.zone.yesterday)
+        .where('created_at < ?', Time.zone.today).sum(:balance) }
+    end
+
+    it 'returns all funds for donation' do
+      request
+
+      expect(response_json.to_json).to eq(total_donations.to_json)
+    end
+  end
+
   describe 'GET /total_impacted_lives' do
     subject(:request) { get '/api/v1/site/total_impacted_lives' }
 

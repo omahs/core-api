@@ -17,7 +17,7 @@ module Service
         @total_donors ||= donations.distinct.count(:user_id)
       end
 
-      def donations_in_date_intervals
+      def donations_splitted_into_intervals
         slice_size = (donations.count / GROUP_INTERVALS).zero? ? 1 : donations.count / GROUP_INTERVALS
 
         donations.each_slice(slice_size).map do |donations_slice|
@@ -28,7 +28,7 @@ module Service
         end
       end
 
-      def donors_in_date_intervals
+      def donors_splitted_into_intervals
         slice_size = (donations.count / GROUP_INTERVALS).zero? ? 1 : donations.count / GROUP_INTERVALS
 
         donations.each_slice(slice_size).map do |donations_slice|

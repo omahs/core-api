@@ -56,17 +56,19 @@ RSpec.describe Service::Donations::Statistics, type: :service do
     end
   end
 
-  describe '#donations_in_date_intervals' do
+  describe '#donations_splitted_into_intervals' do
     it 'returns the donations count in date intervals' do
-      expect(service.donations_in_date_intervals.first[:initial_date]).to eq Time.zone.now.strftime('%d/%m/%Y')
-      expect(service.donations_in_date_intervals.first[:count]).to eq 1
+      expect(service.donations_splitted_into_intervals.first[:initial_date]).to eq(
+        Time.zone.now.strftime('%d/%m/%Y')
+      )
+      expect(service.donations_splitted_into_intervals.first[:count]).to eq 1
     end
   end
 
-  describe '#donors_in_date_intervals' do
+  describe '#donors_splitted_into_intervals' do
     it 'returns the donors count in date intervals' do
-      expect(service.donors_in_date_intervals.first[:initial_date]).to eq Time.zone.now.strftime('%d/%m/%Y')
-      expect(service.donors_in_date_intervals.first[:count]).to eq 1
+      expect(service.donors_splitted_into_intervals.first[:initial_date]).to eq Time.zone.now.strftime('%d/%m/%Y')
+      expect(service.donors_splitted_into_intervals.first[:count]).to eq 1
     end
   end
 end

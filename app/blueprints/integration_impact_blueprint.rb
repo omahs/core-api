@@ -4,7 +4,7 @@ class IntegrationImpactBlueprint < Blueprinter::Base
          :previous_total_donations, :previous_total_donors,
          :previous_impact_per_non_profit, :previous_donations_per_non_profit, :previous_donors_per_non_profit,
          :total_donations_balance, :total_donors_balance, :total_donations_trend, :total_donors_trend,
-         :donations_in_date_intervals, :donors_in_date_intervals
+         :donations_splitted_into_intervals, :donors_splitted_into_intervals
 
   field :impact_per_non_profit do |object|
     object[:impact_per_non_profit].map do |impact|

@@ -68,29 +68,29 @@ RSpec.describe Service::Integrations::Impact, type: :service do
     end
   end
 
-  describe '#donations_in_date_intervals' do
+  describe '#donations_splitted_into_intervals' do
     it 'returns the donations count in date intervals' do
       allow(Service::Donations::Statistics)
         .to receive(:new).and_return(
           instance_double(Service::Donations::Statistics,
-                          donations_in_date_intervals: [{ initial_date: Time.zone.today.to_s, count: 10 }])
+                          donations_splitted_into_intervals: [{ initial_date: Time.zone.today.to_s, count: 10 }])
         )
 
-      expect(service.donations_in_date_intervals.first[:count]).to eq 10
-      expect(service.donations_in_date_intervals.first[:initial_date]).to eq Time.zone.today.to_s
+      expect(service.donations_splitted_into_intervals.first[:count]).to eq 10
+      expect(service.donations_splitted_into_intervals.first[:initial_date]).to eq Time.zone.today.to_s
     end
   end
 
-  describe '#donors_in_date_intervals' do
+  describe '#donors_splitted_into_intervals' do
     it 'returns the donors count in date intervals' do
       allow(Service::Donations::Statistics)
         .to receive(:new).and_return(
           instance_double(Service::Donations::Statistics,
-                          donors_in_date_intervals: [{ initial_date: Time.zone.today.to_s, count: 10 }])
+                          donors_splitted_into_intervals: [{ initial_date: Time.zone.today.to_s, count: 10 }])
         )
 
-      expect(service.donors_in_date_intervals.first[:count]).to eq 10
-      expect(service.donors_in_date_intervals.first[:initial_date]).to eq Time.zone.today.to_s
+      expect(service.donors_splitted_into_intervals.first[:count]).to eq 10
+      expect(service.donors_splitted_into_intervals.first[:initial_date]).to eq Time.zone.today.to_s
     end
   end
 end

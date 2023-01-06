@@ -5,7 +5,6 @@
 #  id             :bigint           not null, primary key
 #  amount_donated :decimal(, )
 #  balance        :decimal(, )
-#  date           :date
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  cause_id       :bigint           not null
@@ -19,6 +18,5 @@ RSpec.describe BalanceHistory, type: :model do
 
     it { is_expected.to validate_presence_of(:balance) }
     it { is_expected.to validate_presence_of(:amount_donated) }
-    it { is_expected.to validate_presence_of(:date) }
   end
 end

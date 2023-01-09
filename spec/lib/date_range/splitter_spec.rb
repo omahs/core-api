@@ -27,8 +27,8 @@ RSpec.describe DateRange::Splitter do
     context 'when the start date is the same as the end date' do
       let(:end_date) { start_date }
 
-      it 'returns an empty array' do
-        expect(split).to be_empty
+      it 'returns an array with 1 element' do
+        expect(split.size).to eq 1
       end
     end
 

@@ -30,6 +30,7 @@ module DateRange
     end
 
     def normalized_intervals
+      return 1 if days_difference.zero?
       return days_difference if intervals > days_difference
 
       intervals

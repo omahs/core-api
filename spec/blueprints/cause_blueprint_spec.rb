@@ -1,5 +1,3 @@
-# test cause blueprint
-
 require 'rails_helper'
 
 RSpec.describe CauseBlueprint, type: :blueprint do

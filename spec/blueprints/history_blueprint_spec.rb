@@ -1,5 +1,3 @@
-# tests history blueprint
-
 require 'rails_helper'
 
 RSpec.describe HistoryBlueprint do

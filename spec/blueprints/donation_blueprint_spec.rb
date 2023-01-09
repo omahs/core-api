@@ -1,5 +1,3 @@
-# test donation blueprint
-
 require 'rails_helper'
 
 RSpec.describe DonationBlueprint do

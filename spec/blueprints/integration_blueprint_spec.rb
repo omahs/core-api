@@ -1,5 +1,3 @@
-# tests the integration blueprint
-
 require 'rails_helper'
 
 RSpec.describe IntegrationBlueprint do

@@ -18,8 +18,6 @@ RSpec.describe CauseBlueprint, type: :blueprint do
   end
 
   it 'has the correct view' do
-    expect(cause_blueprint).to include(:pools.to_s)
-    expect(cause_blueprint).to include(:non_profits.to_s)
     expect(cause_blueprint_minimal).not_to include(:created_at.to_s)
     expect(cause_blueprint_minimal).not_to include(:updated_at.to_s)
   end

@@ -3,6 +3,8 @@ module Service
     class Statistics
       attr_reader :donations
 
+      MAXIMUM_INTERVALS = 5
+
       def initialize(donations:)
         @donations = donations
       end
@@ -16,8 +18,6 @@ module Service
       end
 
       def total_new_donors
-        start_date = donations.minimum(:created_at)
-        end_date = donations.maximum(:created_at)
         users_ids = donations.pluck(:user_id).uniq
         User.where(id: users_ids).created_between(start_date, end_date).count
       end
@@ -39,6 +39,25 @@ module Service
       def donors_per_non_profit
         non_profits.map { |non_profit| format_donors(non_profit) }
                    .select { |result| (result[:donors]).positive? }
+      end
+
+      def donations_splitted_into_intervals
+        date_ranges_splitted.map do |date_range|
+          {
+            initial_date: date_range[:start_date].strftime('%d/%m/%Y'),
+            count: donations.created_between(date_range[:start_date], date_range[:end_date]).count
+          }
+        end
+      end
+
+      def donors_splitted_into_intervals
+        date_ranges_splitted.map do |date_range|
+          {
+            initial_date: date_range[:start_date].strftime('%d/%m/%Y'),
+            count: donations.created_between(date_range[:start_date],
+                                             date_range[:end_date]).distinct.count(:user_id)
+          }
+        end
       end
 
       private
@@ -63,6 +82,18 @@ module Service
 
       def total_usd_cents_donated_for(non_profit)
         donations.where(non_profit:).sum(&:value)
+      end
+
+      def start_date
+        @start_date ||= donations.order(:created_at).first.created_at
+      end
+
+      def end_date
+        @end_date ||= donations.order(:created_at).last.created_at
+      end
+
+      def date_ranges_splitted
+        @date_ranges_splitted = DateRange::Splitter.new(start_date, end_date, MAXIMUM_INTERVALS).split
       end
 
       def non_profits

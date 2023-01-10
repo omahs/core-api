@@ -11,7 +11,7 @@ module Api
           balance = BalanceHistory
                     .where('created_at > ?', Time.zone.yesterday)
                     .where('created_at < ?', Time.zone.today).sum(:balance)
-          render json: { total_donations: balance }
+          render json: { total_donations: "#{balance} USDC" }
         end
 
         def total_impacted_lives

@@ -4,6 +4,7 @@
 #
 #  id             :bigint           not null, primary key
 #  amount_cents   :integer
+#  currency       :integer
 #  error_code     :string
 #  paid_date      :datetime
 #  payment_method :integer
@@ -21,6 +22,7 @@
 class PersonPayment < ApplicationRecord
   include UuidHelper
 
+  before_create :set_currency
   after_create :set_fees
 
   belongs_to :person
@@ -47,11 +49,16 @@ class PersonPayment < ApplicationRecord
     crypto: 2
   }
 
+  enum currency: {
+    brl: 0,
+    usd: 1
+  }
+
   def crypto_amount
     amount_with_fees = amount - service_fees
-    return amount_with_fees if currency == :usd
+    return amount_with_fees if currency&.to_sym == :usd
 
-    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency).round.to_f
+    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency&.to_sym).round.to_f
   end
 
   def amount
@@ -65,7 +72,7 @@ class PersonPayment < ApplicationRecord
   end
 
   def set_fees
-    fees = Givings::Card::CalculateCardGiving.call(value: amount_value, currency:).result
+    fees = Givings::Card::CalculateCardGiving.call(value: amount_value, currency: currency&.to_sym).result
     create_person_payment_fee!(card_fee_cents: fees[:card_fee].cents,
                                crypto_fee_cents: fees[:crypto_fee].cents)
   rescue StandardError => e
@@ -83,11 +90,11 @@ class PersonPayment < ApplicationRecord
 
   private
 
-  def currency
-    offer&.currency&.to_sym&.downcase || :usd
-  end
-
   def service_fees
     person_payment_fee&.service_fee || 0
+  end
+
+  def set_currency
+    self.currency = offer&.currency || :usd
   end
 end

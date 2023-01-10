@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_05_164853) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_10_133248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -316,6 +316,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_164853) do
     t.string "receiver_type"
     t.bigint "receiver_id"
     t.string "error_code"
+    t.integer "currency"
     t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"

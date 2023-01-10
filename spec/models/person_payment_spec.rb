@@ -4,6 +4,7 @@
 #
 #  id             :bigint           not null, primary key
 #  amount_cents   :integer
+#  currency       :integer
 #  error_code     :string
 #  paid_date      :datetime
 #  payment_method :integer
@@ -21,7 +22,7 @@
 require 'rails_helper'
 
 RSpec.describe PersonPayment, type: :model do
-  subject(:person_payment) { build(:person_payment, person_payment_fee:, amount_cents:, offer:) }
+  subject(:person_payment) { create(:person_payment, person_payment_fee:, amount_cents:, offer:) }
 
   let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
   let(:amount_cents) { nil }
@@ -85,10 +86,9 @@ RSpec.describe PersonPayment, type: :model do
   end
 
   describe '#crypto_amount' do
-    context 'when the currency is usd' do
-      let(:amount_cents) { 1500 }
-      let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
+    let(:amount_cents) { 1500 }
 
+    context 'when the currency is usd' do
       it 'returns the amount minus the fees' do
         amount = person_payment.amount
         fees = person_payment_fee.crypto_fee + person_payment_fee.card_fee
@@ -99,11 +99,9 @@ RSpec.describe PersonPayment, type: :model do
 
     context 'when the currency is brl' do
       include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
-      let(:amount_cents) { 1500 }
-      let(:person_payment_fee) { build(:person_payment_fee, crypto_fee_cents: 100, card_fee_cents: 100) }
-      let(:offer) { build(:offer, price_cents: 1200, currency: :brl) }
 
       it 'returns the amount minus the fees converted to brl' do
+        person_payment.update(currency: :brl)
         amount = person_payment.amount
         fees = person_payment_fee.crypto_fee + person_payment_fee.card_fee
         convert_factor_brl_usd = 0.1843 # comes from the conversion_rate_brl_usd request

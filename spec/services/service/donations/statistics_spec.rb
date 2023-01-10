@@ -10,7 +10,7 @@ RSpec.describe Service::Donations::Statistics, type: :service do
   let(:non_profit2) { create(:non_profit) }
 
   before do
-    travel_to Time.zone.local(2022, 1, 1, 12, 0, 0)
+    travel_to Time.zone.local(2023, 1, 1, 12, 0, 0)
 
     create(:non_profit_impact, usd_cents_to_one_impact_unit: 10,
                                non_profit: non_profit1, start_date: 1.day.ago, end_date: 1.day.from_now)
@@ -77,7 +77,7 @@ RSpec.describe Service::Donations::Statistics, type: :service do
     it 'returns the donations count splitted into intervals' do
       expect(service.donations_splitted_into_intervals.first[:count]).to eq 6
       expect(service.donations_splitted_into_intervals.first[:initial_date]).to eq(
-        Time.zone.now.strftime('%d/%m/%Y')
+        Time.zone.today.strftime('%d/%m/%Y')
       )
     end
   end
@@ -86,7 +86,7 @@ RSpec.describe Service::Donations::Statistics, type: :service do
     it 'returns the donors count splitted into intervals' do
       expect(service.donors_splitted_into_intervals.first[:count]).to eq 2
       expect(service.donors_splitted_into_intervals.first[:initial_date]).to eq(
-        Time.zone.now.strftime('%d/%m/%Y')
+        Time.zone.today.strftime('%d/%m/%Y')
       )
     end
   end

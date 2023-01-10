@@ -26,15 +26,15 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
 
     let(:balance) { create(:balance, created_at: Time.zone.yesterday + 1.hour) }
     let(:total_donations) do
-      { total_donations: BalanceHistory
+      BalanceHistory
         .where('created_at > ?', Time.zone.yesterday)
-        .where('created_at < ?', Time.zone.today).sum(:balance) }
+        .where('created_at < ?', Time.zone.today).sum(:balance)
     end
 
     it 'returns all funds for donation' do
       request
 
-      expect(response_json.to_json).to eq(total_donations.to_json)
+      expect(response_json.to_json).to eq({ total_donations: "#{total_donations} USDC" }.to_json)
     end
   end
 

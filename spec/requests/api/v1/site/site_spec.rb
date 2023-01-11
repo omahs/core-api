@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
     let(:total_donations) do
       BalanceHistory
         .where('created_at > ?', Time.zone.yesterday)
-        .where('created_at < ?', Time.zone.today).sum(:balance)
+        .where('created_at < ?', Time.zone.today).sum(:balance)&.round
     end
 
     it 'returns all funds for donation' do

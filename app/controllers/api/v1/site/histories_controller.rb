@@ -4,9 +4,9 @@ module Api
       class HistoriesController < ApplicationController
         def non_profits_total_balance
           if params[:language] == 'pt-BR'
-            render json: { non_profits_total_balance: "R$ #{total_brl}" }
+            render json: { non_profits_total_balance: "R$ #{total_brl&.round}" }
           else
-            render json: { non_profits_total_balance: "#{total_usd} USDC" }
+            render json: { non_profits_total_balance: "#{total_usd&.round} USDC" }
           end
         end
 

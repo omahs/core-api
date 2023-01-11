@@ -29,7 +29,7 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donations' do
       request
 
-      expect(response_json.to_json).to eq({ non_profits_total_balance: '2.02 USDC' }.to_json)
+      expect(response_json.to_json).to eq({ non_profits_total_balance: '2 USDC' }.to_json)
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donations' do
       request
 
-      expect(response_json.to_json).to eq({ non_profits_total_balance: 'R$ 1032.0' }.to_json)
+      expect(response_json.to_json).to eq({ non_profits_total_balance: 'R$ 1032' }.to_json)
     end
   end
 end

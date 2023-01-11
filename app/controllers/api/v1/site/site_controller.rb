@@ -10,7 +10,7 @@ module Api
         def total_donations
           balance = BalanceHistory
                     .where('created_at > ?', Time.zone.yesterday)
-                    .where('created_at < ?', Time.zone.today).sum(:balance)
+                    .where('created_at < ?', Time.zone.today).sum(:balance)&.round
           render json: { total_donations: "#{balance} USDC" }
         end
 

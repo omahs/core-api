@@ -62,6 +62,9 @@ RailsAdmin.config do |config|
       label{ "Cause Card Image" }
     end
 
+    ## This is displayed as "support_image" on admin (as demanded by the team), 
+    ## but we call it background_image on the model
+    
     field :background_image do
       label{ "Support Image" }
     end

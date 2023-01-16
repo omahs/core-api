@@ -2,18 +2,15 @@
 #
 # Table name: non_profits
 #
-#  id                 :bigint           not null, primary key
-#  impact_description :text
-#  name               :string
-#  status             :integer          default("inactive")
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  cause_id           :bigint
+#  id         :bigint           not null, primary key
+#  name       :string
+#  status     :integer          default("inactive")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  cause_id   :bigint
 #
 class NonProfit < ApplicationRecord
-  extend Mobility
-
-  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
+  
 
   has_one_attached :logo
   has_one_attached :main_image
@@ -28,7 +25,7 @@ class NonProfit < ApplicationRecord
 
   accepts_nested_attributes_for :stories
 
-  validates :name, :impact_description, :status, :wallet_address, presence: true
+  validates :name, :status, :wallet_address, presence: true
 
   belongs_to :cause
 

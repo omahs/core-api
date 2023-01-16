@@ -2,13 +2,12 @@
 #
 # Table name: non_profits
 #
-#  id                 :bigint           not null, primary key
-#  impact_description :text
-#  name               :string
-#  status             :integer          default("inactive")
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  cause_id           :bigint
+#  id         :bigint           not null, primary key
+#  name       :string
+#  status     :integer          default("inactive")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  cause_id   :bigint
 #
 require 'rails_helper'
 

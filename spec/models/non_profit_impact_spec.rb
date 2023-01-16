@@ -4,6 +4,7 @@
 #
 #  id                           :bigint           not null, primary key
 #  end_date                     :date
+#  impact_description           :text
 #  start_date                   :date
 #  usd_cents_to_one_impact_unit :decimal(, )
 #  created_at                   :datetime         not null

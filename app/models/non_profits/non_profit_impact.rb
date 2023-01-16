@@ -4,6 +4,7 @@
 #
 #  id                           :bigint           not null, primary key
 #  end_date                     :date
+#  impact_description           :text
 #  start_date                   :date
 #  usd_cents_to_one_impact_unit :decimal(, )
 #  created_at                   :datetime         not null
@@ -11,9 +12,13 @@
 #  non_profit_id                :bigint           not null
 #
 class NonProfitImpact < ApplicationRecord
+  extend Mobility
+
+  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
+
   belongs_to :non_profit
 
-  validates :usd_cents_to_one_impact_unit, :start_date, presence: true
+  validates :usd_cents_to_one_impact_unit, :start_date, :impact_description, presence: true
 
   def impact_by_ticket
     (RibonConfig.default_ticket_value / usd_cents_to_one_impact_unit).to_i

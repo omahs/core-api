@@ -7,7 +7,7 @@ describe Givings::Impact::CalculateImpactToNonProfit do
 
   describe '.call' do
     let(:value) { 10 }
-    let(:non_profit) { create(:non_profit, :with_impact) }
+    let(:non_profit) { create(:non_profit) }
     let(:currency) { :usd }
 
     it 'returns the impact and rounded impact' do

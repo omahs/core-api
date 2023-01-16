@@ -8,8 +8,7 @@ RSpec.describe Service::Givings::Impact::NonProfitImpactCalculator, type: :servi
   let(:currency) { :usd }
 
   before do
-    create(:non_profit_impact, usd_cents_to_one_impact_unit: 15,
-                               non_profit:, start_date: 1.year.ago, end_date: 1.year.from_now)
+    non_profit.non_profit_impacts.first.update(usd_cents_to_one_impact_unit: 15)
   end
 
   describe '#impact' do

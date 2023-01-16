@@ -22,7 +22,7 @@ RSpec.describe Donation, type: :model do
   end
 
   describe '#impact_value' do
-    let(:non_profit) { create(:non_profit, :with_impact) }
+    let(:non_profit) { create(:non_profit) }
     let(:donation) { build(:donation, non_profit:, value: 100) }
 
     it 'returns the impact that one donation has according to the non profit' do
@@ -31,10 +31,11 @@ RSpec.describe Donation, type: :model do
   end
 
   describe '#impact' do
-    let(:non_profit) { create(:non_profit, :with_impact, impact_description: 'impacts') }
+    let(:non_profit) { create(:non_profit) }
     let(:donation) { build(:donation, non_profit:, value: 100) }
 
     it 'returns the impact value with the non profit impact description' do
+      non_profit.impact_description = 'impacts'
       expect(donation.impact).to eq '10 impacts'
     end
   end

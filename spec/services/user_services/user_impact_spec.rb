@@ -4,10 +4,10 @@ RSpec.describe UserServices::UserImpact, type: :service do
   describe '#impact' do
     let(:user) { create(:user, email: 'user@test.com') }
     let(:non_profit1) do
-      create(:non_profit, :with_impact, wallet_address: '0xA000000000000000000000000000000000000000')
+      create(:non_profit, wallet_address: '0xA000000000000000000000000000000000000000')
     end
     let(:non_profit2) do
-      create(:non_profit, :with_impact, wallet_address: '0xA111111111111111111111111111111111111111')
+      create(:non_profit, wallet_address: '0xA111111111111111111111111111111111111111')
     end
     let(:integration) { create(:integration) }
 

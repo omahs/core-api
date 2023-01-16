@@ -1,7 +1,7 @@
 unless Rails.env.production?
   ribon_config = FactoryBot.create(:ribon_config) if RibonConfig.count.zero?
 
-  non_profit = FactoryBot.create(:non_profit, :with_impact) if NonProfit.count.zero?
+  non_profit = FactoryBot.create(:non_profit) if NonProfit.count.zero?
 
   integration = FactoryBot.create(:integration) if Integration.count.zero?
 

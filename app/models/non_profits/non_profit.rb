@@ -10,8 +10,6 @@
 #  cause_id   :bigint
 #
 class NonProfit < ApplicationRecord
-  
-
   has_one_attached :logo
   has_one_attached :main_image
   has_one_attached :background_image
@@ -42,6 +40,14 @@ class NonProfit < ApplicationRecord
 
   def impact_by_ticket(date: Time.zone.now)
     impact_for(date:)&.impact_by_ticket
+  end
+
+  def impact_description
+    non_profit_impacts&.first&.impact_description
+  end
+
+  def impact_description=(value)
+    non_profit_impacts&.first&.update(impact_description: value)
   end
 
   def wallet_address

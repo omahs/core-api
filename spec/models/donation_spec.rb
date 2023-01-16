@@ -36,6 +36,8 @@ RSpec.describe Donation, type: :model do
 
     it 'returns the impact value with the non profit impact description' do
       non_profit.impact_description = 'impacts'
+      non_profit.save_impact_description
+
       expect(donation.impact).to eq '10 impacts'
     end
   end

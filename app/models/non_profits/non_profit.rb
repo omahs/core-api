@@ -47,7 +47,11 @@ class NonProfit < ApplicationRecord
   end
 
   def impact_description=(value)
-    non_profit_impacts&.first&.update(impact_description: value)
+    @non_profit_impact_description = value
+  end
+
+  def save_impact_description
+    non_profit_impacts&.first&.update(impact_description: @non_profit_impact_description)
   end
 
   def wallet_address

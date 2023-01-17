@@ -11,6 +11,10 @@
 #  non_profit_id                :bigint           not null
 #
 class NonProfitImpact < ApplicationRecord
+  extend Mobility
+
+  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
+
   belongs_to :non_profit
 
   validates :usd_cents_to_one_impact_unit, :start_date, presence: true

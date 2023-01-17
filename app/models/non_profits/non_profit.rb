@@ -43,12 +43,6 @@ class NonProfit < ApplicationRecord
     non_profit_impacts.find_by('start_date <= ? AND end_date >= ?', date, date)
   end
 
-  # NOTE: This is a temporary override to allow a flawless migration to the new
-  # impact_description translation. This should be removed after the migration
-  def impact_description
-    non_profit_impacts.last&.impact_description || super
-  end
-
   def impact_by_ticket(date: Time.zone.now)
     impact_for(date:)&.impact_by_ticket
   end

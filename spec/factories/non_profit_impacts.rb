@@ -16,6 +16,6 @@ FactoryBot.define do
     start_date { '2022-02-02' }
     end_date { '2022-02-02' }
     usd_cents_to_one_impact_unit { 1 }
-    impact_description { 'MyText' }
+    impact_description { 'days of water' }
   end
 end

@@ -43,6 +43,10 @@ class NonProfit < ApplicationRecord
     non_profit_impacts.find_by('start_date <= ? AND end_date >= ?', date, date)
   end
 
+  def impact_description
+    non_profit_impacts.last&.impact_description
+  end
+
   def impact_by_ticket(date: Time.zone.now)
     impact_for(date:)&.impact_by_ticket
   end

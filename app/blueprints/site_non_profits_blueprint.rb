@@ -1,9 +1,11 @@
 class SiteNonProfitsBlueprint < Blueprinter::Base
-  fields :name
 
   field(:main_image) do |object|
-    ImagesHelper.image_url_for(object.main_image, variant: { resize_to_fit: [800, 800],
-                                                             saver: { quality: 95 }, format: :jpg })
+    ImagesHelper.image_url_for(object.main_image)
+  end
+
+  field(:logo) do |object|
+    ImagesHelper.image_url_for(object.logo)
   end
 
   field :description do |non_profit, options|

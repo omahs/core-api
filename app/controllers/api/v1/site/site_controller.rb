@@ -11,11 +11,22 @@ module Api
           balance = BalanceHistory
                     .where('created_at > ?', Time.zone.yesterday)
                     .where('created_at < ?', Time.zone.today).sum(:balance)&.round
-          render json: { total_donations: "#{balance} USDC" }
+          if params[:language] == 'pt-BR'
+            total_brl = convert_to_brl(balance)
+            render json: { total_donations: "R$ #{total_brl&.round}" }
+          else
+            render json: { total_donations: "#{balance&.round} USDC" }
+          end
         end
 
         def total_impacted_lives
           render json: { total_impacted_lives: '470.770' }
+        end
+
+        private
+
+        def convert_to_brl(value)
+          Currency::Converters.convert_to_brl(value:, from: 'USD').round.to_f
         end
       end
     end

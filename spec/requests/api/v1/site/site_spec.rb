@@ -23,26 +23,28 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
 
   describe 'GET /total_donations?language=pt-BR' do
     subject(:request) { get '/api/v1/site/total_donations?language=pt-BR' }
+
     let(:balance) { create(:balance, created_at: Time.zone.yesterday + 1.hour) }
-    
-    before do 
+
+    before do
       allow(Currency::Converters).to receive(:convert_to_brl).and_return(1)
     end
 
     it 'returns all funds for donation' do
       request
 
-      expect(response_json.to_json).to eq({ total_donations: "R$ 1" }.to_json)
+      expect(response_json.to_json).to eq({ total_donations: 'R$ 1' }.to_json)
     end
   end
 
   describe 'GET /total_donations' do
     subject(:request) { get '/api/v1/site/total_donations' }
+
     let(:balance) { create(:balance, created_at: Time.zone.yesterday + 1.hour) }
     let(:total_donations) do
       BalanceHistory
-      .where('created_at > ?', Time.zone.yesterday)
-      .where('created_at < ?', Time.zone.today).sum(:balance)&.round
+        .where('created_at > ?', Time.zone.yesterday)
+        .where('created_at < ?', Time.zone.today).sum(:balance)&.round
     end
 
     it 'returns all funds for donation' do

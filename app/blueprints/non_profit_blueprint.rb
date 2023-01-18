@@ -15,7 +15,7 @@ class NonProfitBlueprint < Blueprinter::Base
   end
 
   field(:impact_description) do |object|
-    object.non_profit_impacts.last&.impact_description || object.impact_description
+    object.impact_for&.impact_description || object.impact_description
   end
 
   field(:main_image) do |object|

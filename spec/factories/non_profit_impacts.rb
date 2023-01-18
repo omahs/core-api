@@ -3,6 +3,7 @@
 # Table name: non_profit_impacts
 #
 #  id                           :bigint           not null, primary key
+#  donor_recipient              :string
 #  end_date                     :date
 #  impact_description           :text
 #  measurement_unit             :string
@@ -19,6 +20,7 @@ FactoryBot.define do
     end_date { '2022-02-02' }
     usd_cents_to_one_impact_unit { 1 }
     impact_description { 'days of water' }
+    donor_recipient { 'donor' }
     measurement_unit { 'days_months_and_years' }
   end
 end

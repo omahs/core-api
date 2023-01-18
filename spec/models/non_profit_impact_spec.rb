@@ -6,6 +6,7 @@
 #  donor_recipient              :string
 #  end_date                     :date
 #  impact_description           :text
+#  measurement_unit             :string
 #  start_date                   :date
 #  usd_cents_to_one_impact_unit :decimal(, )
 #  created_at                   :datetime         not null

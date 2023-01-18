@@ -1,5 +1,4 @@
 class SiteNonProfitsBlueprint < Blueprinter::Base
-
   field(:main_image) do |object|
     ImagesHelper.image_url_for(object.main_image)
   end

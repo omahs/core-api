@@ -22,7 +22,7 @@ class NonProfitImpact < ApplicationRecord
   validates :usd_cents_to_one_impact_unit, :start_date, presence: true
 
   enum measurement_unit: {
-    days_months_years: 'days_months_and_years',
+    days_months_and_years: 'days_months_and_years',
     quantity_without_decimals: 'quantity_without_decimals'
   }
 

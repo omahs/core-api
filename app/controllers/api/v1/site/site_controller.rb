@@ -15,7 +15,7 @@ module Api
             total_brl = convert_to_brl(balance)
             render json: { total_donations: "R$ #{total_brl&.round}" }
           else
-            render json: { total_donations: "#{balance} USDC" }
+            render json: { total_donations: "#{balance&.round} USDC" }
           end
         end
 

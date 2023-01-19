@@ -2,29 +2,34 @@ module Api
   module V1
     module Site
       class HistoriesController < ApplicationController
+        include ActionView::Helpers::NumberHelper
         def non_profits_total_balance
           if params[:language] == 'pt-BR'
-            render json: { non_profits_total_balance: "R$ #{total_brl&.round}" }
+            render json: { non_profits_total_balance: "R$ #{number_with_delimiter(total_brl&.round,
+                                                                                  delimiter: '.')}" }
           else
-            render json: { non_profits_total_balance: "#{total_usd&.round} USDC" }
+            render json: { non_profits_total_balance: "#{number_with_delimiter(total_usd&.round)} USDC" }
           end
         end
 
         def total_donors
           histories_donors = History.all.sum(:total_donors)
           users = Donation.all.pluck(:user_id).uniq.compact.count
-
-          render json: { total_donors: histories_donors + users }
+          if params[:language] == 'pt-BR'
+            render json: { total_donors: number_with_delimiter((histories_donors + users), delimiter: '.') }
+          else
+            render json: { total_donors: number_with_delimiter(histories_donors + users) }
+          end
         end
 
         private
 
         def convert_to_usd(value)
-          Currency::Converters.convert_to_usd(value:, from: 'BRL').round.to_f
+          Currency::Converters.convert_to_usd(value:, from: 'BRL').to_f
         end
 
         def convert_to_brl(value)
-          Currency::Converters.convert_to_brl(value:, from: 'USD').round.to_f
+          Currency::Converters.convert_to_brl(value:, from: 'USD').to_f
         end
 
         def donations

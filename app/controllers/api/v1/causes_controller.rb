@@ -34,7 +34,7 @@ module Api
       private
 
       def cause_params
-        params.permit(:id, :name)
+        params.permit(:id, :name, :cover_image, :main_image)
       end
     end
   end

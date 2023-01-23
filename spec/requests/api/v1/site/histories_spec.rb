@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Site::Histories', type: :request do
   describe 'GET /total_donors' do
+    include ActionView::Helpers::NumberHelper
     subject(:request) { get '/api/v1/site/total_donors' }
 
     before do
@@ -11,7 +12,23 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donors' do
       request
 
-      expect(response_json.to_json).to eq({ total_donors: History.all.sum(:total_donors) }.to_json)
+      expect(response_json.to_json).to eq({ total_donors:
+        number_with_delimiter(History.all.sum(:total_donors)) }.to_json)
+    end
+  end
+
+  describe 'GET /total_donors?language=pt-BR' do
+    include ActionView::Helpers::NumberHelper
+    subject(:request) { get '/api/v1/site/total_donors?language=pt-BR' }
+
+    before do
+      create_list(:history, 1)
+    end
+
+    it 'returns a list of total donors' do
+      request
+      expect(response_json.to_json).to eq({ total_donors:
+        number_with_delimiter(History.all.sum(:total_donors), delimiter: '.') }.to_json)
     end
   end
 
@@ -47,7 +64,7 @@ RSpec.describe 'Api::V1::Site::Histories', type: :request do
     it 'returns a list of total donations' do
       request
 
-      expect(response_json.to_json).to eq({ non_profits_total_balance: 'R$ 1032' }.to_json)
+      expect(response_json.to_json).to eq({ non_profits_total_balance: 'R$ 1.032' }.to_json)
     end
   end
 end

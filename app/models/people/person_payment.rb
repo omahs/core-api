@@ -30,7 +30,7 @@ class PersonPayment < ApplicationRecord
   belongs_to :offer, optional: true
   belongs_to :receiver, polymorphic: true, optional: true
 
-  has_one :person_blockchain_transaction
+  has_many :person_blockchain_transactions
   has_one :person_payment_fee
 
   validates :paid_date, :status, :payment_method, presence: true
@@ -86,6 +86,14 @@ class PersonPayment < ApplicationRecord
     when 'NonProfit'
       receiver.cause.default_pool
     end
+  end
+
+  def person_blockchain_transaction
+    person_blockchain_transactions.last
+  end
+
+  def create_person_blockchain_transaction(treasure_entry_status:, transaction_hash:)
+    person_blockchain_transactions.create(treasure_entry_status:, transaction_hash:)
   end
 
   private

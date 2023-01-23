@@ -31,7 +31,7 @@ RSpec.describe PersonPayment, type: :model do
   describe 'validations' do
     it { is_expected.to belong_to(:person) }
     it { is_expected.to belong_to(:offer).optional }
-    it { is_expected.to have_one(:person_blockchain_transaction) }
+    it { is_expected.to have_many(:person_blockchain_transactions) }
     it { is_expected.to have_one(:person_payment_fee) }
     it { is_expected.to validate_presence_of(:paid_date) }
     it { is_expected.to validate_presence_of(:status) }

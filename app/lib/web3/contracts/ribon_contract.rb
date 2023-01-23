@@ -3,7 +3,8 @@ module Web3
     class RibonContract < BaseContract
       def add_pool_balance(donation_pool:, amount:)
         parsed_amount = Utils::Converter.to_decimals(amount, donation_pool.token.decimals)
-
+        token = donation_pool.token.address
+        Web3::Contracts::Ecr20TokenContract.new(chain:, token:).approve(spender: address, amount: parsed_amount)
         transact('addPoolBalance', donation_pool.address,
                  parsed_amount, sender_key: Providers::Keys::RIBON_KEY)
       end

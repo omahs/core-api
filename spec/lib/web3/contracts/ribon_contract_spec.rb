@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Web3::Contracts::RibonContract do
   let(:chain) { build(:chain) }
   let(:client) { instance_double(::Eth::Client) }
+  let(:ecr_token_contract) { instance_double(Web3::Contracts::Ecr20TokenContract) }
   let(:contract) { OpenStruct.new({}) }
   let(:amount) { 0.5 }
   let(:donation_batch) { build(:batch).cid }
@@ -15,9 +16,12 @@ RSpec.describe Web3::Contracts::RibonContract do
 
     before do
       allow(Web3::Providers::Client).to receive(:create).and_return(client)
+
       allow(::Eth::Contract).to receive(:from_abi).and_return(contract)
       allow(client).to receive_messages(transact: {}, max_fee_per_gas: 0,
                                         max_priority_fee_per_gas: 0, gas_limit: 0)
+      allow(Web3::Contracts::Ecr20TokenContract).to receive(:new).and_return(ecr_token_contract)
+      allow(ecr_token_contract).to receive(:approve)
     end
 
     it 'calls the transact with correct args' do
@@ -28,6 +32,16 @@ RSpec.describe Web3::Contracts::RibonContract do
       expect(client)
         .to have_received(:transact).with(
           contract, 'addPoolBalance', donation_pool.address, wei_amount, gas_limit: 0, sender_key:
+        )
+    end
+
+    it 'calls the ecr token contract with correct args' do
+      method_call
+      wei_amount = Web3::Utils::Converter.to_decimals(amount, 6)
+
+      expect(ecr_token_contract)
+        .to have_received(:approve).with(
+          spender: chain.ribon_contract_address, amount: wei_amount
         )
     end
   end

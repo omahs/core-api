@@ -80,6 +80,7 @@ Style/OpenStructUse:
 Lint/MissingSuper:
   Exclude:
     - app/commands/**/*
+    - app/lib/**/*
 
 Rails/FilePath:
   Enabled: false

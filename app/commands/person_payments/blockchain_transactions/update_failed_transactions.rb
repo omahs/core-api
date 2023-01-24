@@ -7,8 +7,8 @@ module PersonPayments
 
       def call
         failed_transactions = PersonPayment.where(receiver_type: 'Cause',
-                                                  payment_method: 0,
-                                                  status: 1).filter_map do |person_payment|
+                                                  payment_method: :credit_card,
+                                                  status: :paid).filter_map do |person_payment|
           person_payment.person_blockchain_transaction if person_payment.person_blockchain_transaction&.failed?
         end
         failed_transactions.each do |person_blockchain_transaction|

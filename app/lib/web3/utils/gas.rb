@@ -2,7 +2,7 @@ module Web3
   module Utils
     class Gas
       DEFAULT_MAX_FEE_PER_GAS = 58
-      DEFAULT_GAS_LIMIT = 85_000
+      DEFAULT_GAS_LIMIT = 150_000
 
       attr_reader :chain
 

@@ -13,7 +13,7 @@ describe PersonPayments::BlockchainTransactions::UpdateFailedTransactions do
     let(:chain) { create(:chain) }
     let(:token) { create(:token, chain:) }
     let(:pool) { create(:pool, token:, cause:) }
-    let(:person_payment) { create(:person_payment, receiver: cause, payment_method: 0) }
+    let(:person_payment) { create(:person_payment, receiver: cause, payment_method: 0, status: 1) }
     let(:failed_transactions) do
       create_list(:person_blockchain_transaction, 1, treasure_entry_status: :failed, person_payment:)
     end

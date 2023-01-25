@@ -39,4 +39,6 @@ class Donation < ApplicationRecord
   rescue StandardError
     0
   end
+
+  delegate :cause_id, to: :non_profit
 end

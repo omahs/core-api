@@ -13,7 +13,9 @@ describe PersonPayments::BlockchainTransactions::UpdateApiOnlyTransactions do
     let(:chain) { create(:chain) }
     let(:token) { create(:token, chain:) }
     let(:pool) { create(:pool, token:, cause:) }
-    let!(:api_only_person) { create(:person_payment, receiver: cause, payment_method: 0) }
+    let!(:api_only_person) do
+      create(:person_payment, receiver: cause, payment_method: :credit_card, status: :paid)
+    end
 
     let(:person_payment_with_blockchain_transaction) do
       create(:person_payment, receiver: cause, payment_method: 0)

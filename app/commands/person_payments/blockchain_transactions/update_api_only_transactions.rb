@@ -25,7 +25,9 @@ module PersonPayments
         query = %(LEFT OUTER JOIN person_blockchain_transactions
                   ON person_blockchain_transactions.person_payment_id = person_payments.id)
         @person_payments_without_blockchain_transaction ||= PersonPayment
-                                                            .where(receiver_type: 'Cause', payment_method: 0)
+                                                            .where(receiver_type: 'Cause',
+                                                                   payment_method: :credit_card,
+                                                                   status: :paid)
                                                             .joins(query)
                                                             .where(person_blockchain_transactions: { id: nil })
       end

@@ -100,18 +100,17 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
   end
 
-  describe 'POST /users/statistics' do
+  describe 'GET /users/statistics' do
     subject(:request) do
-      post '/api/v1/users/statistics', headers: { Email: user.email }, params: { integration_id: integration.id }
+      get "/api/v1/users/#{user.id}/statistics"
     end
 
-    let(:integration) { create(:integration) }
     let(:user) { create(:user) }
 
     it 'returns the statistics' do
       request
 
-      expect_response_to_have_keys %w[total_tickets total_payments total_non_profits total_causes]
+      expect_response_to_have_keys %w[total_tickets total_donated total_non_profits total_causes]
     end
   end
 end

@@ -36,25 +36,16 @@ module Api
         customer = Customer.find_by(email: user_params[:email])
 
         tickets = Donation.where(user:).count
-        non_profits = Donation.where(user:).map(&:non_profit_id)
+        non_profits = Donation.where(user:).distinct.count(:non_profit_id)
 
-        donated = nil
-
-        causes_sql = "SELECT distinct cause_id FROM donations
-               left outer join non_profits on non_profits.id = donations.non_profit_id
-               left outer join causes on causes.id = non_profits.cause_id
-               where donations.user_id = #{user.id}"
-        causes = ActiveRecord::Base.connection.execute(causes_sql).to_a.map { |cause| cause['cause_id'] }
-
+        causes = total_causes(user)
         if customer
           person = PersonPayment.where(person_id: customer.person_id)
           causes += person.where(receiver_type: 'Cause').map(&:receiver_id)
-          non_profits += person.where(receiver_type: 'NonProfit').map(&:receiver_id)
+          non_profits += person.where(receiver_type: 'NonProfit').map(&:receiver_id).uniq.count
           donated = person_payments_amount(person)
-
         end
-
-        render json: { total_non_profits: non_profits.uniq.count, total_tickets: tickets, total_donated: donated,
+        render json: { total_non_profits: non_profits, total_tickets: tickets, total_donated: donated || 0,
                        total_causes: causes.uniq.count }
       end
 
@@ -62,6 +53,14 @@ module Api
 
       def user_params
         params.permit(:email)
+      end
+
+      def total_causes(user)
+        causes_sql = "SELECT distinct cause_id FROM donations
+               left outer join non_profits on non_profits.id = donations.non_profit_id
+               left outer join causes on causes.id = non_profits.cause_id
+               where donations.user_id = #{user.id}"
+        ActiveRecord::Base.connection.execute(causes_sql).to_a.map { |cause| cause['cause_id'] }
       end
 
       def convert_to_usd(value)

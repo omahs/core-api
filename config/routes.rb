@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
+        get 'statistics' => 'users/statistics#index'
         get 'donations_count' => 'users/impacts#donations_count'
         put 'track', to: 'users/trackings#track_user'
       end

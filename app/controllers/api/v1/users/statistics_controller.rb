@@ -8,7 +8,7 @@ module Api
           donated = total_donated if customer
           render json: { total_non_profits:, total_tickets: donations.count,
                          total_donated: donated || 0,
-                         total_causes: total_causes }
+                         total_causes: }
         end
 
         private

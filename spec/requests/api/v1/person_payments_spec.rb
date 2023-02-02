@@ -25,11 +25,11 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
 
-    before(:each) do
+    before do
       create_list(:person_payment, 4, person:)
       allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
     end
-    
+
     context 'when person is a customer' do
       let(:email) { 'dummyemail@ribon.io' }
       let(:unique_identifier) { Base64.strict_encode64(email) }
@@ -38,16 +38,16 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
       it 'returns a list of person_payments' do
         request
-  
+
         expect(response_json.count).to eq(4)
-  
+
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
                                                    person status total_items total_pages])
       end
     end
 
-    context 'when person is a customer' do
+    context 'when person is a guest' do
       let(:wallet_address) { '0xA222222222222222222222222222222222222222' }
       let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
       let(:guest) { create(:guest, wallet_address:) }
@@ -55,9 +55,9 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
       it 'returns a list of person_payments' do
         request
-  
+
         expect(response_json.count).to eq(4)
-  
+
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
                                                    person status total_items total_pages])

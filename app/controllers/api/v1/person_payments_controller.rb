@@ -19,8 +19,8 @@ module Api
 
       def find_person_by_email_or_wallet(unique_identifier)
         unique_identifier = Base64.strict_decode64(unique_identifier)
-    
-        if(unique_identifier =~ URI::MailTo::EMAIL_REGEXP)
+
+        if URI::MailTo::EMAIL_REGEXP.match?(unique_identifier)
           Customer.find_by!(email: unique_identifier).person
         else
           Guest.find_by!(wallet_address: unique_identifier).person

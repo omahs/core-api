@@ -1,3 +1,6 @@
 FactoryBot.define do
-  factory :person
+  factory :person do
+    customer { build(:customer) }
+    guest { build(:guest) }
+  end
 end

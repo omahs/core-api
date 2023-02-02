@@ -12,4 +12,7 @@ class Person < ApplicationRecord
   has_one :guest, dependent: :destroy
   has_one :customer, dependent: :destroy
   has_many :person_payments, dependent: :nullify
+
+  delegate :email, to: :customer, allow_nil: true
+  delegate :wallet_address, to: :guest, allow_nil: true
 end

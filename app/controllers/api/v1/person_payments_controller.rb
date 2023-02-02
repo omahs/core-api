@@ -1,6 +1,7 @@
 module Api
   module V1
     class PersonPaymentsController < ApplicationController
+    include Validators
       def index
         sortable = params[:sort].present? ? "#{params[:sort]} #{sort_direction}" : 'created_at desc'
 
@@ -9,7 +10,18 @@ module Api
         render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
       end
 
-      private
+      def find_by_person
+        
+        @person_payments = if(Email.valid?(params[:identifier]))
+                  PersonPayment.where(person: Person.find_by(email: params[:identifier]))
+                elsif(WalletAddress.valid?(params[:identifier]))
+                  PersonPayment.where(person: Person.find_by(wallet_address: params[:identifier]))
+                else
+                  PersonPayment.none
+                end
+
+        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
+      end
 
       def order_person_payments(sort:, page:, per:)
         PersonPayment.order(sort).page(page).per(per)

@@ -2,17 +2,33 @@ module Api
   module V1
     class PersonPaymentsController < ApplicationController
       def index
-        sortable = params[:sort].present? ? "#{params[:sort]} #{sort_direction}" : 'created_at desc'
+        @person_payments = PersonPayment.order(sortable).page(page).per(per)
 
-        @person_payments = order_person_payments(sort: sortable, page:, per:)
+        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
+      end
+
+      def find_by_person
+        person = find_person_by_email_or_wallet(params[:unique_identifier])
+
+        @person_payments = person ? person.person_payments.order(sortable).page(page).per(per) : PersonPayment.none
 
         render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
       end
 
       private
 
-      def order_person_payments(sort:, page:, per:)
-        PersonPayment.order(sort).page(page).per(per)
+      def find_person_by_email_or_wallet(unique_identifier)
+        unique_identifier = Base64.strict_decode64(unique_identifier)
+
+        if URI::MailTo::EMAIL_REGEXP.match?(unique_identifier)
+          Customer.find_by!(email: unique_identifier).person
+        else
+          Guest.find_by!(wallet_address: unique_identifier).person
+        end
+      end
+
+      def sortable
+        @sortable ||= params[:sort].present? ? "#{params[:sort]} #{sort_direction}" : 'created_at desc'
       end
 
       def sort_direction

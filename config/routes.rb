@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       get 'integrations/:id' => 'integrations#show'
       put 'integrations/:id' => 'integrations#update'
       get 'person_payments' => 'person_payments#index'
+      get 'person_payments/:unique_identifier' => 'person_payments#find_by_person'
       post 'donations' => 'donations#create'
       post 'users' => 'users#create'
       post 'users/search' => 'users#search'

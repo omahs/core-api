@@ -15,6 +15,16 @@ class PersonPaymentBlueprint < Blueprinter::Base
     options[:total_pages]
   end
 
+  field :receiver do |person_payment|
+    byebug
+    if(person_payment.receiver_type == "Cause")
+      association :receiver, blueprint: CauseBlueprint 
+    elsif (person_payment.receiver_type == "NonProfit")
+      association :receiver, blueprint: NonProfitBlueprint
+    end
+  end
+
   association :offer, blueprint: OfferBlueprint, view: :minimal
+  
   association :person, blueprint: PersonBlueprint
 end

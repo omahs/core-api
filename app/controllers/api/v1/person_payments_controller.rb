@@ -11,17 +11,28 @@ module Api
       def find_by_person_community_payments
         person = find_person_by_email_or_wallet(params[:unique_identifier])
 
-        @person_payments = person ? person.person_payments.where(receiver_type: 'Cause').order(sortable).page(page).per(per) : PersonPayment.none
-
-        render json: PersonPaymentCommunityCauseBlueprint.render(@person_payments, total_items:, page:, total_pages:)
+        @person_payments = if person
+                             person.person_payments.where(receiver_type: 'Cause')
+                                   .order(sortable).page(page).per(per)
+                           else
+                             PersonPayment.none
+                           end
+        render json: PersonPaymentCommunityCauseBlueprint.render(@person_payments, total_items:, page:,
+                                                                                   total_pages:)
       end
 
       def find_by_person_direct_payments
         person = find_person_by_email_or_wallet(params[:unique_identifier])
 
-        @person_payments = person ? person.person_payments.where(receiver_type: 'NonProfit').order(sortable).page(page).per(per) : PersonPayment.none
+        @person_payments = if person
+                             person.person_payments.where(receiver_type: 'NonProfit')
+                                   .order(sortable).page(page).per(per)
+                           else
+                             PersonPayment.none
+                           end
 
-        render json: PersonPaymentDirectNonProfitBlueprint.render(@person_payments, total_items:, page:, total_pages:)
+        render json: PersonPaymentDirectNonProfitBlueprint.render(@person_payments, total_items:, page:,
+                                                                                    total_pages:)
       end
 
       private

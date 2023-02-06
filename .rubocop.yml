@@ -88,6 +88,7 @@ Rails/FilePath:
 Metrics/AbcSize:
   Exclude:
     - app/controllers/api/v1/manager/**/*
+    - app/controllers/api/v1/person_payments_controller.rb
 
 Rails/DynamicFindBy:
   Enabled: false

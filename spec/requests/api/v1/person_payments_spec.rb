@@ -51,7 +51,6 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
     end
 
     context 'when person is a guest' do
-      
       let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
       let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
       let!(:guest) { create(:guest, wallet_address:) }
@@ -81,7 +80,6 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
 
     context 'when person is a customer' do
-      
       let!(:email) { 'dummyemail@ribon.io' }
       let!(:customer) { create(:customer, email:) }
       let!(:person) { customer.person }
@@ -102,7 +100,6 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
     end
 
     context 'when person is a guest' do
-      
       let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
       let!(:guest) { create(:guest, wallet_address:) }
       let!(:person) { guest.person }

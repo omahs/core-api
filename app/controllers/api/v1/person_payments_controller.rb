@@ -7,7 +7,6 @@ module Api
         render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
       end
 
-      # TODO: Refactor this blueprints to use the same blueprint as the index
       def find_by_person_community_payments
         person = find_person_by_email_or_wallet(params[:unique_identifier])
 
@@ -17,8 +16,8 @@ module Api
                            else
                              PersonPayment.none
                            end
-        render json: PersonPaymentCommunityCauseBlueprint.render(@person_payments, total_items:, page:,
-                                                                                   total_pages:)
+        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
+                                                                     total_pages:, view: :cause)
       end
 
       def find_by_person_direct_payments
@@ -31,8 +30,8 @@ module Api
                              PersonPayment.none
                            end
 
-        render json: PersonPaymentDirectNonProfitBlueprint.render(@person_payments, total_items:, page:,
-                                                                                    total_pages:)
+        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
+                                                                     total_pages:, view: :non_profit)
       end
 
       private

@@ -17,4 +17,12 @@ class PersonPaymentBlueprint < Blueprinter::Base
 
   association :offer, blueprint: OfferBlueprint, view: :minimal
   association :person, blueprint: PersonBlueprint
+
+  view :non_profit do
+    association :receiver, blueprint: NonProfitBlueprint
+  end
+
+  view :cause do
+    association :receiver, blueprint: CauseBlueprint
+  end
 end

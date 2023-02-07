@@ -21,7 +21,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
   end
 
   describe 'GET find_by_person_community_payments' do
-    subject(:request) { get "/api/v1/person_payments/causes/#{unique_identifier}" }
+    subject(:request) { get "/api/v1/person_payments/#{unique_identifier}/causes" }
 
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
 
@@ -69,7 +69,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
   end
 
   describe 'GET find_by_person_direct_payments' do
-    subject(:request) { get "/api/v1/person_payments/non_profits/#{unique_identifier}" }
+    subject(:request) { get "/api/v1/person_payments/#{unique_identifier}/non_profits" }
 
     before do
       allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)

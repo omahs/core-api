@@ -37,8 +37,8 @@ Rails.application.routes.draw do
       get 'integrations/:id' => 'integrations#show'
       put 'integrations/:id' => 'integrations#update'
       get 'person_payments' => 'person_payments#index'
-      get 'person_payments/causes/:unique_identifier' => 'person_payments#find_by_person_community_payments'
-      get 'person_payments/non_profits/:unique_identifier' => 'person_payments#find_by_person_direct_payments'
+      get 'person_payments/:unique_identifier/causes' => 'person_payments#find_by_person_community_payments'
+      get 'person_payments/:unique_identifier/non_profits' => 'person_payments#find_by_person_direct_payments'
       post 'donations' => 'donations#create'
       post 'users' => 'users#create'
       post 'users/search' => 'users#search'
@@ -50,8 +50,6 @@ Rails.application.routes.draw do
       post 'causes' => 'causes#create'
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
-
-      
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'

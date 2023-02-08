@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
       expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                  offer page paid_date payment_method
-                                                 person status total_items total_pages])
+                                                 person service_fees status total_items total_pages])
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
-                                                   person receiver status total_items total_pages])
+                                                   person receiver service_fees status total_items total_pages])
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
-                                                   person receiver status total_items total_pages])
+                                                   person receiver service_fees status total_items total_pages])
       end
     end
   end
@@ -92,7 +92,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
-                                                   person receiver status total_items total_pages])
+                                                   person receiver service_fees status total_items total_pages])
       end
     end
 
@@ -111,7 +111,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method
-                                                   person receiver status total_items total_pages])
+                                                   person receiver service_fees status total_items total_pages])
       end
     end
   end

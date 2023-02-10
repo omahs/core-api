@@ -22,3 +22,7 @@ jobs:
           from_branch: ${{ github.event.pull_request.head.ref }}
           target_branch: develop
           github_token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Push to develop
+        run: |
+          git fetch origin develop
+          git push origin develop

@@ -24,5 +24,4 @@ jobs:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Push to develop
         run: |
-          git fetch origin develop
           git push origin develop

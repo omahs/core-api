@@ -7,7 +7,10 @@ jobs:
   updateTestFlow:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          ref: develop
+          token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Wait for tests to succeed
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
@@ -22,12 +25,7 @@ jobs:
           from_branch: ${{ github.event.pull_request.head.ref }}
           target_branch: develop
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: push to develop
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
       - run: |
-          gt pull origin develop
+          git pull origin develop
           git push origin develop
           

@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - develop
+  workflow_run:
+    workflows: ["Merge on develop"]
+    types:
+      - completed
 
 jobs:
   build:

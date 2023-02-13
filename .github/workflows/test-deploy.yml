@@ -23,11 +23,11 @@ jobs:
           target_branch: develop
           github_token: "${{ secrets.GITHUB_TOKEN }}"
       - name: push to develop
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: develop
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
       - run: |
-          gt pull origin develop
+          git pull origin develop
           git push origin develop
           

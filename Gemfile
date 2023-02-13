@@ -90,6 +90,8 @@ gem 'sentry-ruby'
 
 gem 'sassc-rails'
 
+gem 'sendgrid-ruby'
+
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
   gem 'base64'

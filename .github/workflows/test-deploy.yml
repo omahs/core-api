@@ -25,7 +25,6 @@ jobs:
           from_branch: ${{ github.event.pull_request.head.ref }}
           target_branch: develop
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: push to develop
       - run: |
           git pull origin develop
           git push origin develop

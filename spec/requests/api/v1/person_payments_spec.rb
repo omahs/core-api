@@ -170,5 +170,26 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         end
       end
     end
+
+    context 'when has pagination' do
+      subject(:request) { get "/api/v1/person_payments/non_profit/?email=#{unique_identifier}&page=1&per=3" }
+
+      let!(:email) { 'dummyemail@ribon.io' }
+      let(:unique_identifier) { Base64.strict_encode64(email) }
+      let!(:customer) { create(:customer, email:) }
+      let!(:person) { customer.person }
+      let(:receiver) { create(:non_profit) }
+
+      it 'returns a list of person_payments' do
+        create_list(:person_payment, 9, person:, receiver:)
+        request
+
+        expect(response_json.count).to eq(3)
+
+        expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                    offer page paid_date payment_method
+                                                    person receiver service_fees status total_items total_pages])
+      end
+    end
   end
 end

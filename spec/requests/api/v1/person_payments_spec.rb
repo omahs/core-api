@@ -187,8 +187,8 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         expect(response_json.count).to eq(3)
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
-                                                    offer page paid_date payment_method
-                                                    person receiver service_fees status total_items total_pages])
+                                                   offer page paid_date payment_method
+                                                   person receiver service_fees status total_items total_pages])
       end
     end
   end

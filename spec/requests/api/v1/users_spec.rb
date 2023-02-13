@@ -7,7 +7,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
     context 'with right params' do
       let(:params) do
         {
-          email: 'yan@ribon.io'
+          email: 'yan@ribon.io',
+          language: 'en-US'
         }
       end
 

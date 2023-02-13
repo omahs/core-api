@@ -4,11 +4,17 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
+#  language   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  enum language: {
+    'en-US': 0,
+    'pt-BR': 1
+  }
 
   before_validation { email.downcase! }
   after_create :set_user_donation_stats

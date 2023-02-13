@@ -7,43 +7,52 @@ module Api
         render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
       end
 
-      def find_by_person_community_payments
-        person = find_person_by_email_or_wallet(params[:unique_identifier])
+      def payments_for_receiver_by_person
+        if valid_receiver_type?
+          @person_payments = person_payments_for(receiver_type.camelize)
+          view = receiver_type.to_sym
 
-        @person_payments = if person
-                             person.person_payments.where(receiver_type: 'Cause')
-                                   .order(sortable).page(page).per(per)
-                           else
-                             PersonPayment.none
-                           end
-        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
-                                                                     total_pages:, view: :cause)
-      end
-
-      def find_by_person_direct_payments
-        person = find_person_by_email_or_wallet(params[:unique_identifier])
-
-        @person_payments = if person
-                             person.person_payments.where(receiver_type: 'NonProfit')
-                                   .order(sortable).page(page).per(per)
-                           else
-                             PersonPayment.none
-                           end
-
-        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
-                                                                     total_pages:, view: :non_profit)
+          render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
+                                                                       total_pages:, view:)
+        else
+          head :unprocessable_entity
+        end
       end
 
       private
 
-      def find_person_by_email_or_wallet(unique_identifier)
-        unique_identifier = Base64.strict_decode64(unique_identifier)
+      def person_payments_for(receiver_type)
+        customer_person = Customer.find_by(email:)&.person&.id
+        guest_person    = Guest.find_by(wallet_address:)&.person&.id
 
-        if URI::MailTo::EMAIL_REGEXP.match?(unique_identifier)
-          Customer.find_by!(email: unique_identifier).person
+        if customer_person.present? || guest_person.present?
+          PersonPayment.where(
+            person_id: [customer_person, guest_person],
+            receiver_type:
+          ).order(sortable).page(page).per(per)
         else
-          Guest.find_by!(wallet_address: unique_identifier).person
+          PersonPayment.none
         end
+      end
+
+      def email
+        return unless params[:email]
+
+        Base64.strict_decode64(params[:email])
+      end
+
+      def wallet_address
+        return unless params[:wallet_address]
+
+        Base64.strict_decode64(params[:wallet_address])
+      end
+
+      def receiver_type
+        params[:receiver_type]
+      end
+
+      def valid_receiver_type?
+        %w[cause non_profit].include?(receiver_type)
       end
 
       def sortable

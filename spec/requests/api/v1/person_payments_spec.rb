@@ -20,94 +20,171 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
     end
   end
 
-  describe 'GET find_by_person_community_payments' do
-    subject(:request) { get "/api/v1/person_payments/#{unique_identifier}/causes" }
-
+  describe 'GET find_by_person' do
     include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
 
     before do
       allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
     end
 
-    context 'when person is a customer' do
+    context 'when receiver is a cause' do
+      let(:receiver) { create(:cause) }
+
+      context 'when person is a customer' do
+        subject(:request) { get "/api/v1/person_payments/cause/?email=#{unique_identifier}" }
+
+        let!(:email) { 'dummyemail@ribon.io' }
+        let(:unique_identifier) { Base64.strict_encode64(email) }
+        let!(:customer) { create(:customer, email:) }
+        let!(:person) { customer.person }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person:, receiver:)
+          request
+
+          expect(response_json.count).to eq(4)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+
+      context 'when person is a guest' do
+        subject(:request) { get "/api/v1/person_payments/cause/?wallet_address=#{unique_identifier}" }
+
+        let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
+        let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
+        let!(:guest) { create(:guest, wallet_address:) }
+        let!(:person) { guest.person }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person:, receiver:)
+          request
+
+          expect(response_json.count).to eq(4)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+
+      context 'when person is a customer AND a guest' do
+        subject(:request) do
+          get "/api/v1/person_payments/cause/?email=#{encoded_email}&wallet_address=#{encoded_wallet_address}"
+        end
+
+        let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
+        let!(:email)          { 'dummyemail@ribon.io' }
+
+        let!(:encoded_wallet_address) { Base64.strict_encode64(wallet_address) }
+        let!(:encoded_email)          { Base64.strict_encode64(email) }
+
+        let!(:guest)    { create(:guest, wallet_address:) }
+        let!(:customer) { create(:customer, email:) }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person: guest.person, receiver:)
+          create_list(:person_payment, 4, person: customer.person, receiver:)
+
+          request
+
+          expect(response_json.count).to eq(8)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+    end
+
+    context 'when receiver is a NonProfit' do
+      let(:receiver) { create(:non_profit) }
+
+      context 'when person is a customer' do
+        subject(:request) { get "/api/v1/person_payments/non_profit/?email=#{unique_identifier}" }
+
+        let!(:email) { 'dummyemail@ribon.io' }
+        let(:unique_identifier) { Base64.strict_encode64(email) }
+        let!(:customer) { create(:customer, email:) }
+        let!(:person) { customer.person }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person:, receiver:)
+          request
+
+          expect(response_json.count).to eq(4)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+
+      context 'when person is a guest' do
+        subject(:request) { get "/api/v1/person_payments/non_profit?wallet_address=#{unique_identifier}" }
+
+        let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
+        let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
+        let!(:guest) { create(:guest, wallet_address:) }
+        let!(:person) { guest.person }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person:, receiver:)
+          request
+
+          expect(response_json.count).to eq(4)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+
+      context 'when person is a customer AND a guest' do
+        subject(:request) do
+          get "/api/v1/person_payments/non_profit?email=#{encoded_email}&wallet_address=#{encoded_wallet_address}"
+        end
+
+        let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
+        let!(:email)          { 'dummyemail@ribon.io' }
+
+        let!(:encoded_wallet_address) { Base64.strict_encode64(wallet_address) }
+        let!(:encoded_email)          { Base64.strict_encode64(email) }
+
+        let!(:guest)    { create(:guest, wallet_address:) }
+        let!(:customer) { create(:customer, email:) }
+
+        it 'returns a list of person_payments' do
+          create_list(:person_payment, 4, person: guest.person, receiver:)
+          create_list(:person_payment, 4, person: customer.person, receiver:)
+
+          request
+
+          expect(response_json.count).to eq(8)
+
+          expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
+                                                     offer page paid_date payment_method
+                                                     person receiver service_fees status total_items total_pages])
+        end
+      end
+    end
+
+    context 'when has pagination' do
+      subject(:request) { get "/api/v1/person_payments/non_profit/?email=#{unique_identifier}&page=1&per=3" }
+
       let!(:email) { 'dummyemail@ribon.io' }
       let(:unique_identifier) { Base64.strict_encode64(email) }
       let!(:customer) { create(:customer, email:) }
       let!(:person) { customer.person }
-      let(:receiver) { create(:cause) }
-
-      it 'returns a list of person_payments' do
-        create_list(:person_payment, 4, person:, receiver:)
-        request
-
-        expect(response_json.count).to eq(4)
-
-        expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
-                                                   offer page paid_date payment_method
-                                                   person receiver service_fees status total_items total_pages])
-      end
-    end
-
-    context 'when person is a guest' do
-      let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
-      let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
-      let!(:guest) { create(:guest, wallet_address:) }
-      let!(:person) { guest.person }
-      let(:receiver) { create(:cause) }
-
-      it 'returns a list of person_payments' do
-        create_list(:person_payment, 4, person:, receiver:)
-        request
-
-        expect(response_json.count).to eq(4)
-
-        expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
-                                                   offer page paid_date payment_method
-                                                   person receiver service_fees status total_items total_pages])
-      end
-    end
-  end
-
-  describe 'GET find_by_person_direct_payments' do
-    subject(:request) { get "/api/v1/person_payments/#{unique_identifier}/non_profits" }
-
-    before do
-      allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
-    end
-
-    include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
-
-    context 'when person is a customer' do
-      let!(:email) { 'dummyemail@ribon.io' }
-      let!(:customer) { create(:customer, email:) }
-      let!(:person) { customer.person }
-      let(:unique_identifier) { Base64.strict_encode64(email) }
       let(:receiver) { create(:non_profit) }
 
       it 'returns a list of person_payments' do
-        create_list(:person_payment, 4, receiver:, person:)
+        create_list(:person_payment, 9, person:, receiver:)
         request
 
-        expect(response_json.count).to eq(4)
-
-        expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
-                                                   offer page paid_date payment_method
-                                                   person receiver service_fees status total_items total_pages])
-      end
-    end
-
-    context 'when person is a guest' do
-      let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
-      let!(:guest) { create(:guest, wallet_address:) }
-      let!(:person) { guest.person }
-      let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
-      let(:receiver) { create(:non_profit) }
-
-      it 'returns a list of person_payments' do
-        create_list(:person_payment, 4, person:, receiver:)
-        request
-
-        expect(response_json.count).to eq(4)
+        expect(response_json.count).to eq(3)
 
         expect_response_collection_to_have_keys(%w[amount_cents crypto_amount external_id id
                                                    offer page paid_date payment_method

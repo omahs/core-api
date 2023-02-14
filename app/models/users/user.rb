@@ -12,7 +12,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   enum language: {
-    'en-US': 0,
+    en: 0,
     'pt-BR': 1
   }
 

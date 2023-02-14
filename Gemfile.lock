@@ -399,6 +399,7 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
+    ruby_http_client (3.5.5)
     ruby_parser (3.19.1)
       sexp_processor (~> 4.16)
     rubycritic (4.7.0)
@@ -423,6 +424,8 @@ GEM
       tilt
     scrypt (3.0.7)
       ffi-compiler (>= 1.0, < 2.0)
+    sendgrid-ruby (6.6.2)
+      ruby_http_client (~> 3.4)
     sentry-rails (5.4.2)
       railties (>= 5.0)
       sentry-ruby (~> 5.4.2)
@@ -537,6 +540,7 @@ DEPENDENCIES
   ruby-lsp (~> 0.3.6)
   rubycritic
   sassc-rails
+  sendgrid-ruby
   sentry-rails
   sentry-ruby
   shoulda-matchers (~> 5.0)

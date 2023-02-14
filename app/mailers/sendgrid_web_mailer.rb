@@ -7,7 +7,7 @@ class SendgridWebMailer < ApplicationMailer
     @mailer = RibonMailer.new
   end
 
-  def send_sendgrid_email(receiver:, dynamic_template_data:, template_name:, language:, category: DEFAULT_CATEGORY)
+  def send_email(receiver:, dynamic_template_data:, template_name:, language:, category: DEFAULT_CATEGORY)
     data = get_mail_object(receiver, dynamic_template_data, template_name, category, language)
 
     mailer.send(data)
@@ -39,12 +39,11 @@ class SendgridWebMailer < ApplicationMailer
   end
 
   def set_template_id(language, template_name)
-    if language == 'en'
+    if language == 'en-US'
       template_name = "#{template_name}_en".to_sym
     else
       template_name.to_sym
     end
-
     RibonCoreApi.config[:mailer][template_name]
   end
 end

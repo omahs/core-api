@@ -9,7 +9,6 @@ module DateRange
     end
 
     def split
-
       return [] if intervals.zero? || (start_date.nil? && end_date.nil?)
 
       (0...normalized_intervals).map do |i|
@@ -23,12 +22,14 @@ module DateRange
     private
 
     def interval_length
-       return 0 if start_date.nil? || end_date.nil?
+      return 0 if start_date.nil? || end_date.nil?
+
       @interval_length ||= (end_date - start_date + 1.second) / normalized_intervals
     end
 
     def days_difference
       return 0 if start_date.nil? || end_date.nil?
+
       @days_difference ||= (end_date - start_date).to_i / 1.day
     end
 

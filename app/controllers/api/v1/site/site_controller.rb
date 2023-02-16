@@ -2,10 +2,12 @@ module Api
   module V1
     module Site
       class SiteController < ApplicationController
+        before_action :set_language
+
         include ActionView::Helpers::NumberHelper
         def non_profits
           @non_profits = NonProfit.where(status: :active).last(3)
-          render json: SiteNonProfitsBlueprint.render(@non_profits, language: params[:language])
+          render json: SiteNonProfitsBlueprint.render(@non_profits)
         end
 
         def total_donations
@@ -25,6 +27,10 @@ module Api
         end
 
         private
+
+        def set_language
+          I18n.locale = params[:language]&.to_sym || :en
+        end
 
         def convert_to_brl(value)
           Currency::Converters.convert_to_brl(value:, from: 'USD').to_f.round

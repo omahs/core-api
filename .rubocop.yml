@@ -92,6 +92,7 @@ Metrics/AbcSize:
   Exclude:
     - app/controllers/api/v1/manager/**/*
     - app/controllers/api/v1/person_payments_controller.rb
+    - app/lib/date_range/splitter.rb
 
 Rails/DynamicFindBy:
   Enabled: false

@@ -24,7 +24,7 @@ module Impact
     private
 
     def formatted_impact_amount
-      raw_amount = @rounded_impact / recipients_count
+      raw_amount = rounded_impact / recipients_count
 
       based_on_time? ? period_in_words(raw_amount) : raw_amount.to_i.to_s
     end
@@ -92,7 +92,7 @@ module Impact
     def recipients_count
       divisor = based_on_time? ? MAX_DAYS_PER_DONOR_RECIPIENT : MAX_AMOUNT_PER_DONOR_RECIPIENT
 
-      @recipients_count ||= (@rounded_impact.to_f / divisor).ceil
+      @recipients_count ||= (rounded_impact.to_f / divisor).ceil
     end
   end
 end

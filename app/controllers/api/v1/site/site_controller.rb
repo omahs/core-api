@@ -5,6 +5,7 @@ module Api
         before_action :set_language
 
         include ActionView::Helpers::NumberHelper
+
         def non_profits
           @non_profits = NonProfit.where(status: :active).last(3)
           render json: SiteNonProfitsBlueprint.render(@non_profits)

@@ -15,3 +15,13 @@ en:
   causes:
     create_failed: "Ops, something went wrong"
     update_failed: "Ops, something went wrong"
+  impact_normalizer:
+    year: "year"
+    years: "years"
+    month: "month"
+    months: "months"
+    day: "day"
+    days: "days"
+    for: "for"
+    and: "and"
+    of: "of"

@@ -5,7 +5,8 @@ RSpec.describe 'Api::V1::Site::Site', type: :request do
     subject(:request) { get '/api/v1/site/non_profits' }
 
     before do
-      create_list(:non_profit, 4)
+      create(:ribon_config, default_ticket_value: 100)
+      create_list(:non_profit, 4, :with_impact)
     end
 
     it 'returns a list of non profits' do

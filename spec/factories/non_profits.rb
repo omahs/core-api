@@ -22,6 +22,7 @@ FactoryBot.define do
       after(:create) do |non_profit|
         non_profit.non_profit_impacts
                   .create(usd_cents_to_one_impact_unit: 10, donor_recipient: 'donor',
+                          impact_description: '1 day of water', measurement_unit: 'days_months_and_years',
                           start_date: 1.year.ago, end_date: 1.year.from_now)
       end
     end

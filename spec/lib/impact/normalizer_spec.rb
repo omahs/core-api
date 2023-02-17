@@ -163,5 +163,28 @@ RSpec.describe Impact::Normalizer do
         end
       end
     end
+
+    context 'when got some error' do
+      before do
+        create(:non_profit_impact, non_profit:, measurement_unit: 'days_months_and_years',
+                                   donor_recipient: 'person,people', impact_description: 'impact,impacts')
+      end
+
+      context 'when rounded impact is zero' do
+        let(:rounded_impact) { 0 }
+
+        it 'raises an ImpactNormalizationError' do
+          expect { method_call }.to raise_error(Exceptions::ImpactNormalizationError)
+        end
+      end
+
+      context 'when rounded impact is nil or empty' do
+        let(:rounded_impact) { nil }
+
+        it 'raises an ImpactNormalizationError' do
+          expect { method_call }.to raise_error(Exceptions::ImpactNormalizationError)
+        end
+      end
+    end
   end
 end

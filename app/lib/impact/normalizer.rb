@@ -14,6 +14,10 @@ module Impact
     end
 
     def normalize
+      if rounded_impact.nil? || rounded_impact.zero?
+        raise Exceptions::ImpactNormalizationError, 'Impact cannot be zero'
+      end
+
       [
         formatted_impact_amount,
         formatted_impact_description,

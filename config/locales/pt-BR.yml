@@ -236,3 +236,14 @@ pt-BR:
   causes:
     create_failed: "Não foi possível criar a causa"
     update_failed: "Não foi possível atualizar a causa"
+  impact_normalizer:
+    year: "ano"
+    years: "anos"
+    month: "mês"
+    months: "meses"
+    day: "dia"
+    days: "dias"
+    for: "para"
+    and: "e"
+    of: "de"
+    donate: "Doe"

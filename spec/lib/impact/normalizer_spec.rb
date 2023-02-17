@@ -172,15 +172,15 @@ RSpec.describe Impact::Normalizer do
 
       context 'when rounded impact is zero' do
         let(:rounded_impact) { 0 }
-  
+
         it 'raises an ImpactNormalizationError' do
           expect { method_call }.to raise_error(Exceptions::ImpactNormalizationError)
         end
       end
-  
+
       context 'when rounded impact is nil or empty' do
         let(:rounded_impact) { nil }
-  
+
         it 'raises an ImpactNormalizationError' do
           expect { method_call }.to raise_error(Exceptions::ImpactNormalizationError)
         end

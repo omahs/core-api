@@ -79,8 +79,8 @@ module Impact
       end
     end
 
-    def pluralize_period(period, period_days)
-      I18n.t("impact_normalizer.#{period_days == 1 ? period : "#{period}s"}")
+    def pluralize_period(period_name, period_amount)
+      I18n.t("impact_normalizer.#{period_amount == 1 ? period_name : "#{period_name}s"}")
     end
 
     def format_period_descriptions(descriptions)

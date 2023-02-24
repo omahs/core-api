@@ -92,8 +92,8 @@ module Donations
 
       SendgridWebMailer.send_email(
         receiver: user.email,
-        dynamic_template_data: { impact: 'impact norm' },
-        template_name: 'email-bemvindo',
+        dynamic_template_data: { impact: impact_normalizer },
+        template_name: 'email_bemvindo',
         category: 'donation',
         language: user.language
       ).deliver_now

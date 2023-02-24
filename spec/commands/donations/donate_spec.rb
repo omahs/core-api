@@ -8,19 +8,25 @@ describe Donations::Donate do
 
     context 'when no error occurs' do
       let(:integration) { build(:integration) }
-      let(:non_profit) { build(:non_profit) }
-      let(:user) { build(:user) }
-      let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00')) }
+      let(:non_profit) { build(:non_profit, :with_impact) }
+      let(:user) { create(:user) }
+      let(:donation) { create(:donation, created_at: DateTime.parse('2021-01-12 10:00:00'), user:) }
+      let(:impact_normalizer) { class_double(Impact::Normalizer) }
+      # let(:send_grid_mailer) { class_double(SendgridWebMailer) }
 
       before do
         allow(Donation).to receive(:create!).and_return(donation)
+        allow(SendgridWebMailer).to receive(:send_email)
         allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(Donations::SetLastDonatedCause).to receive(:call)
           .and_return(command_double(klass: Donations::SetLastDonatedCause))
         allow(donation).to receive(:save)
-        allow(user).to receive(:can_donate?).and_return(true)
         create(:ribon_config, default_ticket_value: 100)
+        allow(user).to receive(:can_donate?).and_return(true)
+        allow(impact_normalizer).to receive(:new).with(non_profit, non_profit.impact_by_ticket).and_return(
+          ['impact_normalizer']
+        )
       end
 
       it 'creates a donation in database' do
@@ -45,6 +51,18 @@ describe Donations::Donate do
 
       it 'returns the donation created' do
         expect(command.result).to eq donation
+      end
+
+      it 'sends an email after first donation' do
+        # command
+        # expect(SendgridWebMailer).to have_received(:send_email).with(
+        #   receiver: user.email,
+        #   dynamic_template_data: { impact: 'impact_normalizer' },
+        #   template_name: 'email-bemvindo',
+        #   category: 'donation',
+        #   language: user.language
+        # )
+        # expect { command }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
     end
 

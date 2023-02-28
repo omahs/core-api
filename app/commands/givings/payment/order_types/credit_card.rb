@@ -35,6 +35,7 @@ module Givings
           return if non_profit
 
           call_add_giving_blockchain_job(order)
+          send_success_email
         end
 
         private
@@ -73,6 +74,19 @@ module Givings
 
         def receiver
           non_profit || cause
+        end
+
+        def send_success_email
+          SendgridWebMailer.send_email(
+            receiver: user.email,
+            dynamic_template_data: {
+              donated_amount: 'price',
+              non_profit_name: 'non_profit.name', # can be cause or non profit
+              impact: 'non_profit.impact' # can be cause or non profit
+            },
+            template_name: 'payment_success_non_profit_template_id', # can be cause or non profit
+            language: user.language
+          ).deliver_now
         end
       end
     end

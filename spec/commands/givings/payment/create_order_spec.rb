@@ -11,6 +11,10 @@ describe Givings::Payment::CreateOrder do
     let(:person) { create(:person) }
     let(:integration) { create(:integration) }
 
+    before do
+      allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: "" }))
+    end
+
     context 'when using a CreditCard payment and subscribe' do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
       let(:customer) { build(:customer, person:, user: create(:user)) }
@@ -134,11 +138,24 @@ describe Givings::Payment::CreateOrder do
             ), pool: nil)
         end
 
-        it 'update the status and external_id of payment_person' do
+        it 'updates the status and external_id of payment_person' do
           order = command
           person_payment = PersonPayment.where(offer:).last
           expect(person_payment.external_id).to eq(order.result[:external_id])
           expect(person_payment.status).to eq('paid')
+        end
+
+        it 'sends a success email' do
+          expect(SendgridWebMailer).to have_received(:send_email).with(
+            receiver: user.email,
+            dynamic_template_data: {
+              donated_amount: 'price',
+              non_profit_name: 'non_profit.name', # can be cause or non profit
+              impact: 'non_profit.impact' # can be cause or non profit
+            },
+            template_name: 'payment_success_non_profit_template_id', # can be cause or non profit
+            language: user.language
+          )
         end
       end
 

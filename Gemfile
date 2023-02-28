@@ -60,6 +60,8 @@ gem 'aws-sdk-s3', require: false
 
 gem 'web3-eth'
 
+gem 'kaminari'
+
 # HTTP requests
 gem 'httparty'
 
@@ -77,6 +79,7 @@ gem 'ffi', submodules: true
 gem 'money'
 
 gem 'sidekiq'
+gem 'sidekiq-cron', '~> 1.1'
 
 # Payment Gateways
 gem 'stripe'
@@ -86,6 +89,9 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 
 gem 'merit'
+gem 'sassc-rails'
+
+gem 'sendgrid-ruby'
 
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
@@ -109,5 +115,5 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'annotate'
+  gem 'ruby-lsp', '~> 0.3.6', require: false
 end
-gem 'sassc-rails'

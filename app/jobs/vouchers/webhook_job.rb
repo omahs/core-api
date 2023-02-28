@@ -6,7 +6,7 @@ module Vouchers
       response = Request::ApiRequest.post(voucher.integration.webhook_url,
                                           body: VoucherBlueprint.render(voucher))
 
-      raise Exceptions::VoucherWebhookError, 'webhook failed' if response.status != 200
+      raise Exceptions::VoucherWebhookError, 'webhook failed' unless response.ok?
     end
   end
 end

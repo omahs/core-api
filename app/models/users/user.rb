@@ -5,12 +5,18 @@
 #  id         :bigint           not null, primary key
 #  email      :string
 #  level      :integer          default(0)
+#  language   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  sash_id    :integer
 #
 class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  enum language: {
+    en: 0,
+    'pt-BR': 1
+  }
 
   before_validation { email.downcase! }
   after_create :set_user_donation_stats
@@ -21,9 +27,15 @@ class User < ApplicationRecord
   has_merit
 
   has_one :user_donation_stats
+  has_one :utm, as: :trackable
 
   delegate :last_donation_at, to: :user_donation_stats
   delegate :can_donate?, to: :user_donation_stats
+  delegate :last_donated_cause, to: :user_donation_stats
+
+  scope :created_between, lambda { |start_date, end_date|
+                            where('created_at >= ? AND created_at <= ?', start_date, end_date)
+                          }
 
   def badges
     ::Badge.where(merit_badge_id: badge_ids).order(category: :asc).order(id: :asc)

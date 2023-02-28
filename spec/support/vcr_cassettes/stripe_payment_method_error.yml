@@ -1,0 +1,74 @@
+http_interactions:
+  - request:
+      method: post
+      uri: https://api.stripe.com/v1/payment_methods
+      body:
+        encoding: UTF-8
+        string: type=card&card[number]=4111111111111111&card[exp_month]=08&card[exp_year]=22&card[cvc]=411
+      headers:
+        User-Agent:
+          - Stripe/v1 RubyBindings/6.3.0
+        Authorization:
+          - Bearer sk_test_51JRgaRJuOnwQq9Qxy7krZHxhvBXkNnydWiXQ89CNg94TxASNpOondjVSf6Qh2ooM8lA35KsIjy1aX2KGQas9fgJd00vNPkFAx0
+        Content-Type:
+          - application/x-www-form-urlencoded
+        X-Stripe-Client-User-Agent:
+          - '{"bindings_version":"6.3.0","lang":"ruby","lang_version":"3.1.2 p20 (2022-04-12)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+            version 5.13.0-52-generic (buildd@lcy02-amd64-067) (gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1)
+            9.4.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #59~20.04.1-Ubuntu SMP Thu Jun
+            16 21:21:28 UTC 2022","hostname":"nicknish-machine"}'
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+    response:
+      status:
+        code: 402
+        message: OK
+      headers:
+        Server:
+          - nginx
+        Date:
+          - Wed, 13 Jul 2022 13:37:57 GMT
+        Content-Type:
+          - application/json
+        Content-Length:
+          - "934"
+        Connection:
+          - keep-alive
+        Access-Control-Allow-Credentials:
+          - "true"
+        Access-Control-Allow-Methods:
+          - GET, POST, HEAD, OPTIONS, DELETE
+        Access-Control-Allow-Origin:
+          - "*"
+        Access-Control-Expose-Headers:
+          - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+        Access-Control-Max-Age:
+          - "300"
+        Cache-Control:
+          - no-cache, no-store
+        Idempotency-Key:
+          - 36ba1db3-7991-46a2-8a52-0909965cdbaa
+        Original-Request:
+          - req_1gVOxIEbZOPAD9
+        Request-Id:
+          - req_1gVOxIEbZOPAD9
+        Stripe-Should-Retry:
+          - "false"
+        Stripe-Version:
+          - "2020-08-27"
+        Strict-Transport-Security:
+          - max-age=31556926; includeSubDomains; preload
+      body:
+        encoding: UTF-8
+        string: |
+          {
+           "error": {
+            "code": "card_declined",
+            "message": "error",
+            "type": "card"
+           }
+          }
+    recorded_at: Wed, 13 Jul 2022 13:37:57 GMT
+recorded_with: VCR 6.1.0

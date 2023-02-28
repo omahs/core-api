@@ -38,4 +38,26 @@ RSpec.describe Donation, type: :model do
       expect(donation.impact).to eq '10 impacts'
     end
   end
+
+  describe '#donation_blockchain_transaction' do
+    subject(:donation) { create(:donation) }
+
+    it 'returns the last donation blockchain transaction' do
+      create(:donation_blockchain_transaction, donation:, transaction_hash: '0x001')
+      dbt2 = create(:donation_blockchain_transaction, donation:, transaction_hash: '0x002')
+
+      expect(donation.donation_blockchain_transaction).to eq dbt2
+    end
+  end
+
+  describe '#create_donation_blockchain_transaction' do
+    subject(:donation) { create(:donation) }
+
+    let(:chain) { create(:chain) }
+
+    it 'creates a new donation_blockchain_transaction' do
+      expect { donation.create_donation_blockchain_transaction(transaction_hash: '0x001', chain:) }
+        .to change { donation.donation_blockchain_transactions.count }.by(1)
+    end
+  end
 end

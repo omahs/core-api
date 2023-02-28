@@ -20,6 +20,10 @@ module StubHelpers
     mocked_instance
   end
 
+  def strong_params(params)
+    ActionController::Parameters.new(params).permit!
+  end
+
   shared_context 'when mocking a request' do
     before do
       VCR.insert_cassette cassette_name

@@ -24,6 +24,7 @@
 /tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
+/app/lib/web3/utils/donation_batch.json
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -54,3 +55,4 @@ docker-compose.yml
 
 .DS_Store
 .byebug_history
+dump.rdb

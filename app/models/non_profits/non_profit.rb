@@ -13,19 +13,23 @@
 class NonProfit < ApplicationRecord
   extend Mobility
 
-  translates :impact_description, :description, type: :string
+  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
 
   has_one_attached :logo
   has_one_attached :main_image
   has_one_attached :background_image
-  has_one_attached :cover_image
   has_many :non_profit_impacts
   has_many :non_profit_wallets, as: :owner
 
   has_many :non_profit_pools
   has_many :pools, through: :non_profit_pools
+  has_many :stories, dependent: :delete_all
+  has_many :person_payments, as: :receiver
 
-  validates :name, :impact_description, :status, :wallet_address, presence: true
+  accepts_nested_attributes_for :stories
+  accepts_nested_attributes_for :non_profit_impacts
+
+  validates :name, :status, :wallet_address, presence: true
 
   belongs_to :cause
 

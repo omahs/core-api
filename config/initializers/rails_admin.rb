@@ -31,10 +31,10 @@ RailsAdmin.config do |config|
   end
 
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
-                            Donation, RibonConfig, Offer, OfferGateway,
-                            Customer, PersonPayment, DonationBlockchainTransaction, Chain,
-                            Cause, Story, IntegrationPool, NonProfitPool, IntegrationTask,
-                            Voucher, Badge, Merit::Badge, IntegrationWebhook]
+                            Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
+                            Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
+                            Cause, Story, NonProfitPool, IntegrationTask,
+                            Voucher, IntegrationWebhook, Token, Pool, History, BalanceHistory, Badge, Merit::Badge]
 
   config.model RibonConfig do
     field :default_ticket_value do
@@ -62,6 +62,9 @@ RailsAdmin.config do |config|
       label{ "Cause Card Image" }
     end
 
+    ## This is displayed as "support_image" on admin (as demanded by the team), 
+    ## but we call it background_image on the model
+    
     field :background_image do
       label{ "Support Image" }
     end

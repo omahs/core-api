@@ -2,7 +2,7 @@ module Api
   module V1
     class IntegrationsController < ApplicationController
       def index
-        @integrations = Integration.all
+        @integrations = Integration.order(created_at: :desc)
 
         render json: IntegrationBlueprint.render(@integrations)
       end
@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        command = Integrations::CreateIntegration.call(integration_params)
+        command = ::Integrations::CreateIntegration.call(integration_params)
         if command.success?
           render json: IntegrationBlueprint.render(command.result), status: :created
         else
@@ -27,16 +27,19 @@ module Api
       end
 
       def update
-        @integration = Integration.find integration_params[:id]
-        @integration.update(integration_params)
-        render json: IntegrationBlueprint.render(@integration)
+        command = ::Integrations::UpdateIntegration.call(integration_params)
+        if command.success?
+          render json: IntegrationBlueprint.render(command.result), status: :ok
+        else
+          render_errors(command.errors)
+        end
       end
 
       private
 
       def integration_params
-        params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo,
-                      integration_tasks_attributes: %i[id description link link_address])
+        params.permit(:name, :status, :id, :ticket_availability_in_minutes, :logo, :webhook_url,
+                      integration_task_attributes: %i[id description link link_address])
       end
 
       def fetch_integration_query

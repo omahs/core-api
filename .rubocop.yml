@@ -32,6 +32,8 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Max: 12
+  Exclude:
+    - app/mailers/sendgrid_web_mailer.rb
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
@@ -62,7 +64,7 @@ Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 8
+  Max: 10
 
 RSpec/NoExpectationExample:
   Enabled: false
@@ -80,6 +82,8 @@ Style/OpenStructUse:
 Lint/MissingSuper:
   Exclude:
     - app/commands/**/*
+    - app/lib/**/*
+    - app/mailers/sendgrid_web_mailer.rb
 
 Rails/FilePath:
   Enabled: false
@@ -87,6 +91,8 @@ Rails/FilePath:
 Metrics/AbcSize:
   Exclude:
     - app/controllers/api/v1/manager/**/*
+    - app/controllers/api/v1/person_payments_controller.rb
+    - app/lib/date_range/splitter.rb
 
 Rails/DynamicFindBy:
   Enabled: false

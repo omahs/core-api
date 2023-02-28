@@ -20,20 +20,24 @@ module Givings
 
         payment_process_result
       rescue StandardError => e
-        failure_callback(order, payment_process_result)
+        failure_callback(order, payment_process_result, e)
         Reporter.log(error: e, extra: { message: e.message }, level: :fatal)
         errors.add(:message, e.message)
       end
 
       private
 
-      def success_callback(order, _result)
-        order.payment.update(status: :paid)
-        call_add_giving_blockchain_job(order) if klass.payment_method.eql?(:credit_card)
+      def success_callback(order, result)
+        if result
+          order.payment.update(status: :paid)
+          order.payment.update(external_id: result[:external_id]) if result[:external_id]
+        end
+
+        klass.success_callback(order, result)
       end
 
-      def failure_callback(order, _result)
-        order.payment.update(status: :failed)
+      def failure_callback(order, _result, error)
+        order.payment.update(status: :failed, error_code: error.code)
       end
 
       def call_add_giving_blockchain_job(order)

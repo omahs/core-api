@@ -11,22 +11,20 @@
 #  updated_at                     :datetime         not null
 #
 class Integration < ApplicationRecord
-  has_many :integration_tasks
-
-  accepts_nested_attributes_for :integration_tasks
-
   has_one :integration_wallet, as: :owner
+  has_one :integration_task
   has_one :integration_webhook
 
   has_one_attached :logo
 
-  validates :name, :unique_address, :status, :logo, presence: true
+  accepts_nested_attributes_for :integration_task
 
-  has_many :integration_pools
-  has_many :pools, through: :integration_pools
+  validates :name, :unique_address, :status, presence: true
+
   has_many :api_keys, as: :bearer
   has_many :donations
   has_many :vouchers
+  has_many :person_payment
 
   enum status: {
     inactive: 0,
@@ -43,6 +41,10 @@ class Integration < ApplicationRecord
     "#{base_url}#{unique_address}"
   end
 
+  def integration_dashboard_address
+    "#{dashboard_base_url}#{unique_address}"
+  end
+
   def available_everyday_at_midnight?
     ticket_availability_in_minutes.nil?
   end
@@ -51,9 +53,17 @@ class Integration < ApplicationRecord
     integration_webhook&.url
   end
 
+  def wallet_address
+    integration_wallet&.public_key || ''
+  end
+
   private
 
   def base_url
     RibonCoreApi.config[:integration_address][:base_url]
+  end
+
+  def dashboard_base_url
+    RibonCoreApi.config[:integration_dashboard_address][:base_url]
   end
 end

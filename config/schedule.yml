@@ -1,0 +1,20 @@
+send_donation_batch:
+  cron: "0 1 * * 1" # At 01:00 on monday.
+  class: "Donations::SendDonationBatchWorker"
+  queue: donations
+
+retry_donation_batch:
+  cron: "0 1 1 * *" # At 01:00 on day-of-month 1.
+  class: "Donations::RetryDonationBatchWorker"
+  queue: donations
+
+generate_balance_history:
+  cron: "0 2 * * *" # At 02:00 everyday.
+  class: "Donations::GenerateBalanceHistoryWorker"
+  queue: donations
+
+retry_person_transactions:
+  cron: "0 2 1 * *" # At 02:00 on day-of-month 1.
+  class: "PersonPayments::RetryBlockchainTransactionsWorker"
+  queue: person_payments
+  

@@ -1,8 +1,8 @@
 module Web3
   module Utils
     class Gas
-      DEFAULT_MAX_FEE_PER_GAS = 58
-      DEFAULT_GAS_LIMIT = 78_659
+      DEFAULT_MAX_FEE_PER_GAS = 100
+      DEFAULT_GAS_LIMIT = 400_000
 
       attr_reader :chain
 
@@ -12,7 +12,7 @@ module Web3
 
       def estimate_gas
         request = Request::ApiRequest.get("#{chain.gas_fee_url}?eip1559=true", expires_in: 2.hours)
-        speeds = request.speeds.second
+        speeds = request['speeds'].second
 
         max_fee_per_gas = [speeds['maxFeePerGas'], DEFAULT_MAX_FEE_PER_GAS].min
         max_priority_fee_per_gas = [speeds['maxPriorityFeePerGas'], DEFAULT_MAX_FEE_PER_GAS].min

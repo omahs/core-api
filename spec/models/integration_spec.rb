@@ -24,9 +24,7 @@ RSpec.describe Integration, type: :model do
   describe '.associations' do
     subject { build(:integration) }
 
-    it { is_expected.to have_many(:pools) }
-    it { is_expected.to have_many(:integration_pools) }
-    it { is_expected.to have_many(:integration_tasks) }
+    it { is_expected.to have_one(:integration_task) }
     it { is_expected.to have_one(:integration_wallet) }
   end
 
@@ -53,6 +51,14 @@ RSpec.describe Integration, type: :model do
 
     it 'returns the integration address' do
       expect(integration.integration_address).to eq("https://dapp.ribon.io/?integration_id=#{integration.unique_address}")
+    end
+  end
+
+  describe '#integration_dashboard_address' do
+    let(:integration) { create(:integration) }
+
+    it 'returns the integration dashboard address' do
+      expect(integration.integration_dashboard_address).to eq("https://integration.ribon.io/?integration_id=#{integration.unique_address}")
     end
   end
 

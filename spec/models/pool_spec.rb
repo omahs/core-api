@@ -4,8 +4,10 @@
 #
 #  id         :bigint           not null, primary key
 #  address    :string
+#  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  cause_id   :bigint
 #  token_id   :bigint           not null
 #
 require 'rails_helper'
@@ -18,8 +20,6 @@ RSpec.describe Pool, type: :model do
     it { is_expected.to belong_to(:token) }
     it { is_expected.to have_many(:non_profit_pools) }
     it { is_expected.to have_many(:non_profits).through(:non_profit_pools) }
-    it { is_expected.to have_many(:integration_pools) }
-    it { is_expected.to have_many(:integrations).through(:integration_pools) }
   end
 
   describe '#chain' do

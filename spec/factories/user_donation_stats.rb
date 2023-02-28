@@ -8,6 +8,9 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  user_id          :bigint           not null
+#  last_donated_cause :bigint
+#  last_donation_at   :datetime
+#  created_at         :datetime         not null
 #
 FactoryBot.define do
   factory :user_donation_stats do

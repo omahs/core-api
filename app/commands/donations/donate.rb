@@ -13,11 +13,7 @@ module Donations
 
     def call
       with_exception_handle do
-        if allowed?
-          transact_donation
-        else
-          errors.add(:message, I18n.t('donations.blocked_message'))
-        end
+        transact_donation if valid_dependencies?
       end
     end
 
@@ -25,26 +21,52 @@ module Donations
 
     def transact_donation
       create_donation
-      create_blockchain_donation
       set_user_last_donation_at
+      set_last_donated_cause
 
       donation
     end
 
+    def valid_dependencies?
+      valid_user? && valid_integration? && valid_non_profit? && allowed?
+    end
+
+    def valid_user?
+      errors.add(:message, I18n.t('donations.user_not_found')) unless user
+
+      user
+    end
+
+    def valid_integration?
+      errors.add(:message, I18n.t('donations.integration_not_found')) unless integration
+
+      integration
+    end
+
+    def valid_non_profit?
+      errors.add(:message, I18n.t('donations.non_profit_not_found')) unless non_profit
+
+      non_profit
+    end
+
     def allowed?
-      user.can_donate?(integration)
+      return true if user.can_donate?(integration)
+
+      errors.add(:message, I18n.t('donations.blocked_message'))
+
+      false
     end
 
     def create_donation
       @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
     end
 
-    def create_blockchain_donation
-      CreateBlockchainDonationJob.perform_later(donation)
-    end
-
     def set_user_last_donation_at
       SetUserLastDonationAt.call(user:, date_to_set: donation.created_at)
+    end
+
+    def set_last_donated_cause
+      SetLastDonatedCause.call(user:, cause: non_profit.cause)
     end
 
     def ticket_value

@@ -24,6 +24,7 @@ module Donations
       set_user_last_donation_at
       set_last_donated_cause
 
+      send_email_after_donation
       donation
     end
 
@@ -57,6 +58,12 @@ module Donations
       false
     end
 
+    def first_donation?
+      return true if user.donations.first == user.donations.last
+
+      false
+    end
+
     def create_donation
       @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
     end
@@ -71,6 +78,25 @@ module Donations
 
     def ticket_value
       @ticket_value ||= RibonConfig.default_ticket_value
+    end
+
+    def impact_normalizer
+      Impact::Normalizer.new(
+        non_profit,
+        non_profit.impact_by_ticket
+      ).normalize.join(' ')
+    end
+
+    def send_email_after_donation
+      return unless first_donation?
+
+      SendgridWebMailer.send_email(
+        receiver: user.email,
+        dynamic_template_data: { impact: impact_normalizer },
+        template_name: 'email_bemvindo',
+        category: 'donation',
+        language: user.language
+      ).deliver_now
     end
   end
 end

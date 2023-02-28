@@ -4,7 +4,7 @@ RSpec.describe 'Api::V1::Vouchers::Donations', type: :request do
   describe 'POST /create' do
     subject(:request) { post '/api/v1/vouchers/donations', params: }
 
-    include_context('when mocking a request') { let(:cassette_name) { 'sendgrid_send_email' } }
+    include_context('when mocking a request') { let(:cassette_name) { 'sendgrid_email_api' } }
 
     let(:integration) { create(:integration) }
     let(:non_profit) { create(:non_profit, :with_impact) }

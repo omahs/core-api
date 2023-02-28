@@ -6,7 +6,7 @@ describe Donations::Donate do
   describe '.call' do
     subject(:command) { described_class.call(integration:, non_profit:, user:) }
 
-    include_context('when mocking a request') { let(:cassette_name) { 'sendgrid_send_email' } }
+    include_context('when mocking a request') { let(:cassette_name) { 'sendgrid_email_api' } }
 
     context 'when no error occurs' do
       let(:integration) { create(:integration) }

@@ -146,6 +146,7 @@ describe Givings::Payment::CreateOrder do
         end
 
         it 'sends a success email' do
+          command
           expect(SendgridWebMailer).to have_received(:send_email)
         end
       end

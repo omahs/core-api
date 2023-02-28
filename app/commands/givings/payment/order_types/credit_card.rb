@@ -80,7 +80,7 @@ module Givings
           SendgridWebMailer.send_email(
             receiver: user.email,
             dynamic_template_data: {
-              donated_amount: 'price',
+              donated_amount: offer.price_cents / 100.0,
               donation_receiver_name: "#{receiver}.name",
               impact: "#{receiver}.impact"
             },

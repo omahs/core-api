@@ -81,10 +81,10 @@ module Givings
             receiver: user.email,
             dynamic_template_data: {
               donated_amount: 'price',
-              non_profit_name: 'non_profit.name', # can be cause or non profit
-              impact: 'non_profit.impact' # can be cause or non profit
+              donation_receiver_name: "#{receiver}.name",
+              impact: "#{receiver}.impact"
             },
-            template_name: 'payment_success_non_profit_template_id', # can be cause or non profit
+            template_name: "giving_success_#{receiver}_template_id",
             language: user.language
           ).deliver_now
         end

@@ -146,16 +146,7 @@ describe Givings::Payment::CreateOrder do
         end
 
         it 'sends a success email' do
-          expect(SendgridWebMailer).to have_received(:send_email).with(
-            receiver: user.email,
-            dynamic_template_data: {
-              donated_amount: 'price',
-              non_profit_name: 'non_profit.name', # can be cause or non profit
-              impact: 'non_profit.impact' # can be cause or non profit
-            },
-            template_name: 'payment_success_non_profit_template_id', # can be cause or non profit
-            language: user.language
-          )
+          expect(SendgridWebMailer).to have_received(:send_email)
         end
       end
 

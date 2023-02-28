@@ -81,8 +81,8 @@ module Givings
             receiver: user.email,
             dynamic_template_data: {
               donated_amount: offer.price_cents / 100.0,
-              donation_receiver_name: "#{receiver}.name",
-              impact: "#{receiver}.impact"
+              donation_receiver_name: receiver.name,
+              impact: receiver.impact
             },
             template_name: "giving_success_#{receiver}_template_id",
             language: user.language

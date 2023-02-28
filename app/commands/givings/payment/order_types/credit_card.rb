@@ -76,13 +76,24 @@ module Givings
           non_profit || cause
         end
 
+        def normalized_impact
+          if non_profit
+            Impact::Normalizer.new(
+              non_profit,
+              rounded_impact
+            ).normalize.join(' ')
+          else
+            offer.price_cents * 0.06
+          end
+        end
+
         def send_success_email
           SendgridWebMailer.send_email(
             receiver: user.email,
             dynamic_template_data: {
               donated_amount: offer.price_cents / 100.0,
-              donation_receiver_name: receiver.name,
-              impact: receiver.impact
+              donation_receiver_name: receiver&.name,
+              impact: normalized_impact
             },
             template_name: "giving_success_#{receiver}_template_id",
             language: user.language

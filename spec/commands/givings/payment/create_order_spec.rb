@@ -12,7 +12,7 @@ describe Givings::Payment::CreateOrder do
     let(:integration) { create(:integration) }
 
     before do
-      allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: "" }))
+      allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: '' }))
     end
 
     context 'when using a CreditCard payment and subscribe' do

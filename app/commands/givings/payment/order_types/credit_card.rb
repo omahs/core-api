@@ -82,6 +82,12 @@ module Givings
           'cause'
         end
 
+        def receiver_name
+          return non_profit.name if non_profit
+
+          user.language.start_with?('en') ? cause.name_en : cause.name_pt_br
+        end
+
         def normalized_impact
           if non_profit
             ::Impact::Normalizer.new(
@@ -104,7 +110,7 @@ module Givings
             receiver: user.email,
             dynamic_template_data: {
               direct_giving_value: donated_value,
-              receiver_name: receiver&.name,
+              receiver_name:,
               direct_giving_impact: normalized_impact
             },
             template_name: "giving_success_#{donation_receiver}_template_id",

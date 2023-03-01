@@ -3,6 +3,7 @@
 # Table name: articles
 #
 #  id           :bigint           not null, primary key
+#  link         :string
 #  published_at :datetime
 #  title        :string
 #  visible      :boolean
@@ -16,5 +17,6 @@ FactoryBot.define do
     title { 'My article' }
     published_at { '2023-03-01 15:42:30' }
     visible { false }
+    link { 'https://ribon.io' }
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[author image_url created_at id published_at title updated_at
-                                                 visible])
+                                                 visible link])
     end
 
     it 'returns 2 articles' do
@@ -73,7 +73,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
     it 'returns a articles' do
       request
 
-      expect_response_to_have_keys(%w[author image_url created_at id published_at title updated_at visible])
+      expect_response_to_have_keys(%w[author image_url created_at id published_at title updated_at visible link])
     end
   end
 
@@ -85,7 +85,8 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
         title: 'New Article',
         published_at: Time.zone.now,
         visible: true,
-        author_id: create(:author).id
+        author_id: create(:author).id,
+        link: 'https://ribon.io'
       }
     end
 
@@ -105,7 +106,8 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
         title: 'New Article',
         published_at: Time.zone.now,
         visible: true,
-        author_id: create(:author).id
+        author_id: create(:author).id,
+        link: 'https://ribon.io'
       }
     end
 

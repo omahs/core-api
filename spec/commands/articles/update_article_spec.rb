@@ -12,7 +12,7 @@ describe Articles::UpdateArticle do
         {
           id: article.id,
           title: 'New article',
-          published_at: Time.now,
+          published_at: Time.zone.now,
           visible: true,
           author_id: create(:author).id
         }

@@ -78,7 +78,7 @@ module Givings
 
         def donation_receiver
           return 'non_profit' if non_profit
-          
+
           'cause'
         end
 

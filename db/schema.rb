@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.datetime "published_at", precision: nil
+    t.boolean "visible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link"
+    t.index ["author_id"], name: "index_articles_on_author_id"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "balance_histories", force: :cascade do |t|
@@ -452,6 +469,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "articles", "authors"
   add_foreign_key "balance_histories", "causes"
   add_foreign_key "balance_histories", "pools"
   add_foreign_key "blockchain_transactions", "chains"

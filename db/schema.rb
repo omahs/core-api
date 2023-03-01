@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_184043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "balance_histories", force: :cascade do |t|
@@ -412,7 +418,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language"
+    t.integer "language", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

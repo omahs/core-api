@@ -12,6 +12,8 @@ describe Givings::Payment::CreateOrder do
     let(:integration) { create(:integration) }
 
     before do
+      create(:ribon_config, default_ticket_value: 10
+      )
       allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: '' }))
     end
 
@@ -155,7 +157,7 @@ describe Givings::Payment::CreateOrder do
         let(:args) do
           { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
             integration_id: integration.id, payment_method: :credit_card,
-            user: customer.user, operation: :subscribe, non_profit: create(:non_profit) }
+            user: customer.user, operation: :subscribe, non_profit: create(:non_profit, :with_impact) }
         end
 
         it 'does not call the AddGivingToBlockchainJob' do

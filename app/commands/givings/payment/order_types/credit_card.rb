@@ -85,14 +85,14 @@ module Givings
         def receiver_name
           return non_profit.name if non_profit
 
-          user.language.start_with?('en') ? cause.name_en : cause.name_pt_br
+          user.language.start_with?('en') ? cause&.name_en : cause&.name_pt_br
         end
 
         def normalized_impact
           if non_profit
             ::Impact::Normalizer.new(
               non_profit,
-              non_profit.impact_by_ticket # AJEITAR
+              non_profit.impact_by_ticket
             ).normalize.join(' ')
           else
             cause_value = offer.price_cents * 0.2

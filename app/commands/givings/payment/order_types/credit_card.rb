@@ -89,15 +89,21 @@ module Givings
               non_profit.impact_by_ticket # AJEITAR
             ).normalize.join(' ')
           else
-            offer.price_cents * 0.002
+            cause_value = offer.price_cents * 0.2
+            donated_value(cause_value)
           end
+        end
+
+        def donated_value(value = amount_cents)
+          currency = offer.currency == 'brl' ? 'R$ ' : '$ '
+          currency + (value / 100.0).to_s
         end
 
         def send_success_email
           SendgridWebMailer.send_email(
             receiver: user.email,
             dynamic_template_data: {
-              direct_giving_value: offer.price_cents / 100.0,
+              direct_giving_value: donated_value,
               receiver_name: receiver&.name,
               direct_giving_impact: normalized_impact
             },

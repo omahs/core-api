@@ -55,6 +55,11 @@ Rails.application.routes.draw do
         get 'articles/:id' => 'articles#show'
         post 'articles' => 'articles#create'
         put 'articles/:id' => 'articles#update'
+
+        get 'authors' => 'authors#index'
+        get 'authors/:id' => 'authors#show'
+        post 'authors' => 'authors#create'
+        put 'authors/:id' => 'authors#update'
       end
 
       resources :users, only: [] do

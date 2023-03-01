@@ -31,6 +31,11 @@ Rails.application.routes.draw do
       get 'non_profits/:id' => 'non_profits#show'
       put 'non_profits/:id' => 'non_profits#update'
 
+      get 'news' => 'news#index'
+      get 'news/:id' => 'news#show'
+      post 'news' => 'news#create'
+      put 'news/:id' => 'news#update'
+
       get 'integrations' => 'integrations#index'
       get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
       post 'integrations' => 'integrations#create'

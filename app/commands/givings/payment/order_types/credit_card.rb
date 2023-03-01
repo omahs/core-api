@@ -83,7 +83,7 @@ module Givings
               rounded_impact
             ).normalize.join(' ')
           else
-            offer.price_cents * 0.06
+            offer.price_cents * 0.002
           end
         end
 

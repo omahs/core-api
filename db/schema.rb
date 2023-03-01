@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_133522) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "balance_histories", force: :cascade do |t|
@@ -227,6 +233,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.datetime "updated_at", null: false
     t.index ["translatable_id", "translatable_type", "key"], name: "index_mobility_text_translations_on_translatable_attribute"
     t.index ["translatable_id", "translatable_type", "locale", "key"], name: "index_mobility_text_translations_on_keys", unique: true
+  end
+
+  create_table "news", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.datetime "published_at", precision: nil
+    t.boolean "visible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_news_on_author_id"
   end
 
   create_table "non_profit_impacts", force: :cascade do |t|
@@ -412,7 +428,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language"
+    t.integer "language", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -465,6 +481,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_163444) do
   add_foreign_key "donations", "users"
   add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "integration_webhooks", "integrations"
+  add_foreign_key "news", "authors"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"
   add_foreign_key "non_profit_pools", "pools"

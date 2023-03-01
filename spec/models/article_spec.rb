@@ -3,6 +3,7 @@
 # Table name: articles
 #
 #  id           :bigint           not null, primary key
+#  link         :string
 #  published_at :datetime
 #  title        :string
 #  visible      :boolean

@@ -1,7 +1,7 @@
 class ArticleBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :updated_at, :created_at, :title, :published_at, :visible
+  fields :updated_at, :created_at, :title, :published_at, :visible, :link
 
   field(:image_url) do |object|
     ImagesHelper.image_url_for(object.image)

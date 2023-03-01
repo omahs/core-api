@@ -65,7 +65,7 @@ module Api
         end
 
         def article_params
-          params.permit(:title, :published_at, :image, :visible, :author_id, :id)
+          params.permit(:title, :published_at, :image, :visible, :author_id, :id, :link)
         end
       end
     end

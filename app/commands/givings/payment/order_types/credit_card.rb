@@ -32,6 +32,7 @@ module Givings
         end
 
         def success_callback(order, _result)
+          send_success_email
           return if non_profit
 
           call_add_giving_blockchain_job(order)
@@ -73,6 +74,48 @@ module Givings
 
         def receiver
           non_profit || cause
+        end
+
+        def donation_receiver
+          return 'non_profit' if non_profit
+
+          'cause'
+        end
+
+        def receiver_name
+          return non_profit.name if non_profit
+
+          user.language.start_with?('en') ? cause&.name_en : cause&.name_pt_br
+        end
+
+        def normalized_impact
+          if non_profit
+            ::Impact::Normalizer.new(
+              non_profit,
+              non_profit.impact_by_ticket
+            ).normalize.join(' ')
+          else
+            cause_value = offer.price_cents * 0.2
+            donated_value(cause_value)
+          end
+        end
+
+        def donated_value(value = amount_cents)
+          currency = offer.currency == 'brl' ? 'R$ ' : '$ '
+          currency + (value / 100.0).to_s
+        end
+
+        def send_success_email
+          SendgridWebMailer.send_email(
+            receiver: user.email,
+            dynamic_template_data: {
+              direct_giving_value: donated_value,
+              receiver_name:,
+              direct_giving_impact: normalized_impact
+            },
+            template_name: "giving_success_#{donation_receiver}_template_id",
+            language: user.language
+          ).deliver_now
         end
       end
     end

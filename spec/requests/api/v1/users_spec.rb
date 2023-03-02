@@ -7,7 +7,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
     context 'with right params' do
       let(:params) do
         {
-          email: 'yan@ribon.io'
+          email: 'yan@ribon.io',
+          language: 'en'
         }
       end
 
@@ -97,6 +98,20 @@ RSpec.describe 'Api::V1::Users', type: :request do
       request
 
       expect_response_to_have_keys %w[can_donate]
+    end
+  end
+
+  describe 'GET /users/statistics' do
+    subject(:request) do
+      get "/api/v1/users/#{user.id}/statistics"
+    end
+
+    let(:user) { create(:user) }
+
+    it 'returns the statistics' do
+      request
+
+      expect_response_to_have_keys %w[total_tickets total_donated total_non_profits total_causes]
     end
   end
 end

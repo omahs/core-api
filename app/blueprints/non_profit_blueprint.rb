@@ -1,7 +1,7 @@
 class NonProfitBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :updated_at, :created_at, :name, :wallet_address, :impact_description, :status
+  fields :updated_at, :created_at, :name, :wallet_address, :status
 
   association :cause, blueprint: CauseBlueprint, view: :minimal
 
@@ -12,6 +12,10 @@ class NonProfitBlueprint < Blueprinter::Base
   field(:logo) do |object|
     ImagesHelper.image_url_for(object.logo, variant: { resize_to_fit: [150, 150],
                                                        saver: { quality: 95 }, format: :jpg })
+  end
+
+  field(:impact_description) do |object|
+    object.impact_for&.impact_description || object.impact_description
   end
 
   field(:main_image) do |object|

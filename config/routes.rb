@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       get 'integrations/:id' => 'integrations#show'
       put 'integrations/:id' => 'integrations#update'
       get 'person_payments' => 'person_payments#index'
+      get 'person_payments/:receiver_type' => 'person_payments#payments_for_receiver_by_person'
       post 'donations' => 'donations#create'
       post 'users' => 'users#create'
       post 'users/search' => 'users#search'
@@ -49,8 +50,21 @@ Rails.application.routes.draw do
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
 
+      namespace :news do
+        get 'articles' => 'articles#index'
+        get 'articles/:id' => 'articles#show'
+        post 'articles' => 'articles#create'
+        put 'articles/:id' => 'articles#update'
+
+        get 'authors' => 'authors#index'
+        get 'authors/:id' => 'authors#show'
+        post 'authors' => 'authors#create'
+        put 'authors/:id' => 'authors#update'
+      end
+
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
+        get 'statistics' => 'users/statistics#index'
         get 'donations_count' => 'users/impacts#donations_count'
         put 'track', to: 'users/trackings#track_user'
       end
@@ -84,6 +98,14 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
+      end
+
+      namespace :site do 
+        get 'non_profits_total_balance' => 'histories#non_profits_total_balance'
+        get 'total_donors' => 'histories#total_donors'
+        get 'total_donations' => 'site#total_donations'
+        get 'non_profits' => 'site#non_profits'
+        get 'total_impacted_lives' => 'site#total_impacted_lives'
       end
 
     end

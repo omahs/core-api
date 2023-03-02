@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,34 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bearer_type", "bearer_id"], name: "index_api_keys_on_bearer"
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.datetime "published_at", precision: nil
+    t.boolean "visible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link"
+    t.index ["author_id"], name: "index_articles_on_author_id"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "balance_histories", force: :cascade do |t|
+    t.bigint "cause_id", null: false
+    t.bigint "pool_id", null: false
+    t.decimal "balance"
+    t.decimal "amount_donated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cause_id"], name: "index_balance_histories_on_cause_id"
+    t.index ["pool_id"], name: "index_balance_histories_on_pool_id"
   end
 
   create_table "batches", force: :cascade do |t|
@@ -161,6 +189,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
     t.index ["person_id"], name: "index_guests_on_person_id"
   end
 
+  create_table "histories", force: :cascade do |t|
+    t.bigint "total_donors"
+    t.bigint "total_donations"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "integration_tasks", force: :cascade do |t|
     t.string "description"
     t.string "link"
@@ -220,6 +255,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
     t.decimal "usd_cents_to_one_impact_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "impact_description"
+    t.string "donor_recipient"
+    t.string "measurement_unit"
     t.index ["non_profit_id"], name: "index_non_profit_impacts_on_non_profit_id"
   end
 
@@ -300,6 +338,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
     t.string "receiver_type"
     t.bigint "receiver_id"
     t.string "error_code"
+    t.integer "currency"
     t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
@@ -392,6 +431,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "language", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -431,6 +471,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_142509) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "articles", "authors"
+  add_foreign_key "balance_histories", "causes"
+  add_foreign_key "balance_histories", "pools"
   add_foreign_key "blockchain_transactions", "chains"
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"

@@ -13,11 +13,7 @@ module Donations
 
     def call
       with_exception_handle do
-        if allowed?
-          transact_donation
-        else
-          errors.add(:message, I18n.t('donations.blocked_message'))
-        end
+        transact_donation if valid_dependencies?
       end
     end
 
@@ -28,11 +24,44 @@ module Donations
       set_user_last_donation_at
       set_last_donated_cause
 
+      send_email_after_donation
       donation
     end
 
+    def valid_dependencies?
+      valid_user? && valid_integration? && valid_non_profit? && allowed?
+    end
+
+    def valid_user?
+      errors.add(:message, I18n.t('donations.user_not_found')) unless user
+
+      user
+    end
+
+    def valid_integration?
+      errors.add(:message, I18n.t('donations.integration_not_found')) unless integration
+
+      integration
+    end
+
+    def valid_non_profit?
+      errors.add(:message, I18n.t('donations.non_profit_not_found')) unless non_profit
+
+      non_profit
+    end
+
     def allowed?
-      user.can_donate?(integration)
+      return true if user.can_donate?(integration)
+
+      errors.add(:message, I18n.t('donations.blocked_message'))
+
+      false
+    end
+
+    def first_donation?
+      return true if user.donations.first == user.donations.last
+
+      false
     end
 
     def create_donation
@@ -49,6 +78,25 @@ module Donations
 
     def ticket_value
       @ticket_value ||= RibonConfig.default_ticket_value
+    end
+
+    def impact_normalizer
+      Impact::Normalizer.new(
+        non_profit,
+        non_profit.impact_by_ticket
+      ).normalize.join(' ')
+    end
+
+    def send_email_after_donation
+      return unless first_donation?
+
+      SendgridWebMailer.send_email(
+        receiver: user.email,
+        dynamic_template_data: { impact: impact_normalizer },
+        template_name: 'email_bemvindo',
+        category: 'donation',
+        language: user.language
+      ).deliver_now
     end
   end
 end

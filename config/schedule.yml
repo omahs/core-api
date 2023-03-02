@@ -17,4 +17,8 @@ retry_person_transactions:
   cron: "0 2 1 * *" # At 02:00 on day-of-month 1.
   class: "PersonPayments::RetryBlockchainTransactionsWorker"
   queue: person_payments
-  
+
+retry_donation_batch:
+  cron: "0 18 1 * *" # At 18:00 on day-of-month 1.
+  class: "Donations::RetryDonationBatchWorker"
+  queue: donations

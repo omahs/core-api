@@ -18,3 +18,8 @@ retry_person_transactions:
   class: "PersonPayments::RetryBlockchainTransactionsWorker"
   queue: person_payments
   
+inactive_donors_one_week_worker:
+  cron: "0 9 * * 0" # At 09:00 everyday.
+  class: "SendOneWeekInactivityEmailWorker"
+  queue: mailers
+

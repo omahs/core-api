@@ -13,8 +13,10 @@ module Donations
     private
 
     def send_7_donations_email(user)
-      SendgridWebMailer.send_email(receiver: user.email, dynamic_template_data: {},
-                    template_name: "user_donated_7_tickets_template_id", language: user.language).deliver_later
+      SendgridWebMailer.send_email(receiver: user.email,
+                                   dynamic_template_data: {},
+                                   template_name: 'user_donated_7_tickets_template_id',
+                                   language: user.language).deliver_later
     end
   end
 end

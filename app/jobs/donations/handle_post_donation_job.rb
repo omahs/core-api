@@ -4,8 +4,7 @@ module Donations
 
     def perform(donation:)
       Mailers::SendDonationEmailJob.perform_later(donation:)
-    rescue StandardError => e
-      byebug
+    rescue StandardError
       nil
     end
   end

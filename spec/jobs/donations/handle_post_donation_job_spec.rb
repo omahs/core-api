@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Donations::HandlePostDonationJob, type: :job do
   describe '#perform' do
-    subject(:perform_job) { described_class.perform_now }
+    subject(:perform_job) { described_class.perform_now(donation:) }
+
+    let(:donation) { create(:donation) }
 
     before do
-      allow(Donations::UpdateProcessingDonations).to receive(:call)
-      allow(Donations::UpdateFailedDonations).to receive(:call)
+      allow(Mailers::SendDonationEmailJob).to receive(:perform_later)
       perform_job
     end
 
-    it 'calls the retries commands' do
-      expect(Donations::UpdateProcessingDonations).to have_received(:call)
-      expect(Donations::UpdateFailedDonations).to have_received(:call)
+    it 'calls the send donation email job' do
+      expect(Mailers::SendDonationEmailJob).to have_received(:perform_later).with(donation:)
     end
   end
 end

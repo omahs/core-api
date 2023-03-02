@@ -50,6 +50,18 @@ Rails.application.routes.draw do
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
 
+      namespace :news do
+        get 'articles' => 'articles#index'
+        get 'articles/:id' => 'articles#show'
+        post 'articles' => 'articles#create'
+        put 'articles/:id' => 'articles#update'
+
+        get 'authors' => 'authors#index'
+        get 'authors/:id' => 'authors#show'
+        post 'authors' => 'authors#create'
+        put 'authors/:id' => 'authors#update'
+      end
+
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'statistics' => 'users/statistics#index'

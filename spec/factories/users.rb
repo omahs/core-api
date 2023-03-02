@@ -5,7 +5,7 @@
 #  id         :bigint           not null, primary key
 #  email      :string
 #  level      :integer          default(0)
-#  language   :integer
+#  language   :integer          default("en")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  sash_id    :integer

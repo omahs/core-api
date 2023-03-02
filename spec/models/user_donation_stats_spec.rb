@@ -2,12 +2,8 @@
 #
 # Table name: user_donation_stats
 #
-#  id               :bigint           not null, primary key
-#  donation_streak  :integer          default(0)
-#  last_donation_at :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  user_id          :bigint           not null
+#  id                 :bigint           not null, primary key
+#  donation_streak    :integer          default(0)
 #  last_donated_cause :bigint
 #  last_donation_at   :datetime
 #  created_at         :datetime         not null

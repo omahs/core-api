@@ -12,8 +12,7 @@ describe Givings::Payment::CreateOrder do
     let(:integration) { create(:integration) }
 
     before do
-      create(:ribon_config, default_ticket_value: 10
-      )
+      create(:ribon_config, default_ticket_value: 10)
       allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: '' }))
     end
 

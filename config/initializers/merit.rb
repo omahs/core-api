@@ -1,6 +1,7 @@
 # Use this hook to configure merit parameters
 Merit.setup do |config|
   config.checks_on_each_request = true
+  config.add_observer "ReputationChangeObserver"
 end
 # Create application badges (uses https://github.com/norman/ambry)
 Rails.application.reloader.to_prepare do

@@ -17,7 +17,7 @@ module Mailers
         dynamic_template_data: { lastWeekImpact: user.donations.last.impact },
         template_name: 'one_week_inactivity_template_id',
         language: user.language
-      ).deliver_now
+      ).deliver_later
     end
 
     private

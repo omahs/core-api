@@ -23,6 +23,8 @@ AllCops:
 
 Layout/LineLength:
   Max: 115
+  Exclude:
+    - app/queries/**/*
 
 Metrics/BlockLength:
   Exclude:

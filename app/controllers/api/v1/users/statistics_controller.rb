@@ -2,31 +2,37 @@ module Api
   module V1
     module Users
       class StatisticsController < ApplicationController
-        delegate :total_causes, :total_non_profits, :total_donated,
-                 to: :statistics_service
         def index
-          donated = total_donated if customer
-          render json: { total_non_profits:, total_tickets: donations.count,
-                         total_donated: donated || 0,
-                         total_causes: }
+          command = ::Users::CalculateStatistics.call(user:, wallet_address:, customer:, donations:)
+          if command.success?
+            render json: UserStatisticsBlueprint.render(command.result)
+          else
+            render_errors(command.errors)
+          end
         end
 
         private
 
         def user
-          @user ||= User.find params[:user_id]
+          return unless params[:id]
+
+          @user ||= User.find params[:id]
+        end
+
+        def wallet_address
+          params[:wallet_address]
         end
 
         def customer
+          return unless user
+
           Customer.find_by(email: user.email)
         end
 
         def donations
-          @donations = user.donations
-        end
+          return unless user
 
-        def statistics_service
-          @statistics_service ||= Service::Users::Statistics.new(donations:, user:, customer:)
+          @donations = user.donations
         end
       end
     end

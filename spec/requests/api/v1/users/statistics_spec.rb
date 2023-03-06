@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Users::Statistics', type: :request do
   describe 'GET /index' do
-    subject(:request) { get "/api/v1/users/statistics?id#{user.id}&wallet_address=#{wallet_address}" }
+    subject(:request) { get "/api/v1/users/statistics?id#{user.id}&wallet_address=#{unique_identifier}" }
 
-    let(:wallet_address) { '0x44d5e936dad202ec600b6a6a5' }
+    let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
+    let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
     let(:guest) { create(:guest) }
     let(:user) { build(:user) }
     let(:person) { create(:person) }

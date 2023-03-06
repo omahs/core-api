@@ -22,7 +22,7 @@ module Api
         def wallet_address
           return unless params[:wallet_address]
 
-        Base64.strict_decode64(params[:wallet_address])
+          Base64.strict_decode64(params[:wallet_address])
         end
 
         def customer

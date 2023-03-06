@@ -5,7 +5,7 @@ module Mailers
     def perform(user:)
       contribution = user.last_contribution
 
-      send_email(user, donations_count) if DONATIONS_COUNT_ENTRYPOINTS.include? donations_count
+      send_email(user, contribution) if contribution
     end
 
     private
@@ -13,13 +13,21 @@ module Mailers
     def send_email(user, contribution)
       SendgridWebMailer.send_email(receiver: user.email,
                                    dynamic_template_data: {
-                                     value: contribution.amount_cents,
-                                     value_add: contribution.amount_cents * 0.02,
-                                     name: contribution.receiver.name,
-                                     currency: contribution.offer&.currency
+                                     giving_value: giving_value(contribution),
+                                     giving_value_added: giving_value_added(contribution),
+                                     receiver_name: contribution.receiver.name,
+                                     current_date: Time.zone.now.strftime('%d/%m/%Y')
                                    },
                                    template_name: "contribution_#{contribution.receiver_type}_template_id",
                                    language: user.language).deliver_later
+    end
+
+    def giving_value(contribution)
+      Money.new(contribution.amount_cents, contribution.currency&.to_sym).format
+    end
+
+    def giving_value_added(contribution)
+      Money.new(contribution.amount_cents * 0.02, contribution.currency&.to_sym).format
     end
   end
 end

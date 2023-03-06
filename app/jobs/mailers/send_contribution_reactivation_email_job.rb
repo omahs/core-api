@@ -30,7 +30,7 @@ module Mailers
     end
 
     def giving_value_added(contribution)
-      Money.new(contribution.amount_cents * 0.02, contribution.currency&.to_sym).format
+      Money.new(contribution.amount_cents * 0.2, contribution.currency&.to_sym).format
     end
 
     def impact(non_profit)

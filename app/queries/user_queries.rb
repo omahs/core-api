@@ -29,6 +29,7 @@ class UserQueries
     LEFT JOIN "public"."users" "Users" ON "Customers"."user_id" = "Users"."id"
     WHERE "public"."person_payments"."paid_date"::date = '#{date.to_date}'::date
     )
+
     User.find_by_sql(sql)
   end
 end

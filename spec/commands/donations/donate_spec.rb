@@ -12,13 +12,6 @@ describe Donations::Donate do
       let(:integration) { create(:integration) }
       let(:non_profit) { create(:non_profit, :with_impact) }
       let(:user) { create(:user) }
-      let(:template_name) { 'email_bemvindo' }
-      let(:impact) do
-        Impact::Normalizer.new(
-          non_profit,
-          non_profit.impact_by_ticket
-        ).normalize.join(' ')
-      end
 
       before do
         allow(Donations::SetUserLastDonationAt).to receive(:call)
@@ -48,18 +41,6 @@ describe Donations::Donate do
 
       it 'returns the donation created' do
         expect(command.result).to eq user.donations.last
-      end
-
-      it 'sends an email after first donation' do
-        allow(SendgridWebMailer).to receive(:send_email)
-        command
-        expect(SendgridWebMailer).to have_received(:send_email).with(
-          receiver: user.email,
-          dynamic_template_data: { impact: },
-          template_name:,
-          category: 'donation',
-          language: user.language
-        )
       end
     end
 

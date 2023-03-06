@@ -10,7 +10,7 @@ RSpec.describe 'Api::V1::Users::Statistics', type: :request do
     let(:person) { create(:person) }
     let(:customer) { create(:customer, user:, email: user.email, person:) }
     let(:donations) { Donation.where(user:) }
-    let(:result) { { total_causes: 0, total_tickets: 0, total_donated: {brl: 0, usd: 0}, total_non_profits: 0 } }
+    let(:result) { { total_causes: 0, total_tickets: 0, total_donated: { brl: 0, usd: 0 }, total_non_profits: 0 } }
 
     before do
       mock_command(klass: Users::CalculateStatistics, result:)

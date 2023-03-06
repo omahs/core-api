@@ -4,7 +4,6 @@ module Mailers
     sidekiq_options retry: 3
 
     def perform
-      Rails.logger.debug(inactive_users)
       inactive_users.each do |user|
         send_email(user)
       end

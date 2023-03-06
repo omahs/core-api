@@ -33,12 +33,12 @@ module Mailers
       Money.new(contribution.amount_cents * 0.2, contribution.currency&.to_sym).format
     end
 
-    def impact(non_profit)
-      return unless non_profit.class.to_s == 'NonProfit'
+    def impact(receiver)
+      return unless receiver.class.to_s == 'NonProfit'
 
       ::Impact::Normalizer.new(
-        non_profit,
-        non_profit.impact_by_ticket
+        receiver,
+        receiver.impact_by_ticket
       ).normalize.join(' ')
     end
   end

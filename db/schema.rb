@@ -163,8 +163,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "batch_id", null: false
-    t.index ["batch_id"], name: "index_donation_blockchain_transactions_on_batch_id"
     t.index ["chain_id"], name: "index_donation_blockchain_transactions_on_chain_id"
     t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
   end
@@ -351,7 +349,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id", null: false
+    t.bigint "cause_id"
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
@@ -478,7 +476,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"
   add_foreign_key "donation_batches", "donations"
-  add_foreign_key "donation_blockchain_transactions", "batches"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
   add_foreign_key "donations", "integrations"

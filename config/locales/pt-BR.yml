@@ -8,6 +8,16 @@ pt-BR:
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
   date:
     past: "Há %{date}"
+    time_units:
+      half_minute: "30 segundos"
+      minute: "minuto"
+      minutes: "minutos"
+      hour: "hora"
+      hours: "horas"
+      day: "dia"
+      days: "dias"
+      week: "semana"
+      weeks: "semanas"
     abbr_day_names:
       - dom
       - seg
@@ -227,6 +237,8 @@ pt-BR:
     user_not_found: "Usuário não encontrado. Realize o logout e tente novamente."
     integration_not_found: "A Integração de origem não foi encontrada. Recarregue a página e tente novamente."
     non_profit_not_found: "A ONG para qual você tentou doar não existe. Recarregue a página e tente novamente."
+  articles:
+    not_published_yet: "Não publicado ainda"
   sources:
     has_source_message: "Source já criada."
   manager:

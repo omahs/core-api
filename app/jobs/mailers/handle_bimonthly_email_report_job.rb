@@ -17,17 +17,9 @@ module Mailers
 
     def dynamic_template_data(user)
       {
-        months_active: months_active(user),
-        total_donations_report: total_donations_report(user)
+        months_active: UserQueries.new(user:).months_active,
+        total_donations_report: UserQueries.new(user:).total_donations_report
       }
-    end
-
-    def months_active(user)
-      DateRange::Helper.new(start_date: Time.zone.now, end_date: user.last_donation_at).months_difference
-    end
-
-    def total_donations_report(user)
-      user.donations.count
     end
   end
 end

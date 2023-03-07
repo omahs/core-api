@@ -2,8 +2,10 @@
 
 module Mailers
   class CheckForContributionReactivation
-    def perform
-      users = User.users_that_last_contributed_in(1.month.ago)
+    include Sidekiq::Worker
+    sidekiq_options queue: :mailers
+    def perform(*_args)
+      users = User.users_that_last_contributed_in(1.day.ago)
 
       users.each do |user|
         SendContributionReactivationEmailJob.perform_later(user:)

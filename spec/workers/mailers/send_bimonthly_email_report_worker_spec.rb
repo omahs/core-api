@@ -51,10 +51,10 @@ RSpec.describe Mailers::SendBimonthlyEmailReportWorker, type: :worker do
       end.to change(described_class.jobs, :size).from(0).to(1)
     end
 
-    it 'expects to add one job in the donations queue' do
+    it 'expects to add one job in the mailers queue' do
       expect do
         described_class.perform_async
-      end.to change(Sidekiq::Queues['donations'], :size).by(1)
+      end.to change(Sidekiq::Queues['mailers'], :size).by(1)
     end
   end
 end

@@ -32,4 +32,12 @@ class UserQueries
 
     User.find_by_sql(sql)
   end
+
+  def months_active
+    DateRange::Helper.new(start_date: Time.zone.now, end_date: user.last_donation_at).months_difference
+  end
+
+  def total_donations_report
+    user.donations.count
+  end
 end

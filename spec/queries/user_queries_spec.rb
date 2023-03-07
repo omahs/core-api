@@ -17,6 +17,24 @@ RSpec.describe UserQueries, type: :model do
     end
   end
 
+  describe '#months_active' do
+    let(:user) { create(:user) }
+
+    it "calculates the correct number of months between the current time and the user's last donation" do
+      user.user_donation_stats.update(last_donation_at: 3.months.ago)
+
+      expect(described_class.new(user:).months_active).to eq(3)
+    end
+  end
+
+  describe '#total_donations_report' do
+    let(:user) { create(:user) }
+
+    it 'returns the correct number of donations for the user' do
+      expect(described_class.new(user:).total_donations_report).to eq(user.donations.count)
+    end
+  end
+
   describe '.users_that_last_contributed_in' do
     let(:user) { create(:user) }
     let(:user2) { create(:user) }

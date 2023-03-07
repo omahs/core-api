@@ -49,6 +49,10 @@ class User < ApplicationRecord
     UserQueries.users_that_last_contributed_in(date)
   end
 
+  def promoter?
+    !last_contribution.nil?
+  end
+
   private
 
   def set_user_donation_stats

@@ -8,11 +8,16 @@ RSpec.describe Donations::HandlePostDonationJob, type: :job do
 
     before do
       allow(Mailers::SendDonationsEmailJob).to receive(:perform_later)
+      allow(Mailers::SendOneDonationEmailJob).to receive(:perform_later)
       perform_job
     end
 
-    it 'calls the send donation email job' do
+    it 'calls the send donations email job' do
       expect(Mailers::SendDonationsEmailJob).to have_received(:perform_later).with(donation:)
+    end
+
+    it 'calls the send one donation email job' do
+      expect(Mailers::SendOneDonationEmailJob).to have_received(:perform_later).with(donation:)
     end
   end
 end

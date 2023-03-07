@@ -1,25 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe Mailers::SendDonationEmailJob, type: :job do
+RSpec.describe Mailers::SendDonationsEmailJob, type: :job do
   describe '#perform' do
-    subject(:perform_job) { described_class.perform_now(donation:) }
+    subject(:job) { described_class }
 
     let(:user) { create(:user) }
-    let(:donation) { create(:donation, user:) }
 
     before do
       allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_later: nil }))
     end
 
     context 'when it is a donation on one of the entrypoints' do
+      before do
+        create_list(:donation, 7, user:)
+      end
+
       it 'calls the send email function with correct arguments' do
-        perform_job
+        job.perform_now(donation: user.donations.last)
 
         expect(SendgridWebMailer).to have_received(:send_email)
           .with({ dynamic_template_data: {},
                   language: user.language,
                   receiver: user.email,
-                  template_name: 'user_donated_1_tickets_template_id' })
+                  template_name: 'user_donated_7_tickets_template_id' })
       end
     end
 
@@ -29,7 +32,7 @@ RSpec.describe Mailers::SendDonationEmailJob, type: :job do
       end
 
       it 'does not call the function to send the email' do
-        perform_job
+        job.perform_now(donation: user.donations.last)
 
         expect(SendgridWebMailer).not_to have_received(:send_email)
       end

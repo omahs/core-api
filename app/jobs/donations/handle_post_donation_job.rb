@@ -3,7 +3,7 @@ module Donations
     queue_as :default
 
     def perform(donation:)
-      Mailers::SendDonationEmailJob.perform_later(donation:)
+      Mailers::SendDonationsEmailJob.perform_later(donation:)
     rescue StandardError
       nil
     end

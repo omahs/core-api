@@ -23,6 +23,8 @@ AllCops:
 
 Layout/LineLength:
   Max: 115
+  Exclude:
+    - app/queries/**/*
 
 Metrics/BlockLength:
   Exclude:
@@ -34,6 +36,7 @@ Metrics/MethodLength:
   Max: 12
   Exclude:
     - app/mailers/sendgrid_web_mailer.rb
+    - app/queries/**/*
 
 Lint/AmbiguousBlockAssociation:
   Exclude:

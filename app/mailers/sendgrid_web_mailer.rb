@@ -39,7 +39,7 @@ class SendgridWebMailer < ApplicationMailer
   end
 
   def set_template_id(language, template_name)
-    if language == 'en-US'
+    if language == 'en'
       template_name = "#{template_name}_en".to_sym
     else
       template_name.to_sym

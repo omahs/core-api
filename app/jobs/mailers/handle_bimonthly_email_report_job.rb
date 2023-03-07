@@ -1,6 +1,6 @@
 module Mailers
   class HandleBimonthlyEmailReportJob < ApplicationJob
-    queue_as :default
+    queue_as :mailers
 
     def perform(user:)
       send_two_months_donation_email(user)

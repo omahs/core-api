@@ -1,7 +1,7 @@
 module Mailers
-  class SendDonationEmailJob < ApplicationJob
-    queue_as :default
-    DONATIONS_COUNT_ENTRYPOINTS = [1, 7].freeze
+  class SendDonationsEmailJob < ApplicationJob
+    queue_as :mailers
+    DONATIONS_COUNT_ENTRYPOINTS = [7].freeze
 
     def perform(donation:)
       user = donation.user

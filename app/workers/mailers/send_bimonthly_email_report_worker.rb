@@ -1,7 +1,7 @@
 module Mailers
   class SendBimonthlyEmailReportWorker
     include Sidekiq::Worker
-    sidekiq_options queue: :donations
+    sidekiq_options queue: :mailers
 
     def perform(*_args)
       User.find_in_batches(batch_size: 2_000) do |batch|

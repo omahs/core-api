@@ -57,12 +57,6 @@ module Donations
       false
     end
 
-    def first_donation?
-      return true if user.donations.first == user.donations.last
-
-      false
-    end
-
     def create_donation
       @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
     end

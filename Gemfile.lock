@@ -317,6 +317,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
+    rails-observers (0.1.5)
+      activemodel (>= 4.0)
     rails_admin (3.0.0)
       activemodel-serializers-xml (>= 1.0)
       kaminari (>= 0.14, < 2.0)
@@ -528,6 +530,7 @@ DEPENDENCIES
   puma (= 5.6.4)
   rack-cors
   rails (~> 7.0.1)
+  rails-observers
   rails_admin (~> 3.0.0)
   recursive-open-struct
   redis (~> 4.0)

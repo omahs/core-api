@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def promoter?
-    !user.last_contribution.nil?
+    !last_contribution.nil?
   end
 
   private

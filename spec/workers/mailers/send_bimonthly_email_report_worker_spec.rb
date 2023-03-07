@@ -35,7 +35,10 @@ RSpec.describe Mailers::SendBimonthlyEmailReportWorker, type: :worker do
     end
 
     it 'logs any errors raised during execution' do
-      allow(User).to receive(:find_in_batches).and_raise(StandardError)
+      create(:user)
+      create(:user_donation_stats, last_donation_at: 2.months.ago)
+
+      allow(Mailers::HandleBimonthlyEmailReportJob).to receive(:perform_later).and_raise(StandardError)
       allow(Reporter).to receive(:log)
 
       described_class.new.perform

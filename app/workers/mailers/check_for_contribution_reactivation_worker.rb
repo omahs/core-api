@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mailers
-  class CheckForContributionReactivation
+  class CheckForContributionReactivationWorker
     include Sidekiq::Worker
     sidekiq_options queue: :mailers
 

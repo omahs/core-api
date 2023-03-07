@@ -37,6 +37,18 @@ class User < ApplicationRecord
     UserServices::UserImpact.new(user: self).impact
   end
 
+  def last_contribution
+    UserQueries.new(user: self).last_contribution
+  end
+
+  def last_contribution_at
+    last_contribution&.paid_date
+  end
+
+  def self.users_that_last_contributed_in(date)
+    UserQueries.users_that_last_contributed_in(date)
+  end
+
   private
 
   def set_user_donation_stats

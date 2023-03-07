@@ -4,8 +4,10 @@ RSpec.describe 'Api::V1::Vouchers::Donations', type: :request do
   describe 'POST /create' do
     subject(:request) { post '/api/v1/vouchers/donations', params: }
 
+    include_context('when mocking a request') { let(:cassette_name) { 'sendgrid_email_api' } }
+
     let(:integration) { create(:integration) }
-    let(:non_profit) { create(:non_profit) }
+    let(:non_profit) { create(:non_profit, :with_impact) }
     let(:user) { create(:user) }
     let(:external_id) { 'external_id' }
     let(:params) do
@@ -30,7 +32,6 @@ RSpec.describe 'Api::V1::Vouchers::Donations', type: :request do
 
       it 'returns the voucher' do
         request
-
         expect(response_body.external_id).to eq external_id
         expect(response_body.donation).to be_present
       end

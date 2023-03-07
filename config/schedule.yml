@@ -33,3 +33,7 @@ inactive_donors_months_worker:
   class: "Mailers::SendMonthsInactivityEmailWorker"
   queue: mailers
 
+contribution_reactivation_months_worker:
+  cron: "0 11 * * *" # At 11:00 everyday.
+  class: "Mailers::CheckForContributionReactivationWorker"
+  queue: mailers

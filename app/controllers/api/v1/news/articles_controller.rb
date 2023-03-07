@@ -37,7 +37,7 @@ module Api
         def articles_list
           return Article if params[:show_hidden_articles].present?
 
-          Article.where(visible: true)
+          Article.where(visible: true, published_at: ..Time.zone.now)
         end
 
         def sortable

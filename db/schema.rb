@@ -429,7 +429,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language", default: 0
+    t.integer "language"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

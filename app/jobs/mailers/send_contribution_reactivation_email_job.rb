@@ -3,6 +3,7 @@ module Mailers
     queue_as :default
 
     def perform(user:)
+      I18n.locale = user.language
       contribution = user.last_contribution
 
       send_email(user, contribution) if contribution

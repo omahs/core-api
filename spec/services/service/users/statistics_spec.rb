@@ -23,13 +23,19 @@ RSpec.describe Service::Users::Statistics, type: :service do
 
   describe '#total_causes' do
     it 'returns the total causes count' do
-      expect(service.total_causes).to eq 2
+      expect(service.total_causes).to eq [non_profit.cause_id, non_profit2.cause_id]
+    end
+  end
+
+  describe '#total_tickets' do
+    it 'returns the total tickets count' do
+      expect(service.total_tickets).to eq 4
     end
   end
 
   describe '#total_non_profits' do
     it 'returns the total non_profits count' do
-      expect(service.total_non_profits).to eq 2
+      expect(service.total_non_profits).to eq [non_profit.id, non_profit2.id]
     end
   end
 

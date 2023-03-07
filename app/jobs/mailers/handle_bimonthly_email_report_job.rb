@@ -11,7 +11,7 @@ module Mailers
     def send_two_months_donation_email(user)
       SendgridWebMailer.send_email(receiver: user.email,
                                    dynamic_template_data: dynamic_template_data(user),
-                                   template_name: 'free_user_two_months_report_template_id',
+                                   template_name: template_name(user),
                                    language: user.language).deliver_later
     end
 
@@ -20,6 +20,10 @@ module Mailers
         months_active: UserQueries.new(user:).months_active,
         total_donations_report: UserQueries.new(user:).total_donations_report
       }
+    end
+
+    def template_name(user)
+      user.promoter? ? 'promoter_two_months_report_template_id' : 'free_user_two_months_report_template_id'
     end
   end
 end

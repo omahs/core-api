@@ -10,14 +10,14 @@ pt-BR:
     past: "Há %{date}"
     time_units:
       half_minute: "30 segundos"
-      minute: "minuto"
-      minutes: "minutos"
-      hour: "hora"
-      hours: "horas"
-      day: "dia"
-      days: "dias"
-      week: "semana"
-      weeks: "semanas"
+      minute: "1 minuto"
+      minutes: "%{count} minutos"
+      hour: "1 hora"
+      hours: "%{count} horas"
+      day: "1 dia"
+      days: "%{count} dias"
+      week: "1 semana"
+      weeks: "%{count} semanas"
     abbr_day_names:
       - dom
       - seg

@@ -2,9 +2,7 @@ module Formatters
   class Date
     extend ::ActionView::Helpers::DateHelper
 
-    def self.one_week_interval
-      1.week.ago..Time.zone.now
-    end
+    ONE_WEEK_INTERVAL = 1.week.ago..Time.zone.now
 
     def self.in_words_for(date)
       return formatted_date(date) if ONE_WEEK_INTERVAL.cover?(date)

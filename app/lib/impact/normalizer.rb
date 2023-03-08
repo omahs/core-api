@@ -7,7 +7,7 @@ module Impact
 
     def initialize(non_profit, rounded_impact)
       @non_profit_impact   = non_profit.non_profit_impacts.last
-      @measurement_unit    = @non_profit_impact&.measurement_unit || 'quantity without decimals'
+      @measurement_unit    = @non_profit_impact&.measurement_unit
       @donor_recipient     = @non_profit_impact&.donor_recipient
       @impact_description  = @non_profit_impact&.impact_description
       @rounded_impact      = rounded_impact

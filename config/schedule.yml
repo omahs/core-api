@@ -17,7 +17,12 @@ retry_person_transactions:
   cron: "0 2 1 * *" # At 02:00 on day-of-month 1.
   class: "PersonPayments::RetryBlockchainTransactionsWorker"
   queue: person_payments
-  
+
+send_bimonthly_email_report_worker:
+  cron: "0 18 1 * *" # At 18:00 on day-of-month 1.
+  class: "Mailers::RetryDonationBatchWorker"
+  queue: mailers
+
 inactive_donors_one_week_worker:
   cron: "0 9 * * 0" # At 09:00 everyday.
   class: "Mailers::SendOneWeekInactivityEmailWorker"
@@ -28,3 +33,7 @@ inactive_donors_months_worker:
   class: "Mailers::SendMonthsInactivityEmailWorker"
   queue: mailers
 
+contribution_reactivation_months_worker:
+  cron: "0 11 * * *" # At 11:00 everyday.
+  class: "Mailers::CheckForContributionReactivationWorker"
+  queue: mailers

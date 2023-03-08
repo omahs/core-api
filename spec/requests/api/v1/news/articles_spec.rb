@@ -12,7 +12,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
       request
 
       expect_response_collection_to_have_keys(%w[author image_url created_at id published_at title updated_at
-                                                 visible link])
+                                                 visible link published_at_in_words])
     end
 
     it 'returns 2 articles' do
@@ -28,6 +28,21 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
     before do
       create(:article, visible: true)
       create_list(:article, 2, visible: false)
+    end
+
+    it 'returns 1 article' do
+      request
+
+      expect(response_json.count).to eq(1)
+    end
+  end
+
+  describe 'GET /index when some articles are unpublished' do
+    subject(:request) { get '/api/v1/news/articles' }
+
+    before do
+      create(:article, visible: true)
+      create_list(:article, 2, visible: true, published_at: 1.day.from_now)
     end
 
     it 'returns 1 article' do
@@ -73,7 +88,8 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
     it 'returns a articles' do
       request
 
-      expect_response_to_have_keys(%w[author image_url created_at id published_at title updated_at visible link])
+      expect_response_to_have_keys(%w[author image_url created_at id published_at title updated_at
+                                      visible link published_at_in_words])
     end
   end
 

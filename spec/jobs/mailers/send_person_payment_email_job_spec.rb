@@ -4,6 +4,8 @@ RSpec.describe Mailers::SendPersonPaymentEmailJob, type: :job do
   describe '#perform' do
     subject(:job) { described_class }
 
+    include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd' } }
+
     let(:non_profit) { create(:non_profit, :with_impact) }
     let(:cause) { create(:cause) }
     let(:normalizer_double) { instance_double(Impact::Normalizer) }

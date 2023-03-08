@@ -34,11 +34,16 @@ module Mailers
       user.language == 'en' ? cause&.name_en : cause&.name_pt_br
     end
 
+    def rounded_impact
+      Service::Givings::Impact::NonProfitImpactCalculator.new(value: (offer.price_cents / 100), non_profit:,
+                                                              currency: offer.currency).rounded_impact
+    end
+
     def normalized_impact
       if non_profit
         ::Impact::Normalizer.new(
           non_profit,
-          non_profit.impact_by_ticket
+          rounded_impact
         ).normalize.join(' ')
       else
         cause_value = offer.price_cents * 0.2

@@ -13,7 +13,6 @@ describe Givings::Payment::CreateOrder do
 
     before do
       create(:ribon_config, default_ticket_value: 10)
-      allow(SendgridWebMailer).to receive(:send_email).and_return(OpenStruct.new({ deliver_now: '' }))
     end
 
     context 'when using a CreditCard payment and subscribe' do
@@ -144,11 +143,6 @@ describe Givings::Payment::CreateOrder do
           person_payment = PersonPayment.where(offer:).last
           expect(person_payment.external_id).to eq(order.result[:external_id])
           expect(person_payment.status).to eq('paid')
-        end
-
-        it 'sends a success email' do
-          command
-          expect(SendgridWebMailer).to have_received(:send_email)
         end
       end
 

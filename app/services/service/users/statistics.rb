@@ -15,17 +15,19 @@ module Service
                left outer join causes on causes.id = non_profits.cause_id
                where donations.user_id = #{user.id}"
         causes = ActiveRecord::Base.connection.execute(causes_sql).to_a.map { |cause| cause['cause_id'] }
-
         causes += person_payment.where(receiver_type: 'Cause').map(&:receiver_id) if customer
-        causes.uniq.count
+
+        causes.uniq
+      end
+
+      def total_tickets
+        donations.count
       end
 
       def total_non_profits
-        total_non_profits = donations.distinct.count(:non_profit_id)
-        if customer
-          total_non_profits += person_payment.where(receiver_type: 'NonProfit').map(&:receiver_id).uniq.count
-        end
-        total_non_profits
+        total_non_profits = donations.distinct(:non_profit_id).map(&:non_profit_id)
+        total_non_profits += person_payment.where(receiver_type: 'NonProfit').map(&:receiver_id) if customer
+        total_non_profits.uniq
       end
 
       def total_donated
@@ -34,6 +36,14 @@ module Service
 
         { brl: (person_payments_brl + convert_to_brl(person_payments_usd)),
           usd: (person_payments_usd + convert_to_usd(person_payments_brl)) }
+      end
+
+      def statistics
+        donated = total_donated if customer
+        { total_non_profits: (total_non_profits || []).count,
+          total_tickets: donations.count,
+          total_donated: donated || 0,
+          total_causes: (total_causes || []).count }
       end
 
       private

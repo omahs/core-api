@@ -93,6 +93,9 @@ gem 'sassc-rails'
 
 gem 'sendgrid-ruby'
 
+# Observers
+gem 'rails-observers'
+
 group :development, :test do
   gem 'aws-sdk-secretsmanager'
   gem 'base64'

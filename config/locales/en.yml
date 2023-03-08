@@ -1,4 +1,18 @@
 en:
+  date:
+    past: "%{date} ago"
+    time_units:
+      half_minute: "30 seconds"
+      minute: "1 minute"
+      minutes: "%{count} minutes"
+      hour: "1 hour"
+      hours: "%{count} hours"
+      day: "1 day"
+      days: "%{count} days"
+      week: "1 week"
+      weeks: "%{count} weeks"
+  articles:
+    not_published_yet: "Not published yet"
   donations:
     blocked_message: "Unable to donate now. Wait for your next donation."
     invalid_voucher: "Invalid voucher."

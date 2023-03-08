@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       post 'users/search' => 'users#search'
       post 'users/can_donate' => 'users#can_donate'
       get 'users/impact' => 'users#impact'
+      get 'users/statistics' => 'users/statistics#index'
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
       get 'causes' => 'causes#index'
@@ -64,7 +65,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
-        get 'statistics' => 'users/statistics#index'
+       
         get 'donations_count' => 'users/impacts#donations_count'
         get 'badges' => "users/badges#index"
         put 'track', to: 'users/trackings#track_user'

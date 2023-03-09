@@ -12,7 +12,7 @@
 #
 FactoryBot.define do
   factory :contribution_balance do
-    contribution { nil }
+    contribution { build(:contribution) }
     tickets_balance_cents { 1 }
     fees_balance_cents { 1 }
     total_fees_increased_cents { 1 }

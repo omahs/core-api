@@ -119,6 +119,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_122302) do
     t.decimal "amount"
   end
 
+  create_table "big_donors", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "blockchain_transactions", force: :cascade do |t|
     t.integer "status", default: 0
     t.string "transaction_hash"

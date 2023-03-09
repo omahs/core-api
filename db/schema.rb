@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -174,6 +174,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.decimal "value"
+    t.string "platform"
     t.index ["integration_id"], name: "index_donations_on_integration_id"
     t.index ["non_profit_id"], name: "index_donations_on_non_profit_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
@@ -429,7 +430,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_193909) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language"
+    t.integer "language", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

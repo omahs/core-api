@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :big_donor do
-    name { "Yang" }
-    email { "ronaldo@gmail.com" }
+    name { 'Yang' }
+    email { 'ronaldo@gmail.com' }
   end
 end

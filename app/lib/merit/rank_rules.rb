@@ -3,8 +3,10 @@ module Merit
     include Merit::RankRulesMethods
 
     def initialize
-      set_rank level: 1, to: User.all do |user|
-        user.donations.count > 1
+      (1..20).each do |level|
+        set_rank level:, to: User.all do |user|
+          user.points > level * 7.87
+        end
       end
     end
   end

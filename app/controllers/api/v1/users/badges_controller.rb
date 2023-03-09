@@ -8,6 +8,12 @@ module Api
           render json: badges_with_claimed
         end
 
+        def points
+          streak = user.donations.distinct.pluck('date(created_at)').count
+
+          render json: { points: user.points, level: user.level, streak: }
+        end
+
         private
 
         def user

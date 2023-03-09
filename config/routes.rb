@@ -68,6 +68,7 @@ Rails.application.routes.draw do
        
         get 'donations_count' => 'users/impacts#donations_count'
         get 'badges' => "users/badges#index"
+        get 'points' => "users/badges#points"
         put 'track', to: 'users/trackings#track_user'
       end
       resources :integrations, only: [] do

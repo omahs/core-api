@@ -13,9 +13,7 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      # score 10, :on => 'users#create' do |user|
-      #   user.bio.present?
-      # end
+      score 10, on: 'api/v1/donations#create', to: :action_user
       #
       # score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
       #

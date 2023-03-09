@@ -3,5 +3,5 @@ class PersonBlueprint < Blueprinter::Base
 
   association :customer, blueprint: CustomerBlueprint
 
-  association :guest, blueprint: GuestBlueprint
+  association :crypto_user, blueprint: CryptoUserBlueprint
 end

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: guests
+# Table name: crypto_users
 #
 #  id             :uuid             not null, primary key
 #  wallet_address :string           not null
@@ -8,7 +8,7 @@
 #  updated_at     :datetime         not null
 #  person_id      :uuid
 #
-class Guest < ApplicationRecord
+class CryptoUser < ApplicationRecord
   include UuidHelper
 
   belongs_to :person

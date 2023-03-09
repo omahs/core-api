@@ -164,16 +164,16 @@ describe Givings::Payment::CreateOrder do
       let(:order_type_class) { Givings::Payment::OrderTypes::Cryptocurrency }
       let(:transaction_hash) { '0xFFFF' }
       let(:person_payment) { build(:person_payment, offer: nil, person:, integration:) }
-      let(:guest) { build(:guest, person:) }
+      let(:crypto_user) { build(:crypto_user, person:) }
 
       let(:args) do
-        { wallet_address: guest.wallet_address, payment_method: :crypto,
+        { wallet_address: crypto_user.wallet_address, payment_method: :crypto,
           user: nil, amount: '7.00', transaction_hash:, integration_id: integration.id }
       end
 
       before do
         allow(Person).to receive(:create!).and_return(person)
-        allow(Guest).to receive(:create!).and_return(guest)
+        allow(CryptoUser).to receive(:create!).and_return(crypto_user)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
       end
 

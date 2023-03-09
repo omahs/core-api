@@ -4,9 +4,11 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
-#  language   :integer
+#  language   :integer          default("en")
+#  level      :integer          default(0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  sash_id    :integer
 #
 class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }

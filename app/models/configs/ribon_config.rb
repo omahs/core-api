@@ -13,6 +13,7 @@ class RibonConfig < ApplicationRecord
   validate :singularity, on: :create
   validates :default_ticket_value, presence: true
   validates :default_chain_id, presence: true
+  validates :contribution_fee_percentage, presence: true
 
   before_destroy :stop_destroy
 

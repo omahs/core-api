@@ -3,6 +3,7 @@
 # Table name: donations
 #
 #  id             :bigint           not null, primary key
+#  platform       :string
 #  value          :decimal(, )
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -17,6 +18,11 @@ class Donation < ApplicationRecord
 
   has_one :donation_batch
   has_many :donation_blockchain_transactions
+
+  enum platform: {
+    web: 'web',
+    app: 'app'
+  }
 
   scope :created_between, lambda { |start_date, end_date|
                             where('created_at >= ? AND created_at <= ?', start_date, end_date)

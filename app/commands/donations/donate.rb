@@ -3,12 +3,13 @@
 module Donations
   class Donate < ApplicationCommand
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation, :user
+    attr_reader :non_profit, :integration, :donation, :user, :platform
 
-    def initialize(integration:, non_profit:, user:)
+    def initialize(integration:, non_profit:, user:, platform:)
       @integration = integration
       @non_profit = non_profit
       @user = user
+      @platform = platform
     end
 
     def call
@@ -58,7 +59,7 @@ module Donations
     end
 
     def create_donation
-      @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value)
+      @donation = Donation.create!(integration:, non_profit:, user:, value: ticket_value, platform:)
     end
 
     def set_user_last_donation_at

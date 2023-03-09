@@ -1,17 +1,16 @@
 # == Schema Information
 #
-# Table name: users
+# Table name: big_donors
 #
 #  id         :bigint           not null, primary key
 #  email      :string
-#  language   :integer          default("en")
+#  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 FactoryBot.define do
-  factory :user do
-    sequence :email, 100 do |n|
-      "user#{n}@example.com"
-    end
+  factory :big_donor do
+    name { "Yang" }
+    email { "ronaldo@gmail.com" }
   end
 end

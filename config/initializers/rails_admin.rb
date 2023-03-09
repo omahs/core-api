@@ -44,6 +44,10 @@ RailsAdmin.config do |config|
     field :default_chain_id do
       label{ "Default chain id, like polygon or mumbai" }
     end
+
+    field :contribution_fee_percentage do
+      label{ "percentage that goes to pay contribution fees (the rest is for tickets pay) (ex: 20% for fees, 80% for tickets pay on each contribution)" }
+    end
   end
 
   config.model DonationBlockchainTransaction do

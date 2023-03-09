@@ -19,8 +19,8 @@ module Givings
         end
 
         def generate_order
-          guest    = find_or_create_guest
-          payment  = create_payment(guest.person)
+          crypto_user = find_or_create_crypto_user
+          payment = create_payment(crypto_user.person)
           create_blockchain_transaction(payment)
 
           Order.from(payment)
@@ -38,8 +38,8 @@ module Givings
 
         private
 
-        def find_or_create_guest
-          Guest.find_by(wallet_address:) || Guest.create!(wallet_address:, person: Person.create!)
+        def find_or_create_crypto_user
+          CryptoUser.find_by(wallet_address:) || CryptoUser.create!(wallet_address:, person: Person.create!)
         end
 
         def create_payment(person)

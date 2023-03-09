@@ -6,7 +6,7 @@ RSpec.describe 'Api::V1::Users::Statistics', type: :request do
 
     let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
     let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
-    let(:guest) { create(:guest) }
+    let(:crypto_user) { create(:crypto_user) }
     let(:user) { build(:user) }
     let(:person) { create(:person) }
     let(:customer) { create(:customer, user:, email: user.email, person:) }

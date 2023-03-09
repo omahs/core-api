@@ -1,5 +1,5 @@
 module Service
-  module Guests
+  module CryptoUsers
     class Statistics
       attr_reader :wallet_address
 
@@ -33,11 +33,11 @@ module Service
       private
 
       def person_payment
-        PersonPayment.where(person_id: guest_person_id)
+        PersonPayment.where(person_id: crypto_user_person_id)
       end
 
-      def guest_person_id
-        Guest.find_by(wallet_address:)&.person&.id
+      def crypto_user_person_id
+        CryptoUser.find_by(wallet_address:)&.person&.id
       end
 
       def convert_to_usd(value)

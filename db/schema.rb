@@ -82,6 +82,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "badges", force: :cascade do |t|
+    t.text "description"
+    t.integer "category"
+    t.integer "merit_badge_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "badges_sashes", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "sash_id"
+    t.boolean "notified_user", default: false
+    t.datetime "created_at"
+    t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
+    t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
+    t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
+  end
+
   create_table "balance_histories", force: :cascade do |t|
     t.bigint "cause_id", null: false
     t.bigint "pool_id", null: false
@@ -98,6 +117,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "amount"
+  end
+
+  create_table "big_donors", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "blockchain_transactions", force: :cascade do |t|
@@ -132,6 +158,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "updated_at", null: false
     t.string "gas_fee_url"
     t.string "default_donation_pool_address"
+  end
+
+  create_table "crypto_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "wallet_address", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "person_id"
+    t.index ["person_id"], name: "index_crypto_users_on_person_id"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -180,14 +214,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
-  create_table "guests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "wallet_address", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "person_id"
-    t.index ["person_id"], name: "index_guests_on_person_id"
-  end
-
   create_table "histories", force: :cascade do |t|
     t.bigint "total_donors"
     t.bigint "total_donations"
@@ -220,6 +246,42 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.uuid "unique_address", default: -> { "gen_random_uuid()" }, null: false
     t.integer "ticket_availability_in_minutes"
     t.integer "status", default: 0
+  end
+
+  create_table "merit_actions", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_method"
+    t.integer "action_value"
+    t.boolean "had_errors", default: false
+    t.string "target_model"
+    t.integer "target_id"
+    t.text "target_data"
+    t.boolean "processed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["processed"], name: "index_merit_actions_on_processed"
+  end
+
+  create_table "merit_activity_logs", force: :cascade do |t|
+    t.integer "action_id"
+    t.string "related_change_type"
+    t.integer "related_change_id"
+    t.string "description"
+    t.datetime "created_at"
+  end
+
+  create_table "merit_score_points", force: :cascade do |t|
+    t.bigint "score_id"
+    t.bigint "num_points", default: 0
+    t.string "log"
+    t.datetime "created_at"
+    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
+  end
+
+  create_table "merit_scores", force: :cascade do |t|
+    t.bigint "sash_id"
+    t.string "category", default: "default"
+    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
   end
 
   create_table "mobility_string_translations", force: :cascade do |t|
@@ -362,6 +424,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.integer "default_chain_id"
   end
 
+  create_table "sashes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sources", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "integration_id"
@@ -397,6 +464,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "donation_streak", default: 0
     t.bigint "last_donated_cause"
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end

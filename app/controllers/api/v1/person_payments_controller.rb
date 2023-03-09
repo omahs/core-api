@@ -23,11 +23,11 @@ module Api
 
       def person_payments_for(receiver_type)
         customer_person_id = Customer.find_by(email:)&.person&.id
-        guest_person_id    = Guest.find_by(wallet_address:)&.person&.id
+        crypto_user_person_id = CryptoUser.find_by(wallet_address:)&.person&.id
 
-        if customer_person_id.present? || guest_person_id.present?
+        if customer_person_id.present? || crypto_user_person_id.present?
           PersonPayment.where(
-            person_id: [customer_person_id, guest_person_id].compact,
+            person_id: [customer_person_id, crypto_user_person_id].compact,
             receiver_type:
           ).order(sortable).page(page).per(per)
         else

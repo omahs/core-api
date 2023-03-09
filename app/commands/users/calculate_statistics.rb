@@ -16,7 +16,7 @@ module Users
     def call
       with_exception_handle do
         if user && wallet_address
-          return { total_non_profits: total_crypto_user_user_non_profits,
+          return { total_non_profits: total_crypto_user_non_profits,
                    total_donated: total_crypto_user_user_donate,
                    total_causes: total_crypto_user_user_causes,
                    total_tickets: donations.count }
@@ -52,7 +52,7 @@ module Users
       (crypto_user_total_causes + user_total_causes).uniq.count
     end
 
-    def total_crypto_user_user_non_profits
+    def total_crypto_user_non_profits
       crypto_user_total_non_profits = crypto_user_statistics_service.total_non_profits || []
       user_total_non_profits = user_statistics_service.total_non_profits || []
       (crypto_user_total_non_profits + user_total_non_profits).uniq.count

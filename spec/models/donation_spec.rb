@@ -3,6 +3,7 @@
 # Table name: donations
 #
 #  id             :bigint           not null, primary key
+#  platform       :string
 #  value          :decimal(, )
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

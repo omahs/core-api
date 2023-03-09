@@ -1,4 +1,4 @@
-class GuestBlueprint < Blueprinter::Base
+class CryptoUserBlueprint < Blueprinter::Base
   identifier :id
 
   fields :wallet_address

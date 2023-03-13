@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -158,6 +158,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "updated_at", null: false
     t.string "gas_fee_url"
     t.string "default_donation_pool_address"
+  end
+
+  create_table "contribution_balances", force: :cascade do |t|
+    t.bigint "contribution_id", null: false
+    t.integer "tickets_balance_cents"
+    t.integer "fees_balance_cents"
+    t.integer "total_fees_increased_cents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contribution_id"], name: "index_contribution_balances_on_contribution_id"
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.string "receiver_type", null: false
+    t.bigint "receiver_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "person_payment_id", null: false
+    t.index ["person_payment_id"], name: "index_contributions_on_person_payment_id"
+    t.index ["receiver_type", "receiver_id"], name: "index_contributions_on_receiver"
   end
 
   create_table "crypto_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -400,6 +420,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.bigint "receiver_id"
     t.string "error_code"
     t.integer "currency"
+    t.integer "crypto_value_cents"
+    t.integer "liquid_value_cents"
     t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
@@ -422,6 +444,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "default_chain_id"
+    t.decimal "contribution_fee_percentage"
   end
 
   create_table "sashes", force: :cascade do |t|
@@ -542,6 +565,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_141119) do
   add_foreign_key "balance_histories", "causes"
   add_foreign_key "balance_histories", "pools"
   add_foreign_key "blockchain_transactions", "chains"
+  add_foreign_key "contribution_balances", "contributions"
+  add_foreign_key "contributions", "person_payments"
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"
   add_foreign_key "donation_batches", "donations"

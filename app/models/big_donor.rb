@@ -2,7 +2,7 @@
 #
 # Table name: big_donors
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  email      :string
 #  name       :string
 #  created_at :datetime         not null

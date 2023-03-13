@@ -6,6 +6,7 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
 
     let(:result) { '0xFC02' }
     let(:amount) { 0.5 }
+    let(:feeable) { true }
     let(:payment) { create(:person_payment) }
     let(:klass) { Givings::CommunityTreasure::AddBalance }
     let(:pool) { build(:pool) }
@@ -17,7 +18,7 @@ RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
     end
 
     it 'calls the Givings::CommunityTreasure::AddBalance with right params' do
-      expect(klass).to have_received(:call).with(amount:, pool:)
+      expect(klass).to have_received(:call).with(amount:, feeable:, pool:)
     end
 
     it 'creates a person_blockchain_transaction to the payment with correct params' do

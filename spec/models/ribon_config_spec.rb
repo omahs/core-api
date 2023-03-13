@@ -15,6 +15,8 @@ RSpec.describe RibonConfig, type: :model do
     subject { build(:ribon_config) }
 
     it { is_expected.to validate_presence_of(:default_ticket_value) }
+    it { is_expected.to validate_presence_of(:default_chain_id) }
+    it { is_expected.to validate_presence_of(:contribution_fee_percentage) }
   end
 
   it 'acts like a singleton' do

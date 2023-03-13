@@ -12,5 +12,6 @@ FactoryBot.define do
   factory :ribon_config do
     default_ticket_value { 100 }
     default_chain_id { 0x13881 }
+    contribution_fee_percentage { 20.0 }
   end
 end

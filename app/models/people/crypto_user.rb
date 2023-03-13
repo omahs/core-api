@@ -11,6 +11,6 @@
 class CryptoUser < ApplicationRecord
   include UuidHelper
 
-  belongs_to :person
+  belongs_to :person, optional: true
   validates :wallet_address, presence: true
 end

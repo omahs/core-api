@@ -8,6 +8,10 @@ RSpec.describe Formatters::Date do
 
     let(:date) { Time.zone.local(2017, 1, 1) }
 
+    before do
+      allow(Time.zone).to receive(:now).and_return(Time.zone.local(2023, 3, 9))
+    end
+
     it 'returns a string' do
       expect(in_words_for).to be_a String
     end

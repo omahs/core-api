@@ -16,7 +16,7 @@ class Customer < ApplicationRecord
   include UuidHelper
 
   belongs_to :user
-  belongs_to :person
+  belongs_to :person, optional: true
 
   validates :email, presence: true
   validates :name, presence: true

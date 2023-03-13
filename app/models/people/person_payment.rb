@@ -9,6 +9,7 @@
 #  error_code         :string
 #  liquid_value_cents :integer
 #  paid_date          :datetime
+#  payer_type         :string
 #  payment_method     :integer
 #  receiver_type      :string
 #  refund_date        :datetime
@@ -18,6 +19,7 @@
 #  external_id        :string
 #  integration_id     :bigint
 #  offer_id           :bigint
+#  payer_id           :uuid
 #  person_id          :uuid
 #  receiver_id        :bigint
 #
@@ -29,10 +31,11 @@ class PersonPayment < ApplicationRecord
   after_create :set_liquid_value_cents
   after_create :set_crypto_value_cents
 
-  belongs_to :person
+  belongs_to :person, optional: true
   belongs_to :integration
   belongs_to :offer, optional: true
   belongs_to :receiver, polymorphic: true, optional: true
+  belongs_to :payer, polymorphic: true
 
   has_many :person_blockchain_transactions
   has_one :person_payment_fee

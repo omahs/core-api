@@ -16,7 +16,7 @@ module PersonPayments
       private
 
       def update_transaction(amount:, payment:, pool:)
-        Givings::Payment::AddGivingToBlockchainJob.perform_later(amount:, payment:, pool:)
+        Givings::Payment::AddGivingCauseToBlockchainJob.perform_later(amount:, payment:, pool:)
       rescue StandardError => e
         Reporter.log(error: e)
       end

@@ -1,6 +1,6 @@
 module Givings
   module Payment
-    class AddGivingToBlockchainJob < ApplicationJob
+    class AddGivingCauseToBlockchainJob < ApplicationJob
       queue_as :default
       sidekiq_options retry: 3
 

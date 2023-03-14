@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Givings::Payment::AddGivingToBlockchainJob, type: :job do
+RSpec.describe Givings::Payment::AddGivingCauseToBlockchainJob, type: :job do
   describe '#perform' do
     subject(:perform_job) { described_class.perform_now(amount:, payment:, pool:) }
 

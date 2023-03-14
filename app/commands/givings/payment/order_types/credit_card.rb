@@ -34,7 +34,6 @@ module Givings
         def success_callback(order, _result)
           if non_profit
             call_add_non_profit_giving_blockchain_job(order)
-            nil
           else
             call_add_cause_giving_blockchain_job(order)
           end

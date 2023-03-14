@@ -9,7 +9,7 @@ module Api
 
       def payments_for_receiver_by_person
         if valid_receiver_type?
-          @person_payments = person_payments_for
+          @person_payments = person_payments_for(receiver_type)
           view = receiver_type.to_sym
 
           render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
@@ -21,14 +21,18 @@ module Api
 
       private
 
-      def person_payments_for
+      def person_payments_for(receiver_type)
         customer = Customer.find_by(email:)
         crypto_user = CryptoUser.find_by(wallet_address:)
 
+        # TODO: remove or condition when we migrate all person_payments to have payer
         if customer.present? || crypto_user.present?
           PersonPayment.where(
-            payer: [customer, crypto_user].compact
-          ).order(sortable).page(page).per(per)
+            payer: [customer, crypto_user].compact,
+            receiver_type:
+          ).or(PersonPayment.where(
+                 person: [customer&.person, crypto_user&.person].compact, receiver_type:
+               )).order(sortable).page(page).per(per)
         else
           PersonPayment.none
         end

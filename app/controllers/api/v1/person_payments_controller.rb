@@ -9,7 +9,7 @@ module Api
 
       def payments_for_receiver_by_person
         if valid_receiver_type?
-          @person_payments = person_payments_for(receiver_type.camelize)
+          @person_payments = person_payments_for
           view = receiver_type.to_sym
 
           render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
@@ -21,14 +21,13 @@ module Api
 
       private
 
-      def person_payments_for(receiver_type)
-        customer_person_id = Customer.find_by(email:)&.person&.id
-        crypto_user_person_id = CryptoUser.find_by(wallet_address:)&.person&.id
+      def person_payments_for
+        customer = Customer.find_by(email:)
+        crypto_user = CryptoUser.find_by(wallet_address:)
 
-        if customer_person_id.present? || crypto_user_person_id.present?
+        if customer.present? || crypto_user.present?
           PersonPayment.where(
-            person_id: [customer_person_id, crypto_user_person_id].compact,
-            receiver_type:
+            payer: [customer, crypto_user].compact
           ).order(sortable).page(page).per(per)
         else
           PersonPayment.none

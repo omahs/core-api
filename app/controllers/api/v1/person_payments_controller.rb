@@ -22,14 +22,17 @@ module Api
       private
 
       def person_payments_for(receiver_type)
-        customer_person_id = Customer.find_by(email:)&.person&.id
-        crypto_user_person_id = CryptoUser.find_by(wallet_address:)&.person&.id
+        customer = Customer.find_by(email:)
+        crypto_user = CryptoUser.find_by(wallet_address:)
 
-        if customer_person_id.present? || crypto_user_person_id.present?
+        # TODO: remove or condition when we migrate all person_payments to have payer
+        if customer.present? || crypto_user.present?
           PersonPayment.where(
-            person_id: [customer_person_id, crypto_user_person_id].compact,
+            payer: [customer, crypto_user].compact,
             receiver_type:
-          ).order(sortable).page(page).per(per)
+          ).or(PersonPayment.where(
+                 person: [customer&.person, crypto_user&.person].compact, receiver_type:
+               )).order(sortable).page(page).per(per)
         else
           PersonPayment.none
         end

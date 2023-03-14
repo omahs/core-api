@@ -5,7 +5,7 @@ class UserBlueprint < Blueprinter::Base
 
   view :extended do
     fields :last_donation_at, :last_donated_cause
-  end
 
-  association :user_completed_tasks, blueprint: UserCompletedTaskBlueprint
+    association :user_completed_tasks, blueprint: UserCompletedTaskBlueprint
+  end
 end

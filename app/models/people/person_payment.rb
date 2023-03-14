@@ -30,6 +30,7 @@ class PersonPayment < ApplicationRecord
   after_create :set_fees
   after_create :set_liquid_value_cents
   after_create :set_crypto_value_cents
+  after_create :set_contribution
 
   belongs_to :person, optional: true
   belongs_to :integration
@@ -120,6 +121,10 @@ class PersonPayment < ApplicationRecord
 
   def service_fees
     person_payment_fee&.service_fee || 0
+  end
+
+  def set_contribution
+    Contribution.create!(person_payment: self, receiver:)
   end
 
   private

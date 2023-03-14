@@ -9,6 +9,7 @@
 #  error_code         :string
 #  liquid_value_cents :integer
 #  paid_date          :datetime
+#  payer_type         :string
 #  payment_method     :integer
 #  receiver_type      :string
 #  refund_date        :datetime
@@ -18,6 +19,7 @@
 #  external_id        :string
 #  integration_id     :bigint
 #  offer_id           :bigint
+#  payer_id           :uuid
 #  person_id          :uuid
 #  receiver_id        :bigint
 #
@@ -31,7 +33,7 @@ RSpec.describe PersonPayment, type: :model do
   let(:offer) { build(:offer, price_cents: 1200, currency: :usd) }
 
   describe 'validations' do
-    it { is_expected.to belong_to(:person) }
+    it { is_expected.to belong_to(:payer) }
     it { is_expected.to belong_to(:offer).optional }
     it { is_expected.to have_many(:person_blockchain_transactions) }
     it { is_expected.to have_one(:person_payment_fee) }

@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
+#  language   :integer          default("en")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

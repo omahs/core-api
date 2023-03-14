@@ -44,12 +44,15 @@ Rails.application.routes.draw do
       post 'users/can_donate' => 'users#can_donate'
       get 'users/impact' => 'users#impact'
       get 'users/statistics' => 'users/statistics#index'
+      post 'users/complete_task' => 'users#complete_task'
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
       get 'causes' => 'causes#index'
       post 'causes' => 'causes#create'
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
+      get 'tasks' => 'tasks#index'
+      get 'tasks/:id' => 'tasks#show'
 
       namespace :news do
         get 'articles' => 'articles#index'

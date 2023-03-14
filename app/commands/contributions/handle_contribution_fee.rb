@@ -25,7 +25,9 @@ module Contributions
     def spread_fee_to_payers
       Contribution.all.each do |payer_contribution|
         fee_cents = calculate_fee / Contribution.all.count
-        ContributionFee.create(contribution:, fee_cents:, payer_contribution:)
+        ContributionFee.create!(contribution:, fee_cents:, payer_contribution:)
+        next unless payer_contribution.contribution_balance
+
         payer_contribution.contribution_balance.fees_balance_cents -= fee_cents
         payer_contribution.contribution_balance.total_fees_increased_cents += fee_cents
         payer_contribution.contribution_balance.save

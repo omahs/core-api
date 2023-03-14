@@ -11,5 +11,5 @@
 #
 class ContributionFee < ApplicationRecord
   belongs_to :contribution
-  belongs_to :payer_contribution
+  belongs_to :payer_contribution, class_name: 'Contribution'
 end

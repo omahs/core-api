@@ -54,6 +54,10 @@ class User < ApplicationRecord
     !last_contribution.nil?
   end
 
+  def completed_tasks
+    user_completed_tasks
+  end
+
   private
 
   def set_user_donation_stats

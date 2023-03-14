@@ -7,8 +7,8 @@ module Users
     attr_reader :user, :task, :completed_task
 
     def initialize(user:, task:)
-      @user = user
-      @task = task
+      @user           = user
+      @task           = task
       @completed_task = user&.completed_tasks&.find_by(task_id: task&.id)
     end
 

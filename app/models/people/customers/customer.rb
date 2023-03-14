@@ -17,6 +17,7 @@ class Customer < ApplicationRecord
 
   belongs_to :user
   belongs_to :person, optional: true
+  has_many :person_payments, as: :payer
 
   validates :email, presence: true
   validates :name, presence: true

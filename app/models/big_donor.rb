@@ -13,4 +13,6 @@ class BigDonor < ApplicationRecord
   validates :name, presence: true
 
   before_validation { email.downcase! }
+
+  has_many :person_payments, as: :payer
 end

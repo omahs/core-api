@@ -31,6 +31,18 @@ module Api
         end
       end
 
+      def complete_task
+        @task = Task.find(params[:task_id])
+        @user = User.find(params[:user_id])
+
+        if @user && @task
+          ::Users::CompleteTask.call(user: @user, task: @task)
+          render json: UserBlueprint.render(@user, view: :extended), status: :ok
+        else
+          render json: { error: 'user or task not found' }, status: :not_found
+        end
+      end
+
       private
 
       def user_params

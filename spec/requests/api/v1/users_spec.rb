@@ -100,4 +100,30 @@ RSpec.describe 'Api::V1::Users', type: :request do
       expect_response_to_have_keys %w[can_donate]
     end
   end
+
+  describe 'POST /users/complete_task' do
+    subject(:request) { post '/api/v1/users/complete_task', params: }
+
+    let(:user) { create(:user) }
+    let(:task) { create(:task) }
+
+    context 'with correct params' do
+      let(:params) do
+        {
+          user_id: user.id,
+          task_id: task.id
+        }
+      end
+
+      it 'heads http status ok' do
+        request
+
+        expect(response).to have_http_status :ok
+      end
+
+      it 'creates a new user completed task' do
+        expect { request }.to change(UserCompletedTask, :count).by(1)
+      end
+    end
+  end
 end

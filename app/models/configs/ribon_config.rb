@@ -21,6 +21,10 @@ class RibonConfig < ApplicationRecord
     first.default_ticket_value
   end
 
+  def self.contribution_fee_percentage
+    first.contribution_fee_percentage
+  end
+
   def self.default_chain_id
     first.default_chain_id
   end

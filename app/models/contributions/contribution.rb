@@ -13,6 +13,7 @@ class Contribution < ApplicationRecord
   belongs_to :receiver, polymorphic: true
   belongs_to :person_payment
   has_one :contribution_balance
+  has_many :contribution_fees
 
   delegate :liquid_value_cents, to: :person_payment
   delegate :crypto_value_cents, to: :person_payment

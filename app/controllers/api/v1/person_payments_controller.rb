@@ -9,7 +9,7 @@ module Api
 
       def payments_for_receiver_by_person
         if valid_receiver_type?
-          @person_payments = person_payments_for(receiver_type)
+          @person_payments = person_payments_for(receiver_type.camelize)
           view = receiver_type.to_sym
 
           render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,

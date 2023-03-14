@@ -2,7 +2,7 @@
 #
 # Table name: big_donors
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  email      :string
 #  name       :string
 #  created_at :datetime         not null
@@ -16,5 +16,6 @@ RSpec.describe BigDonor, type: :model do
 
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
+    it { is_expected.to have_many(:person_payments) }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_195514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -80,25 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "badges", force: :cascade do |t|
-    t.text "description"
-    t.integer "category"
-    t.integer "merit_badge_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "badges_sashes", force: :cascade do |t|
-    t.integer "badge_id"
-    t.integer "sash_id"
-    t.boolean "notified_user", default: false
-    t.datetime "created_at"
-    t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
-    t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
-    t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
   end
 
   create_table "balance_histories", force: :cascade do |t|
@@ -268,42 +249,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.integer "status", default: 0
   end
 
-  create_table "merit_actions", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "action_method"
-    t.integer "action_value"
-    t.boolean "had_errors", default: false
-    t.string "target_model"
-    t.integer "target_id"
-    t.text "target_data"
-    t.boolean "processed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["processed"], name: "index_merit_actions_on_processed"
-  end
-
-  create_table "merit_activity_logs", force: :cascade do |t|
-    t.integer "action_id"
-    t.string "related_change_type"
-    t.integer "related_change_id"
-    t.string "description"
-    t.datetime "created_at"
-  end
-
-  create_table "merit_score_points", force: :cascade do |t|
-    t.bigint "score_id"
-    t.bigint "num_points", default: 0
-    t.string "log"
-    t.datetime "created_at"
-    t.index ["score_id"], name: "index_merit_score_points_on_score_id"
-  end
-
-  create_table "merit_scores", force: :cascade do |t|
-    t.bigint "sash_id"
-    t.string "category", default: "default"
-    t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
-  end
-
   create_table "mobility_string_translations", force: :cascade do |t|
     t.string "locale", null: false
     t.string "key", null: false
@@ -447,11 +392,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.decimal "contribution_fee_percentage"
   end
 
-  create_table "sashes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sources", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "integration_id"
@@ -472,6 +412,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.index ["non_profit_id"], name: "index_stories_on_non_profit_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "actions"
+    t.text "rules"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -482,12 +430,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.index ["chain_id"], name: "index_tokens_on_chain_id"
   end
 
+  create_table "user_completed_tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "completed_at"
+    t.integer "completion_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_user_completed_tasks_on_task_id"
+    t.index ["user_id"], name: "index_user_completed_tasks_on_user_id"
+  end
+
   create_table "user_donation_stats", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "donation_streak", default: 0
     t.bigint "last_donated_cause"
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
@@ -590,6 +548,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
   add_foreign_key "pools", "causes"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
+  add_foreign_key "user_completed_tasks", "tasks"
+  add_foreign_key "user_completed_tasks", "users"
   add_foreign_key "user_donation_stats", "users"
   add_foreign_key "vouchers", "donations"
   add_foreign_key "vouchers", "integrations"

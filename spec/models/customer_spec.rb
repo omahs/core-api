@@ -25,6 +25,7 @@ RSpec.describe Customer, type: :model do
   describe 'Active record validation' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to have_many(:person_payments) }
   end
 
   describe '.valid?' do

@@ -2,7 +2,7 @@
 #
 # Table name: big_donors
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  email      :string
 #  name       :string
 #  created_at :datetime         not null
@@ -13,4 +13,6 @@ class BigDonor < ApplicationRecord
   validates :name, presence: true
 
   before_validation { email.downcase! }
+
+  has_many :person_payments, as: :payer
 end

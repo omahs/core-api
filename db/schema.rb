@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_140222) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -100,7 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.decimal "amount"
   end
 
-  create_table "big_donors", force: :cascade do |t|
+  create_table "big_donors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.datetime "created_at", null: false
@@ -198,6 +198,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "batch_id", null: false
+    t.index ["batch_id"], name: "index_donation_blockchain_transactions_on_batch_id"
     t.index ["chain_id"], name: "index_donation_blockchain_transactions_on_chain_id"
     t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
   end
@@ -367,8 +369,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.integer "currency"
     t.integer "crypto_value_cents"
     t.integer "liquid_value_cents"
+    t.string "payer_type"
+    t.uuid "payer_id"
     t.index ["integration_id"], name: "index_person_payments_on_integration_id"
     t.index ["offer_id"], name: "index_person_payments_on_offer_id"
+    t.index ["payer_type", "payer_id"], name: "index_person_payments_on_payer"
     t.index ["person_id"], name: "index_person_payments_on_person_id"
     t.index ["receiver_type", "receiver_id"], name: "index_person_payments_on_receiver"
   end
@@ -379,7 +384,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id"
+    t.bigint "cause_id", null: false
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
@@ -428,6 +433,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "last_donated_cause"
+    t.integer "donation_streak", default: 0
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
@@ -460,7 +466,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language"
+    t.integer "language", default: 0
+    t.integer "sash_id"
+    t.integer "level", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -509,6 +517,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_195215) do
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"
   add_foreign_key "donation_batches", "donations"
+  add_foreign_key "donation_blockchain_transactions", "batches"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
   add_foreign_key "donations", "integrations"

@@ -26,6 +26,6 @@ class Contribution < ApplicationRecord
       fees_balance_cents: liquid_value_cents * (fee_percentage / 100)
     )
   rescue StandardError => e
-    errors.add(:message, e.message)
+    Reporter.log(error: e)
   end
 end

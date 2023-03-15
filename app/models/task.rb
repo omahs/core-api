@@ -4,8 +4,8 @@
 #
 #  id         :bigint           not null, primary key
 #  actions    :text
-#  rules      :text
 #  title      :string
+#  type       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

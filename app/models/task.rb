@@ -10,5 +10,9 @@
 #  updated_at :datetime         not null
 #
 class Task < ApplicationRecord
+  extend Mobility
+
+  translates :title, type: :string
+
   has_many :user_completed_tasks
 end

@@ -27,7 +27,7 @@ class Contribution < ApplicationRecord
       tickets_balance_cents: liquid_value_cents * (100 - fee_percentage) / 100,
       fees_balance_cents: liquid_value_cents * (fee_percentage / 100)
     )
-  rescue StandardError
-    nil
+  rescue StandardError => e
+    errors.add(:message, e.message)
   end
 end

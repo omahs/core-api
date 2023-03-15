@@ -38,7 +38,7 @@ module Contributions
     end
 
     def calculate_fee_for(_payer_contribution)
-      contribution_generated_fee / Contribution.all.count
+      contribution_generated_fee / contributions_to_become_payers.count
     end
 
     def update_payer_contribution_balance(payer_contribution, fee_cents)

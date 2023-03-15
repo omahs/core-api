@@ -9,5 +9,7 @@ FactoryBot.define do
     association :payer, factory: :customer
     offer { build(:offer) }
     external_id { nil }
+    receiver { build(:non_profit) }
+    liquid_value_cents { 2000 }
   end
 end

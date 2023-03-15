@@ -47,6 +47,7 @@ module Givings
 
       def handle_contribution_creation(payment)
         contribution = Contribution.create!(person_payment: payment, receiver: payment.receiver)
+        contribution.set_contribution_balance
         Contributions::HandleContributionFee.call(contribution:)
       rescue StandardError => e
         Reporter.log(error: e)

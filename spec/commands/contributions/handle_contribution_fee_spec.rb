@@ -14,8 +14,8 @@ describe Contributions::HandleContributionFee do
     subject(:call) { command.call }
 
     context 'when there are payer contributions with fees balance' do
-      let!(:payer1) { create(:contribution, person_payment: create(:person_payment)) }
-      let!(:payer2) { create(:contribution, person_payment: create(:person_payment)) }
+      let!(:payer1) { create(:contribution, :with_contribution_balance, person_payment: create(:person_payment)) }
+      let!(:payer2) { create(:contribution, :with_contribution_balance, person_payment: create(:person_payment)) }
 
       before do
         payer1.contribution_balance.update!(fees_balance_cents: 200)
@@ -55,8 +55,8 @@ describe Contributions::HandleContributionFee do
     end
 
     context 'when there are no payer contributions with fees balance' do
-      let!(:payer1) { create(:contribution, person_payment: create(:person_payment)) }
-      let!(:payer2) { create(:contribution, person_payment: create(:person_payment)) }
+      let!(:payer1) { create(:contribution, :with_contribution_balance, person_payment: create(:person_payment)) }
+      let!(:payer2) { create(:contribution, :with_contribution_balance, person_payment: create(:person_payment)) }
 
       before do
         payer1.contribution_balance.update!(fees_balance_cents: 0)
@@ -65,6 +65,12 @@ describe Contributions::HandleContributionFee do
 
       it 'does not create contribution fees' do
         expect { call }.not_to change(ContributionFee, :count)
+      end
+
+      it 'does not update any payer contribution balance' do
+        expect { call }.not_to change {
+                                 ContributionBalance.pluck(:fees_balance_cents, :total_fees_increased_cents)
+                               }
       end
     end
   end

@@ -13,5 +13,9 @@ FactoryBot.define do
   factory :contribution do
     person_payment { build(:person_payment) }
     receiver { build(:non_profit) }
+
+    trait(:with_contribution_balance) do
+      after(:create, &:set_contribution_balance)
+    end
   end
 end

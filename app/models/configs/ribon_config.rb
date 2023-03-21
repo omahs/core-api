@@ -26,6 +26,10 @@ class RibonConfig < ApplicationRecord
     first.contribution_fee_percentage
   end
 
+  def self.minimum_contribution_chargeable_fee_cents
+    first.minimum_contribution_chargeable_fee_cents
+  end
+
   def self.default_chain_id
     first.default_chain_id
   end

@@ -227,6 +227,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_192610) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "batch_id", null: false
+    t.index ["batch_id"], name: "index_donation_blockchain_transactions_on_batch_id"
     t.index ["chain_id"], name: "index_donation_blockchain_transactions_on_chain_id"
     t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
   end
@@ -447,7 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_192610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.bigint "cause_id"
+    t.bigint "cause_id", null: false
     t.index ["cause_id"], name: "index_pools_on_cause_id"
     t.index ["token_id"], name: "index_pools_on_token_id"
   end
@@ -501,8 +503,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_192610) do
     t.datetime "last_donation_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "donation_streak", default: 0
     t.bigint "last_donated_cause"
+    t.integer "donation_streak", default: 0
     t.index ["user_id"], name: "index_user_donation_stats_on_user_id"
   end
 
@@ -535,9 +537,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_192610) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "language", default: 0
     t.integer "sash_id"
     t.integer "level", default: 0
-    t.integer "language", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -588,6 +590,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_192610) do
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"
   add_foreign_key "donation_batches", "donations"
+  add_foreign_key "donation_blockchain_transactions", "batches"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
   add_foreign_key "donations", "integrations"

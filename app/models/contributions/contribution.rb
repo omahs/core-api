@@ -10,6 +10,7 @@
 #  receiver_id       :bigint           not null
 #
 class Contribution < ApplicationRecord
+  # TODO: remove receiver - already exists in person_payment
   belongs_to :receiver, polymorphic: true
   belongs_to :person_payment
   has_one :contribution_balance

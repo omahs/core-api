@@ -63,7 +63,7 @@ module Service
 
       # TODO: Criar um command para realizar essa atualização do balanço
       def update_contribution_balance(contribution_balance:, fee_cents:)
-        contribution_balance.total_fees_increased_cents += fee_cents
+        contribution_balance.total_fees_increased_cents += fee_cents # TODO: calcular de forma certa
         contribution_balance.fees_balance_cents -= fee_cents
         contribution_balance.save
       end

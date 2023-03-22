@@ -12,9 +12,8 @@ module Contributions
     def call
       ActiveRecord::Base.transaction do
         contribution = Contribution.create!(person_payment: payment, receiver: payment.receiver)
-        contribution.set_contribution_balance
-
         handle_contribution_fees(contribution)
+        contribution.set_contribution_balance
       end
     rescue StandardError => e
       errors.add(:message, e.message)
@@ -24,7 +23,7 @@ module Contributions
     private
 
     def handle_contribution_fees(contribution)
-      HandleContributionFee.call(contribution:)
+      Service::Contributions::ContributionFeeService.new(contribution:).spread_fee_to_payers
     end
   end
 end

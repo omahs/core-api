@@ -54,8 +54,8 @@ RSpec.describe Service::Contributions::ContributionFeeService, type: :service do
       expect(ContributionFee.sum(:fee_cents)).to eq(100)
       expect(contribution_balance1.reload.fees_balance_cents).to eq(0)
       expect(contribution_balance2.reload.fees_balance_cents).to eq(1)
-      expect(contribution_balance3.reload.fees_balance_cents).to eq(3)
-      expect(contribution_balance4.reload.fees_balance_cents).to eq(6)
+      expect(contribution_balance3.reload.fees_balance_cents).to eq(2)
+      expect(contribution_balance4.reload.fees_balance_cents).to eq(7)
     end
   end
 end

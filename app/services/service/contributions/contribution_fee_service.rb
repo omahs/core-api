@@ -60,7 +60,7 @@ module Service
           return contribution_balance.fees_balance_cents
         end
 
-        [proportional_contribution, minimum_fee].max.round
+        [proportional_contribution, minimum_fee].max.ceil
       end
 
       # TODO: Criar um command para realizar essa atualização do balanço

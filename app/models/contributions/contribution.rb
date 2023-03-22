@@ -30,7 +30,7 @@ class Contribution < ApplicationRecord
 
     create_contribution_balance!(
       total_fees_increased_cents: 0,
-      tickets_balance_cents: ,
+      tickets_balance_cents:,
       fees_balance_cents:
     )
   rescue StandardError => e

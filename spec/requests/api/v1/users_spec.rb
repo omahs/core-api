@@ -145,7 +145,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
   describe 'POST /users/complete_task' do
     subject(:request) do
-      post '/api/v1/users/complete_task', headers: { Email: user.email }, params: { task_identifier: 'task_identifier' }
+      post '/api/v1/users/complete_task', headers: { Email: user.email },
+                                          params: { task_identifier: 'task_identifier' }
     end
 
     let(:user) { create(:user) }

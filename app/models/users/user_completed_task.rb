@@ -11,4 +11,5 @@
 #  user_id           :bigint           not null
 #
 class UserCompletedTask < ApplicationRecord
+  belongs_to :user
 end

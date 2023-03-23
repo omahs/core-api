@@ -31,6 +31,26 @@ module Api
         end
       end
 
+      def completed_tasks
+        if current_user
+          render json: UserCompletedTaskBlueprint.render(current_user.user_completed_tasks)
+        else
+          render json: [], status: :not_found
+        end
+      end
+
+      def complete_task
+        if current_user
+          task = current_user.user_completed_tasks.find_or_initialize_by(task_identifier: params[:task_identifier])
+  
+          task.update(last_completed_at: Time.zone.now, times_completed: task.times_completed + 1)
+
+          render json: UserCompletedTaskBlueprint.render(task)
+        else
+          head :unauthorized
+        end
+      end
+
       private
 
       def user_params

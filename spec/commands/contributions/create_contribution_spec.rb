@@ -9,10 +9,13 @@ describe Contributions::CreateContribution do
   let(:receiver) { create(:non_profit) }
   let(:payment) { create(:person_payment, receiver:, liquid_value_cents: 1000) }
   let(:command) { described_class.call(payment:) }
+  let(:contribution_fee_service_instance) { instance_double(Service::Contributions::ContributionFeeService) }
 
   describe '#call' do
     before do
-      allow(Contributions::HandleContributionFee).to receive(:call)
+      allow(Service::Contributions::ContributionFeeService).to receive(:new)
+        .and_return(contribution_fee_service_instance)
+      allow(contribution_fee_service_instance).to receive(:spread_fee_to_payers)
       allow(Reporter).to receive(:log)
       create(:ribon_config, contribution_fee_percentage: 20)
     end
@@ -36,7 +39,8 @@ describe Contributions::CreateContribution do
         command
         contribution = Contribution.last
 
-        expect(Contributions::HandleContributionFee).to have_received(:call).with(contribution:)
+        expect(Service::Contributions::ContributionFeeService).to have_received(:new).with(contribution:)
+        expect(contribution_fee_service_instance).to have_received(:spread_fee_to_payers)
       end
     end
 

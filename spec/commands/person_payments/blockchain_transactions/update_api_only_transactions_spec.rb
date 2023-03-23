@@ -26,21 +26,21 @@ describe PersonPayments::BlockchainTransactions::UpdateApiOnlyTransactions do
 
     before do
       create(:ribon_config, default_chain_id: chain.chain_id)
-      allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+      allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
     end
 
-    it 'calls the Givings::Payment::AddGivingToBlockchainJob with failed transactions PersonPayments' do
+    it 'calls the AddGivingCauseToBlockchainJob with failed transactions PersonPayments' do
       command
-      expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later).with(
+      expect(Givings::Payment::AddGivingCauseToBlockchainJob).to have_received(:perform_later).with(
         amount: api_only_person.crypto_amount,
         payment: api_only_person,
         pool: api_only_person.receiver&.default_pool
       )
     end
 
-    it 'doesnt call the Givings::Payment::AddGivingToBlockchainJob with successfull transactions PersonPayments' do
+    it 'doesnt call the AddGivingCauseToBlockchainJob with successfull transactions PersonPayments' do
       command
-      expect(Givings::Payment::AddGivingToBlockchainJob)
+      expect(Givings::Payment::AddGivingCauseToBlockchainJob)
         .not_to have_received(:perform_later).with(
           amount: person_payment_with_blockchain_transaction.crypto_amount,
           payment: person_payment_with_blockchain_transaction,

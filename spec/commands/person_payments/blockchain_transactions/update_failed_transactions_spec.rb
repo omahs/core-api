@@ -17,7 +17,12 @@ describe PersonPayments::BlockchainTransactions::UpdateFailedTransactions do
     let(:failed_transactions) do
       create_list(:person_blockchain_transaction, 1, treasure_entry_status: :failed, person_payment:)
     end
-    let(:success_transactions) { create_list(:person_blockchain_transaction, 2, treasure_entry_status: :success) }
+    let(:success_transactions) do
+      create_list(:person_blockchain_transaction, 2,
+                  treasure_entry_status: :success,
+                  person_payment: create(:person_payment,
+                                         receiver: create(:cause)))
+    end
 
     before do
       create(:ribon_config, default_chain_id: chain.chain_id)

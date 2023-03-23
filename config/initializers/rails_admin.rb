@@ -35,7 +35,7 @@ RailsAdmin.config do |config|
                             Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
                             Cause, Story, NonProfitPool, IntegrationTask, CryptoUser, Contribution,
                             Voucher, IntegrationWebhook, Token, Pool, History, BalanceHistory, Article, Author,
-                            ContributionBalance]
+                            ContributionBalance, PersonBlockchainTransaction]
 
   config.model RibonConfig do
     field :default_ticket_value do

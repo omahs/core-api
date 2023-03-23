@@ -55,12 +55,12 @@ describe Givings::Payment::CreateOrder do
 
       context 'when the payment is sucessfull' do
         it 'calls the success callback' do
-          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+          allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
           orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
-          expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
+          expect(Givings::Payment::AddGivingCauseToBlockchainJob).to have_received(:perform_later)
             .with(amount: person_payment.crypto_amount, payment: an_object_containing(
               id: person_payment.id, amount_cents: person_payment.amount_cents,
               offer_id: person_payment.offer.id,
@@ -120,12 +120,12 @@ describe Givings::Payment::CreateOrder do
 
       context 'when the payment is sucessfull' do
         it 'calls the success callback' do
-          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+          allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
           orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
-          expect(Givings::Payment::AddGivingToBlockchainJob).to have_received(:perform_later)
+          expect(Givings::Payment::AddGivingCauseToBlockchainJob).to have_received(:perform_later)
             .with(amount: person_payment.crypto_amount, payment: an_object_containing(
               id: person_payment.id, amount_cents: person_payment.amount_cents,
               offer_id: person_payment.offer.id,
@@ -142,19 +142,30 @@ describe Givings::Payment::CreateOrder do
       end
 
       context 'when the order is to a non profit' do
+        let(:non_profit) { create(:non_profit) }
         let(:args) do
           { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:,
             integration_id: integration.id, payment_method: :credit_card,
-            user: customer.user, operation: :subscribe, non_profit: create(:non_profit) }
+            user: customer.user, operation: :purchase, non_profit: }
         end
 
-        it 'does not call the AddGivingToBlockchainJob' do
-          allow(Givings::Payment::AddGivingToBlockchainJob).to receive(:perform_later)
+        before do
+          create(:ribon_config)
+          create(:chain)
+        end
+
+        it 'calls the success callback' do
+          allow(Givings::Payment::AddGivingNonProfitToBlockchainJob).to receive(:perform_later)
           orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
-          expect(Givings::Payment::AddGivingToBlockchainJob).not_to have_received(:perform_later)
+          expect(Givings::Payment::AddGivingNonProfitToBlockchainJob).to have_received(:perform_later)
+            .with(amount: person_payment.crypto_amount, payment: an_object_containing(
+              id: person_payment.id, amount_cents: person_payment.amount_cents,
+              offer_id: person_payment.offer.id, person_id: person_payment.payer.id,
+              status: person_payment.status, payment_method: person_payment.payment_method
+            ), non_profit:)
         end
       end
     end

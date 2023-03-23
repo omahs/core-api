@@ -41,10 +41,6 @@ module Givings
         order.payment.update(status: :failed, error_code: error.code)
       end
 
-      def call_add_giving_blockchain_job(order)
-        AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount, payment: order.payment)
-      end
-
       def handle_contribution_creation(payment)
         Contributions::CreateContribution.call(payment:)
       end

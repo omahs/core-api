@@ -32,9 +32,11 @@ module Givings
         end
 
         def success_callback(order, _result)
-          return if non_profit
-
-          call_add_giving_blockchain_job(order)
+          if non_profit
+            call_add_non_profit_giving_blockchain_job(order)
+          else
+            call_add_cause_giving_blockchain_job(order)
+          end
         end
 
         private
@@ -48,10 +50,16 @@ module Givings
                                   amount_cents:, status: :processing, receiver: })
         end
 
-        def call_add_giving_blockchain_job(order)
-          AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount,
-                                                 payment: order.payment,
-                                                 pool: cause&.default_pool)
+        def call_add_cause_giving_blockchain_job(order)
+          AddGivingCauseToBlockchainJob.perform_later(amount: order.payment.crypto_amount,
+                                                      payment: order.payment,
+                                                      pool: cause&.default_pool)
+        end
+
+        def call_add_non_profit_giving_blockchain_job(order)
+          AddGivingNonProfitToBlockchainJob.perform_later(non_profit:,
+                                                          amount: order.payment.crypto_amount,
+                                                          payment: order.payment)
         end
 
         def amount_cents

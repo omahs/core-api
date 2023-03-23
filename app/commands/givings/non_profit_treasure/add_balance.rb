@@ -1,20 +1,19 @@
 # frozen_string_literal: true
 
 module Givings
-  module CommunityTreasure
+  module NonProfitTreasure
     class AddBalance < ApplicationCommand
       prepend SimpleCommand
-      attr_reader :amount, :chain, :pool, :feeable
+      attr_reader :amount, :chain, :non_profit
 
-      def initialize(amount:, chain: default_chain, feeable: true, pool: nil)
+      def initialize(amount:, non_profit:, chain: default_chain)
         @amount = amount
         @chain = chain
-        @pool = pool
-        @feeable = feeable
+        @non_profit = non_profit
       end
 
       def call
-        ribon_contract.add_pool_balance(donation_pool:, amount:, feeable:)
+        ribon_contract.contribute_to_non_profit(non_profit_pool:, non_profit_wallet_address:, amount:)
       end
 
       private
@@ -23,8 +22,12 @@ module Givings
         @default_chain ||= Chain.default
       end
 
-      def donation_pool
-        pool || default_chain.default_donation_pool
+      def non_profit_wallet_address
+        non_profit.wallet_address
+      end
+
+      def non_profit_pool
+        non_profit.cause&.default_pool
       end
 
       def ribon_contract

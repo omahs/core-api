@@ -3,9 +3,6 @@ module Service
     class ContributionFeeService
       attr_reader :contribution, :initial_contributions_balance
 
-      # TODO: put this value in RibonConfig
-      CONTRACT_FEE_PERCENTAGE = 0.2
-
       def initialize(contribution:)
         @contribution = contribution
         @initial_contributions_balance ||= ContributionBalance.sum(:fees_balance_cents)
@@ -40,8 +37,12 @@ module Service
         RibonConfig.minimum_contribution_chargeable_fee_cents
       end
 
+      def contribution_fee_percentage
+        RibonConfig.contribution_fee_percentage.to_f / 100
+      end
+
       def initial_fee_generated_by_new_contribution
-        contribution.usd_value_cents * CONTRACT_FEE_PERCENTAGE
+        contribution.usd_value_cents * contribution_fee_percentage
       end
 
       def ordered_feeable_contribution_balances
@@ -63,7 +64,6 @@ module Service
         [proportional_contribution, minimum_fee].max.ceil
       end
 
-      # TODO: Criar um command para realizar essa atualização do balanço
       def update_contribution_balance(contribution_balance:, fee_cents:)
         ::Contributions::UpdateContributionBalance.call(contribution_balance:, fee_cents:,
                                                         total_fees_increased_cents: fee_cents)

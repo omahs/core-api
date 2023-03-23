@@ -58,10 +58,11 @@ module Service
       end
 
       def calculate_increased_value_for(contribution_balance:)
-        ContributionFeeCalculatorService.new(payer_contribution_balance: contribution_balance,
-                                             fee_to_be_paid: initial_fee_generated_by_new_contribution,
-                                             initial_contributions_balance:)
-                                        .calculate_increased_value_for(contribution:)
+        ContributionFeeCalculatorService
+          .new(payer_contribution_balance: contribution_balance,
+               fee_to_be_paid: initial_fee_generated_by_new_contribution,
+               initial_contributions_balance:)
+          .calculate_increased_value_for(contribution:)
       end
 
       def update_contribution_balance(contribution_balance:, fee_cents:, total_fees_increased_cents:)

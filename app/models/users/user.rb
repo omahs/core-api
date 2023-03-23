@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
   has_many :donations
   has_many :customers
+  has_many :user_completed_tasks
 
   has_one :user_donation_stats
   has_one :utm, as: :trackable

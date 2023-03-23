@@ -13,17 +13,23 @@ module Service
 
       def calculate_proportional_fee
         return payer_fees_balance_cents if payer_fees_balance_cents <= minimum_fee
-
-        proportional_contribution = fee_to_be_paid * payer_relative_percentage_of_total
         return payer_fees_balance_cents if payer_fees_balance_cents <= proportional_contribution
 
         [proportional_contribution, minimum_fee].max&.ceil
+      end
+
+      def calculate_increased_value_for(contribution:)
+        payer_relative_percentage_of_total * contribution.usd_value_cents
       end
 
       private
 
       def minimum_fee
         @minimum_fee ||= RibonConfig.minimum_contribution_chargeable_fee_cents
+      end
+
+      def proportional_contribution
+        fee_to_be_paid * payer_relative_percentage_of_total
       end
 
       def payer_relative_percentage_of_total

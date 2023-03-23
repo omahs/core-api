@@ -9,21 +9,19 @@ module Service
       end
 
       def spread_fee_to_payers
-        accumulated_fees_result = initial_fee_generated_by_new_contribution.ceil
-
-        ordered_feeable_contribution_balances.each do |contribution_balance|
+        ordered_feeable_contribution_balances.reduce(initial_fee_generated_by_new_contribution.ceil) do
+        |accumulated_fees_result, contribution_balance|
           if last_payer?(accumulated_fees_result:, contribution_balance:)
             charge_remaining_fee_from_last_contribution_balance(accumulated_fees_result:, contribution_balance:)
-
-            accumulated_fees_result = 0
-            break
+            break 0
           end
 
           fee_cents = calculate_fee_for(contribution_balance:)
+          total_fees_increased_cents = calculate_increased_value_for(contribution_balance:)
           create_contribution_fee(contribution_balance:, fee_cents:)
-          accumulated_fees_result -= fee_cents
+          update_contribution_balance(contribution_balance:, fee_cents:, total_fees_increased_cents:)
 
-          update_contribution_balance(contribution_balance:, fee_cents:)
+          accumulated_fees_result - fee_cents
         end
       end
 
@@ -58,9 +56,16 @@ module Service
                initial_contributions_balance:).calculate_proportional_fee
       end
 
-      def update_contribution_balance(contribution_balance:, fee_cents:)
+      def calculate_increased_value_for(contribution_balance:)
+        ContributionFeeCalculatorService.new(payer_contribution_balance: contribution_balance,
+                                             fee_to_be_paid: initial_fee_generated_by_new_contribution,
+                                             initial_contributions_balance:)
+                                        .calculate_increased_value_for(contribution:)
+      end
+
+      def update_contribution_balance(contribution_balance:, fee_cents:, total_fees_increased_cents:)
         ::Contributions::UpdateContributionBalance.call(contribution_balance:, fee_cents:,
-                                                        total_fees_increased_cents: fee_cents)
+                                                        total_fees_increased_cents:)
       end
 
       def create_contribution_fee(contribution_balance:, fee_cents:)
@@ -71,7 +76,7 @@ module Service
         fee_cents = accumulated_fees_result
         ContributionFee.create!(contribution:, fee_cents:, payer_contribution: contribution_balance.contribution)
 
-        update_contribution_balance(contribution_balance:, fee_cents:)
+        update_contribution_balance(contribution_balance:, fee_cents:, total_fees_increased_cents: fee_cents)
       end
     end
   end

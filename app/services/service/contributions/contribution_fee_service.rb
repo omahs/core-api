@@ -5,7 +5,7 @@ module Service
 
       def initialize(contribution:)
         @contribution = contribution
-        @initial_contributions_balance ||= ContributionBalance.sum(:fees_balance_cents)
+        @initial_contributions_balance = ContributionBalance.sum(:fees_balance_cents)
       end
 
       def spread_fee_to_payers
@@ -42,7 +42,7 @@ module Service
       end
 
       def initial_fee_generated_by_new_contribution
-        contribution.usd_value_cents * contribution_fee_percentage
+        contribution.usd_value_cents * contribution_fee_percentage # contract_fee_percentage
       end
 
       def ordered_feeable_contribution_balances
@@ -52,16 +52,10 @@ module Service
       end
 
       def calculate_fee_for(contribution_balance:)
-        return contribution_balance.fees_balance_cents if contribution_balance.fees_balance_cents <= minimum_fee
-
-        relative_percentage_of_total = contribution_balance.fees_balance_cents / initial_contributions_balance.to_f
-        proportional_contribution = initial_fee_generated_by_new_contribution * relative_percentage_of_total
-
-        if contribution_balance.fees_balance_cents <= proportional_contribution
-          return contribution_balance.fees_balance_cents
-        end
-
-        [proportional_contribution, minimum_fee].max.ceil
+        ContributionFeeCalculatorService
+          .new(payer_contribution_balance: contribution_balance,
+               fee_to_be_paid: initial_fee_generated_by_new_contribution,
+               initial_contributions_balance:).calculate_proportional_fee
       end
 
       def update_contribution_balance(contribution_balance:, fee_cents:)

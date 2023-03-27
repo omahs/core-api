@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_172738) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -443,6 +443,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_172738) do
     t.index ["chain_id"], name: "index_tokens_on_chain_id"
   end
 
+  create_table "user_completed_tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "task_identifier", null: false
+    t.datetime "last_completed_at", null: false
+    t.integer "times_completed", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_completed_tasks_on_user_id"
+  end
+
   create_table "user_donation_stats", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "last_donation_at"
@@ -553,6 +563,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_172738) do
   add_foreign_key "pools", "causes"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"
+  add_foreign_key "user_completed_tasks", "users"
   add_foreign_key "user_donation_stats", "users"
   add_foreign_key "vouchers", "donations"
   add_foreign_key "vouchers", "integrations"

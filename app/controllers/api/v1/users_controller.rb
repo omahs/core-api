@@ -31,6 +31,23 @@ module Api
         end
       end
 
+      def completed_tasks
+        if current_user
+          render json: UserCompletedTaskBlueprint.render(current_user.user_completed_tasks)
+        else
+          render json: [], status: :not_found
+        end
+      end
+
+      def complete_task
+        if current_user
+          task = ::Users::UpsertTask.call(user: current_user, task_identifier: params[:task_identifier]).result
+          render json: UserCompletedTaskBlueprint.render(task)
+        else
+          head :unauthorized
+        end
+      end
+
       private
 
       def user_params

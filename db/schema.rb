@@ -212,6 +212,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
     t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
   end
 
+  create_table "donation_contributions", force: :cascade do |t|
+    t.bigint "contribution_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contribution_id"], name: "index_donation_contributions_on_contribution_id"
+  end
+
   create_table "donations", force: :cascade do |t|
     t.bigint "non_profit_id", null: false
     t.bigint "integration_id", null: false
@@ -537,6 +544,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
   add_foreign_key "donation_batches", "donations"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
+  add_foreign_key "donation_contributions", "contributions"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"

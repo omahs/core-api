@@ -6,9 +6,11 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  contribution_id :bigint           not null
+#  donation_id     :bigint           not null
 #
 FactoryBot.define do
   factory :donation_contribution do
-    contribution { build(:contribution) }
+    contribution { nil }
+    donation { nil }
   end
 end

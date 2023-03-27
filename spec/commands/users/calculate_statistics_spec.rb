@@ -11,17 +11,16 @@ describe Users::CalculateStatistics do
     context 'when has just user' do
       let(:wallet_address) { nil }
       let(:user) { create(:user) }
-      let(:person) { create(:person) }
-      let(:customer) { create(:customer, user:, email: user.email, person:) }
+      let(:customer) { create(:customer, user:, email: user.email) }
       let(:donations) { Donation.where(user:) }
       let(:non_profit) { create(:non_profit) }
       let(:non_profit2) { create(:non_profit) }
 
       before do
-        create_list(:person_payment, 2, status: :paid, person:, receiver_type: 'NonProfit',
+        create_list(:person_payment, 2, status: :paid, payer: customer, receiver_type: 'NonProfit',
                                         receiver_id: non_profit.id,
                                         offer: create(:offer, currency: :usd, price_cents: 1000))
-        create_list(:person_payment, 2, status: :paid, person:, receiver_type: 'Cause',
+        create_list(:person_payment, 2, status: :paid, payer: customer, receiver_type: 'Cause',
                                         receiver_id: non_profit2.cause_id,
                                         offer: create(:offer, currency: :brl, price_cents: 1000))
         allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
@@ -40,17 +39,16 @@ describe Users::CalculateStatistics do
       let(:wallet_address) { '0x44d5e936dad202ec600b6a6a5' }
       let(:crypto_user) { create(:crypto_user) }
       let(:user) { create(:user) }
-      let(:person) { create(:person) }
-      let(:customer) { create(:customer, user:, email: user.email, person:) }
+      let(:customer) { create(:customer, user:, email: user.email) }
       let(:donations) { Donation.where(user:) }
       let(:non_profit) { create(:non_profit) }
       let(:non_profit2) { create(:non_profit) }
 
       before do
-        create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id,
+        create_list(:person_payment, 2, status: :paid, payer: crypto_user,
                                         receiver_type: 'NonProfit', receiver_id: non_profit.id,
                                         offer: create(:offer, currency: :usd, price_cents: 1000))
-        create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id, receiver_type: 'Cause',
+        create_list(:person_payment, 2, status: :paid, payer: crypto_user, receiver_type: 'Cause',
                                         receiver_id: non_profit2.cause_id,
                                         offer: create(:offer, currency: :brl, price_cents: 1000))
         allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)
@@ -75,10 +73,10 @@ describe Users::CalculateStatistics do
       let(:non_profit2) { create(:non_profit) }
 
       before do
-        create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id,
+        create_list(:person_payment, 2, status: :paid, payer: crypto_user,
                                         receiver_type: 'NonProfit', receiver_id: non_profit.id,
                                         offer: create(:offer, currency: :usd, price_cents: 1000))
-        create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id, receiver_type: 'Cause',
+        create_list(:person_payment, 2, status: :paid, payer: crypto_user, receiver_type: 'Cause',
                                         receiver_id: non_profit2.cause_id,
                                         offer: create(:offer, currency: :brl, price_cents: 1000))
         allow(Currency::Converters).to receive(:convert_to_usd).and_return(1)

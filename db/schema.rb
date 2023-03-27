@@ -151,6 +151,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
     t.index ["contribution_id"], name: "index_contribution_balances_on_contribution_id"
   end
 
+  create_table "contribution_fees", force: :cascade do |t|
+    t.bigint "contribution_id", null: false
+    t.bigint "payer_contribution_id", null: false
+    t.integer "fee_cents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contribution_id"], name: "index_contribution_fees_on_contribution_id"
+    t.index ["payer_contribution_id"], name: "index_contribution_fees_on_payer_contribution_id"
+  end
+
   create_table "contributions", force: :cascade do |t|
     t.string "receiver_type", null: false
     t.bigint "receiver_id", null: false
@@ -393,6 +403,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
     t.datetime "updated_at", null: false
     t.integer "default_chain_id"
     t.decimal "contribution_fee_percentage"
+    t.integer "minimum_contribution_chargeable_fee_cents"
   end
 
   create_table "sources", force: :cascade do |t|
@@ -518,6 +529,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
   add_foreign_key "balance_histories", "pools"
   add_foreign_key "blockchain_transactions", "chains"
   add_foreign_key "contribution_balances", "contributions"
+  add_foreign_key "contribution_fees", "contributions"
+  add_foreign_key "contribution_fees", "contributions", column: "payer_contribution_id"
   add_foreign_key "contributions", "person_payments"
   add_foreign_key "customers", "people"
   add_foreign_key "donation_batches", "batches"

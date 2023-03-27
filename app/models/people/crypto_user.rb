@@ -10,9 +10,9 @@
 #
 class CryptoUser < ApplicationRecord
   include UuidHelper
+  validates :wallet_address, presence: true
 
   belongs_to :person, optional: true
-  validates :wallet_address, presence: true
 
   has_many :person_payments, as: :payer
 end

@@ -18,5 +18,6 @@ RSpec.describe Contribution, type: :model do
     it { is_expected.to belong_to(:person_payment) }
     it { is_expected.to belong_to(:receiver) }
     it { is_expected.to have_one(:contribution_balance) }
+    it { is_expected.to have_one(:donation_contribution) }
   end
 end

@@ -100,4 +100,106 @@ RSpec.describe 'Api::V1::Users', type: :request do
       expect_response_to_have_keys %w[can_donate]
     end
   end
+
+  describe 'GET /users/completed_tasks' do
+    subject(:request) { get '/api/v1/users/completed_tasks', headers: { Email: user.email } }
+
+    let(:user) { create(:user) }
+    let(:user_completed_task) { create(:user_completed_task, user:) }
+
+    context 'when the user exists' do
+      before do
+        user
+        user_completed_task
+      end
+
+      it 'heads http status ok' do
+        request
+
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the user completed tasks' do
+        request
+
+        expect_response_collection_to_have_keys %w[id task_identifier last_completed_at times_completed]
+      end
+    end
+
+    context 'when the user does not exist' do
+      let(:user) { OpenStruct.new(email: 'dummyemail') }
+
+      it 'heads http not found' do
+        request
+
+        expect(response).to have_http_status :not_found
+      end
+
+      it 'does not return the user completed tasks' do
+        request
+
+        expect(response_body).not_to respond_to :user_completed_tasks
+      end
+    end
+  end
+
+  describe 'POST /users/complete_task' do
+    subject(:request) do
+      post '/api/v1/users/complete_task', headers: { Email: user.email },
+                                          params: { task_identifier: 'task_identifier' }
+    end
+
+    let(:user) { create(:user) }
+
+    context 'when the user exists' do
+      before { user }
+
+      it 'heads http status ok' do
+        request
+
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the user completed task' do
+        request
+
+        expect_response_to_have_keys %w[id task_identifier last_completed_at times_completed]
+      end
+
+      it 'add a first time completed' do
+        request
+
+        expect(response_body.times_completed).to eq 1
+      end
+    end
+
+    context 'when task is completed more than one time' do
+      before do
+        user
+        create(:user_completed_task, user:, task_identifier: 'task_identifier', times_completed: 1)
+      end
+
+      it 'heads http status ok' do
+        request
+
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the user completed task' do
+        request
+
+        expect_response_to_have_keys %w[id task_identifier last_completed_at times_completed]
+      end
+
+      it 'add a first time completed' do
+        request
+
+        expect(response_body.times_completed).to eq 2
+      end
+
+      it 'do not create another task' do
+        expect { request }.not_to change(UserCompletedTask, :count)
+      end
+    end
+  end
 end

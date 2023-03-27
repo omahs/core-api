@@ -49,7 +49,7 @@ module Service
       private
 
       def person_payment
-        PersonPayment.where(person_id: customer.person_id)
+        PersonPayment.where(payer: customer)
       end
 
       def convert_to_usd(value)

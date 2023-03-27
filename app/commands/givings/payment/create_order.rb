@@ -31,6 +31,7 @@ module Givings
         if result
           order.payment.update(status: :paid)
           order.payment.update(external_id: result[:external_id]) if result[:external_id]
+          handle_contribution_creation(order.payment)
         end
 
         klass.success_callback(order, result)
@@ -38,6 +39,10 @@ module Givings
 
       def failure_callback(order, _result, error)
         order.payment.update(status: :failed, error_code: error.code)
+      end
+
+      def handle_contribution_creation(payment)
+        Contributions::CreateContribution.call(payment:)
       end
     end
   end

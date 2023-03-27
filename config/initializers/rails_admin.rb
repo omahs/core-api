@@ -32,22 +32,26 @@ RailsAdmin.config do |config|
 
   config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
                             Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
-                            Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction,
-                            PersonBlockchainTransaction, Chain,
-                            Cause, Story, NonProfitPool, IntegrationTask, CryptoUser,
-                            Voucher, IntegrationWebhook, Token, Pool, History, BalanceHistory, Article, Author]
+                            Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
+                            Cause, Story, NonProfitPool, IntegrationTask, CryptoUser, Contribution,
+                            Voucher, IntegrationWebhook, Token, Pool, History, BalanceHistory, Article, Author,
+                            ContributionBalance, PersonBlockchainTransaction]
 
   config.model RibonConfig do
     field :default_ticket_value do
-      label{ "ticket value in usdc cents (100 = one dollar)" }
+      label{ "default_ticket_value (ticket value in usdc cents (100 = one dollar))" }
     end
 
     field :default_chain_id do
-      label{ "Default chain id, like polygon or mumbai" }
+      label{ "default_chain_id (default chain id, like polygon or mumbai)" }
     end
 
     field :contribution_fee_percentage do
-      label{ "percentage that goes to pay contribution fees (the rest is for tickets pay) (ex: 20% for fees, 80% for tickets pay on each contribution)" }
+      label{ "contribution_fee_percentage (percentage that goes to pay contribution fees (the rest is for tickets pay) (ex: 20% for fees, 80% for tickets pay on each contribution))" }
+    end
+
+    field :minimum_contribution_chargeable_fee_cents do
+      label{ "minimum_contribution_chargeable_fee_cents (minimum fee to charge from a contribution in usdc cents (100 = one dollar))" }
     end
   end
 

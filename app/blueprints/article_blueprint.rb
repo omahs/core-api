@@ -10,7 +10,11 @@ class ArticleBlueprint < Blueprinter::Base
   end
 
   field(:published_at_in_words) do |object|
-    Formatters::Date.in_words_for(object.published_at)
+    if Time.zone.now > object.published_at
+      I18n.t('date.past', date: Formatters::Date.in_words_for(object.published_at))
+    else
+      I18n.t('articles.not_published_yet')
+    end
   end
 
   association :author, blueprint: AuthorBlueprint, view: :minimal

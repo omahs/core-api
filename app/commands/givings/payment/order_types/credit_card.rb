@@ -22,7 +22,7 @@ module Givings
 
         def generate_order
           customer = find_or_create_customer
-          payment  = create_payment(customer.person)
+          payment  = create_payment(customer)
 
           Order.from(payment, card, operation)
         end
@@ -32,28 +32,34 @@ module Givings
         end
 
         def success_callback(order, _result)
-          send_success_email
-          return if non_profit
-
-          call_add_giving_blockchain_job(order)
+          if non_profit
+            call_add_non_profit_giving_blockchain_job(order)
+          else
+            call_add_cause_giving_blockchain_job(order)
+          end
         end
 
         private
 
         def find_or_create_customer
-          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:,
-                                                                 person: Person.create!)
+          Customer.find_by(user_id: user.id) || Customer.create!(email:, tax_id:, name:, user:)
         end
 
-        def create_payment(person)
-          PersonPayment.create!({ person:, offer:, paid_date:, integration:, payment_method:,
+        def create_payment(payer)
+          PersonPayment.create!({ payer:, offer:, paid_date:, integration:, payment_method:,
                                   amount_cents:, status: :processing, receiver: })
         end
 
-        def call_add_giving_blockchain_job(order)
-          AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount,
-                                                 payment: order.payment,
-                                                 pool: cause&.default_pool)
+        def call_add_cause_giving_blockchain_job(order)
+          AddGivingCauseToBlockchainJob.perform_later(amount: order.payment.crypto_amount,
+                                                      payment: order.payment,
+                                                      pool: cause&.default_pool)
+        end
+
+        def call_add_non_profit_giving_blockchain_job(order)
+          AddGivingNonProfitToBlockchainJob.perform_later(non_profit:,
+                                                          amount: order.payment.crypto_amount,
+                                                          payment: order.payment)
         end
 
         def amount_cents
@@ -74,48 +80,6 @@ module Givings
 
         def receiver
           non_profit || cause
-        end
-
-        def donation_receiver
-          return 'non_profit' if non_profit
-
-          'cause'
-        end
-
-        def receiver_name
-          return non_profit.name if non_profit
-
-          user.language.start_with?('en') ? cause&.name_en : cause&.name_pt_br
-        end
-
-        def normalized_impact
-          if non_profit
-            ::Impact::Normalizer.new(
-              non_profit,
-              non_profit.impact_by_ticket
-            ).normalize.join(' ')
-          else
-            cause_value = offer.price_cents * 0.2
-            donated_value(cause_value)
-          end
-        end
-
-        def donated_value(value = amount_cents)
-          currency = offer.currency == 'brl' ? 'R$ ' : '$ '
-          currency + (value / 100.0).to_s
-        end
-
-        def send_success_email
-          SendgridWebMailer.send_email(
-            receiver: user.email,
-            dynamic_template_data: {
-              direct_giving_value: donated_value,
-              receiver_name:,
-              direct_giving_impact: normalized_impact
-            },
-            template_name: "giving_success_#{donation_receiver}_template_id",
-            language: user.language
-          ).deliver_now
         end
       end
     end

@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
-#  language   :integer
+#  language   :integer          default("en")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
   has_many :donations
   has_many :customers
+  has_many :user_completed_tasks
 
   has_one :user_donation_stats
   has_one :utm, as: :trackable
@@ -50,7 +51,7 @@ class User < ApplicationRecord
   end
 
   def promoter?
-    !user.last_contribution.nil?
+    !last_contribution.nil?
   end
 
   private

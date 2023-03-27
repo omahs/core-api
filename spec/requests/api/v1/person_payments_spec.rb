@@ -36,10 +36,9 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         let!(:email) { 'dummyemail@ribon.io' }
         let(:unique_identifier) { Base64.strict_encode64(email) }
         let!(:customer) { create(:customer, email:) }
-        let!(:person) { customer.person }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person:, receiver:)
+          create_list(:person_payment, 4, payer: customer, receiver:)
           request
 
           expect(response_json.count).to eq(4)
@@ -50,16 +49,15 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         end
       end
 
-      context 'when person is a guest' do
+      context 'when person is a crypto_user' do
         subject(:request) { get "/api/v1/person_payments/cause/?wallet_address=#{unique_identifier}" }
 
         let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
         let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
-        let!(:guest) { create(:guest, wallet_address:) }
-        let!(:person) { guest.person }
+        let!(:crypto_user) { create(:crypto_user, wallet_address:) }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person:, receiver:)
+          create_list(:person_payment, 4, payer: crypto_user, receiver:)
           request
 
           expect(response_json.count).to eq(4)
@@ -70,7 +68,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         end
       end
 
-      context 'when person is a customer AND a guest' do
+      context 'when person is a customer AND a crypto_user' do
         subject(:request) do
           get "/api/v1/person_payments/cause/?email=#{encoded_email}&wallet_address=#{encoded_wallet_address}"
         end
@@ -81,12 +79,12 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         let!(:encoded_wallet_address) { Base64.strict_encode64(wallet_address) }
         let!(:encoded_email)          { Base64.strict_encode64(email) }
 
-        let!(:guest)    { create(:guest, wallet_address:) }
+        let!(:crypto_user) { create(:crypto_user, wallet_address:) }
         let!(:customer) { create(:customer, email:) }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person: guest.person, receiver:)
-          create_list(:person_payment, 4, person: customer.person, receiver:)
+          create_list(:person_payment, 4, payer: crypto_user, receiver:)
+          create_list(:person_payment, 4, payer: customer, receiver:)
 
           request
 
@@ -108,10 +106,9 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         let!(:email) { 'dummyemail@ribon.io' }
         let(:unique_identifier) { Base64.strict_encode64(email) }
         let!(:customer) { create(:customer, email:) }
-        let!(:person) { customer.person }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person:, receiver:)
+          create_list(:person_payment, 4, payer: customer, receiver:)
           request
 
           expect(response_json.count).to eq(4)
@@ -122,16 +119,15 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         end
       end
 
-      context 'when person is a guest' do
+      context 'when person is a crypto_user' do
         subject(:request) { get "/api/v1/person_payments/non_profit?wallet_address=#{unique_identifier}" }
 
         let!(:wallet_address) { '0xA222222222222222222222222222222222222222' }
         let(:unique_identifier) { Base64.strict_encode64(wallet_address) }
-        let!(:guest) { create(:guest, wallet_address:) }
-        let!(:person) { guest.person }
+        let!(:crypto_user) { create(:crypto_user, wallet_address:) }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person:, receiver:)
+          create_list(:person_payment, 4, payer: crypto_user, receiver:)
           request
 
           expect(response_json.count).to eq(4)
@@ -142,7 +138,7 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         end
       end
 
-      context 'when person is a customer AND a guest' do
+      context 'when person is a customer AND a crypto_user' do
         subject(:request) do
           get "/api/v1/person_payments/non_profit?email=#{encoded_email}&wallet_address=#{encoded_wallet_address}"
         end
@@ -153,12 +149,12 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
         let!(:encoded_wallet_address) { Base64.strict_encode64(wallet_address) }
         let!(:encoded_email)          { Base64.strict_encode64(email) }
 
-        let!(:guest)    { create(:guest, wallet_address:) }
+        let!(:crypto_user) { create(:crypto_user, wallet_address:) }
         let!(:customer) { create(:customer, email:) }
 
         it 'returns a list of person_payments' do
-          create_list(:person_payment, 4, person: guest.person, receiver:)
-          create_list(:person_payment, 4, person: customer.person, receiver:)
+          create_list(:person_payment, 4, payer: crypto_user, receiver:)
+          create_list(:person_payment, 4, payer: customer, receiver:)
 
           request
 
@@ -177,11 +173,10 @@ RSpec.describe 'Api::V1::PersonPayments', type: :request do
       let!(:email) { 'dummyemail@ribon.io' }
       let(:unique_identifier) { Base64.strict_encode64(email) }
       let!(:customer) { create(:customer, email:) }
-      let!(:person) { customer.person }
       let(:receiver) { create(:non_profit) }
 
       it 'returns a list of person_payments' do
-        create_list(:person_payment, 9, person:, receiver:)
+        create_list(:person_payment, 9, payer: customer, receiver:)
         request
 
         expect(response_json.count).to eq(3)

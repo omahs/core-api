@@ -31,6 +31,7 @@ module Givings
         if result
           order.payment.update(status: :paid)
           order.payment.update(external_id: result[:external_id]) if result[:external_id]
+          handle_contribution_creation(order.payment)
         end
 
         klass.success_callback(order, result)
@@ -40,8 +41,8 @@ module Givings
         order.payment.update(status: :failed, error_code: error.code)
       end
 
-      def call_add_giving_blockchain_job(order)
-        AddGivingToBlockchainJob.perform_later(amount: order.payment.crypto_amount, payment: order.payment)
+      def handle_contribution_creation(payment)
+        Contributions::CreateContribution.call(payment:)
       end
     end
   end

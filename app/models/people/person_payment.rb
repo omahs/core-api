@@ -2,36 +2,44 @@
 #
 # Table name: person_payments
 #
-#  id             :bigint           not null, primary key
-#  amount_cents   :integer
-#  currency       :integer
-#  error_code     :string
-#  paid_date      :datetime
-#  payment_method :integer
-#  receiver_type  :string
-#  refund_date    :datetime
-#  status         :integer          default("processing")
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  external_id    :string
-#  integration_id :bigint
-#  offer_id       :bigint
-#  person_id      :uuid
-#  receiver_id    :bigint
+#  id                 :bigint           not null, primary key
+#  amount_cents       :integer
+#  crypto_value_cents :integer
+#  currency           :integer
+#  error_code         :string
+#  liquid_value_cents :integer
+#  paid_date          :datetime
+#  payer_type         :string
+#  payment_method     :integer
+#  receiver_type      :string
+#  refund_date        :datetime
+#  status             :integer          default("processing")
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  external_id        :string
+#  integration_id     :bigint
+#  offer_id           :bigint
+#  payer_id           :uuid
+#  person_id          :uuid
+#  receiver_id        :bigint
 #
 class PersonPayment < ApplicationRecord
   include UuidHelper
 
   before_create :set_currency
   after_create :set_fees
+  after_create :set_liquid_value_cents
+  after_create :set_crypto_value_cents
 
-  belongs_to :person
+  belongs_to :person, optional: true
   belongs_to :integration
   belongs_to :offer, optional: true
   belongs_to :receiver, polymorphic: true, optional: true
+  belongs_to :payer, polymorphic: true
 
   has_many :person_blockchain_transactions
   has_one :person_payment_fee
+  has_one :contribution
 
   validates :paid_date, :status, :payment_method, presence: true
 
@@ -55,10 +63,10 @@ class PersonPayment < ApplicationRecord
   }
 
   def crypto_amount
-    amount_with_fees = amount - service_fees
-    return amount_with_fees if currency&.to_sym == :usd
+    amount_without_fees = amount - service_fees
+    return amount_without_fees if currency&.to_sym == :usd
 
-    Currency::Converters.convert_to_usd(value: amount_with_fees, from: currency&.to_sym).round.to_f
+    Currency::Converters.convert_to_usd(value: amount_without_fees, from: currency&.to_sym).round.to_f
   end
 
   def amount
@@ -75,6 +83,20 @@ class PersonPayment < ApplicationRecord
     fees = Givings::Card::CalculateCardGiving.call(value: amount_value, currency: currency&.to_sym).result
     create_person_payment_fee!(card_fee_cents: fees[:card_fee].cents,
                                crypto_fee_cents: fees[:crypto_fee].cents)
+  rescue StandardError => e
+    Reporter.log(error: e)
+  end
+
+  def set_liquid_value_cents
+    self.liquid_value_cents = amount_cents - person_payment_fee&.service_fee_cents
+    save!
+  rescue StandardError => e
+    Reporter.log(error: e)
+  end
+
+  def set_crypto_value_cents
+    self.crypto_value_cents = crypto_amount * 100
+    save!
   rescue StandardError => e
     Reporter.log(error: e)
   end

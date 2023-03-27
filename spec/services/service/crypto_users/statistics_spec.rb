@@ -10,10 +10,10 @@ RSpec.describe Service::CryptoUsers::Statistics, type: :service do
   let(:non_profit2) { create(:non_profit) }
 
   before do
-    create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id, receiver_type: 'NonProfit',
+    create_list(:person_payment, 2, status: :paid, payer: crypto_user, receiver_type: 'NonProfit',
                                     receiver_id: non_profit.id,
                                     offer: create(:offer, currency: :usd, price_cents: 1000))
-    create_list(:person_payment, 2, status: :paid, person_id: crypto_user.person_id, receiver_type: 'Cause',
+    create_list(:person_payment, 2, status: :paid, payer: crypto_user, receiver_type: 'Cause',
                                     receiver_id: non_profit2.cause_id,
                                     offer: create(:offer, currency: :usd, price_cents: 1000))
 

@@ -20,6 +20,7 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to belong_to(:non_profit) }
     it { is_expected.to belong_to(:integration) }
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_one(:donation_contribution) }
   end
 
   describe '#impact_value' do

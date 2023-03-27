@@ -88,13 +88,15 @@ class PersonPayment < ApplicationRecord
   end
 
   def set_liquid_value_cents
-    amount_cents - person_payment_fee&.service_fee_cents
+    self.liquid_value_cents = amount_cents - person_payment_fee&.service_fee_cents
+    save!
   rescue StandardError => e
     Reporter.log(error: e)
   end
 
   def set_crypto_value_cents
-    crypto_amount * 100
+    self.crypto_value_cents = crypto_amount * 100
+    save!
   rescue StandardError => e
     Reporter.log(error: e)
   end

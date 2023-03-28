@@ -36,7 +36,7 @@ RSpec.describe Customer, type: :model do
 
   describe '#save' do
     context 'when create customer' do
-      let(:customer) { create(:customer, customer_keys: {}) }
+      let(:customer) { create(:customer, email: 'customer@customer.com', customer_keys: {}) }
 
       it { expect(customer.id).not_to be_nil }
       it { expect(customer.name).to eq 'a customer' }
@@ -47,7 +47,7 @@ RSpec.describe Customer, type: :model do
 
   describe '#update' do
     context 'when update customer with customer keys' do
-      let(:customer) { create(:customer, customer_keys: { stripe: 'stripe_key' }) }
+      let(:customer) { create(:customer, email: 'customer@customer.com', customer_keys: { stripe: 'stripe_key' }) }
 
       it { expect(customer.id).not_to be_nil }
       it { expect(customer.name).to eq 'a customer' }

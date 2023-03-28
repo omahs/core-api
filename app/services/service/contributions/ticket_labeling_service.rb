@@ -5,7 +5,6 @@ module Service
 
       def initialize(donation:)
         @donation = donation
-        @initial_tickets_balance_cents = ContributionBalance.sum(:tickets_balance_cents)
       end
 
       def label_donation
@@ -37,7 +36,9 @@ module Service
       end
 
       def base_contributions
-        Contribution.with_tickets_balance.where(receiver: donation.cause)
+        Contribution.joins(:contribution_balance)
+                    .where('contribution_balances.tickets_balance_cents > ?', donation.value)
+                    .where(receiver: donation.cause)
       end
 
       def contributions_by_payer_type

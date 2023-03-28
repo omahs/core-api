@@ -80,5 +80,43 @@ RSpec.describe Service::Contributions::TicketLabelingService, type: :service do
         expect(service.label_donation).to eq(contribution_with_less_than_10_percent)
       end
     end
+
+    context 'when there are no contributions below 10% balance' do
+      let(:contribution1) do
+        create(:contribution, :with_contribution_balance,
+               person_payment: create(:person_payment, crypto_value_cents: 1_000,
+                                                       payer: create(:customer)),
+               receiver: cause)
+      end
+      let(:contribution2) do
+        create(:contribution, :with_contribution_balance,
+               person_payment: create(:person_payment, crypto_value_cents: 1_000,
+                                                       payer: create(:customer)),
+               receiver: cause)
+      end
+      let(:contribution3) do
+        create(:contribution, :with_contribution_balance,
+               person_payment: create(:person_payment, crypto_value_cents: 1_000,
+                                                       payer: create(:customer)),
+               receiver: cause)
+      end
+      let(:big_donor_contribution) do
+        create(:contribution, :with_contribution_balance,
+               person_payment: create(:person_payment, crypto_value_cents: 1_000,
+                                                       payer: create(:big_donor)),
+               receiver: cause)
+      end
+
+      before do
+        create(:donation_contribution, contribution: contribution1)
+        create(:donation_contribution, contribution: contribution2)
+        create(:donation_contribution, contribution: contribution3)
+        create(:donation_contribution, contribution: big_donor_contribution)
+      end
+
+      it 'labels a donation with the contribution that has a DonationContribution most in the past' do
+        expect(service.label_donation).to eq(contribution1)
+      end
+    end
   end
 end

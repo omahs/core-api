@@ -25,6 +25,8 @@ class Contribution < ApplicationRecord
   end
 
   def set_contribution_balance
+    return unless contribution_balance.nil?
+
     fee_percentage = RibonConfig.contribution_fee_percentage
     tickets_balance_cents = usd_value_cents * (100 - fee_percentage) / 100
     fees_balance_cents = usd_value_cents * (fee_percentage / 100)

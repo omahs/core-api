@@ -37,21 +37,17 @@ module Service
       end
 
       def base_contributions
-        Contribution
-          .joins(:contribution_balance, :person_payment)
-          .where(receiver: donation.cause)
-          .where('contribution_balances.tickets_balance_cents > 0')
+        Contribution.with_balance.where(receiver: donation.cause)
       end
 
       def contributions_by_payer_type
         if last_contribution_payer_type == 'BigDonor'
-          promoter_contributions = base_contributions
-                                   .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
+          promoter_contributions = base_contributions.from_promoters
 
           return promoter_contributions if promoter_contributions.any?
         end
 
-        base_contributions.where(person_payments: { payer_type: 'BigDonor' })
+        base_contributions.from_big_donors
       end
 
       def contributions_with_less_than_10_percent

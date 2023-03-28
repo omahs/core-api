@@ -2,6 +2,7 @@ require 'sidekiq/web'
 require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
+  get 'big_donors/index'
   root to: 'rails_admin/main#dashboard'
   get '/health', to: 'main#health'
 
@@ -52,6 +53,7 @@ Rails.application.routes.draw do
       post 'causes' => 'causes#create'
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
+      get 'big_donors' => 'big_donors#index'
 
       namespace :news do
         get 'articles' => 'articles#index'

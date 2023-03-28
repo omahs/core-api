@@ -13,6 +13,8 @@ module Service
 
         DonationContribution.create!(contribution: next_contribution_to_label_ticket, donation:)
         update_contribution_balance(contribution_balance: contribution_to_label.contribution_balance)
+
+        contribution_to_label
       rescue StandardError => e
         Reporter.log(error: e)
       end
@@ -31,7 +33,7 @@ module Service
       end
 
       def last_contribution_payer_type
-        DonationContribution.last.contribution&.person_payment&.payer_type
+        DonationContribution.last_contribution_payer_type
       end
 
       def base_contributions

@@ -11,6 +11,8 @@
 FactoryBot.define do
   factory :big_donor do
     name { 'Yang' }
-    email { 'ronaldo@gmail.com' }
+    sequence :email, 100 do |n|
+      "bigdonor#{n}@example.com"
+    end
   end
 end

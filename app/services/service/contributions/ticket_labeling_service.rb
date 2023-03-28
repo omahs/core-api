@@ -30,9 +30,11 @@ module Service
       end
 
       def next_contribution_to_label_the_donation
-        return contributions_with_less_than_10_percent.last if contributions_with_less_than_10_percent.any?
+        if contributions_with_balance_smaller_than_10_percent.any?
+          return contributions_with_balance_smaller_than_10_percent.last
+        end
 
-        ordered_contributions.to_a.last
+        contributions_ordered_by_label_date.to_a.last
       end
 
       def last_contribution_payer_type
@@ -55,12 +57,12 @@ module Service
         base_contributions.from_big_donors
       end
 
-      def contributions_with_less_than_10_percent
+      def contributions_with_balance_smaller_than_10_percent
         contributions_by_payer_type
           .where('contribution_balances.tickets_balance_cents <= 0.1 * person_payments.crypto_value_cents')
       end
 
-      def ordered_contributions
+      def contributions_ordered_by_label_date
         contributions_by_payer_type.ordered_by_donation_contribution
       end
     end

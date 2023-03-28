@@ -37,7 +37,7 @@ module Service
 
       def base_contributions
         Contribution.joins(:contribution_balance)
-                    .where('contribution_balances.tickets_balance_cents > ?', donation.value)
+                    .where('contribution_balances.tickets_balance_cents >= ?', donation.value)
                     .where(receiver: donation.cause)
       end
 

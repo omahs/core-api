@@ -29,6 +29,8 @@ class Donation < ApplicationRecord
                             where('created_at >= ? AND created_at <= ?', start_date, end_date)
                           }
 
+  delegate :cause, to: :non_profit
+
   def donation_blockchain_transaction
     donation_blockchain_transactions.last
   end

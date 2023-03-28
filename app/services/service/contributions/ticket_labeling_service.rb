@@ -17,6 +17,8 @@ module Service
         Reporter.log(error: e)
       end
 
+      private
+
       def update_contribution_balance(contribution_balance:)
         contribution_balance.tickets_balance_cents -= donation.value
         contribution_balance.save!
@@ -32,19 +34,22 @@ module Service
         DonationContribution.last.contribution&.person_payment&.payer_type
       end
 
+      def base_contributions
+        Contribution
+          .joins(:contribution_balance, :person_payment)
+          .where(receiver: donation.cause)
+          .where('contribution_balances.tickets_balance_cents > 0')
+      end
+
       def contributions_by_payer_type
         if last_contribution_payer_type == 'BigDonor'
-          promoter_contributions = Contribution
-                                   .joins(:contribution_balance, :person_payment)
+          promoter_contributions = base_contributions
                                    .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
-                                   .where('contribution_balances.tickets_balance_cents > 0')
 
           return promoter_contributions if promoter_contributions.any?
         end
 
-        Contribution.joins(:contribution_balance, :person_payment)
-                    .where(person_payments: { payer_type: 'BigDonor' })
-                    .where('contribution_balances.tickets_balance_cents > 0')
+        base_contributions.where(person_payments: { payer_type: 'BigDonor' })
       end
 
       def contributions_with_less_than_10_percent

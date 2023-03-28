@@ -37,13 +37,13 @@ module Service
 
       def base_contributions
         Contribution.joins(:contribution_balance)
-                    .where('contribution_balances.tickets_balance_cents >= ?', donation.value)
+                    .with_tickets_balance_higher_than(donation.value)
                     .where(receiver: donation.cause)
       end
 
       def contributions_by_payer_type
         if last_contribution_payer_type == 'BigDonor'
-          promoter_contributions = base_contributions.from_promoters
+          promoter_contributions = base_contributions.from_unique_donors
 
           return promoter_contributions if promoter_contributions.any?
         end

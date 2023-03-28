@@ -20,13 +20,14 @@ class Contribution < ApplicationRecord
   delegate :liquid_value_cents, to: :person_payment
   delegate :crypto_value_cents, to: :person_payment
 
-  scope :with_tickets_balance, lambda {
-    joins(:contribution_balance).where('contribution_balances.tickets_balance_cents > 0')
-  }
-  scope :from_promoters, lambda {
-                           joins(:person_payment)
-                             .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
-                         }
+  scope :with_tickets_balance_higher_than, lambda { |amount = 0|
+                                             joins(:contribution_balance)
+                                               .where('contribution_balances.tickets_balance_cents >= ?', amount)
+                                           }
+  scope :from_unique_donors, lambda {
+                               joins(:person_payment)
+                                 .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
+                             }
   scope :from_big_donors, -> { joins(:person_payment).where(person_payments: { payer_type: 'BigDonor' }) }
 
   def usd_value_cents

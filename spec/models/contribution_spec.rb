@@ -21,7 +21,7 @@ RSpec.describe Contribution, type: :model do
     it { is_expected.to have_many(:donation_contributions) }
   end
 
-  describe '.with_tickets_balance' do
+  describe '.with_tickets_balance_higher_than' do
     before do
       create(:contribution, contribution_balance: create(:contribution_balance, tickets_balance_cents: 10), id: 1)
       create(:contribution, contribution_balance: create(:contribution_balance, tickets_balance_cents: 10), id: 2)
@@ -29,11 +29,11 @@ RSpec.describe Contribution, type: :model do
     end
 
     it 'returns all the contributions which have tickets balance' do
-      expect(described_class.with_tickets_balance.pluck(:id)).to match_array [1, 2]
+      expect(described_class.with_tickets_balance_higher_than(5).pluck(:id)).to match_array [1, 2]
     end
   end
 
-  describe '.from_promoters' do
+  describe '.from_unique_donors' do
     before do
       create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 1)
       create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 2)
@@ -41,7 +41,7 @@ RSpec.describe Contribution, type: :model do
     end
 
     it 'returns all the contributions which have tickets balance' do
-      expect(described_class.from_promoters.pluck(:id)).to match_array [1, 2]
+      expect(described_class.from_unique_donors.pluck(:id)).to match_array [1, 2]
     end
   end
 

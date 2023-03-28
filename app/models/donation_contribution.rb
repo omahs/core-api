@@ -13,4 +13,8 @@ class DonationContribution < ApplicationRecord
   belongs_to :donation
 
   delegate :value, to: :donation
+
+  def self.last_contribution_payer_type
+    last.contribution&.person_payment&.payer_type
+  end
 end

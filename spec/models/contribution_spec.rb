@@ -18,6 +18,42 @@ RSpec.describe Contribution, type: :model do
     it { is_expected.to belong_to(:person_payment) }
     it { is_expected.to belong_to(:receiver) }
     it { is_expected.to have_one(:contribution_balance) }
-    it { is_expected.to have_one(:donation_contribution) }
+    it { is_expected.to have_many(:donation_contributions) }
+  end
+
+  describe '.with_tickets_balance' do
+    before do
+      create(:contribution, contribution_balance: create(:contribution_balance, tickets_balance_cents: 10), id: 1)
+      create(:contribution, contribution_balance: create(:contribution_balance, tickets_balance_cents: 10), id: 2)
+      create(:contribution, contribution_balance: create(:contribution_balance, tickets_balance_cents: 0), id: 3)
+    end
+
+    it 'returns all the contributions which have tickets balance' do
+      expect(described_class.with_tickets_balance.pluck(:id)).to match_array [1, 2]
+    end
+  end
+
+  describe '.from_promoters' do
+    before do
+      create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 1)
+      create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 2)
+      create(:contribution, person_payment: create(:person_payment, payer: create(:big_donor)), id: 3)
+    end
+
+    it 'returns all the contributions which have tickets balance' do
+      expect(described_class.from_promoters.pluck(:id)).to match_array [1, 2]
+    end
+  end
+
+  describe '.from_big_donors' do
+    before do
+      create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 1)
+      create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 2)
+      create(:contribution, person_payment: create(:person_payment, payer: create(:big_donor)), id: 3)
+    end
+
+    it 'returns all the contributions which have tickets balance' do
+      expect(described_class.from_big_donors.pluck(:id)).to match_array [3]
+    end
   end
 end

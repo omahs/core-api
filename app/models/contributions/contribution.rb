@@ -20,7 +20,9 @@ class Contribution < ApplicationRecord
   delegate :liquid_value_cents, to: :person_payment
   delegate :crypto_value_cents, to: :person_payment
 
-  scope :with_balance, -> { joins(:contribution_balance).where('contribution_balances.tickets_balance_cents > 0') }
+  scope :with_tickets_balance, lambda {
+    joins(:contribution_balance).where('contribution_balances.tickets_balance_cents > 0')
+  }
   scope :from_promoters, lambda {
                            joins(:person_payment)
                              .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')

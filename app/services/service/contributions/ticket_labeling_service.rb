@@ -37,7 +37,7 @@ module Service
       end
 
       def base_contributions
-        Contribution.with_balance.where(receiver: donation.cause)
+        Contribution.with_tickets_balance.where(receiver: donation.cause)
       end
 
       def contributions_by_payer_type

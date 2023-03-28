@@ -10,7 +10,7 @@ module Service
       def label_donation
         contribution_to_label = next_contribution_to_label_ticket
 
-        DonationContribution.create!(contribution: next_contribution_to_label_ticket, donation:)
+        create_donation_contribution(contribution: contribution_to_label)
         update_contribution_balance(contribution_balance: contribution_to_label.contribution_balance)
 
         contribution_to_label
@@ -19,6 +19,10 @@ module Service
       end
 
       private
+
+      def create_donation_contribution(contribution:)
+        DonationContribution.create!(contribution:, donation:)
+      end
 
       def update_contribution_balance(contribution_balance:)
         contribution_balance.tickets_balance_cents -= donation.value

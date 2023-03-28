@@ -56,4 +56,34 @@ RSpec.describe Contribution, type: :model do
       expect(described_class.from_big_donors.pluck(:id)).to match_array [3]
     end
   end
+
+  describe '.ordered_by_donation_contribution' do
+    let(:contribution1) do
+      create(:contribution,
+             person_payment: create(:person_payment, payer: create(:customer)), id: 1)
+    end
+    let(:contribution2) do
+      create(:contribution,
+             person_payment: create(:person_payment, payer: create(:customer)), id: 2)
+    end
+    let(:contribution3) do
+      create(:contribution,
+             person_payment: create(:person_payment, payer: create(:big_donor)), id: 3)
+    end
+    let(:contribution4) do
+      create(:contribution,
+             person_payment: create(:person_payment, payer: create(:big_donor)), id: 4)
+    end
+
+    before do
+      contribution3
+      create(:donation_contribution, created_at: 2.days.ago, contribution: contribution1)
+      create(:donation_contribution, created_at: 1.day.ago, contribution: contribution2)
+      create(:donation_contribution, created_at: 1.hour.ago, contribution: contribution4)
+    end
+
+    it 'returns all the contributions ordered by the most recent labeled contribution' do
+      expect(described_class.ordered_by_donation_contribution.pluck(:id)).to eq [4, 2, 1, 3]
+    end
+  end
 end

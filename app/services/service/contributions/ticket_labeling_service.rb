@@ -36,9 +36,9 @@ module Service
       end
 
       def base_contributions
-        Contribution.joins(:contribution_balance)
-                    .with_tickets_balance_higher_than(donation.value)
-                    .where(receiver: donation.cause)
+        Contribution
+          .with_tickets_balance_higher_than(donation.value)
+          .where(receiver: donation.cause)
       end
 
       def contributions_by_payer_type
@@ -57,13 +57,7 @@ module Service
       end
 
       def ordered_contributions
-        contributions_by_payer_type.joins(
-          "LEFT OUTER JOIN (
-            SELECT MAX(created_at) AS last_donation_created_at, contribution_id
-            FROM donation_contributions
-            GROUP BY contribution_id
-          ) AS last_donations ON contributions.id = last_donations.contribution_id"
-        ).order('last_donations.last_donation_created_at DESC NULLS LAST')
+        contributions_by_payer_type.ordered_by_donation_contribution
       end
     end
   end

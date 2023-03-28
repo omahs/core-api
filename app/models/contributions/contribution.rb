@@ -29,6 +29,15 @@ class Contribution < ApplicationRecord
                                  .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
                              }
   scope :from_big_donors, -> { joins(:person_payment).where(person_payments: { payer_type: 'BigDonor' }) }
+  scope :ordered_by_donation_contribution, lambda {
+    joins(
+      "LEFT OUTER JOIN (
+            SELECT MAX(created_at) AS last_donation_created_at, contribution_id
+            FROM donation_contributions
+            GROUP BY contribution_id
+          ) AS last_donations ON contributions.id = last_donations.contribution_id"
+    ).order('last_donations.last_donation_created_at DESC NULLS LAST')
+  }
 
   def usd_value_cents
     person_payment.crypto_value_cents

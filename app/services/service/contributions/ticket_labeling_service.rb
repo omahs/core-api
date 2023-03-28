@@ -8,12 +8,12 @@ module Service
       end
 
       def label_donation
-        contribution_to_label = next_contribution_to_label_ticket
+        payer_contribution = next_contribution_to_label_the_donation
 
-        create_donation_contribution(contribution: contribution_to_label)
-        update_contribution_balance(contribution_balance: contribution_to_label.contribution_balance)
+        create_donation_contribution(contribution: payer_contribution)
+        update_contribution_balance(contribution_balance: payer_contribution.contribution_balance)
 
-        contribution_to_label
+        payer_contribution
       rescue StandardError => e
         Reporter.log(error: e)
       end
@@ -29,10 +29,12 @@ module Service
         contribution_balance.save!
       end
 
-      def next_contribution_to_label_ticket
-        return contributions_with_less_than_10_percent.last if contributions_with_less_than_10_percent.any?
+      def next_contribution_to_label_the_donation
+        if contributions_with_balance_smaller_than_10_percent.any?
+          return contributions_with_balance_smaller_than_10_percent.last
+        end
 
-        ordered_contributions.to_a.last
+        contributions_ordered_by_label_date.to_a.last
       end
 
       def last_contribution_payer_type
@@ -55,12 +57,12 @@ module Service
         base_contributions.from_big_donors
       end
 
-      def contributions_with_less_than_10_percent
+      def contributions_with_balance_smaller_than_10_percent
         contributions_by_payer_type
           .where('contribution_balances.tickets_balance_cents <= 0.1 * person_payments.crypto_value_cents')
       end
 
-      def ordered_contributions
+      def contributions_ordered_by_label_date
         contributions_by_payer_type.ordered_by_donation_contribution
       end
     end

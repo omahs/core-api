@@ -19,24 +19,15 @@ module Service
       end
 
       def next_to_pay
-        if contributions_without_donation_contributions.last
-          return contributions_without_donation_contributions.last
-        end
-
-        contributions_ordered_by_last_donation_contribution_created_at.last
+        ordered_contributions.last
       end
 
       def contributions_by_payer_type
-        contributions_without_donation_contributions
+        ordered_contributions
           .group_by { |contribution| contribution.person_payment.payer_type }
       end
 
-      def contributions_without_donation_contributions
-        Contribution.left_outer_joins(:donation_contributions)
-                    .where(donation_contributions: { contribution_id: nil })
-      end
-
-      def contributions_ordered_by_last_donation_contribution_created_at
+      def ordered_contributions
         Contribution.joins(
           "LEFT OUTER JOIN (
             SELECT MAX(created_at) AS last_donation_created_at, contribution_id

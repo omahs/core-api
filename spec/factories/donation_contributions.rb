@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :donation_contribution do
-    contribution { nil }
-    donation { nil }
+    association :contribution, factory: :contribution
+    association :donation, factory: :donation
   end
 end

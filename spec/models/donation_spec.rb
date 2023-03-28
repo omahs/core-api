@@ -62,4 +62,14 @@ RSpec.describe Donation, type: :model do
         .to change { donation.donation_blockchain_transactions.count }.by(1)
     end
   end
+
+  describe '#cause' do
+    let(:cause) { create(:cause) }
+    let(:non_profit) { create(:non_profit, cause:) }
+    let(:donation) { create(:donation, non_profit:) }
+
+    it 'returns the non profit cause' do
+      expect(donation.cause).to eq cause
+    end
+  end
 end

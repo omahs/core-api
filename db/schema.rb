@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_27_151405) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -210,6 +210,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
     t.datetime "updated_at", null: false
     t.index ["chain_id"], name: "index_donation_blockchain_transactions_on_chain_id"
     t.index ["donation_id"], name: "index_donation_blockchain_transactions_on_donation_id"
+  end
+
+  create_table "donation_contributions", force: :cascade do |t|
+    t.bigint "contribution_id", null: false
+    t.bigint "donation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contribution_id"], name: "index_donation_contributions_on_contribution_id"
+    t.index ["donation_id"], name: "index_donation_contributions_on_donation_id"
   end
 
   create_table "donations", force: :cascade do |t|
@@ -537,6 +546,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_185235) do
   add_foreign_key "donation_batches", "donations"
   add_foreign_key "donation_blockchain_transactions", "chains"
   add_foreign_key "donation_blockchain_transactions", "donations"
+  add_foreign_key "donation_contributions", "contributions"
+  add_foreign_key "donation_contributions", "donations"
   add_foreign_key "donations", "integrations"
   add_foreign_key "donations", "non_profits"
   add_foreign_key "donations", "users"

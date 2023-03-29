@@ -13,7 +13,7 @@ class UserDonationStats < ApplicationRecord
   belongs_to :user
 
   def can_donate?(integration)
-    return true if next_donation_at(integration).nil?
+    return true if next_donation_at(integration).nil? || user_first_donation_native
 
     Time.zone.now >= next_donation_at(integration)
   end
@@ -33,5 +33,11 @@ class UserDonationStats < ApplicationRecord
 
   def user_last_donation_to(integration)
     user.donations.where(integration:).order(created_at: :desc).first
+  end
+
+  def user_first_donation_native
+    return true if user.donations.where(platform: 'app').count.zero?
+
+    false
   end
 end

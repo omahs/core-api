@@ -54,6 +54,7 @@ Rails.application.routes.draw do
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
       get 'big_donors' => 'big_donors#index'
+      post 'big_donors' => 'big_donors#create'
 
       namespace :news do
         get 'articles' => 'articles#index'

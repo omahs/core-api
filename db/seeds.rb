@@ -9,5 +9,7 @@ unless Rails.env.production?
 
   chain = FactoryBot.create(:chain) if Chain.count.zero?
 
+  big_donor = FactoryBot.create(:big_donor) if BigDonor.count.zero?
+
   Rails.logger.debug 'Seed completed!' unless Rails.env.test?
 end

@@ -17,4 +17,16 @@ RSpec.describe DonationContribution, type: :model do
     it { is_expected.to belong_to(:donation) }
     it { is_expected.to belong_to(:contribution) }
   end
+
+  describe '.last_contribution_payer_type' do
+    let(:contribution) { create(:contribution, person_payment: create(:person_payment, payer: create(:customer))) }
+
+    before do
+      create(:donation_contribution, contribution:)
+    end
+
+    it 'returns the payer type of the last contribution' do
+      expect(described_class.last_contribution_payer_type).to eq('Customer')
+    end
+  end
 end

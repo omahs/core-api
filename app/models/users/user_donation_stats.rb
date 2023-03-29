@@ -36,7 +36,7 @@ class UserDonationStats < ApplicationRecord
   end
 
   def user_first_donation_native
-    return true if user.donations.where(platform: 'app').count == 0 
+    return true if user.donations.where(platform: 'app').count.zero?
 
     false
   end

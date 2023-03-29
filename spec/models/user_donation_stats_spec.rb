@@ -125,7 +125,8 @@ RSpec.describe UserDonationStats, type: :model do
       end
     end
 
-      context 'when the next_donation_at is lower than now due to ticket availability but it is first donation on native' do
+    context 'when the next_donation_at is lower than now due to ticket availability but it is
+    first donation on native' do
       let(:integration) { build(:integration, ticket_availability_in_minutes: 50) }
       let(:user) { build(:user) }
 

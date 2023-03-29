@@ -3,7 +3,6 @@
 # Table name: user_donation_stats
 #
 #  id                 :bigint           not null, primary key
-#  donation_streak    :integer          default(0)
 #  last_donated_cause :bigint
 #  last_donation_at   :datetime
 #  created_at         :datetime         not null
@@ -14,7 +13,7 @@ class UserDonationStats < ApplicationRecord
   belongs_to :user
 
   def can_donate?(integration)
-    return true if next_donation_at(integration).nil?
+    return true if next_donation_at(integration).nil? || user_first_donation_native
 
     Time.zone.now >= next_donation_at(integration)
   end
@@ -34,5 +33,11 @@ class UserDonationStats < ApplicationRecord
 
   def user_last_donation_to(integration)
     user.donations.where(integration:).order(created_at: :desc).first
+  end
+
+  def user_first_donation_native
+    return true if user.donations.where(platform: 'app').count == 0 
+
+    false
   end
 end

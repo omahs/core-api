@@ -3,7 +3,6 @@
 # Table name: user_donation_stats
 #
 #  id                 :bigint           not null, primary key
-#  donation_streak    :integer          default(0)
 #  last_donated_cause :bigint
 #  last_donation_at   :datetime
 #  created_at         :datetime         not null
@@ -123,6 +122,24 @@ RSpec.describe UserDonationStats, type: :model do
 
       it 'returns false' do
         expect(user_donation_stats.can_donate?(integration)).to be_falsey
+      end
+    end
+
+      context 'when the next_donation_at is lower than now due to ticket availability but it is first donation on native' do
+      let(:integration) { build(:integration, ticket_availability_in_minutes: 50) }
+      let(:user) { build(:user) }
+
+      let(:user_donation_stats) do
+        build(:user_donation_stats, user:)
+      end
+
+      before do
+        mock_now('13-01-2021 10:40:00')
+        create(:donation, platform: 'web', created_at: parsed_date('13-01-2021 10:00:00'), integration:, user:)
+      end
+
+      it 'returns true' do
+        expect(user_donation_stats.can_donate?(integration)).to be_truthy
       end
     end
   end

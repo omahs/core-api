@@ -17,6 +17,6 @@ FactoryBot.define do
     integration { build(:integration) }
     user { build(:user) }
     value { 1.0 }
-    platform { 'web' }
+    platform { 'app' }
   end
 end

@@ -166,5 +166,35 @@ describe Donations::Donate do
         expect(command.errors[:message]).to eq ['NGO not found. Please reload the page and try again.']
       end
     end
+
+    context 'when the user cannot donate but the skip_allowance is passed' do
+      subject(:command) do
+        described_class.call(integration:, non_profit:, user:, platform: 'web', skip_allowance:)
+      end
+
+      let(:integration) { create(:integration) }
+      let(:non_profit) { create(:non_profit, :with_impact) }
+      let(:user) { create(:user) }
+      let(:skip_allowance) { true }
+
+      before do
+        create(:ribon_config, default_ticket_value: 100)
+        allow(Donations::SetUserLastDonationAt)
+          .to receive(:call).and_return(command_double(klass: Donations::SetUserLastDonationAt))
+        allow(user).to receive(:can_donate?).and_return(false)
+      end
+
+      it 'creates the donation on the database' do
+        expect { command }.to change(Donation, :count).by(1)
+      end
+
+      it 'returns a donation' do
+        expect(command.result).to be_an_instance_of(Donation)
+      end
+
+      it 'returns success' do
+        expect(command.success?).to be_truthy
+      end
+    end
   end
 end

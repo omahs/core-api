@@ -10,7 +10,7 @@ RSpec.describe Service::Donations::Statistics, type: :service do
   let(:non_profit2) { create(:non_profit) }
 
   before do
-    travel_to Time.zone.local(2023, 1, 1, 12, 12, 30)
+    travel_to Time.zone.local(2023, 1, 1, 12, 0, 0)
 
     create(:non_profit_impact, usd_cents_to_one_impact_unit: 10,
                                non_profit: non_profit1, start_date: 1.day.ago, end_date: 1.day.from_now)

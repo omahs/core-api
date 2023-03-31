@@ -28,11 +28,10 @@ module Api
         # TODO: remove or condition when we migrate all person_payments to have payer
         if customer.present? || crypto_user.present?
           PersonPayment.where(
+            status: :paid,
             payer: [customer, crypto_user].compact,
             receiver_type:
-          ).or(PersonPayment.where(
-                 person: [customer&.person, crypto_user&.person].compact, receiver_type:
-               )).order(sortable).page(page).per(per)
+          ).order(sortable).page(page).per(per)
         else
           PersonPayment.none
         end

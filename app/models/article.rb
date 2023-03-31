@@ -3,6 +3,7 @@
 # Table name: articles
 #
 #  id           :bigint           not null, primary key
+#  language     :string
 #  link         :string
 #  published_at :datetime
 #  title        :string
@@ -14,4 +15,9 @@
 class Article < ApplicationRecord
   belongs_to :author
   has_one_attached :image
+
+  enum language: {
+    pt_br: 'pt-br',
+    en_us: 'en-us'
+  }
 end

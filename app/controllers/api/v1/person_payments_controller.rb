@@ -25,7 +25,6 @@ module Api
         customer = Customer.find_by(email:)
         crypto_user = CryptoUser.find_by(wallet_address:)
 
-        # TODO: remove or condition when we migrate all person_payments to have payer
         if customer.present? || crypto_user.present?
           PersonPayment.where(
             status: :paid,

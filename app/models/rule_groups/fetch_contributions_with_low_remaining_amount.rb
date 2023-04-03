@@ -8,7 +8,7 @@ class FetchContributionsWithLowRemainingAmount < RuleGroup
 
     allowed_chosen_contributions = chosen_contributions.with_tickets_balance_less_than_10_percent
 
-    return empty if allowed_chosen_contributions.empty?
+    return input if allowed_chosen_contributions.empty?
 
     {
       chosen: allowed_chosen_contributions.sample,

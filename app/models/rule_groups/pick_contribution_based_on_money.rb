@@ -26,7 +26,7 @@ class PickContributionBasedOnMoney < RuleGroup
 
     probabilities_hash = {}
     contributions_group.each do |contribution|
-      probabilities_hash[contribution.id] = contribution.usd_value_cents / total_contributions_balance_sum
+      probabilities_hash[contribution.id] = contribution.usd_value_cents.to_f / total_contributions_balance_sum
     end
 
     probabilities_hash

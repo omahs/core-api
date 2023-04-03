@@ -13,7 +13,7 @@ describe Articles::CreateArticle do
           published_at: Time.zone.now,
           visible: true,
           author_id: create(:author).id,
-          language: 'en_us'
+          language: 'en-US'
         }
       end
 

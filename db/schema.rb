@@ -73,7 +73,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
-    t.string "language"
+    t.integer "language", default: 0
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
 

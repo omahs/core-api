@@ -103,7 +103,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
         visible: true,
         author_id: create(:author).id,
         link: 'https://ribon.io',
-        language: 'en-us'
+        language: 'en-US'
       }
     end
 
@@ -125,7 +125,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
         visible: true,
         author_id: create(:author).id,
         link: 'https://ribon.io',
-        language: 'en-us'
+        language: 'pt-BR'
       }
     end
 
@@ -134,6 +134,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
 
       expect(Article.count).to eq(1)
       expect(Article.first.title).to eq('New Article')
+      expect(Article.first.language).to eq('pt-BR')
     end
   end
 end

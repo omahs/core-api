@@ -18,15 +18,12 @@
 #
 #
 
-
-require_relative 'rule_group'
-
 class ChooseBetweenBigDonorsAndPromoters < RuleGroup
   PRIORITY = 2
 
   def call(input = {})
-    return big_donors_response if promoters.empty?
-    return promoters_response  if big_donors.empty?
+    return big_donors_response if contributions_from_promoters.empty?
+    return promoters_response  if contributions_from_big_donors.empty?
   
     case rand
     when 0..limited_promoters_percent
@@ -39,18 +36,15 @@ class ChooseBetweenBigDonorsAndPromoters < RuleGroup
   private
 
   def big_donors_response
-    c_debug(:green, "BIG DONORS CHOSEN BUT IS NOT DEFINED YET")
-  
     {
-      chosen: big_donors,
+      chosen: contributions_from_big_donors,
       found: false,
     }
   end
 
   def promoters_response
-    c_debug(:green, "PROMOTER CHOSEN")
     {
-      chosen: promoters.sample,
+      chosen: contributions_from_promoters.sample,
       found: true,
     }
   end
@@ -62,9 +56,6 @@ class ChooseBetweenBigDonorsAndPromoters < RuleGroup
   end
 
   def limited_promoters_percent
-    # temporary return until this rule is not correctly implemented
-    return 0.5
-  
     @promoters_percent ||= promoters_percent
 
     @promoters_percent > 0.5 ? 0.5 : @promoters_percent

@@ -8,12 +8,9 @@ class FetchBigDonorsWithLowRemainingAmount < RuleGroup
   PRIORITY = 1
 
   def call(input = {})
-    
     return empty if big_donors.empty?
 
-    allowed_big_donors = big_donors.select do |person|
-      person_balance(person) < person_payments(person).sum(&:amount) * 0.1
-    end
+    allowed_big_donors = big_donors.with_tickets_balance_less_than_10_percent
 
     return empty if allowed_big_donors.empty?
 
@@ -26,8 +23,6 @@ class FetchBigDonorsWithLowRemainingAmount < RuleGroup
   private
 
   def empty
-    c_debug(:yellow, "No big donors with low remaining amount found");
-
     {
       chosen: nil,
       found: false,

@@ -10,25 +10,45 @@ class PickBigDonorBasedOnMoney < RuleGroup
   def call(input = {})
     big_donors_group = input[:chosen]
     chosen = if big_donors_group.is_a?(Array) && !big_donors_group.empty?
-      c_debug(:green, "PICKED BIG DONOR BASED ON MONEY")
-      big_donors_group.sample
-    else
-      c_debug(:red, "PROMOTER PICKER IN THE WRONG PLACE???????")
-      promoters.sample
+               chosen_big_donor(big_donors_group)
+             else
+               contributions_from_promoters.sample
     end
 
     {
-      chosen: chosen,
+      chosen:,
       found: true,
     }
   end
 
   private
 
+  def chosen_big_donor(big_donors_group)
+    return big_donors_group.sample
+
+    case rand
+    when 0..0.1
+      # big donor 1
+    when 0.1..0.3
+      # big donor 2
+    when 0.3..1
+      # big donor 3
+    end
+  end
+
   def calculate_big_donors_probability_based_on_money
-    # we need to calculate the probability of each big donor to be chosen
-    # the probability is based on the percent of his money
-    # Example: If the total big donors money is 1000, and the big donor has 400,
-    # the big donor will have 40% of change to be chosen.
+    total_donations_from_big_donors = big_donors_total_payments
+
+    contributions_from_big_donors.map do |contribution|
+      {
+        contribution.id => contribution.usd_value_cents / total_donations_from_big_donors,
+      }
+    end
+
+    {
+      1: "0.1",
+      2: "0.2",
+      3: "0.7"
+    }
   end
 end

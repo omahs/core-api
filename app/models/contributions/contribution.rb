@@ -41,6 +41,9 @@ class Contribution < ApplicationRecord
     ).order('last_donations.last_donation_created_at DESC NULLS LAST')
   }
 
+  scope :with_tickets_balance_less_than_10_percent, -> {
+    where('contribution_balances.tickets_balance_cents <= 0.1 * person_payments.crypto_value_cents') }
+
   def usd_value_cents
     person_payment.crypto_value_cents
   end

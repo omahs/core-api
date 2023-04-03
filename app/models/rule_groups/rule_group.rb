@@ -10,41 +10,27 @@ class RuleGroup
 
   # there are some auxiliary methods. We need to move them to another place
 
-  def big_donors
-    BigDonor.all
+  def contributions_from_big_donors
+    base_contributions.from_big_donors
   end
 
-  def promoters
-    @ribon.people.select do |person|
-      person_payments(person).sum(&:amount) < 10_000_00 && person_allowed?(person)
-    end
+  def contributions_from_promoters
+    base_contributions.from_unique_donors
+  end
+
+  def base_contributions
+    Contribution.all
   end
 
   def promoters_total_payments
-    promoters.sum { |person| person_payments(person).sum(&:amount) }
+    total_payments_from(contributions_from_promoters)
   end
 
   def big_donors_total_payments
-    big_donors.sum { |person| person_payments(person).sum(&:amount) }
+    total_payments_from(contributions_from_big_donors)
   end
 
-  def has_enough_funds?(person, non_profit)
-    person_balance(person) >= non_profit.default_ticket
-  end
-
-  def person_balance(person)
-    person_payments(person).sum(&:amount) - person_transaction_tags(person).sum(&:amount)
-  end
-
-  def person_payments(person)
-    @ribon.person_payments.select { |t| t.person == person }
-  end
-
-  def person_transaction_tags(person)
-    @ribon.transaction_tags.select { |t| t.person == person }
-  end
-
-  def person_allowed?(person)
-    person_balance(person) >= @non_profit.default_ticket
+  def total_payments_from(contributions)
+    contributions.sum { |contribution| contribution.contribution_balance.tickets_balance_cents }
   end
 end

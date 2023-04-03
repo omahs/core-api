@@ -3,13 +3,14 @@
 module Donations
   class Donate < ApplicationCommand
     prepend SimpleCommand
-    attr_reader :non_profit, :integration, :donation, :user, :platform
+    attr_reader :non_profit, :integration, :donation, :user, :platform, :skip_allowance
 
-    def initialize(integration:, non_profit:, user:, platform:)
+    def initialize(integration:, non_profit:, user:, platform:, skip_allowance: false)
       @integration = integration
       @non_profit = non_profit
       @user = user
       @platform = platform
+      @skip_allowance = skip_allowance
     end
 
     def call
@@ -51,7 +52,7 @@ module Donations
     end
 
     def allowed?
-      return true if user.can_donate?(integration)
+      return true if user.can_donate?(integration) || skip_allowance
 
       errors.add(:message, I18n.t('donations.blocked_message'))
 

@@ -65,6 +65,22 @@ module Service
       def contributions_ordered_by_label_date
         contributions_by_payer_type.ordered_by_donation_contribution
       end
+
+      def donations_without_donation_contribution
+        Donation.left_outer_joins(:donation_contribution).where(donation_contributions: { id: nil })
+      end
+
+      def total_donation_contributions
+        donations_without_donation_contribution.count
+      end
+
+      def group_donation_contributions_by_cause
+        donations_without_donation_contribution.group_by { |donation| donation.cause.name }
+      end
+
+      def method_name
+
+      end
     end
   end
 end

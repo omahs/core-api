@@ -1,25 +1,12 @@
 class RuleGroup
-  def initialize(ribon, non_profit)
-    @ribon = ribon
-    @non_profit = non_profit
+  attr_reader :donation
+
+  def initialize(donation)
+    @donation = donation
   end
 
   def self.rules_set
     ObjectSpace.each_object(Class).select { |klass| klass < self }.sort_by { |klass| klass::PRIORITY }
-  end
-
-  # there are some auxiliary methods. We need to move them to another place
-
-  def contributions_from_big_donors
-    base_contributions.from_big_donors
-  end
-
-  def contributions_from_promoters
-    base_contributions.from_unique_donors
-  end
-
-  def base_contributions
-    Contribution.all
   end
 
   def promoters_total_payments

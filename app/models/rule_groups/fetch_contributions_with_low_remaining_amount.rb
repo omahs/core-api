@@ -1,8 +1,9 @@
 class FetchContributionsWithLowRemainingAmount < RuleGroup
   PRIORITY = 3
+  attr_reader :chosen_contributions
 
   def call(input = {})
-    chosen_contributions = input[:chosen]
+    @chosen_contributions = input[:chosen]
 
     return empty if chosen_contributions.empty?
 
@@ -13,15 +14,6 @@ class FetchContributionsWithLowRemainingAmount < RuleGroup
     {
       chosen: allowed_chosen_contributions.sample,
       found: true
-    }
-  end
-
-  private
-
-  def empty
-    {
-      chosen: nil,
-      found: false
     }
   end
 end

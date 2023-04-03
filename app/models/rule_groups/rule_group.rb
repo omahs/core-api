@@ -20,4 +20,13 @@ class RuleGroup
   def total_payments_from(contributions)
     contributions.sum { |contribution| contribution.contribution_balance.tickets_balance_cents }
   end
+
+  protected
+
+  def empty
+    {
+      chosen: nil,
+      found: false
+    }
+  end
 end

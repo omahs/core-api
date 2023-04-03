@@ -17,6 +17,12 @@ module Api
         end
       end
 
+      def show
+        @big_donor = BigDonor.find(params[:id])
+
+        render json: BigDonorBlueprint.render(@big_donor)
+      end
+
       def update
         command = BigDonors::UpdateBigDonor.call(big_donor_params)
 

@@ -2,21 +2,20 @@ require 'sidekiq/web'
 require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
-  get 'big_donors/index'
   root to: 'rails_admin/main#dashboard'
   get '/health', to: 'main#health'
-
+  
   scope '(:locale)', locale: /en|pt-BR/ do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  
   Rails.application.routes.draw do
     post '/graphql', to: 'graphql#execute'
   end
-
+  
   mount Sidekiq::Web => '/sidekiq'
-
+  
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'stories' => 'stories#index'
@@ -25,13 +24,13 @@ Rails.application.routes.draw do
       get 'stories/:id' => 'stories#show'
       put 'stories/:id' => 'stories#update'
       delete 'stories/:id' => 'stories#destroy'
-
+      
       get 'non_profits' => 'non_profits#index'
       get 'non_profits/:id/stories' => 'non_profits#stories'
       post 'non_profits' => 'non_profits#create'
       get 'non_profits/:id' => 'non_profits#show'
       put 'non_profits/:id' => 'non_profits#update'
-
+      
       get 'integrations' => 'integrations#index'
       get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
       post 'integrations' => 'integrations#create'
@@ -55,7 +54,8 @@ Rails.application.routes.draw do
       put 'causes/:id' => 'causes#update'
       get 'big_donors' => 'big_donors#index'
       post 'big_donors' => 'big_donors#create'
-
+      put 'big_donors/:id' => 'big_donors#update'
+      
       namespace :news do
         get 'articles' => 'articles#index'
         get 'articles/:id' => 'articles#show'

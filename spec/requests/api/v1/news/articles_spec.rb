@@ -103,7 +103,7 @@ RSpec.describe 'Api::V1::News::Articles', type: :request do
         visible: true,
         author_id: create(:author).id,
         link: 'https://ribon.io',
-        language: "en-US"
+        language: 'en-US'
       }
     end
 

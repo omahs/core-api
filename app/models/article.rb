@@ -17,7 +17,7 @@ class Article < ApplicationRecord
   has_one_attached :image
 
   enum language: {
-    "en-US": 0,
+    'en-US': 0,
     'pt-BR': 1
   }
 end

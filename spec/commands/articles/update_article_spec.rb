@@ -15,7 +15,7 @@ describe Articles::UpdateArticle do
           published_at: Time.zone.now,
           visible: true,
           author_id: create(:author).id,
-          language: "pt-BR"
+          language: 'pt-BR'
         }
       end
 

@@ -1,6 +1,5 @@
 module Contributions
   module Labeling
-    # TODO: change this class name
     class DetermineChosenContribution < ApplicationCommand
       prepend SimpleCommand
       attr_accessor :donation
@@ -22,7 +21,7 @@ module Contributions
 
       def base_contributions
         Contribution
-          .with_tickets_balance_higher_than(0)
+          .with_tickets_balance_higher_than(donation.value)
       end
 
       def apply_rules(input, rules)

@@ -2,8 +2,6 @@
 # - If the return of previous rule is an array of big donors, this rule will be called
 # - The big donor will chosen by calculating the percent of his money using probability
 
-require_relative 'rule_group'
-
 class PickBigDonorBasedOnMoney < RuleGroup
   PRIORITY = 3
 
@@ -24,31 +22,42 @@ class PickBigDonorBasedOnMoney < RuleGroup
   private
 
   def chosen_big_donor(big_donors_group)
-    return big_donors_group.sample
+    probabilities = calculate_big_donors_probability_based_on_money(big_donors_group)
+    contribution_id = select_contribution_id(probabilities)
 
-    case rand
-    when 0..0.1
-      # big donor 1
-    when 0.1..0.3
-      # big donor 2
-    when 0.3..1
-      # big donor 3
-    end
+    big_donors_group.find { |contribution| contribution.id == contribution_id }
   end
 
-  def calculate_big_donors_probability_based_on_money
+  def calculate_big_donors_probability_based_on_money(big_donors_group)
     total_donations_from_big_donors = big_donors_total_payments
 
-    contributions_from_big_donors.map do |contribution|
-      {
-        contribution.id => contribution.usd_value_cents / total_donations_from_big_donors,
-      }
+    probabilities_hash = {}
+    big_donors_group.each do |contribution|
+      probabilities_hash[contribution.id] = contribution.usd_value_cents / total_donations_from_big_donors
     end
 
-    {
-      1: "0.1",
-      2: "0.2",
-      3: "0.7"
-    }
+    probabilities_hash
+  end
+
+  def select_contribution_id(probabilities)
+    # Generate a random number between 0 and 1
+    random_number = rand
+
+    # Iterate through the hash of probabilities
+    cumulative_probability = 0
+    probabilities.each do |contribution_id, probability|
+      # Convert probability to float
+      probability = probability.to_f
+
+      # Add the probability to the cumulative probability
+      cumulative_probability += probability
+
+      # If the cumulative probability is greater than the random number,
+      # return the corresponding user ID
+      return contribution_id if random_number < cumulative_probability
+    end
+
+    # If no user has been selected, return nil
+    nil
   end
 end

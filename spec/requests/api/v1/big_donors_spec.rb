@@ -16,6 +16,18 @@ RSpec.describe 'BigDonors', type: :request do
     end
   end
 
+  describe 'GET /show' do
+    subject(:request) { get "/api/v1/big_donors/#{big_donor.id}" }
+
+    let(:big_donor) { create(:big_donor) }
+
+    it 'returns a single big_donor' do
+      request
+
+      expect_response_to_have_keys(%w[id name email])
+    end
+  end
+
   describe 'POST /create' do
     subject(:request) { post '/api/v1/big_donors', params: }
 

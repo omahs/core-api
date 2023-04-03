@@ -22,11 +22,11 @@ class PickContributionBasedOnMoney < RuleGroup
   end
 
   def calculate_contributions_probability_based_on_money(contributions_group)
-    total_donations_from_contributions = contributions_total_payments
+    total_contributions_balance_sum = contributions_group.sum(&:usd_value_cents)
 
     probabilities_hash = {}
     contributions_group.each do |contribution|
-      probabilities_hash[contribution.id] = contribution.usd_value_cents / total_donations_from_contributions
+      probabilities_hash[contribution.id] = contribution.usd_value_cents / total_contributions_balance_sum
     end
 
     probabilities_hash

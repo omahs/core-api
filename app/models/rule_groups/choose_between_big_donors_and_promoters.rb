@@ -8,7 +8,7 @@ class ChooseBetweenBigDonorsAndPromoters < RuleGroup
     return big_donors_response if contributions_from_promoters.empty?
     return promoters_response  if contributions_from_big_donors.empty?
 
-    case rand
+    case Random.rand
     when 0..limited_promoters_percent
       promoters_response
     when limited_promoters_percent..1

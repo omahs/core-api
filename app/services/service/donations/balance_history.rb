@@ -34,19 +34,13 @@ module Service
         amount_donations_sql = "SELECT SUM(value) as sum FROM donations
                left outer join non_profits on non_profits.id = donations.non_profit_id
                left outer join causes on causes.id = non_profits.cause_id
-               AND causes.id = #{cause.id}"
+               WHERE causes.id = #{cause.id}"
         amount_donations = ActiveRecord::Base.connection.execute(amount_donations_sql).first['sum'].to_f
         amount_donations / 100
       end
 
-      def amount_paid_donations
-        PersonPayment.where(status: :paid).sum do |person_payment|
-          person_payment.pool&.id == pool.id ? person_payment.crypto_amount : 0
-        end
-      end
-
       def amount_donated
-        amount_free_donations + amount_paid_donations
+        amount_free_donations
       end
     end
   end

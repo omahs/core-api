@@ -39,14 +39,8 @@ module Service
         amount_donations / 100
       end
 
-      def amount_paid_donations
-        PersonPayment.where(status: :paid).sum do |person_payment|
-          person_payment.pool&.id == pool.id ? person_payment.crypto_amount : 0
-        end
-      end
-
       def amount_donated
-        amount_free_donations + amount_paid_donations
+        amount_free_donations
       end
     end
   end

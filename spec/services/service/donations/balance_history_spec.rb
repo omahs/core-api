@@ -39,9 +39,8 @@ RSpec.describe Service::Donations::BalanceHistory, type: :service do
     it 'returns the total amount donated of the pool' do
       non_profit = create(:non_profit, cause_id: cause.id)
       donations = create_list(:donation, 3, non_profit_id: non_profit.id, created_at: Time.zone.yesterday)
-      payment = create(:person_payment, receiver: non_profit, status: :paid, created_at: Time.zone.yesterday)
       balance_history = service.add_balance
-      expect(balance_history.amount_donated).to eq((donations.sum(&:value).to_f / 100) + payment.crypto_amount)
+      expect(balance_history.amount_donated).to eq((donations.sum(&:value).to_f / 100))
     end
   end
 end

@@ -5,8 +5,6 @@ class ChooseContributionsCause < RuleGroup
   def call(input = {})
     @chosen_contributions = input[:chosen]
 
-    contributions_by_cause
-
     {
       chosen: contributions_by_cause,
       found: false

@@ -10,4 +10,6 @@
 #
 class PoolBalance < ApplicationRecord
   belongs_to :pool
+
+  validates :balance, presence: true
 end

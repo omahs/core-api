@@ -11,5 +11,10 @@
 require 'rails_helper'
 
 RSpec.describe PoolBalance, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject(:pool_balance) { create(:pool_balance) }
+
+  describe 'validations' do
+    it { is_expected.to belong_to(:pool) }
+    it { is_expected.to validate_presence_of(:balance) }
+  end
 end

@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :pool_balance do
-    pool { nil }
+    pool { build(:pool) }
     balance { '9.99' }
   end
 end

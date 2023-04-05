@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RuleGroup, type: :model do
-  let(:donation) { double('Donation') }
+  let(:donation) { instance_double(Donation) }
   let(:rule_group) { described_class.new(donation) }
   let(:contribution_balance1) { create(:contribution_balance, tickets_balance_cents: 500) }
   let(:contribution_balance2) { create(:contribution_balance, tickets_balance_cents: 1000) }
@@ -11,8 +11,10 @@ RSpec.describe RuleGroup, type: :model do
 
   describe '#rules_set' do
     it 'returns the right order for the rules set' do
-      expect(described_class.rules_set).to eq([ChooseBetweenBigDonorsAndPromoters, ChooseContributionsCause,
-                                               FetchContributionsWithLowRemainingAmount, PickContributionBasedOnMoney])
+      expect(described_class.rules_set).to eq([ChooseBetweenBigDonorsAndPromoters,
+                                               ChooseContributionsCause,
+                                               FetchContributionsWithLowRemainingAmount,
+                                               PickContributionBasedOnMoney])
     end
   end
 

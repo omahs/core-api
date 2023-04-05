@@ -34,7 +34,7 @@ class PickContributionBasedOnMoney < RuleGroup
 
   def select_contribution_id(probabilities)
     # Generates a random number between 0 and 1
-    random_number = rand
+    random_number = Random.rand
 
     # Iterates through the hash of probabilities
     cumulative_probability = 0

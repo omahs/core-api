@@ -26,7 +26,7 @@ RSpec.describe RuleGroup, type: :model do
 
   describe '#empty' do
     it 'returns a hash with nil chosen and false found values' do
-      expect(rule_group.send(:empty)).to eq({ chosen: nil, found: false })
+      expect(rule_group.send(:empty)).to eq({ chosen: [], found: false })
     end
   end
 end

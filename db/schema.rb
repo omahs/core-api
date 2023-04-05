@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -396,6 +396,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
     t.index ["receiver_type", "receiver_id"], name: "index_person_payments_on_receiver"
   end
 
+  create_table "pool_balances", force: :cascade do |t|
+    t.bigint "pool_id", null: false
+    t.decimal "balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_pool_balances_on_pool_id"
+  end
+
   create_table "pools", force: :cascade do |t|
     t.string "address"
     t.bigint "token_id", null: false
@@ -434,6 +442,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["non_profit_id"], name: "index_stories_on_non_profit_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "actions"
+    t.text "rules"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -494,7 +510,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language", default: 0
+    t.integer "language"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -564,6 +580,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_173345) do
   add_foreign_key "person_payments", "integrations"
   add_foreign_key "person_payments", "offers"
   add_foreign_key "person_payments", "people"
+  add_foreign_key "pool_balances", "pools"
   add_foreign_key "pools", "causes"
   add_foreign_key "pools", "tokens"
   add_foreign_key "stories", "non_profits"

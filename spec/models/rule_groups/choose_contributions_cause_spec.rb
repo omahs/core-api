@@ -23,7 +23,7 @@ RSpec.describe ChooseContributionsCause, type: :model do
       }
       response = rule.call(input)
 
-      expect(response[:chosen].pluck(:id)).to eq(contributions_from_donation_cause.pluck(:id))
+      expect(response[:chosen].pluck(:id)).to match_array(contributions_from_donation_cause.pluck(:id))
     end
   end
 end

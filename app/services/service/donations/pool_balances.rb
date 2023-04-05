@@ -37,23 +37,11 @@ module Service
       end
 
       def amount_free_donations
-        amount_donations_sql = "SELECT SUM(value) as sum FROM donations
-               left outer join non_profits on non_profits.id = donations.non_profit_id
-               left outer join causes on causes.id = non_profits.cause_id
-               WHERE causes.id = #{cause.id}"
-        amount_donations = ActiveRecord::Base.connection.execute(amount_donations_sql).first['sum'].to_f
-        amount_donations / 100
+        DonationQueries.new(cause:).amount_free_donations.first['sum'].to_f / 100
       end
 
       def amount_free_donations_without_batch
-        amount_donations_sql = "SELECT SUM(value) as sum FROM donations
-               left outer join non_profits on non_profits.id = donations.non_profit_id
-               left outer join causes on causes.id = non_profits.cause_id
-               left outer join donation_batches on donation_batches.donation_id = donations.id
-               where causes.id = #{cause.id}
-               and donation_batches.id is null"
-        amount_donations = ActiveRecord::Base.connection.execute(amount_donations_sql).first['sum'].to_f
-        amount_donations / 100
+        DonationQueries.new(cause:).amount_free_donations_without_batch.first['sum'].to_f / 100
       end
 
       def amount_donated

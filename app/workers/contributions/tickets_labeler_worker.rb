@@ -14,7 +14,7 @@ module Contributions
     private
 
     def donations_without_donation_contribution
-      Donation.left_outer_joins(:donation_contribution).where(donation_contributions: { id: nil })
+      Donation.where.missing(:donation_contribution)
     end
 
     def total_donation_contributions

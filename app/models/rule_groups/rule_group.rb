@@ -25,7 +25,7 @@ class RuleGroup
 
   def empty
     {
-      chosen: nil,
+      chosen: [],
       found: false
     }
   end

@@ -19,13 +19,12 @@ describe Contributions::Labeling::DetermineChosenContribution do
     end
 
     context 'when there are base contributions' do
-      let(:base_contributions) { create_list(:contribution, 3, :with_contribution_balance) }
       let(:rules) do
         [ChooseBetweenBigDonorsAndPromoters, ChooseContributionsCause,
          FetchContributionsWithLowRemainingAmount, PickContributionBasedOnMoney]
       end
 
-      let(:chosen_contribution) { create(:contribution, :with_contribution_balance) }
+      let(:chosen_contribution) { build(:contribution, :with_contribution_balance) }
       let(:rule_instance1) do
         instance_double(ChooseBetweenBigDonorsAndPromoters, call: { chosen: [], found: false })
       end
@@ -45,7 +44,7 @@ describe Contributions::Labeling::DetermineChosenContribution do
         allow(PickContributionBasedOnMoney).to receive(:new).and_return(rule_instance4)
       end
 
-      it 'contains all the rules' do
+      it 'call all the rules' do
         command.call
 
         expect(rule_instance1).to have_received(:call).with({ chosen: [], found: false })

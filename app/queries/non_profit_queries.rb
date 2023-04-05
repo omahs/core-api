@@ -6,7 +6,7 @@ class NonProfitQueries
       LEFT JOIN pools on pools.cause_id = causes.id
       LEFT JOIN pool_balances on pool_balances.pool_id = pools.id
       LEFT JOIN tokens on tokens.id = pools.token_id
-      WHERE pool_balances.balance > 0
+      WHERE (pool_balances.balance > 0 or pool_balances.id is null)
       AND tokens.chain_id = #{chain_id}
       AND non_profits.status = 1
       ORDER BY non_profits.cause_id asc)

@@ -37,19 +37,19 @@ They are:
 - Production: [production link](https://staging-dapp-api.ribon.io/admin)
 
 The development environment is where we can do tests. It is used by the front end development environment
-as an api where the data is fetched. It is updated everytime the `develop` branch receives a new PR.
+as an api where the data is fetched. It is updated every time the `develop` branch receives a new PR.
 
 The staging environment is a replica of the production environment, but with a different database. We use them
 to validate new features and test some things without damaging the production database. It is 
-updated everytime a new PR is merged into the `main` branch.
+updated every time a new PR is merged into the `main` branch.
 
-The production enviroment is where the real users are. Everytime the `main` branch is updated, so the production environment is.
+The production environment is where the real users are. Every time the `main` branch is updated, so the production environment is.
 
 All the environments are hosted in the AWS elastic beanstalk environment. If you need to work on something related to this hosting,
 call the Ribon developers team to have the access.
 
 ## How to get some needed environment variables
-- `RIBON_WALLET_PRIVATE_KEY`: use a private key from a test wallet of yours. You can create a free wallet at [metamask](https://metamask.io/) and export it's private key
+- `RIBON_WALLET_PRIVATE_KEY`: use a private key from a test wallet of yours. You can create a free wallet at [metamask](https://metamask.io/) and export its private key
 - `STRIPE_PUBLISHABLE_KEY`, `STRIPE_SECRET_KEY` and `STRIPE_ENDPOINT_SECRET`: You can get all those 3 variables registering on [stripe](https://stripe.com/). You can create a test account there. Those variables are not needed if you are not using any of the credit card payment features. All of those are test keys.
 - `SENTRY_DSN_URL`: not needed for development environment 
-- `MUMBAI_NODE_URL`: you can get a node_url at [alchemy](https://www.alchemy.com/). You can get a free registration an then create a project on any network (check those in which ribon has a contract deployed).
+- `MUMBAI_NODE_URL`: you can get a node_url at [alchemy](https://www.alchemy.com/). You can get a free registration and then create a project on any network (check those in which ribon has a contract deployed).

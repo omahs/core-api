@@ -1,7 +1,7 @@
 class NonProfitQueries
   def active_with_pool_balance
     sql = %(
-      SELECT * FROM non_profits
+      SELECT non_profits.* FROM non_profits
       LEFT JOIN causes on causes.id = non_profits.cause_id
       LEFT JOIN pools on pools.cause_id = causes.id
       LEFT JOIN pool_balances on pool_balances.pool_id = pools.id

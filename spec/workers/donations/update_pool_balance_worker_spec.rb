@@ -1,20 +1,23 @@
 require 'rails_helper'
 require 'sidekiq/testing'
 
-RSpec.describe Mailers::SendOneWeekInactivityEmailWorker, type: :worker do
+RSpec.describe Donations::UpdatePoolBalanceWorker, type: :worker do
+  include ActiveStorage::Blob::Analyzable
+
   describe '#perform' do
     subject(:worker) { described_class.new }
 
-    let(:user) { create(:user) }
+    let(:pool) { create(:pool) }
+    let(:job) { Donations::UpdatePoolBalanceJob }
 
     before do
       allow(RibonCoreApi).to receive(:config).and_return({ api_env: 'production' })
-      allow(Mailers::SendOneWeekInactivityEmailJob).to receive(:perform_later)
+      allow(job).to receive(:perform_later).with(pool:)
     end
 
-    it 'calls the CreateDonationsBatch command' do
+    it 'calls the service with right params' do
       worker.perform
-      expect(Mailers::SendOneWeekInactivityEmailJob).to have_received(:perform_later)
+      expect(job).to have_received(:perform_later).with(pool:)
     end
   end
 
@@ -25,10 +28,10 @@ RSpec.describe Mailers::SendOneWeekInactivityEmailWorker, type: :worker do
       end.to change(described_class.jobs, :size).from(0).to(1)
     end
 
-    it 'expects to add one job in the mailer queue' do
+    it 'expects to add one job in the donations queue' do
       expect do
         described_class.perform_async
-      end.to change(Sidekiq::Queues['mailers'], :size).by(1)
+      end.to change(Sidekiq::Queues['donations'], :size).by(1)
     end
   end
 end

@@ -47,9 +47,7 @@ class ChooseBetweenBigDonorsAndPromoters < RuleGroup
   end
 
   def limited_promoters_percent
-    @promoters_percent ||= promoters_percent
-
-    @promoters_percent > 0.5 ? 0.5 : @promoters_percent
+    0.5
   end
 
   def big_donors_percent

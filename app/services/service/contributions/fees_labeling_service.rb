@@ -1,6 +1,6 @@
 module Service
   module Contributions
-    class ContributionFeeService
+    class FeesLabelingService
       attr_reader :contribution, :initial_contributions_balance
 
       CONTRACT_FEE_PERCENTAGE = 0.1

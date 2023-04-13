@@ -24,7 +24,6 @@ RSpec.describe UserDonationStats, type: :model do
     let(:user) { build(:user) }
     let(:integration) { build(:integration, ticket_availability_in_minutes: nil) }
 
-
     context 'when the last donation is nil' do
       let(:last_donation_date) { nil }
 
@@ -48,7 +47,7 @@ RSpec.describe UserDonationStats, type: :model do
 
   describe '#can_donate?' do
     let(:integration) { build(:integration, ticket_availability_in_minutes: nil) }
-        let(:platform) { 'app'}
+    let(:platform) { 'app' }
 
     context 'when the next_donation_at is nil' do
       let(:user_donation_stats) do
@@ -127,7 +126,8 @@ RSpec.describe UserDonationStats, type: :model do
       end
     end
 
-        context 'when the next_donation_at is lower than now due to ticket availability but it is first donation on native' do
+    context 'when the next_donation_at is lower than now due to ticket availability
+     but it is first donation on native' do
       let(:integration) { build(:integration, ticket_availability_in_minutes: 50) }
       let(:user) { build(:user) }
 
@@ -137,11 +137,11 @@ RSpec.describe UserDonationStats, type: :model do
 
       before do
         mock_now('13-01-2021 10:40:00')
-        create(:donation, created_at: parsed_date('13-01-2021 10:00:00'), platform: "web", integration:, user:)
+        create(:donation, created_at: parsed_date('13-01-2021 10:00:00'), platform: 'web', integration:, user:)
       end
 
       it 'returns true' do
-        expect(user_donation_stats.can_donate?(integration, "app")).to be_truthy
+        expect(user_donation_stats.can_donate?(integration, 'app')).to be_truthy
       end
     end
   end

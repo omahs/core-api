@@ -16,7 +16,7 @@ module Service
 
         feeable_contribution_balances.each do |contribution_balance|
           if last_payer?(accumulated_fees_result:, contribution_balance:)
-            charge_remaining_fee_from_last_contribution_balance(accumulated_fees_result:, contribution_balance:)
+            handle_last_contribution_fee(accumulated_fees_result:, contribution_balance:)
             break 0
           end
 
@@ -31,11 +31,8 @@ module Service
       private
 
       def handle_fee_creation_for(contribution_balance:, fee_cents:, contribution_increased_amount_cents:)
-        create_contribution_fee(
-          contribution_balance:, fee_cents:,
-          payer_contribution_increased_amount_cents: contribution_increased_amount_cents
-        )
-        update_contribution_balance(contribution_balance:, fee_cents:, contribution_increased_amount_cents:)
+        ContributionFeeCreatorService.new(contribution_balance:, fee_cents:, contribution:,
+                                          contribution_increased_amount_cents:).handle_fee_creation
       end
 
       def last_payer?(accumulated_fees_result:, contribution_balance:)
@@ -70,33 +67,10 @@ module Service
         contribution_fee_calculator_service(contribution_balance:).increased_value_for(contribution:)
       end
 
-      def update_contribution_balance(contribution_balance:, fee_cents:, contribution_increased_amount_cents:)
-        ::Contributions::UpdateContributionBalance.call(contribution_balance:, fee_cents:,
-                                                        contribution_increased_amount_cents:)
-      end
-
-      def create_contribution_fee(contribution_balance:, fee_cents:, payer_contribution_increased_amount_cents:)
-        ContributionFee.create!(contribution:, fee_cents:, payer_contribution: contribution_balance.contribution,
-                                payer_contribution_increased_amount_cents:)
-      end
-
-      def charge_remaining_fee_from_last_contribution_balance(accumulated_fees_result:, contribution_balance:)
-        deal_with_remaining_fee(accumulated_fees_result:, contribution_balance:)
-        fee_cents = [accumulated_fees_result, contribution_balance.fees_balance_cents].min
-        payer_contribution_increased_amount_cents =
-          contribution.usd_value_cents * fee_cents / contribution.generated_fee_cents.to_f
-
-        create_contribution_fee(contribution_balance:, fee_cents:, payer_contribution_increased_amount_cents:)
-
-        update_contribution_balance(contribution_balance:, fee_cents:,
-                                    contribution_increased_amount_cents: fee_cents)
-      end
-
-      def deal_with_remaining_fee(accumulated_fees_result:, contribution_balance:)
-        return if accumulated_fees_result <= contribution_balance.fees_balance_cents
-
-        remaining_fee = accumulated_fees_result - contribution_balance.fees_balance_cents
-        HandleRemainingContributionFee.new(contribution:, remaining_fee:).spread_remaining_fee
+      def handle_last_contribution_fee(accumulated_fees_result:, contribution_balance:)
+        LastContributionFeeHandlerService
+          .new(accumulated_fees_result:, contribution_balance:, contribution:)
+          .charge_remaining_fee
       end
 
       def deal_with_fees_balances_empty

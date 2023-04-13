@@ -20,8 +20,7 @@ module Service
             break 0
           end
 
-          fee_cents = calculate_fee_for(contribution_balance:)
-          contribution_increased_amount_cents = calculate_increased_value_for(contribution_balance:)
+          fee_cents, contribution_increased_amount_cents = fee_and_increased_value_for(contribution_balance:)
           handle_fee_creation_for(contribution_balance:, fee_cents:, contribution_increased_amount_cents:)
 
           accumulated_fees_result -= fee_cents
@@ -52,19 +51,13 @@ module Service
                                                               .ordered_feeable_contribution_balances
       end
 
-      def contribution_fee_calculator_service(contribution_balance:)
+      def fee_and_increased_value_for(contribution_balance:)
         payer_balance = contribution_balance.fees_balance_cents
         fee_to_be_paid = fee_generated_by_new_contribution
 
-        ContributionFeeCalculatorService.new(payer_balance:, fee_to_be_paid:, initial_contributions_balance:)
-      end
-
-      def calculate_fee_for(contribution_balance:)
-        contribution_fee_calculator_service(contribution_balance:).proportional_fee
-      end
-
-      def calculate_increased_value_for(contribution_balance:)
-        contribution_fee_calculator_service(contribution_balance:).increased_value_for(contribution:)
+        ContributionFeeCalculatorService
+          .new(payer_balance:, fee_to_be_paid:, initial_contributions_balance:)
+          .fee_and_increased_value_for(contribution:)
       end
 
       def handle_last_contribution_fee(accumulated_fees_result:, contribution_balance:)

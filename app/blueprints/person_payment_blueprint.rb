@@ -40,7 +40,7 @@ class PersonPaymentBlueprint < Blueprinter::Base
       if payment.receiver_type == 'Cause'
         {
           id: payment.receiver.id,
-          name: payment.receiver.name
+          name: payment.receiver&.name
         }
       end
     end

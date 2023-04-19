@@ -4,9 +4,10 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
-#  language   :integer          default("en")
+#  language   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  legacy_id  :integer
 #
 class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -22,6 +23,7 @@ class User < ApplicationRecord
   has_many :donations
   has_many :customers
   has_many :user_completed_tasks
+  has_many :legacy_user_impacts, dependent: :destroy
 
   has_one :user_donation_stats
   has_one :utm, as: :trackable

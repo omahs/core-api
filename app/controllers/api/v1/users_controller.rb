@@ -23,10 +23,8 @@ module Api
 
       def can_donate
         @integration = Integration.find_by_id_or_unique_address params[:integration_id]
-        @voucher = Voucher.new(external_id: params[:voucher_id],
-                               integration_id: params[:integration_id])
 
-        if @voucher&.valid? || !current_user
+        if voucher&.valid? || !current_user
           render json: { can_donate: true }
         else
           render json: { can_donate: current_user.can_donate?(@integration) }
@@ -51,6 +49,11 @@ module Api
       end
 
       private
+
+      def voucher
+        @voucher ||= Voucher.new(external_id: params[:voucher_id],
+                                 integration_id: params[:integration_id])
+      end
 
       def user_params
         params.permit(:email, :language)

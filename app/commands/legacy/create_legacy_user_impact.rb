@@ -2,17 +2,19 @@ module Legacy
   class CreateLegacyUserImpact < ApplicationCommand
     prepend SimpleCommand
 
-    attr_reader :email, :impacts
+    attr_reader :email, :impacts, :legacy_id
 
-    def initialize(email:, impacts:)
+    def initialize(email:, impacts:, legacy_id:)
       @email = email
       @impacts = impacts
+      @legacy_id = legacy_id
     end
 
     def call
       with_exception_handle do
         impacts.each do |impact|
-          legacy_user_impact = LegacyUserImpact.where(user:, impacts:)
+          legacy_user_impact = LegacyUserImpact.where(user:,
+                                                      legacy_non_profit: legacy_non_profit(impact[:non_profit]))
                                                .first_or_create(legacy_user_impact_params(impact))
           legacy_user_impact.save!
         end
@@ -33,6 +35,8 @@ module Legacy
 
     def user
       @user ||= User.find_or_create_by(email:)
+      @user.update!(legacy_id: @legacy_id)
+      @user
     end
 
     def legacy_non_profit(non_profit)

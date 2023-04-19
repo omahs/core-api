@@ -23,7 +23,7 @@ module Api
 
       def can_donate
         @integration = Integration.find_by_id_or_unique_address params[:integration_id]
-        @voucher = Voucher.new(external_id: params[:external_id],
+        @voucher = Voucher.new(external_id: params[:voucher_id],
                                integration_id: params[:integration_id])
 
         if @voucher&.valid? || !current_user

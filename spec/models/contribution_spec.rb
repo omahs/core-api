@@ -34,6 +34,18 @@ RSpec.describe Contribution, type: :model do
     end
   end
 
+  describe '.with_fees_balance_higher_than' do
+    before do
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 10), id: 1)
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 10), id: 2)
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 0), id: 3)
+    end
+
+    it 'returns all the contributions which have tickets balance' do
+      expect(described_class.with_fees_balance_higher_than(5).pluck(:id)).to match_array [1, 2]
+    end
+  end
+
   describe '.from_unique_donors' do
     before do
       create(:contribution, person_payment: create(:person_payment, payer: create(:customer)), id: 1)
@@ -85,6 +97,27 @@ RSpec.describe Contribution, type: :model do
 
     it 'returns all the contributions ordered by the most recent labeled contribution' do
       expect(described_class.ordered_by_donation_contribution.pluck(:id)).to eq [4, 2, 1, 3]
+    end
+  end
+
+  describe '.with_paid_status' do
+    let(:contributions_refunded) do
+      create_list(:contribution, 2,
+                  person_payment: create(:person_payment, status: :refunded))
+    end
+    let(:contributions_paid) do
+      create_list(:contribution, 2,
+                  person_payment: create(:person_payment, status: :paid))
+    end
+
+    before do
+      contributions_paid
+      contributions_refunded
+    end
+
+    it 'returns all the contributions that have person_payment status paid' do
+      expect(described_class.with_paid_status.pluck(:id))
+        .to match_array(contributions_paid.pluck(:id))
     end
   end
 end

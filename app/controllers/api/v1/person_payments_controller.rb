@@ -22,7 +22,14 @@ module Api
       def big_donors
         @person_payments = PersonPayment.where(payer_type: 'BigDonor').order(sortable).page(page).per(per)
 
-        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:, total_pages:)
+        render json: PersonPaymentBlueprint.render(@person_payments, total_items:, page:,
+                                                                     total_pages:, view: :big_donations)
+      end
+
+      def big_donor_donation
+        @person_payment = PersonPayment.find(params[:id])
+
+        render json: PersonPaymentBlueprint.render(@person_payment, view: :big_donations)
       end
 
       private

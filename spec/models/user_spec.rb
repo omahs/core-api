@@ -4,9 +4,10 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string
-#  language   :integer          default("en")
+#  language   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  legacy_id  :integer
 #
 require 'rails_helper'
 
@@ -16,6 +17,7 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
     it { is_expected.to have_many(:donations) }
+    it { is_expected.to have_many(:legacy_user_impacts) }
   end
 
   describe '.create' do

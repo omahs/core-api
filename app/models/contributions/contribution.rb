@@ -27,6 +27,10 @@ class Contribution < ApplicationRecord
                                              joins(:contribution_balance)
                                                .where('contribution_balances.tickets_balance_cents >= ?', amount)
                                            }
+  scope :with_fees_balance_higher_than, lambda { |amount = 0|
+    joins(:contribution_balance)
+      .where('contribution_balances.fees_balance_cents >= ?', amount)
+  }
   scope :from_unique_donors, lambda {
                                joins(:person_payment)
                                  .where('person_payments.payer_type IN (?, ?)', 'Customer', 'CryptoUser')
@@ -47,19 +51,20 @@ class Contribution < ApplicationRecord
       .joins(:person_payment)
       .where('contribution_balances.tickets_balance_cents <= 0.1 * person_payments.usd_value_cents')
   }
+  scope :with_paid_status, lambda {
+    joins(:person_payment).where(person_payments: { status: :paid })
+  }
 
   def set_contribution_balance
     return unless contribution_balance.nil?
+    return if receiver_type == 'NonProfit'
 
     fee_percentage = RibonConfig.contribution_fee_percentage
     tickets_balance_cents = usd_value_cents * (100 - fee_percentage) / 100
     fees_balance_cents = usd_value_cents * (fee_percentage / 100)
 
-    create_contribution_balance!(
-      total_fees_increased_cents: 0,
-      tickets_balance_cents:,
-      fees_balance_cents:
-    )
+    create_contribution_balance!(contribution_increased_amount_cents: 0,
+                                 tickets_balance_cents:, fees_balance_cents:)
   rescue StandardError => e
     Reporter.log(error: e)
   end

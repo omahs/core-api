@@ -6,14 +6,14 @@ describe Contributions::CreateContribution do
   include ActiveStorage::Blob::Analyzable
   include_context('when mocking a request') { let(:cassette_name) { 'conversion_rate_brl_usd_and_gas_fee' } }
 
-  let(:receiver) { create(:non_profit) }
+  let(:receiver) { create(:cause) }
   let(:payment) { create(:person_payment, receiver:, liquid_value_cents: 1000) }
   let(:command) { described_class.call(payment:) }
-  let(:contribution_fee_service_instance) { instance_double(Service::Contributions::ContributionFeeService) }
+  let(:contribution_fee_service_instance) { instance_double(Service::Contributions::FeesLabelingService) }
 
   describe '#call' do
     before do
-      allow(Service::Contributions::ContributionFeeService).to receive(:new)
+      allow(Service::Contributions::FeesLabelingService).to receive(:new)
         .and_return(contribution_fee_service_instance)
       allow(contribution_fee_service_instance).to receive(:spread_fee_to_payers)
       allow(Reporter).to receive(:log)
@@ -28,6 +28,17 @@ describe Contributions::CreateContribution do
         expect(contribution.receiver).to eq(receiver)
       end
 
+      context 'when the receiver is a non profit' do
+        let(:receiver) { create(:non_profit) }
+
+        it 'does not set the contribution balance' do
+          command
+          contribution = Contribution.last
+
+          expect(contribution.contribution_balance).to be_nil
+        end
+      end
+
       it 'sets the contribution balance' do
         command
         contribution = Contribution.last
@@ -39,7 +50,7 @@ describe Contributions::CreateContribution do
         command
         contribution = Contribution.last
 
-        expect(Service::Contributions::ContributionFeeService).to have_received(:new).with(contribution:)
+        expect(Service::Contributions::FeesLabelingService).to have_received(:new).with(contribution:)
         expect(contribution_fee_service_instance).to have_received(:spread_fee_to_payers)
       end
     end

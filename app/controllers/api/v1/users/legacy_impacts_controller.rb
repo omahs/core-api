@@ -3,7 +3,7 @@ module Api
     module Users
       class LegacyImpactsController < ApplicationController
         def index
-          render json: user.legacy_user_impacts
+          render json: UserLegacyImpactBlueprint.render(user.legacy_user_impacts)
         end
 
         private

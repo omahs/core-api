@@ -1,9 +1,5 @@
-class PoolBlueprint < Blueprinter::Base
+class PoolBalanceBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :name, :address
-
-  association :token, blueprint: TokenBlueprint
-
-  association :pool_balance, blueprint: PoolBalanceBlueprint
+  fields :balance
 end

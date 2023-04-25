@@ -25,16 +25,12 @@ RSpec.describe Users::HandlePostUserJob, type: :job do
       let!(:created_at) { Time.zone.now }
       let!(:user) { create(:user, created_at:) }
 
-      before do
-        perform_job
-      end
-
       it 'do not update the legacy_id' do
-        expect(user.reload.legacy_id).to be_nil
+        expect { perform_job }.not_to change(user, :legacy_id)
       end
 
       it 'do not update the created_at' do
-        expect(user.reload.created_at).to eq(created_at)
+        expect { perform_job }.not_to change(user, :created_at)
       end
     end
   end

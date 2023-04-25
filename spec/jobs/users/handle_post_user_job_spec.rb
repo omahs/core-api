@@ -22,8 +22,7 @@ RSpec.describe Users::HandlePostUserJob, type: :job do
     end
 
     context 'when user has no legacy_user_impact' do
-      let!(:created_at) { Time.zone.now }
-      let!(:user) { create(:user, created_at:) }
+      let!(:user) { create(:user) }
 
       it 'do not update the legacy_id' do
         expect { perform_job }.not_to change(user, :legacy_id)

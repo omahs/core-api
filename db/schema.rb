@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_26_173202) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_184140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -287,7 +287,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_173202) do
     t.bigint "user_id"
     t.bigint "legacy_non_profit_id", null: false
     t.string "total_impact"
-    t.integer "total_donated_usd"
+    t.decimal "total_donated_usd"
     t.integer "donations_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -533,6 +533,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_173202) do
     t.datetime "updated_at", null: false
     t.integer "language", default: 0
     t.integer "legacy_id"
+    t.datetime "deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -4,7 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  donations_count      :integer
-#  total_donated_usd    :integer
+#  total_donated_usd    :decimal(, )
 #  total_impact         :string
 #  user_created_at      :datetime
 #  user_email           :string
@@ -15,6 +15,10 @@
 #  user_legacy_id       :integer
 #
 class LegacyUserImpact < ApplicationRecord
+  extend Mobility
+
+  translates :total_impact, type: :string, locale_accessors: %i[en pt-BR]
+
   belongs_to :user, optional: true
   belongs_to :legacy_non_profit, optional: true
 

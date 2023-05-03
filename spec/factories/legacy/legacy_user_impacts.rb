@@ -4,7 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  donations_count      :integer
-#  total_donated_usd    :integer
+#  total_donated_usd    :decimal(, )
 #  total_impact         :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -18,5 +18,8 @@ FactoryBot.define do
     total_impact { '1 food donated' }
     total_donated_usd { 1 }
     donations_count { 1 }
+    user_email { 'test@mail' }
+    user_legacy_id { 1 }
+    user_created_at { 2.years.ago }
   end
 end

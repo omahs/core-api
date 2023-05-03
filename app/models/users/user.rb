@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id         :bigint           not null, primary key
+#  deleted_at :datetime
 #  email      :string
 #  language   :integer          default("en")
 #  created_at :datetime         not null
@@ -54,6 +55,12 @@ class User < ApplicationRecord
 
   def promoter?
     !last_contribution.nil?
+  end
+
+  def donate_app
+    return true if donations.where(platform: 'app').count.positive?
+
+    false
   end
 
   private

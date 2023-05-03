@@ -34,7 +34,8 @@ RailsAdmin.config do |config|
                             Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
                             Cause, Story, NonProfitPool, IntegrationTask, CryptoUser, Contribution,
-                            Voucher, IntegrationWebhook, Token, Pool, PoolBalance, History, BalanceHistory, Article, Author,
+                            Voucher, IntegrationWebhook, Token, Pool, PoolBalance, History, BalanceHistory,
+                            LegacyUserImpact, LegacyNonProfit, Article, Author,
                             ContributionBalance, PersonBlockchainTransaction, DonationContribution, BigDonor]
 
   config.model RibonConfig do
@@ -95,6 +96,20 @@ RailsAdmin.config do |config|
     end
 
     include_all_fields
+  end
+
+  config.model User do
+    field :email do
+      label{ "Email" }
+      help "(to delete, change this to: 'deleted+user_id+@ribon.io')"
+    end
+    
+    include_all_fields
+    
+    field :deleted_at do
+      label{ "Deleted at" }
+      help '(change here if deleting)'
+    end
   end
 
   MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }

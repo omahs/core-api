@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_18_154736) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_184140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -274,22 +274,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_154736) do
   create_table "legacy_non_profits", force: :cascade do |t|
     t.string "name"
     t.string "logo_url"
-    t.integer "cost_of_one_impact"
+    t.integer "impact_cost_ribons"
     t.string "impact_description"
     t.integer "legacy_id"
     t.integer "current_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "impact_cost_usd"
   end
 
   create_table "legacy_user_impacts", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.bigint "legacy_non_profit_id", null: false
     t.string "total_impact"
-    t.integer "total_donated_usd"
+    t.decimal "total_donated_usd"
     t.integer "donations_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user_email"
+    t.integer "user_legacy_id"
+    t.datetime "user_created_at"
     t.index ["legacy_non_profit_id"], name: "index_legacy_user_impacts_on_legacy_non_profit_id"
     t.index ["user_id"], name: "index_legacy_user_impacts_on_user_id"
   end
@@ -529,6 +533,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_154736) do
     t.datetime "updated_at", null: false
     t.integer "language", default: 0
     t.integer "legacy_id"
+    t.datetime "deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

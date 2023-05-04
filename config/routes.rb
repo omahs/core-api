@@ -142,4 +142,12 @@ Rails.application.routes.draw do
   namespace :webhooks do
     post 'stripe' => 'stripe#events'
   end
+
+  namespace :managers do
+    get 'check' => 'managers#index'
+
+    namespace :v1 do
+      resources :pools, only: [:index]
+    end
+  end
 end

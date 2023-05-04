@@ -9,10 +9,6 @@ module Managers
       render json: { message: 'Not found.' }, status: :not_found
     end
 
-    def index
-      render json: { message: 'Authorized!' }, status: :ok
-    end
-
     protected
 
     def current_manager

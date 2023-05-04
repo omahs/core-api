@@ -144,8 +144,6 @@ Rails.application.routes.draw do
   end
 
   namespace :managers do
-    get 'check' => 'managers#index'
-
     namespace :v1 do
       resources :pools, only: [:index]
     end

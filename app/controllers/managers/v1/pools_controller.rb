@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class PoolsController < ApplicationController
+    class PoolsController < ManagersController
       def index
         @pools = Pool.all
 

@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       post 'users/can_donate' => 'users#can_donate'
       get 'users/completed_tasks' => 'users#completed_tasks'
       post 'users/complete_task' => 'users#complete_task'
+      get 'users/tasks_statistics/streak' => 'users/tasks_statistics#streak'
+      post 'users/update_streak' => 'users#update_streak'
       get 'users/impact' => 'users#impact'
       get 'users/statistics' => 'users/statistics#index'
       post 'sources' => 'sources#create'

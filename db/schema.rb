@@ -529,8 +529,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_134255) do
 
   create_table "user_tasks_statistics", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.date "first_completed_all_tasks"
-    t.integer "streak"
+    t.datetime "first_completed_all_tasks_at"
+    t.integer "streak", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_tasks_statistics_on_user_id"

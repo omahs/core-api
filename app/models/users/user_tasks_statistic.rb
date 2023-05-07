@@ -12,8 +12,8 @@
 class UserTasksStatistic < ApplicationRecord
   belongs_to :user
 
-
   def has_contribution
-    false
+    byebug
+    user.promoter?
   end
 end

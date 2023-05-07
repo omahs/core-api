@@ -29,15 +29,20 @@ RSpec.describe 'Api::V1::Users::TasksStatistics', type: :request do
 
     let(:user) { create(:user) }
 
-    context 'when the user exists' do
+    context 'when exist user and dont complete tasks' do
       before do
         user
-
       end
 
-      it 'add a first time completed' do
+            it 'returns the first_completed_all_tasks ' do
         request
-        expect(user.user_tasks_statistic.reload.first_completed_all_tasks_at).to eq Time.zone.now
+
+        expect_response_to_have_keys %w[first_completed_all_tasks_at streak has_contribution]
+      end
+
+      it 'add first time of completed all tasks ' do
+        request
+        expect(user.user_tasks_statistic.reload.first_completed_all_tasks_at.to_date).to eq Time.zone.now.to_date
       end
     end
   end

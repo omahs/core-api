@@ -14,7 +14,7 @@
 class Story < ApplicationRecord
   extend Mobility
 
-  translates :title, :description, type: :string
+  translates :title, :description, :image_description, type: :string
 
   belongs_to :non_profit
 

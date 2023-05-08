@@ -34,13 +34,13 @@ RSpec.describe 'Api::V1::Users::TasksStatistics', type: :request do
         user
       end
 
-            it 'returns the first_completed_all_tasks ' do
+      it 'returns the first_completed_all_tasks' do
         request
 
         expect_response_to_have_keys %w[first_completed_all_tasks_at streak has_contribution]
       end
 
-      it 'add first time of completed all tasks ' do
+      it 'add first time of completed all tasks' do
         request
         expect(user.user_tasks_statistic.reload.first_completed_all_tasks_at.to_date).to eq Time.zone.now.to_date
       end

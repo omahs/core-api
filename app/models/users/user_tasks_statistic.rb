@@ -12,7 +12,7 @@
 class UserTasksStatistic < ApplicationRecord
   belongs_to :user
 
-  def has_contribution
+  def contributor
     user.promoter?
   end
 end

@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::Users::TasksStatistics', type: :request do
       it 'returns the user streak' do
         request
 
-        expect_response_to_have_keys %w[first_completed_all_tasks_at streak has_contribution]
+        expect_response_to_have_keys %w[first_completed_all_tasks_at streak contributor]
       end
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe 'Api::V1::Users::TasksStatistics', type: :request do
       it 'returns the first_completed_all_tasks' do
         request
 
-        expect_response_to_have_keys %w[first_completed_all_tasks_at streak has_contribution]
+        expect_response_to_have_keys %w[first_completed_all_tasks_at streak contributor]
       end
 
       it 'add first time of completed all tasks' do

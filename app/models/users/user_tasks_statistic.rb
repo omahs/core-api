@@ -13,7 +13,6 @@ class UserTasksStatistic < ApplicationRecord
   belongs_to :user
 
   def has_contribution
-    byebug
     user.promoter?
   end
 end

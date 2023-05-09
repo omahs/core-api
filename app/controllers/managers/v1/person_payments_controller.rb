@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class PersonPaymentsController < ApplicationController
+    class PersonPaymentsController < ManagersController
       def index
         @person_payments = PersonPayment.where.not(payer_type: 'BigDonor').order(sortable).page(page).per(per)
 

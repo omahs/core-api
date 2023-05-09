@@ -1,7 +1,7 @@
 module Managers
   module V1
     module Payments
-      class CreditCardsController < ApplicationController
+      class CreditCardsController < ManagersController
         include ::Givings::Payment
 
         def create

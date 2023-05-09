@@ -1,7 +1,7 @@
 module Managers
   module V1
     module Givings
-      class OffersController < ApplicationController
+      class OffersController < ManagersController
         def index
           @offers = Offer.order('position_order ASC, price_cents ASC')
 

@@ -1,7 +1,7 @@
 module Managers
   module V1
     module Configs
-      class RibonConfigController < ApplicationController
+      class RibonConfigController < ManagersController
         def index
           @ribon_config = RibonConfig.all
 

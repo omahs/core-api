@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class NonProfitsController < ApplicationController
+    class NonProfitsController < ManagersController
       def index
         @non_profits = NonProfit.where(status: :active).order(cause_id: :asc)
 

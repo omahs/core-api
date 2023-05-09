@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class UsersController < ApplicationController
+    class UsersController < ManagersController
       def search
         @user = User.find_by(email: params[:email])
 

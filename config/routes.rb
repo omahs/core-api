@@ -148,7 +148,6 @@ Rails.application.routes.draw do
       namespace :configs do
         get 'settings' => 'ribon_config#index'
         put 'settings/:id' => 'ribon_config#update'
-        resources :settings, only: %i[show update]
       end
 
       namespace :givings do

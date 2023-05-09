@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class StoriesController < ApplicationController
+    class StoriesController < ManagersController
       def index
         @stories = Story.where(status: :active)
 

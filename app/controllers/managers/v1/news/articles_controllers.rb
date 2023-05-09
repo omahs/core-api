@@ -1,7 +1,7 @@
 module Managers
   module V1
     module News
-      class ArticlesController < ApplicationController
+      class ArticlesController < ManagersController
         def index
           @articles = articles_list.order(sortable).page(page).per(per)
 

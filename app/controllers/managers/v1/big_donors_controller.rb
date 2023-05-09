@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class BigDonorsController < ApplicationController
+    class BigDonorsController < ManagersController
       def index
         @big_donors = BigDonor.all
 

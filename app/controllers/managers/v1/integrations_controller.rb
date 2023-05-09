@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class IntegrationsController < ApplicationController
+    class IntegrationsController < ManagersController
       def index
         @integrations = Integration.order(created_at: :desc)
 

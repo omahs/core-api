@@ -1,7 +1,7 @@
 module Managers
   module V1
     module News
-      class AuthorsController < ApplicationController
+      class AuthorsController < ManagersController
         def index
           @authors = Author.all
 

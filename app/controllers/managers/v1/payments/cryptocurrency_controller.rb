@@ -1,7 +1,7 @@
 module Managers
   module V1
     module Payments
-      class CryptocurrencyController < ApplicationController
+      class CryptocurrencyController < ManagersController
         include ::Givings::Payment
 
         def create

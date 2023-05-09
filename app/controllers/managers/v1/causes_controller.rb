@@ -1,6 +1,6 @@
 module Managers
   module V1
-    class CausesController < ApplicationController
+    class CausesController < ManagersController
       def index
         @causes = Cause.all
 

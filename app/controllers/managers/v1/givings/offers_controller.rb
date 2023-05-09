@@ -3,13 +3,6 @@ module Managers
     module Givings
       class OffersController < ApplicationController
         def index
-          @offers = Offer.where(active: true, currency:, subscription:)
-                         .order('position_order ASC, price_cents ASC')
-
-          render json: OfferBlueprint.render(@offers, view: :minimal)
-        end
-
-        def index_manager
           @offers = Offer.order('position_order ASC, price_cents ASC')
 
           render json: OfferBlueprint.render(@offers)

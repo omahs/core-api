@@ -5,6 +5,6 @@ class LegacyUserContributionsBlueprint < Blueprinter::Base
   association :user, blueprint: UserBlueprint
 
   field :value do |object|
-    Money.new(object.value_cents, :brl).format # legacy contributions are all in BRL
+    Money.new(object.value_cents, object.currency).format
   end
 end

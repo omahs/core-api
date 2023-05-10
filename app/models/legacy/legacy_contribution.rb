@@ -28,4 +28,8 @@ class LegacyContribution < ApplicationRecord
     pix: 0,
     credit_card: 1
   }
+
+  def currency
+    :brl
+  end
 end

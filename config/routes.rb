@@ -47,6 +47,10 @@ Rails.application.routes.draw do
       post 'users/can_donate' => 'users#can_donate'
       get 'users/completed_tasks' => 'users#completed_tasks'
       post 'users/complete_task' => 'users#complete_task'
+      get 'users/tasks_statistics' => 'users/tasks_statistics#index'
+      get 'users/tasks_statistics/streak' => 'users/tasks_statistics#streak'
+      post 'users/update_streak' => 'users/tasks_statistics#update_streak'
+      post 'users/completed_all_tasks' => 'users/tasks_statistics#first_completed_all_tasks_at'
       get 'users/impact' => 'users#impact'
       get 'users/statistics' => 'users/statistics#index'
       post 'sources' => 'sources#create'
@@ -80,6 +84,7 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
         get 'legacy_impacts' => 'users/legacy_impacts#index'
+        get 'legacy_contributions' => 'users/legacy_impacts#contributions'
 
         get 'donations_count' => 'users/impacts#donations_count'
         put 'track', to: 'users/trackings#track_user'

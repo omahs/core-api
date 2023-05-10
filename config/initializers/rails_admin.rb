@@ -30,12 +30,12 @@ RailsAdmin.config do |config|
     show_in_app
   end
 
-  config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
+  config.included_models = [Admin, Customer, UserManager, User, NonProfit, NonProfitImpact, Integration,
                             Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
                             Cause, Story, NonProfitPool, IntegrationTask, CryptoUser, Contribution,
                             Voucher, IntegrationWebhook, Token, Pool, PoolBalance, History, BalanceHistory,
-                            LegacyUserImpact, LegacyNonProfit, Article, Author,
+                            LegacyUserImpact, LegacyNonProfit, Article, Author, LegacyContribution,
                             ContributionBalance, PersonBlockchainTransaction, DonationContribution, BigDonor]
 
   config.model RibonConfig do

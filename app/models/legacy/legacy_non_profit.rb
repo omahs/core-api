@@ -14,9 +14,13 @@
 #  legacy_id          :integer
 #
 class LegacyNonProfit < ApplicationRecord
+  extend Mobility
+
+  translates :impact_description, type: :string, locale_accessors: %i[en pt-BR]
+
   has_many :legacy_user_impacts, dependent: :destroy
 
   has_one_attached :logo
-  validates :name, :logo_url, :impact_cost_ribons, :impact_cost_usd, :impact_description, :legacy_id,
+  validates :name, :impact_cost_ribons, :impact_cost_usd, :impact_description, :legacy_id,
             presence: true
 end

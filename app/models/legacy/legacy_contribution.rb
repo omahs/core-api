@@ -14,10 +14,10 @@
 #  user_id                 :bigint           not null
 #
 class LegacyContribution < ApplicationRecord
+  belongs_to :user
+
   validates :day, :value, :legacy_payment_id, :legacy_payment_method,
             :legacy_payment_platform, presence: true
-
-  belongs_to :user
 
   enum legacy_payment_method: {
     stripe: 0,

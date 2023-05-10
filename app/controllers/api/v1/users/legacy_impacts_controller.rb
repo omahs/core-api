@@ -7,7 +7,7 @@ module Api
         end
 
         def contributions
-          render json: LegacyUserContributionsBlueprint.render(user.legacy_contributions)
+          render json: LegacyContributionsBlueprint.render(user.legacy_contributions)
         end
 
         private

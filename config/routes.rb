@@ -160,6 +160,7 @@ Rails.application.routes.draw do
       end
 
       namespace :payments do
+        ## TODO - test credit_cards_refund and cryptocurrency
         post 'credit_cards_refund' => 'credit_cards#refund'
         post 'cryptocurrency/big_donation' => 'cryptocurrency#create_big_donation'
       end

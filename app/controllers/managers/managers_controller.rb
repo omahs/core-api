@@ -14,5 +14,9 @@ module Managers
     def current_manager
       @current_manager ||= 'temporary_value' # @current_bearer
     end
+
+    def render_errors(errors, status = :unprocessable_entity)
+      render json: ErrorBlueprint.render(OpenStruct.new(errors)), status:
+    end
   end
 end

@@ -41,7 +41,7 @@ RSpec.describe 'Managers::V1::StoriesController', type: :request do
       it 'returns a single story' do
         request
 
-        expect_response_to_have_keys(%w[id title description active image position])
+        expect_response_to_have_keys(%w[id title description active image position image_description])
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe 'Managers::V1::StoriesController', type: :request do
     it 'returns a single story' do
       request
 
-      expect_response_to_have_keys(%w[id title description active image position])
+      expect_response_to_have_keys(%w[id title description active image position image_description])
     end
   end
 
@@ -104,7 +104,8 @@ RSpec.describe 'Managers::V1::StoriesController', type: :request do
       it 'returns a single story' do
         request
 
-        expect_response_to_have_keys(%w[id title description active image position created_at updated_at])
+        expect_response_to_have_keys(%w[id title description active image position created_at updated_at
+                                        image_description])
       end
     end
   end

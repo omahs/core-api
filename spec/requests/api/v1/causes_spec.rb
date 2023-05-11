@@ -65,7 +65,7 @@ RSpec.describe 'Api::V1::Causes', type: :request do
       request
 
       expect_response_to_have_keys(%w[created_at id updated_at name cover_image main_image pools active
-                                      non_profits default_pool cover_image_description main_image_description])
+                                      non_profits default_pool main_image_description cover_image_description])
     end
   end
 

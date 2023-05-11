@@ -2,13 +2,7 @@ module Managers
   module V1
     class NonProfitsController < ManagersController
       def index
-        @non_profits = NonProfit.where(status: :active).order(cause_id: :asc)
-
-        render json: NonProfitBlueprint.render(@non_profits)
-      end
-
-      def free_donation_non_profits
-        @non_profits = NonProfitQueries.new.active_with_pool_balance
+        @non_profits = NonProfit.all.order(cause_id: :asc)
 
         render json: NonProfitBlueprint.render(@non_profits)
       end

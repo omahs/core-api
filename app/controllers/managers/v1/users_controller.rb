@@ -21,35 +21,6 @@ module Managers
         end
       end
 
-      def can_donate
-        @integration = Integration.find_by_id_or_unique_address params[:integration_id]
-        @platform = params[:platform]
-
-        if voucher&.valid? || !current_user
-          render json: { can_donate: true }
-        else
-          render json: { can_donate: current_user.can_donate?(@integration, @platform),
-                         donate_app: current_user.donate_app }
-        end
-      end
-
-      def completed_tasks
-        if current_user
-          render json: UserCompletedTaskBlueprint.render(current_user.user_completed_tasks)
-        else
-          render json: [], status: :not_found
-        end
-      end
-
-      def complete_task
-        if current_user
-          task = ::Users::UpsertTask.call(user: current_user, task_identifier: params[:task_identifier]).result
-          render json: UserCompletedTaskBlueprint.render(task)
-        else
-          head :unauthorized
-        end
-      end
-
       private
 
       def voucher

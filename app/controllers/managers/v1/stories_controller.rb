@@ -2,7 +2,7 @@ module Managers
   module V1
     class StoriesController < ManagersController
       def index
-        @stories = Story.all
+        @stories = Story.where(active: true).order(position: :asc)
 
         render json: StoryBlueprint.render(@stories, view: :minimal)
       end

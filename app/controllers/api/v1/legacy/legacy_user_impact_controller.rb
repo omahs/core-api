@@ -25,7 +25,9 @@ module Api
         end
 
         def contribution_params
-          params.require(:legacy_contribution_params).permit![:impacts] || []
+          params.require(:legacy_params).require(:contribution)
+                .permit(:created_at, :value_cents, :legacy_payment_id,
+                        :legacy_payment_method, :legacy_payment_platform, :from_subscription)
         end
 
         def bearer_token

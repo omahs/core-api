@@ -16,11 +16,11 @@ module Legacy
       with_exception_handle do
         LegacyContribution.create!(
           user:,
-          day: legacy_contribution.created_at,
-          value_cents: legacy_contribution.value_cents,
-          legacy_payment_id: legacy_contribution.legacy_payment_id,
-          legacy_payment_method: legacy_contribution.legacy_payment_method,
-          legacy_payment_platform: legacy_contribution.legacy_payment_platform
+          day: legacy_contribution[:created_at],
+          value_cents: legacy_contribution[:value_cents],
+          legacy_payment_id: legacy_contribution[:legacy_payment_id],
+          legacy_payment_method: legacy_contribution[:legacy_payment_method],
+          legacy_payment_platform: legacy_contribution[:legacy_payment_platform]
         )
       end
     end

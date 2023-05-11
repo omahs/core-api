@@ -8,6 +8,12 @@ module Api
           ::Legacy::CreateLegacyUserImpactJob.perform_later(user_params, impact_params)
         end
 
+        def create_legacy_contributions
+          return head :unauthorized unless bearer_token == RibonCoreApi.config[:legacy][:api_token]
+
+          ::Legacy::CreateLegacyUserImpactJob.perform_later(user_params, impact_params)
+        end
+
         private
 
         def user_params

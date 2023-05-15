@@ -18,8 +18,8 @@ RSpec.describe LegacyUserImpact, type: :model do
     subject { build(:legacy_user_impact) }
 
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:legacy_user) }
     it { is_expected.to belong_to(:legacy_non_profit).optional }
-
     it { is_expected.to validate_presence_of(:total_impact) }
     it { is_expected.to validate_presence_of(:donations_count) }
     it { is_expected.to validate_presence_of(:user_email) }

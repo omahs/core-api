@@ -11,10 +11,12 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  legacy_payment_id       :integer
+#  legacy_user_id          :bigint
 #  user_id                 :bigint           not null
 #
 class LegacyContribution < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :legacy_user
 
   validates :day, :value_cents, :legacy_payment_id, :legacy_payment_method,
             :legacy_payment_platform, presence: true

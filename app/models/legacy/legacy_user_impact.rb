@@ -11,6 +11,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  legacy_non_profit_id :bigint           not null
+#  legacy_user_id       :bigint
 #  user_id              :bigint
 #  user_legacy_id       :integer
 #
@@ -20,6 +21,7 @@ class LegacyUserImpact < ApplicationRecord
   translates :total_impact, type: :string, locale_accessors: %i[en pt-BR]
 
   belongs_to :user, optional: true
+  belongs_to :legacy_user
   belongs_to :legacy_non_profit, optional: true
 
   validates :user_email, :user_legacy_id, :user_created_at, :donations_count, :total_impact, presence: true

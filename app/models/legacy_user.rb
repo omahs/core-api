@@ -1,3 +1,0 @@
-class LegacyUser < ApplicationRecord
-  belongs_to :user, optional: true
-end

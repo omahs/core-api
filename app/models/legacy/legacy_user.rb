@@ -8,9 +8,8 @@
 #  updated_at :datetime         not null
 #  user_id    :bigint
 #
-FactoryBot.define do
-  factory :legacy_user do
-    email { 'legacy@user.com' }
-    user { build(:user) }
-  end
+class LegacyUser < ApplicationRecord
+  belongs_to :user, optional: true
+
+  validates :email, presence: true
 end

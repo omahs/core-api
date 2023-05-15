@@ -19,5 +19,5 @@ class LegacyUserImpact < ApplicationRecord
   belongs_to :legacy_user
   belongs_to :legacy_non_profit, optional: true
 
-  validates :user_email, :user_legacy_id, :user_created_at, :donations_count, :total_impact, presence: true
+  validates :donations_count, :total_impact, presence: true
 end

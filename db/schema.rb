@@ -293,7 +293,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_170939) do
   end
 
   create_table "legacy_contributions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "value_cents"
     t.datetime "day"
     t.integer "legacy_payment_id"

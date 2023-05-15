@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_151132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -274,7 +274,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
   end
 
   create_table "legacy_contributions", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.integer "value_cents"
     t.datetime "day"
     t.integer "legacy_payment_id"
@@ -285,7 +284,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
     t.datetime "updated_at", null: false
     t.bigint "legacy_user_id"
     t.index ["legacy_user_id"], name: "index_legacy_contributions_on_legacy_user_id"
-    t.index ["user_id"], name: "index_legacy_contributions_on_user_id"
   end
 
   create_table "legacy_non_profits", force: :cascade do |t|
@@ -301,7 +299,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
   end
 
   create_table "legacy_user_impacts", force: :cascade do |t|
-    t.bigint "user_id"
     t.bigint "legacy_non_profit_id", null: false
     t.string "total_impact"
     t.decimal "total_donated_usd"
@@ -314,7 +311,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
     t.bigint "legacy_user_id"
     t.index ["legacy_non_profit_id"], name: "index_legacy_user_impacts_on_legacy_non_profit_id"
     t.index ["legacy_user_id"], name: "index_legacy_user_impacts_on_legacy_user_id"
-    t.index ["user_id"], name: "index_legacy_user_impacts_on_user_id"
   end
 
   create_table "legacy_users", force: :cascade do |t|
@@ -636,10 +632,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
   add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "integration_webhooks", "integrations"
   add_foreign_key "legacy_contributions", "legacy_users"
-  add_foreign_key "legacy_contributions", "users"
   add_foreign_key "legacy_user_impacts", "legacy_non_profits"
   add_foreign_key "legacy_user_impacts", "legacy_users"
-  add_foreign_key "legacy_user_impacts", "users"
   add_foreign_key "legacy_users", "users"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"

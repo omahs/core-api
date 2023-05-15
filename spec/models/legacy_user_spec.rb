@@ -19,6 +19,5 @@ RSpec.describe LegacyUser, type: :model do
     it { is_expected.to validate_presence_of(:legacy_id) }
     it { is_expected.to have_many(:legacy_user_impacts) }
     it { is_expected.to have_many(:legacy_contributions) }
-
   end
 end

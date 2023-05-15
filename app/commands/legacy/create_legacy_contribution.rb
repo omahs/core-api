@@ -15,7 +15,7 @@ module Legacy
     def call
       with_exception_handle do
         LegacyContribution.create!(
-          user:,
+          legacy_user:,
           day: legacy_contribution[:created_at],
           value_cents: legacy_contribution[:value_cents],
           legacy_payment_id: legacy_contribution[:legacy_payment_id],
@@ -27,10 +27,15 @@ module Legacy
 
     private
 
-    def user
-      user = User.where(email:).first
-      user&.update!(legacy_id:, created_at:)
-      user
+    def legacy_user
+      l_user = LegacyUser.where(email:).first
+
+      unless l_user
+        user = User.where(email:).first
+        l_user = LegacyUser.create!(email:, legacy_id:, created_at:, user:)
+      end
+
+      l_user
     end
   end
 end

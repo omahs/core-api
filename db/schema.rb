@@ -320,6 +320,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_135156) do
   create_table "legacy_users", force: :cascade do |t|
     t.string "email"
     t.bigint "user_id"
+    t.integer "legacy_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_legacy_users_on_user_id"

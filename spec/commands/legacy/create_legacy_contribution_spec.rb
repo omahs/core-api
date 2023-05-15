@@ -30,9 +30,9 @@ describe Legacy::CreateLegacyContribution do
         end
 
         it 'add user reference if user exists' do
-          create(:user, email: legacy_user[:email])
+          user = create(:user, email: legacy_user[:email])
           command
-          expect(LegacyContribution.first.user.email).to eq(legacy_user[:email])
+          expect(LegacyContribution.first.legacy_user.user).to eq(user)
         end
       end
 

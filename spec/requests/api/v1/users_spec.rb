@@ -97,7 +97,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     it 'returns the can_donate attribute' do
       request
 
-      expect_response_to_have_keys %w[can_donate]
+      expect_response_to_have_keys %w[can_donate donate_app]
     end
   end
 
@@ -199,6 +199,30 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
       it 'do not create another task' do
         expect { request }.not_to change(UserCompletedTask, :count)
+      end
+    end
+  end
+
+  describe 'GET users/tasks_statistics/streak' do
+    subject(:request) { get '/api/v1/users/tasks_statistics/streak', headers: { Email: user.email } }
+
+    let(:user) { create(:user) }
+    let(:user_completed_task) do
+      create(:user_completed_task, user:, task_identifier: 'task_identifier', times_completed: 1)
+    end
+    let(:user_tasks_statistics) { create(:user_tasks_statistic, user:) }
+
+    context 'when the user exists' do
+      before do
+        user
+        user_completed_task
+        user_tasks_statistics
+      end
+
+      it 'returns the user streak' do
+        request
+
+        expect_response_to_have_keys %w[streak]
       end
     end
   end

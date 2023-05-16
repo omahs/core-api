@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_151132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -124,6 +124,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cover_image_description"
+    t.string "main_image_description"
   end
 
   create_table "chains", force: :cascade do |t|
@@ -146,7 +148,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.bigint "contribution_id", null: false
     t.integer "tickets_balance_cents"
     t.integer "fees_balance_cents"
-    t.integer "total_fees_increased_cents"
+    t.integer "contribution_increased_amount_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contribution_id"], name: "index_contribution_balances_on_contribution_id"
@@ -158,6 +160,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.integer "fee_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "payer_contribution_increased_amount_cents"
     t.index ["contribution_id"], name: "index_contribution_fees_on_contribution_id"
     t.index ["payer_contribution_id"], name: "index_contribution_fees_on_payer_contribution_id"
   end
@@ -168,6 +171,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "person_payment_id", null: false
+    t.integer "generated_fee_cents"
     t.index ["person_payment_id"], name: "index_contributions_on_person_payment_id"
     t.index ["receiver_type", "receiver_id"], name: "index_contributions_on_receiver"
   end
@@ -269,6 +273,52 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.integer "status", default: 0
   end
 
+  create_table "legacy_contributions", force: :cascade do |t|
+    t.integer "value_cents"
+    t.datetime "day"
+    t.integer "legacy_payment_id"
+    t.integer "legacy_payment_platform"
+    t.integer "legacy_payment_method"
+    t.boolean "from_subscription"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "legacy_user_id"
+    t.index ["legacy_user_id"], name: "index_legacy_contributions_on_legacy_user_id"
+  end
+
+  create_table "legacy_non_profits", force: :cascade do |t|
+    t.string "name"
+    t.string "logo_url"
+    t.integer "impact_cost_ribons"
+    t.string "impact_description"
+    t.integer "legacy_id"
+    t.integer "current_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "impact_cost_usd"
+  end
+
+  create_table "legacy_user_impacts", force: :cascade do |t|
+    t.bigint "legacy_non_profit_id", null: false
+    t.string "total_impact"
+    t.decimal "total_donated_usd"
+    t.integer "donations_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "legacy_user_id"
+    t.index ["legacy_non_profit_id"], name: "index_legacy_user_impacts_on_legacy_non_profit_id"
+    t.index ["legacy_user_id"], name: "index_legacy_user_impacts_on_legacy_user_id"
+  end
+
+  create_table "legacy_users", force: :cascade do |t|
+    t.string "email"
+    t.bigint "user_id"
+    t.integer "legacy_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_legacy_users_on_user_id"
+  end
+
   create_table "mobility_string_translations", force: :cascade do |t|
     t.string "locale", null: false
     t.string "key", null: false
@@ -323,6 +373,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.bigint "cause_id"
+    t.string "logo_description"
+    t.string "main_image_description"
+    t.string "background_image_description"
+    t.string "confirmation_image_description"
     t.index ["cause_id"], name: "index_non_profits_on_cause_id"
   end
 
@@ -385,7 +439,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.bigint "receiver_id"
     t.string "error_code"
     t.integer "currency"
-    t.integer "crypto_value_cents"
+    t.integer "usd_value_cents"
     t.integer "liquid_value_cents"
     t.string "payer_type"
     t.uuid "payer_id"
@@ -441,15 +495,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_description"
     t.index ["non_profit_id"], name: "index_stories_on_non_profit_id"
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.text "actions"
-    t.text "rules"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -506,11 +553,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
     t.index ["uid", "provider"], name: "index_user_managers_on_uid_and_provider", unique: true
   end
 
+  create_table "user_tasks_statistics", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "first_completed_all_tasks_at"
+    t.integer "streak", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_tasks_statistics_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "language"
+    t.integer "language", default: 0
+    t.integer "legacy_id"
+    t.datetime "deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -570,6 +628,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
   add_foreign_key "donations", "users"
   add_foreign_key "integration_tasks", "integrations"
   add_foreign_key "integration_webhooks", "integrations"
+  add_foreign_key "legacy_contributions", "legacy_users"
+  add_foreign_key "legacy_user_impacts", "legacy_non_profits"
+  add_foreign_key "legacy_user_impacts", "legacy_users"
+  add_foreign_key "legacy_users", "users"
   add_foreign_key "non_profit_impacts", "non_profits"
   add_foreign_key "non_profit_pools", "non_profits"
   add_foreign_key "non_profit_pools", "pools"
@@ -586,6 +648,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_213446) do
   add_foreign_key "stories", "non_profits"
   add_foreign_key "user_completed_tasks", "users"
   add_foreign_key "user_donation_stats", "users"
+  add_foreign_key "user_tasks_statistics", "users"
   add_foreign_key "vouchers", "donations"
   add_foreign_key "vouchers", "integrations"
 end

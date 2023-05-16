@@ -23,9 +23,13 @@ module Api
 
       def can_donate
         @integration = Integration.find_by_id_or_unique_address params[:integration_id]
+        @platform = params[:platform]
 
-        if current_user
-          render json: { can_donate: current_user.can_donate?(@integration) }
+        if voucher?
+          render json: { can_donate: voucher&.valid? }
+        elsif current_user
+          render json: { can_donate: current_user.can_donate?(@integration, @platform),
+                         donate_app: current_user.donate_app }
         else
           render json: { can_donate: true }
         end
@@ -41,8 +45,12 @@ module Api
 
       def complete_task
         if current_user
+
           task = ::Users::UpsertTask.call(user: current_user, task_identifier: params[:task_identifier]).result
+
+          ::Users::IncrementStreak.call(user: current_user)
           render json: UserCompletedTaskBlueprint.render(task)
+
         else
           head :unauthorized
         end
@@ -50,8 +58,17 @@ module Api
 
       private
 
+      def voucher?
+        params[:voucher_id].present?
+      end
+
+      def voucher
+        @voucher ||= Voucher.new(external_id: params[:voucher_id],
+                                 integration_id: @integration&.id)
+      end
+
       def user_params
-        params.permit(:email, :language)
+        params.permit(:email, :language, :platform)
       end
     end
   end

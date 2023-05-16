@@ -4,7 +4,6 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount_cents       :integer
-#  crypto_value_cents :integer
 #  currency           :integer
 #  error_code         :string
 #  liquid_value_cents :integer
@@ -14,6 +13,7 @@
 #  receiver_type      :string
 #  refund_date        :datetime
 #  status             :integer          default("processing")
+#  usd_value_cents    :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  external_id        :string
@@ -40,6 +40,19 @@ RSpec.describe PersonPayment, type: :model do
     it { is_expected.to validate_presence_of(:paid_date) }
     it { is_expected.to validate_presence_of(:status) }
     it { is_expected.to validate_presence_of(:payment_method) }
+  end
+
+  describe '.without_contribution' do
+    let!(:person_payment_without_contribution) { create(:person_payment) }
+    let(:person_payment_with_contribution) { create(:person_payment) }
+
+    before do
+      create(:contribution, person_payment: person_payment_with_contribution)
+    end
+
+    it 'returns only person_payments without contribution' do
+      expect(described_class.without_contribution).to eq([person_payment_without_contribution])
+    end
   end
 
   describe '#amount' do

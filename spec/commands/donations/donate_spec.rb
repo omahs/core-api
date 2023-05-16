@@ -12,12 +12,17 @@ describe Donations::Donate do
       let(:integration) { create(:integration) }
       let(:non_profit) { create(:non_profit, :with_impact) }
       let(:user) { create(:user) }
+      let(:ticket_labeling_instance) { instance_double(Service::Contributions::TicketLabelingService) }
 
       before do
+        create(:chain)
         allow(Donations::SetUserLastDonationAt).to receive(:call)
           .and_return(command_double(klass: Donations::SetUserLastDonationAt))
         allow(Donations::SetLastDonatedCause).to receive(:call)
           .and_return(command_double(klass: Donations::SetLastDonatedCause))
+        allow(Service::Contributions::TicketLabelingService).to receive(:new)
+          .and_return(ticket_labeling_instance)
+        allow(ticket_labeling_instance).to receive(:label_donation)
         create(:ribon_config, default_ticket_value: 100)
       end
 
@@ -37,6 +42,12 @@ describe Donations::Donate do
 
         expect(Donations::SetLastDonatedCause)
           .to have_received(:call).with(user:, cause: non_profit.cause)
+      end
+
+      it 'calls the ticket_labeling_instance label donation function' do
+        command
+
+        expect(ticket_labeling_instance).to have_received(:label_donation)
       end
 
       it 'returns the donation created' do
@@ -178,6 +189,7 @@ describe Donations::Donate do
       let(:skip_allowance) { true }
 
       before do
+        create(:chain)
         create(:ribon_config, default_ticket_value: 100)
         allow(Donations::SetUserLastDonationAt)
           .to receive(:call).and_return(command_double(klass: Donations::SetUserLastDonationAt))
@@ -194,6 +206,37 @@ describe Donations::Donate do
 
       it 'returns success' do
         expect(command.success?).to be_truthy
+      end
+    end
+
+    context 'when the pool balance is zero' do
+      let(:integration) { create(:integration) }
+      let!(:cause) { create(:cause) }
+      let!(:pool) { create(:pool, cause:) }
+      let(:non_profit) { create(:non_profit, cause:) }
+      let(:user) { create(:user) }
+
+      before do
+        create(:chain)
+        create(:ribon_config)
+        create(:pool_balance, pool:, balance: 0)
+        allow(user).to receive(:can_donate?).and_return(true)
+      end
+
+      it 'does not create the donation on the database' do
+        expect { command }.not_to change(Donation, :count)
+      end
+
+      it 'returns nil' do
+        expect(command.result).to be_nil
+      end
+
+      it 'returns an error' do
+        expect(command.errors).to be_present
+      end
+
+      it 'returns an error message' do
+        expect(command.errors[:message]).to eq ['Unable to donate now. Wait for your next donation.']
       end
     end
   end

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       delete 'stories/:id' => 'stories#destroy'
       
       get 'non_profits' => 'non_profits#index'
+      get 'free_donation_non_profits' => 'non_profits#free_donation_non_profits'
       get 'non_profits/:id/stories' => 'non_profits#stories'
       post 'non_profits' => 'non_profits#create'
       get 'non_profits/:id' => 'non_profits#show'
@@ -37,6 +38,8 @@ Rails.application.routes.draw do
       get 'integrations/:id' => 'integrations#show'
       put 'integrations/:id' => 'integrations#update'
       get 'person_payments' => 'person_payments#index'
+      get 'person_payments/big_donors' => 'person_payments#big_donors'
+      get 'person_payments/big_donor_donation/:id' => 'person_payments#big_donor_donation'
       get 'person_payments/:receiver_type' => 'person_payments#payments_for_receiver_by_person'
       post 'donations' => 'donations#create'
       post 'users' => 'users#create'
@@ -44,11 +47,16 @@ Rails.application.routes.draw do
       post 'users/can_donate' => 'users#can_donate'
       get 'users/completed_tasks' => 'users#completed_tasks'
       post 'users/complete_task' => 'users#complete_task'
+      get 'users/tasks_statistics' => 'users/tasks_statistics#index'
+      get 'users/tasks_statistics/streak' => 'users/tasks_statistics#streak'
+      post 'users/update_streak' => 'users/tasks_statistics#update_streak'
+      post 'users/completed_all_tasks' => 'users/tasks_statistics#first_completed_all_tasks_at'
       get 'users/impact' => 'users#impact'
       get 'users/statistics' => 'users/statistics#index'
       post 'sources' => 'sources#create'
       post 'rails/active_storage/direct_uploads' => 'direct_uploads#create'
       get 'causes' => 'causes#index'
+      get 'free_donation_causes' => 'causes#free_donation_causes'
       post 'causes' => 'causes#create'
       get 'causes/:id' => 'causes#show'
       put 'causes/:id' => 'causes#update'
@@ -56,6 +64,11 @@ Rails.application.routes.draw do
       post 'big_donors' => 'big_donors#create'
       get 'big_donors/:id' => 'big_donors#show'
       put 'big_donors/:id' => 'big_donors#update'
+      
+      namespace :legacy do
+        post 'create_legacy_impact' => 'legacy_user_impact#create_legacy_impact'
+        post 'create_legacy_contribution' => 'legacy_user_impact#create_legacy_contribution'
+      end
       
       namespace :news do
         get 'articles' => 'articles#index'
@@ -71,7 +84,9 @@ Rails.application.routes.draw do
 
       resources :users, only: [] do
         get 'impacts' => 'users/impacts#index'
-       
+        get 'legacy_impacts' => 'users/legacy_impacts#index'
+        get 'legacy_contributions' => 'users/legacy_impacts#contributions'
+
         get 'donations_count' => 'users/impacts#donations_count'
         put 'track', to: 'users/trackings#track_user'
       end
@@ -105,6 +120,8 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'UserManager', at: 'auth', skip: [:omniauth_callbacks]
       namespace :manager do
         post 'auth/request', to: 'authorization#google_authorization'
+        post 'payments/cryptocurrency/big_donation' => 'payments/cryptocurrency#create_big_donation'
+        get 'pools_manager' => 'pools#index'
       end
 
       namespace :site do 
@@ -130,5 +147,45 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post 'stripe' => 'stripe#events'
+  end
+
+  namespace :managers do
+    namespace :v1 do
+      namespace :configs do
+        get 'settings' => 'ribon_config#index'
+        put 'settings/:id' => 'ribon_config#update'
+      end
+
+      namespace :givings do
+        resources :offers, only: %i[index show create update]
+      end
+
+      namespace :news do
+        resources :authors, only: %i[index show create update]
+        resources :articles, only: %i[index show create update]
+      end
+
+      namespace :payments do
+        post 'credit_cards_refund' => 'credit_cards#refund'
+        post 'cryptocurrency/big_donation' => 'cryptocurrency#create_big_donation'
+      end
+      
+      resources :big_donors, only: %i[index show create update]
+      resources :causes, only: %i[index show create update]
+      resources :integrations, only: %i[index show create update]
+      resources :non_profits, only: %i[index show create update]
+      resources :pools, only: [:index]
+      resources :stories, only: %i[index show create update destroy]
+      
+      post 'auth/request', to: 'authorization#google_authorization'
+      get 'integrations_mobility_attributes' => 'integrations#mobility_attributes'
+      get 'non_profits/:id/stories' => 'non_profits#stories'
+      get 'person_payments' => 'person_payments#index'
+      get 'person_payments/big_donors' => 'person_payments#big_donors'
+      get 'person_payments/big_donor_donation/:id' => 'person_payments#big_donor_donation'
+      get 'stories/:id/stories' => 'stories#stories'
+      post 'users' => 'users#create'
+      post 'users/search' => 'users#search'
+    end
   end
 end

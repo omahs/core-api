@@ -9,6 +9,11 @@ describe Givings::Payment::CreateOrder do
     include_context('when mocking a request') { let(:cassette_name) { 'stripe_payment_method' } }
 
     let(:integration) { create(:integration) }
+    let(:orchestrator_double) do
+      instance_double(Service::Givings::Payment::Orchestrator, { call: {
+                        status: :paid
+                      } })
+    end
 
     context 'when using a CreditCard payment and subscribe' do
       let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
@@ -33,7 +38,6 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
-        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
@@ -46,7 +50,6 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator process' do
-        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         command
 
@@ -56,7 +59,6 @@ describe Givings::Payment::CreateOrder do
       context 'when the payment is sucessfull' do
         it 'calls the success callback' do
           allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
-          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
@@ -99,7 +101,6 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator with correct payload' do
-        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         allow(PersonPayment).to receive(:create!).and_return(person_payment)
         command
@@ -111,7 +112,6 @@ describe Givings::Payment::CreateOrder do
       end
 
       it 'calls Service::Givings::Payment::Orchestrator process' do
-        orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
         allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
         command
 
@@ -121,7 +121,6 @@ describe Givings::Payment::CreateOrder do
       context 'when the payment is sucessfull' do
         it 'calls the success callback' do
           allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
-          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
@@ -156,7 +155,6 @@ describe Givings::Payment::CreateOrder do
 
         it 'calls the success callback' do
           allow(Givings::Payment::AddGivingNonProfitToBlockchainJob).to receive(:perform_later)
-          orchestrator_double = instance_double(Service::Givings::Payment::Orchestrator, { call: nil })
           allow(Service::Givings::Payment::Orchestrator).to receive(:new).and_return(orchestrator_double)
           command
 
@@ -221,6 +219,41 @@ describe Givings::Payment::CreateOrder do
         command
 
         expect(person_payment.error_code).to eq('card_declined')
+      end
+    end
+  end
+
+  describe '.call returns pending' do
+    subject(:command) { described_class.call(order_type_class, args) }
+
+    include_context('when mocking a request') { let(:cassette_name) { 'stripe_payment_method_pending' } }
+
+    let(:integration) { create(:integration) }
+
+    context 'when the payment returns requires_action' do
+      let(:order_type_class) { Givings::Payment::OrderTypes::CreditCard }
+      let(:user) { create(:user) }
+      let(:customer) { create(:customer, user:) }
+      let(:card) { build(:credit_card) }
+      let(:offer) { create(:offer) }
+      let(:person_payment) { create(:person_payment, offer:, payer: customer, integration:, amount_cents: 1) }
+      let(:args) do
+        { card:, email: 'user@test.com', tax_id: '111.111.111-11', offer:, integration_id: integration.id,
+          payment_method: :credit_card, user: customer.user, operation: :purchase }
+      end
+
+      it 'does not call the success callback' do
+        allow(Givings::Payment::AddGivingCauseToBlockchainJob).to receive(:perform_later)
+        command
+
+        expect(Givings::Payment::AddGivingCauseToBlockchainJob).not_to have_received(:perform_later)
+      end
+
+      it 'update the status and external_id of payment_person' do
+        order = command
+        person_payment = PersonPayment.where(offer:).last
+        expect(person_payment.external_id).to eq(order.result[:external_id])
+        expect(person_payment.status).to eq('requires_action')
       end
     end
   end

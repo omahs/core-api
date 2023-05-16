@@ -2,6 +2,12 @@ module Api
   module V1
     class NonProfitsController < ApplicationController
       def index
+        @non_profits = NonProfit.where(status: :active).order(cause_id: :asc)
+
+        render json: NonProfitBlueprint.render(@non_profits)
+      end
+
+      def free_donation_non_profits
         @non_profits = NonProfitQueries.new.active_with_pool_balance
 
         render json: NonProfitBlueprint.render(@non_profits)
@@ -42,7 +48,9 @@ module Api
 
       def non_profit_params
         params.permit(:id, :name, :status, :impact_description, :wallet_address,
-                      :logo, :main_image, :background_image, :cause_id,
+                      :logo, :main_image, :background_image, :confirmation_image, :cause_id,
+                      :logo_description, :main_image_description, :background_image_description,
+                      :confirmation_image_description,
                       stories_attributes: %i[id title description position active image],
                       non_profit_impacts_attributes: %i[id start_date end_date usd_cents_to_one_impact_unit
                                                         donor_recipient impact_description measurement_unit])

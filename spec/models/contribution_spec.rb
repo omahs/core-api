@@ -2,12 +2,13 @@
 #
 # Table name: contributions
 #
-#  id                :bigint           not null, primary key
-#  receiver_type     :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  person_payment_id :bigint           not null
-#  receiver_id       :bigint           not null
+#  id                  :bigint           not null, primary key
+#  generated_fee_cents :integer
+#  receiver_type       :string           not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  person_payment_id   :bigint           not null
+#  receiver_id         :bigint           not null
 #
 require 'rails_helper'
 
@@ -30,6 +31,18 @@ RSpec.describe Contribution, type: :model do
 
     it 'returns all the contributions which have tickets balance' do
       expect(described_class.with_tickets_balance_higher_than(5).pluck(:id)).to match_array [1, 2]
+    end
+  end
+
+  describe '.with_fees_balance_higher_than' do
+    before do
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 10), id: 1)
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 10), id: 2)
+      create(:contribution, contribution_balance: create(:contribution_balance, fees_balance_cents: 0), id: 3)
+    end
+
+    it 'returns all the contributions which have tickets balance' do
+      expect(described_class.with_fees_balance_higher_than(5).pluck(:id)).to match_array [1, 2]
     end
   end
 
@@ -84,6 +97,64 @@ RSpec.describe Contribution, type: :model do
 
     it 'returns all the contributions ordered by the most recent labeled contribution' do
       expect(described_class.ordered_by_donation_contribution.pluck(:id)).to eq [4, 2, 1, 3]
+    end
+  end
+
+  describe '.with_paid_status' do
+    let(:contributions_refunded) do
+      create_list(:contribution, 2,
+                  person_payment: create(:person_payment, status: :refunded))
+    end
+    let(:contributions_paid) do
+      create_list(:contribution, 2,
+                  person_payment: create(:person_payment, status: :paid))
+    end
+
+    before do
+      contributions_paid
+      contributions_refunded
+    end
+
+    it 'returns all the contributions that have person_payment status paid' do
+      expect(described_class.with_paid_status.pluck(:id))
+        .to match_array(contributions_paid.pluck(:id))
+    end
+  end
+
+  describe '#set_contribution_balance' do
+    let(:contribution) { create(:contribution, receiver:, person_payment:) }
+    let(:receiver) { create(:cause) }
+    let(:person_payment) { create(:person_payment, usd_value_cents: 1000) }
+
+    before do
+      create(:ribon_config, contribution_fee_percentage: 20)
+    end
+
+    context 'when there is a contribution balance already created' do
+      before do
+        create(:contribution_balance, contribution:)
+      end
+
+      it 'does not create another contribution balance' do
+        expect { contribution.set_contribution_balance }.not_to change(ContributionBalance, :count)
+      end
+    end
+
+    context 'when the receiver is a non profit' do
+      let(:receiver) { create(:non_profit) }
+
+      it 'does not create another contribution balance' do
+        expect { contribution.set_contribution_balance }.not_to change(ContributionBalance, :count)
+      end
+    end
+
+    context 'when the receiver is a cause' do
+      it 'sets the tickets and fee balances correctly' do
+        contribution.set_contribution_balance
+
+        expect(contribution.contribution_balance.tickets_balance_cents).to eq(800)
+        expect(contribution.contribution_balance.fees_balance_cents).to eq(200)
+      end
     end
   end
 end

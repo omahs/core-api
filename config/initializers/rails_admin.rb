@@ -30,12 +30,14 @@ RailsAdmin.config do |config|
     show_in_app
   end
 
-  config.included_models = [Admin, UserManager, User, NonProfit, NonProfitImpact, Integration,
+  config.included_models = [Admin, Customer, UserManager, User, NonProfit, NonProfitImpact, Integration,
                             Batch, Donation, DonationBatch, RibonConfig, Offer, OfferGateway,
                             Customer, PersonPayment, BlockchainTransaction, DonationBlockchainTransaction, Chain,
                             Cause, Story, NonProfitPool, IntegrationTask, CryptoUser, Contribution,
-                            Voucher, IntegrationWebhook, Token, Pool, PoolBalance, History, BalanceHistory, Article, Author,
-                            ContributionBalance, PersonBlockchainTransaction]
+                            Voucher, IntegrationWebhook, Token, Pool, PoolBalance, History, BalanceHistory,
+                            LegacyUserImpact, LegacyNonProfit, Article, Author, LegacyContribution,
+                            ContributionBalance, PersonBlockchainTransaction, DonationContribution, BigDonor,
+                            LegacyUser]
 
   config.model RibonConfig do
     field :default_ticket_value do
@@ -95,6 +97,20 @@ RailsAdmin.config do |config|
     end
 
     include_all_fields
+  end
+
+  config.model User do
+    field :email do
+      label{ "Email" }
+      help "(to delete, change this to: 'deleted+user_id+@ribon.io')"
+    end
+    
+    include_all_fields
+    
+    field :deleted_at do
+      label{ "Deleted at" }
+      help '(change here if deleting)'
+    end
   end
 
   MOBILITY_MODELS =  ApplicationRecord.descendants.select{ |model| model.included_modules.include?(Mobility::Plugins::Backend::InstanceMethods) }

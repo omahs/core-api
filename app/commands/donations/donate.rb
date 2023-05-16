@@ -25,6 +25,7 @@ module Donations
       create_donation
       set_user_last_donation_at
       set_last_donated_cause
+      label_donation
 
       donation
     end
@@ -52,7 +53,7 @@ module Donations
     end
 
     def allowed?
-      return true if user.can_donate?(integration) || skip_allowance
+      return true if (user.can_donate?(integration, platform) || skip_allowance) && pool_balance?
 
       errors.add(:message, I18n.t('donations.blocked_message'))
 
@@ -71,8 +72,22 @@ module Donations
       SetLastDonatedCause.call(user:, cause: non_profit.cause)
     end
 
+    def label_donation
+      Service::Contributions::TicketLabelingService.new(donation:).label_donation
+    end
+
     def ticket_value
       @ticket_value ||= RibonConfig.default_ticket_value
+    end
+
+    def pool
+      non_profit.cause.default_pool
+    end
+
+    def pool_balance?
+      return true if pool&.pool_balance.blank?
+
+      pool.pool_balance.balance_for_donation?
     end
   end
 end
